@@ -1,0 +1,135 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero/skin/zotero.css" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero-platform/content/zotero.css" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero/skin/scaffold.css" type="text/css"?>
+
+<?xml-stylesheet href="chrome://zoteroif/content/assets/css/style.css" type="text/css"?>
+
+<!DOCTYPE window SYSTEM "chrome://zotero/locale/zotero.dtd">
+<window xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+    title="自定数据"
+    persist="width height screenX screenY"
+    windowtype="zoteroone-windowType-customData"
+    onload="init();">
+<dialog 
+    buttons="accept"
+    buttonlabelaccept="关闭窗口" 
+    id="ZoteroOneDialog-customData">
+
+    <script>
+        Services.scriptloader.loadSubScript("chrome://zotero/content/include.js", this);
+        Services.scriptloader.loadSubScript("chrome://zotero/content/customElements.js", this);
+
+        Services.scriptloader.loadSubScript("chrome://zoteroif/content/selectionDialog/customData.js", this);
+    </script>
+
+    <linkset>
+        <html:link rel="localization" href="zoteroif_preferences.ftl"/>
+    </linkset>
+
+        <vbox id="vboxContainer-elem" style="margin-bottom:8px;">
+
+            <!-- 修正期刊名 -->
+
+            <hbox align="center">
+                <description style="white-space: pre-wrap; color: #0091ff; margin-top: 10px; margin-bottom: 10px; font-size: 15px; font-weight: bold;">▌修正期刊名</description>
+                <html:input type="text" id="navigator-item-customPublicationTitle" style="opacity: 0;"></html:input>
+            </hbox>
+
+            <hbox align="center">
+                <label value="选择 CSV 文件"></label>
+                <html:input type="text" id="zoteroif.customPublicationTitle.path" size="35" readonly="true"></html:input>
+                <button label="Choose" oncommand="choosePath_customPublicationTitle();"></button>
+                <div class="svg-container-help"
+                    tooltiptext="帮助文档" 
+                    onclick='Zotero.getMainWindow().ZoteroPane.loadURI("https://www.yuque.com/qnscholar/zotero-one/pgmye06l39rv4o7i?singleDoc# 《自定数据》");'
+                    style="margin-left: 8px;">
+                </div>
+            </hbox>
+
+            <hbox align="center">
+                <button label="载入数据" oncommand="importData_customPublicationTitle();"></button>
+                <checkbox id="zoteroif.enableCustomPublicationTitle"
+                          label="启用"
+                          native="true"
+                          oncommand="Zotero.Prefs.set('zoteroif.enableCustomPublicationTitle', this.checked);"/>
+
+                <!-- <description id="customPublicationTitle_resultMessage" style="display: none;font-weight: bold;"></description> -->
+                <!-- <label><html:h4 id="customPublicationTitle_resultMessage" style="display: none;font-weight: normal;"></html:h4></label> -->
+                <label id="customPublicationTitle_resultMessage" style="display: none;margin-left: 10px;font-weight: normal;"></label>
+            </hbox>
+
+            <box flex="1">
+                <richlistbox flex="1" style="height:150px;">
+                    <hbox class="virtualized-table-container" flex="1">
+                    <html:table id="zoteroif-customPublicationTitle-table">
+                      <html:thead id="zoteroif-customPublicationTitle-table-header">
+                        <html:tr align="left">
+                          <html:th style="width: 200px;">期刊原名</html:th>
+                          <html:th style="width: 200px;">修改名</html:th>
+                        </html:tr>
+                      </html:thead>
+                      <html:tbody id="zoteroif-customPublicationTitle-table-tbody">
+                        <html:tr> </html:tr>
+                      </html:tbody>
+                    </html:table>
+                    </hbox>
+                </richlistbox>
+            </box>
+
+            <!-- 自定期刊简称 -->
+            
+            <hbox align="center">
+                <description style="white-space: pre-wrap; color: #0091ff; margin-top: 10px; margin-bottom: 10px; font-size: 15px; font-weight: bold;">▌自定期刊简称</description>
+                <html:input type="text" id="navigator-item-customJournalAbbr" style="opacity: 0;"></html:input>
+            </hbox>
+
+            <hbox align="center">
+                <label value="选择 CSV 文件"></label>
+                <html:input type="text" id="zoteroif.customJournalAbbr.path" size="35" readonly="true"></html:input>
+                <button label="Choose" oncommand="choosePath_customJournalAbbr();"></button>
+                <div class="svg-container-help"
+                    tooltiptext="帮助文档" 
+                    onclick='Zotero.getMainWindow().ZoteroPane.loadURI("https://i1z03z7kgf9.feishu.cn/wiki/ZQxNwiUDwiyzOSkQWhxcq9BTn9g?from=from_copylink");'
+                    style="margin-left: 8px;">
+                </div>
+            </hbox>
+
+            <hbox align="center">
+                <button label="载入数据" oncommand="importData_customJournalAbbr();"></button>
+                <checkbox id="zoteroif.enableCustomJournalAbbr"
+                          label="启用"
+                          native="true"
+                          oncommand="Zotero.Prefs.set('zoteroif.enableCustomJournalAbbr', this.checked);"/>
+
+                <!-- <label><html:h4 id="customJournalAbbr_resultMessage" style="display: none;font-weight: normal;"></html:h4></label> -->
+                <label id="customJournalAbbr_resultMessage" style="display: none;margin-left: 10px;font-weight: normal;"></label>
+            </hbox>
+
+            <box flex="1">
+                <richlistbox flex="1" style="height:150px;">
+                    <hbox class="virtualized-table-container" flex="1">
+                    <html:table id="zoteroif-customJournalAbbr-table">
+                      <html:thead id="zoteroif-customJournalAbbr-table-header">
+                        <html:tr align="left">
+                          <html:th style="width: 200px;">期刊全名</html:th>
+                          <html:th style="width: 200px;">期刊简称</html:th>
+                        </html:tr>
+                      </html:thead>
+                      <html:tbody id="zoteroif-customJournalAbbr-table-tbody">
+                        <html:tr> </html:tr>
+                      </html:tbody>
+                    </html:table>
+                    </hbox>
+                </richlistbox>
+            </box>
+
+        </vbox>
+</dialog>
+
+<keyset>
+	<key id="key_close" key="W" modifiers="accel" oncommand="window.close();"/>
+</keyset>
+</window>

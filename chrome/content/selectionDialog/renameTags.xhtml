@@ -1,0 +1,152 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero/skin/zotero.css" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero-platform/content/zotero.css" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero/skin/scaffold.css" type="text/css"?>
+
+<?xml-stylesheet href="chrome://zoteroif/content/assets/css/style.css" type="text/css"?>
+
+<!DOCTYPE window SYSTEM "chrome://zotero/locale/zotero.dtd">
+<window xmlns:html="http://www.w3.org/1999/xhtml"
+	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+	id="zoteroone-window-renameTags"
+	title="批量重命名标签"
+	style="min-width: 670px;" 
+	persist="width height screenX screenY"
+	windowtype="zoteroone-windowType-renameTags"
+	onload="methodsBody.init();">
+<dialog 
+    buttons="cancel" 
+    buttonlabelcancel="关闭窗口" 
+	id="zoteroone-dialog-renameTags">
+
+	<script>
+		Services.scriptloader.loadSubScript("chrome://zotero/content/include.js", this);
+		Services.scriptloader.loadSubScript("chrome://zotero/content/customElements.js", this);
+
+		Services.scriptloader.loadSubScript("chrome://zoteroif/content/selectionDialog/renameTags.js", this);
+	</script>
+
+	<html:style>
+        .zoteroone-hbox-small-gap {
+            flex-shrink: 0;
+            gap: 8px;
+        }
+
+        .zoteroone-hbox-medium-gap {
+            flex-shrink: 0;
+            gap: 12px;
+        }
+
+        .zoteroone-hbox-large-gap {
+            flex-shrink: 0;
+            gap: 15px;
+        }
+	</html:style>
+
+	<linkset>
+	    <html:link rel="localization" href="zoteroif_preferences.ftl"/>
+	</linkset>	
+
+	<vbox id="vboxContainer-elem" flex="1">
+
+        <div class="container" style="display: flex;justify-content: space-between;align-items: center;">
+			<hbox align="center">
+				<div class="svg-container-rename" id="header-icon"></div>
+				<label><html:h3 style="font-size: 13px;" id="message-label">批量重命名标签</html:h3></label>
+	        </hbox>
+
+            <hbox align="center" class="zoteroone-hbox-medium-gap">
+				<button id="showAllItems-button" label="显示全部" oncommand="methodsBody.showallItems()"/>
+				<button id="showEditedItems-button" label="已编辑" oncommand="methodsBody.showEditedItems()"/>
+            </hbox>
+        </div>
+
+		<hbox align="center" class="zoteroone-hbox-large-gap" style="padding-top: 3px;padding-bottom: 3px;">
+
+			<button id="libraryTag-button" label="全库标签" oncommand="methodsBody.libraryTag();"/>
+
+			<div class="svg-container-line"></div>
+
+			<button id="itemTag-button" label="条目标签" oncommand="methodsBody.itemTag();"/>
+			<div class="svg-container-update"
+				tooltiptext="刷新条目标签" 
+				onclick="methodsBody.updateTags('itemTag');">
+			</div>
+
+			<button id="annotationTag-button" label="注释标签" oncommand="methodsBody.annotationTag();"/>
+			<div class="svg-container-update"
+				tooltiptext="刷新注释标签" 
+				onclick="methodsBody.updateTags('annotationTag');">
+			</div>
+
+			<button id="gptNoteTag-button" label="GPT 标签" oncommand="methodsBody.gptNoteTag();"/>
+			<div class="svg-container-update"
+				tooltiptext="刷新 GPT 笔记标签" 
+				onclick="methodsBody.updateTags('gptNoteTag');">
+			</div>
+		</hbox>
+
+		<hbox align="center" style="margin-top: 0px;">
+			<image id="tagFilter-A" src="chrome://zoteroif/content/icons/A.png" tooltiptext="A"  onclick="methodsBody.filter('A')" class="filter-character"/>
+			<image id="tagFilter-B" src="chrome://zoteroif/content/icons/B.png" tooltiptext="B"  onclick="methodsBody.filter('B')" class="filter-character"/>
+			<image id="tagFilter-C" src="chrome://zoteroif/content/icons/C.png" tooltiptext="C"  onclick="methodsBody.filter('C')" class="filter-character"/>
+			<image id="tagFilter-D" src="chrome://zoteroif/content/icons/D.png" tooltiptext="D"  onclick="methodsBody.filter('D')" class="filter-character"/>
+			<image id="tagFilter-E" src="chrome://zoteroif/content/icons/E.png" tooltiptext="E"  onclick="methodsBody.filter('E')" class="filter-character"/>
+			<image id="tagFilter-F" src="chrome://zoteroif/content/icons/F.png" tooltiptext="F"  onclick="methodsBody.filter('F')" class="filter-character"/>
+			<image id="tagFilter-G" src="chrome://zoteroif/content/icons/G.png" tooltiptext="G"  onclick="methodsBody.filter('G')" class="filter-character"/>
+			<image id="tagFilter-H" src="chrome://zoteroif/content/icons/H.png" tooltiptext="H"  onclick="methodsBody.filter('H')" class="filter-character"/>
+			<image id="tagFilter-I" src="chrome://zoteroif/content/icons/I.png" tooltiptext="I"  onclick="methodsBody.filter('I')" class="filter-character"/>
+			<image id="tagFilter-J" src="chrome://zoteroif/content/icons/J.png" tooltiptext="J"  onclick="methodsBody.filter('J')" class="filter-character"/>
+			<image id="tagFilter-K" src="chrome://zoteroif/content/icons/K.png" tooltiptext="K"  onclick="methodsBody.filter('K')" class="filter-character"/>
+			<image id="tagFilter-L" src="chrome://zoteroif/content/icons/L.png" tooltiptext="L"  onclick="methodsBody.filter('L')" class="filter-character"/>
+			<image id="tagFilter-M" src="chrome://zoteroif/content/icons/M.png" tooltiptext="M"  onclick="methodsBody.filter('M')" class="filter-character"/>
+			<image id="tagFilter-N" src="chrome://zoteroif/content/icons/N.png" tooltiptext="N"  onclick="methodsBody.filter('N')" class="filter-character"/>
+			<image id="tagFilter-O" src="chrome://zoteroif/content/icons/O.png" tooltiptext="O"  onclick="methodsBody.filter('O')" class="filter-character"/>
+			<image id="tagFilter-P" src="chrome://zoteroif/content/icons/P.png" tooltiptext="P"  onclick="methodsBody.filter('P')" class="filter-character"/>
+			<image id="tagFilter-Q" src="chrome://zoteroif/content/icons/Q.png" tooltiptext="Q"  onclick="methodsBody.filter('Q')" class="filter-character"/>
+			<image id="tagFilter-R" src="chrome://zoteroif/content/icons/R.png" tooltiptext="R"  onclick="methodsBody.filter('R')" class="filter-character"/>
+			<image id="tagFilter-S" src="chrome://zoteroif/content/icons/S.png" tooltiptext="S"  onclick="methodsBody.filter('S')" class="filter-character"/>
+			<image id="tagFilter-T" src="chrome://zoteroif/content/icons/T.png" tooltiptext="T"  onclick="methodsBody.filter('T')" class="filter-character"/>
+		</hbox>
+		<hbox align="center" style="margin-bottom: 5px;">
+			<image id="tagFilter-U" src="chrome://zoteroif/content/icons/U.png" tooltiptext="U"  onclick="methodsBody.filter('U')" class="filter-character"/>
+			<image id="tagFilter-V" src="chrome://zoteroif/content/icons/V.png" tooltiptext="V"  onclick="methodsBody.filter('V')" class="filter-character"/>
+			<image id="tagFilter-W" src="chrome://zoteroif/content/icons/W.png" tooltiptext="W"  onclick="methodsBody.filter('W')" class="filter-character"/>
+			<image id="tagFilter-X" src="chrome://zoteroif/content/icons/X.png" tooltiptext="X"  onclick="methodsBody.filter('X')" class="filter-character"/>
+			<image id="tagFilter-Y" src="chrome://zoteroif/content/icons/Y.png" tooltiptext="Y"  onclick="methodsBody.filter('Y')" class="filter-character"/>
+			<image id="tagFilter-Z" src="chrome://zoteroif/content/icons/Z.png" tooltiptext="Z"  onclick="methodsBody.filter('Z')" class="filter-character"/>
+			<image id="tagFilter-OT" src="chrome://zoteroif/content/icons/OT.png" tooltiptext="#"  onclick="methodsBody.filter('OT')" class="filter-character"/>
+
+			<html:input type="text" id="searchBox-elem" size="25" onkeydown="methodsBody.checkKeyEnter(event);"></html:input>
+			<div class="svg-container-search" 
+				style="margin-left: 5px;"
+				tooltiptext="点击搜索" 
+				onclick="methodsBody.search();">
+			</div>
+		</hbox>
+
+		<box flex="1">
+			<richlistbox id="richlistbox-elem" flex="1" style="width: 400px;height:450px;"></richlistbox>
+		</box>
+
+		<hbox align="center" style="margin-top: 10px;">
+			<!-- style="color: red;" -->
+			<button label="编辑完成，确认重命名" oncommand="methodsBody.renameTags()"/>
+
+			<button style="margin-left: 40px;" label="清空全部编辑内容" oncommand="methodsBody.clearAllInputBoxes()"/>
+
+			<div class="svg-container-help"
+				tooltiptext="📌【Shift 单击】标签：检索所属文献；【双击】标签：复制标签；【右击】标签：查看右键菜单；🎈【右击】输入框：填充标签。点击查看更多使用提示。" 
+				onclick='Zotero.getMainWindow().ZoteroPane.loadURI("https://www.yuque.com/qnscholar/zotero-one/cbvuoaxffw9lrgnw?singleDoc# 《【批量重命名标签】使用提示》");'
+				style="margin-left: 8px;">
+			</div>
+		</hbox>
+	</vbox>
+</dialog>
+
+<keyset>
+	<key id="key_close" key="W" modifiers="accel" oncommand="window.close()"/>
+</keyset>
+</window>

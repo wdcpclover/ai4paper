@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <title>ZoteroIF Translate ReaderSidePane iframe</title>
+
+  <style>
+      .translate-textarea {
+          font-family: Arial, sans-serif;
+          margin-left: 2px;
+          padding: 5px 8px 5px 8px;
+          font-size: 14px;
+          width: 95%;
+          height: 400px;
+          resize: vertical;
+          box-sizing: border-box;
+          outline: none;
+      }
+      .buttonIcon {
+          width: 16px;
+          height: 16px;
+          transition: transform 0.125s ease;
+      }
+      .buttonIcon:hover {
+          transform: scale(1.1);
+      }
+      .buttonIcon:not(:hover) {
+          transform: scale(1);
+      }
+  </style>
+  
+  <script src="chrome://zoteroif/content/selectionDialog/translateSidePane.js"></script>
+  <script src="chrome://zotero/content/include.js"></script>
+</head>
+
+<body onload='translateSidePane_init();'>
+
+    <div style="display: block;height: 5px;"></div>
+    <vbox align="center">
+
+        <!---------------------------------------------------------- 翻译源文文字框 ----------------------------------------------------------->
+
+        <textarea id="zoteroif-translate-readerSidePane-sourcetext" 
+                  class="htmlTextArea translate-textarea"
+                  flex="1" 
+                  placeholder="这里输入翻译源文" 
+                  multiline="true" 
+                  onkeydown="checkKeyEnter(event);" 
+                  oninput="pushSourceText();" 
+                  onchange="pushSourceText();">
+        </textarea>
+
+        <!---------------------------------------------------------- 一些按钮 ----------------------------------------------------------->
+
+        <div style="display: flex;justify-content: center;align-items: center;margin-top:5px;margin-bottom:5px">
+
+            <div id="translate-readerSidePane-clear"
+                class="buttonIcon svg-container-delete"
+                style="margin-right: 7px;"
+                title="清空" 
+                onclick='clearTranslation();'>
+            </div>
+
+            <div id="zoteroif-translate-readerSidePane-prefs"
+                class="buttonIcon svg-container-prefs_16px"
+                style="margin-right: 7px;"
+                title="翻译侧边栏设置" 
+                onclick='Zotero.ZoteroIF.openDialogByType("translateSidePanePrefs");'>
+            </div>
+
+            <input type="checkbox" 
+                   id="zoteroif-translate-readerSidePane-vocaulary-review" 
+                   style="vertical-align: middle" 
+                   onclick="enableVocabularyReview()">
+
+            <div style="font-size: 13px;margin-left: 2px;margin-right: 5px;font-family: Arial, sans-serif;">生词复习</div>
+
+            <button id="zoteroif-translate-readerSidePane-vocabulary-next" 
+                    style="display:none;font-size: 13px;" 
+                    onclick="Zotero.ZoteroIF.getVocabularyOneWord();">下一个</button>
+
+            <button id="zoteroif-translate-readerSidePane-vocabulary-interpretation" 
+                    style="display:none;font-size: 13px;" 
+                    onclick="translateText();">释义</button>
+
+            <div id="translate-readerSidePane-audioplay-icon"
+                style="margin-left: 7px;"
+                class="buttonIcon svg-container-audioplay"
+                title="播放发音" 
+                onclick='pronunciation();'>
+            </div>
+
+            <div id="translate-readerSidePane-vocabulary-words-locate"
+                style="margin-left: 7px;"
+                class="buttonIcon svg-container-locate"
+                title="定位生词" 
+                onclick='locateVocabulary();'>
+            </div>
+
+        </div>
+
+        <!---------------------------------------------------------- 翻译结果文字框 ----------------------------------------------------------->
+
+        <textarea id="zoteroif-translate-readerSidePane-response" 
+                  class="htmlTextArea translate-textarea"
+                  flex="1" 
+                  placeholder="这里显示翻译结果" 
+                  multiline="true">
+        </textarea>
+
+        <div class="container" style="display: flex;justify-content: center;align-items: center;margin-top:8px;margin-bottom:5px">
+            <button style="font-size: 13px;margin-right: 7px;" onclick="copyResponse();">拷贝译文</button>
+            <button style="font-size: 13px;margin-right: 7px;" onclick="copySourceTextANDResponse();">拷贝源译文</button>
+            <button id='translateText_button' style="font-size: 13px" onclick="translateText();">翻译</button>
+        </div>
+    </vbox>
+    
+</body>
+
+</html>

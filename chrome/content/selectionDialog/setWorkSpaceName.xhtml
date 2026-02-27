@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero/skin/zotero.css" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero-platform/content/zotero.css" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero/skin/scaffold.css" type="text/css"?>
+
+<?xml-stylesheet href="chrome://zoteroif/content/assets/css/style.css" type="text/css"?>
+
+<!DOCTYPE window SYSTEM "chrome://zotero/locale/zotero.dtd">
+<window xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+    title=""
+    persist="width height screenX screenY"
+    windowtype="zoteroone-windowType-setWorkSpaceName"
+    onload="methodsBody.init();">
+<dialog 
+    buttons="cancel,accept"
+    id="ZoteroOneDialog-setWorkSpaceName">
+
+    <script>
+        Services.scriptloader.loadSubScript("chrome://zotero/content/include.js", this);
+        Services.scriptloader.loadSubScript("chrome://zotero/content/customElements.js", this);
+
+        Services.scriptloader.loadSubScript("chrome://zoteroif/content/selectionDialog/setWorkSpaceName.js", this);
+    </script>
+
+    <linkset>
+        <html:link rel="localization" href="zoteroif_preferences.ftl"/>
+    </linkset>  
+
+    <vbox id="vboxContainer-elem" flex="1">
+        <hbox align="center" style="margin-bottom:8px;">
+            <div class="svg-container-workspace"></div>
+            <label id="setWorkSpaceName.description" value="请输入工作区名称（勿重名）："/>
+        </hbox>
+        <hbox align="center" style="margin-bottom:5px;">
+            <html:input type="text" id="setWorkSpaceName.inputBox" size="35" style="flex: 1;"></html:input>
+        </hbox>
+    </vbox>
+</dialog>
+
+<keyset>
+	<key id="key_close" key="W" modifiers="accel" oncommand="window.close()"/>
+</keyset>
+</window>

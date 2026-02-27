@@ -1,0 +1,99 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero/skin/zotero.css" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero-platform/content/zotero.css" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero/skin/scaffold.css" type="text/css"?>
+
+<?xml-stylesheet href="chrome://zoteroif/content/assets/css/style.css" type="text/css"?>
+
+<!DOCTYPE window SYSTEM "chrome://zotero/locale/zotero.dtd">
+<window xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+    title="导出 AI 笔记"
+    style="min-width: 600px;"
+    persist="width height screenX screenY"
+    windowtype="zoteroone-windowType-exportGPTNotes_ChatMode"
+    onload="methodsBody.init();">
+<dialog 
+    buttons="cancel,accept"
+    id="zotero-exportGPTNotes_ChatMode">
+
+    <script>
+        Services.scriptloader.loadSubScript("chrome://zotero/content/include.js", this);
+        Services.scriptloader.loadSubScript("chrome://zotero/content/customElements.js", this);
+
+        Services.scriptloader.loadSubScript("chrome://zoteroif/content/selectionDialog/exportGPTNotes_ChatMode.js", this);
+    </script>
+
+	<html:style>
+        .zoteroone-hbox-small-gap {
+            flex-shrink: 0;
+            gap: 8px;
+        }
+
+        .zoteroone-hbox-medium-gap {
+            flex-shrink: 0;
+            gap: 12px;
+        }
+	</html:style>
+
+    <linkset>
+        <html:link rel="localization" href="zoteroif_preferences.ftl"/>
+    </linkset>  
+
+    <vbox id="vboxContainer-elem" flex="1">
+
+        <hbox align="center" style="margin-bottom:10px;">
+            <div class="svg-container-addtonote"></div>
+            <label id="editGPTNotes-description" style="font-size:13px;" value="正在添加 GPT 笔记。点击头像旁的编辑按钮，可修改消息内容。"/>
+        </hbox>
+
+        <iframe id='gptNotesList-iframe' src="chrome://zoteroif/content/selectionDialog/gptNotesList.html" width="500"></iframe>
+
+        <hbox align="center" class="zoteroone-hbox-medium-gap" style="margin-top:8px;margin-bottom:8px;">
+            <hbox align="center">
+                <div class="svg-container-enableannotationsvgtagsselect" style="transform: scale(1.25);"></div>
+                <label style="font-size:13px;" value="请输入标签："/>
+            </hbox>
+
+            <!-- 将标签输入框作为参数传递 -->
+            <button label="从标签库选择" 
+                    oncommand='Zotero.ZoteroIF.openSelectGPTNoteTagWindow(document.getElementById("zotero-if-xul-add-chatgpt-note-tag"));'></button>
+
+            <button label="拷贝全部消息" 
+                    oncommand='methodsBody.copyMessages();'></button>
+        </hbox>
+
+        <box flex="1" class="textarea-box">
+            <html:textarea
+                    id="zotero-if-xul-add-chatgpt-note-tag"
+                    class="plain"
+                    multiline="true"
+                    placeholder="一行一个，Shift Enter 换行。默认标签： ChatGPT"
+                    style="width:100%;height:60px;padding:5px;font-family: Arial, sans-serif;font-size:13px;"
+                    onkeydown="methodsBody.checkKeyEnter(event);"
+            />
+        </box>
+
+        <hbox align="center" style="margin-top:10px;margin-bottom:5px;">
+            <label id="zotero-if-xul-add-chatgpt-note-tag-itemtitle" value="" hidden='true'/>
+        </hbox>
+
+        <hbox align="center">
+            <checkbox id="zotero-if-xul-add-chatgpt-note-tag-attach2otheritem" label='改绑至：' native="true" checked="false"/>
+            <menulist native="true" id="zotero-if-xul-add-chatgpt-note-tag-fixeditems2attach" maxwidth="350">
+              <menupopup id="zotero-if-xul-add-chatgpt-note-tag-fixeditems2attach-popup">
+                  <!-- <menuitem label="无"/> -->
+              </menupopup>
+            </menulist>
+            <checkbox id="keep-markdown-style" label='保留 Markdown 样式' checked="true" native="true" oncommand='Zotero.Prefs.set("zoteroif.gptNotesMarkdownStyle", this.checked);'/>
+        </hbox>
+
+    </vbox>
+</dialog>
+
+<keyset>
+	<key id="key_close" key="W" modifiers="accel" oncommand="window.close()"/>
+</keyset>
+</window>

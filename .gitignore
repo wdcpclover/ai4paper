@@ -1,0 +1,19 @@
+# Build output
+*.xpi
+build/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Deobf report (can be regenerated)
+deobf-report.json
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Claude
+.claude/

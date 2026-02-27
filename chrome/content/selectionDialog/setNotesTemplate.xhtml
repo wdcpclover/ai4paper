@@ -1,0 +1,220 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero/skin/zotero.css" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero-platform/content/zotero.css" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero/skin/scaffold.css" type="text/css"?>
+
+<?xml-stylesheet href="chrome://zoteroif/content/assets/css/style.css" type="text/css"?>
+
+<!DOCTYPE window SYSTEM "chrome://zotero/locale/zotero.dtd">
+<window xmlns:html="http://www.w3.org/1999/xhtml"
+	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+    title="笔记模板设置"
+    style="min-width: 550px;" 
+    persist="width height screenX screenY"
+    windowtype="zoteroone-windowType-setNotesTemplate"
+	onload="methodsBody.init();">
+<dialog 
+	buttons="accept"
+    buttonlabelaccept="关闭窗口" 
+	id="zoteroone-dialog-setNotesTemplate">
+
+	<script>
+		Services.scriptloader.loadSubScript("chrome://zotero/content/include.js", this);
+		Services.scriptloader.loadSubScript("chrome://zotero/content/customElements.js", this);
+
+        Services.scriptloader.loadSubScript("chrome://zoteroif/content/selectionDialog/setNotesTemplate.js", this);
+	</script>
+
+    <html:style>
+        .zoteroone-hbox-tiny-gap {
+            flex-shrink: 0;
+            gap: 5px;
+            padding-top: 2px;
+            padding-bottom: 2px;
+        }
+
+        .zoteroone-hbox-small-gap {
+            flex-shrink: 0;
+            gap: 6px;
+            padding-top: 2px;
+            padding-bottom: 2px;
+        }
+
+        .zoteroone-hbox-medium-gap {
+            flex-shrink: 0;
+            gap: 12px;
+            padding-top: 2px;
+            padding-bottom: 2px;
+        }
+
+        .zoteroone-hbox-large-gap {
+            flex-shrink: 0;
+            gap: 18px;
+            padding-top: 2px;
+            padding-bottom: 2px;
+        }
+
+        .zoteroone-div-border {
+            display: flex;
+            flex-direction: column;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            border: 1px dashed gray;
+            border-radius: 6px;
+            padding: 5px;
+        }
+
+        .zoteroone-div-noBorder {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid transparent;
+            border-radius: 6px;
+            padding: 0px 5px;
+        }
+
+        .zoteroone-hbox-paddingTop {
+            padding-top: 2px;
+            padding-bottom: 2px;
+        }
+
+        .textareaStyle {
+            width:100%;
+            height:100px;
+            padding:5px;
+            font-size: 13px;
+        }
+
+		.buttonIcon {
+            transform: scale(0.8);
+            transition: transform 0.125s ease;
+		}
+        .buttonIcon:hover {
+            transform: scale(0.88);
+        }
+        .buttonIcon:not(:hover) {
+            transform: scale(0.8);
+        }
+
+    </html:style>
+
+	<linkset>
+	    <html:link rel="localization" href="zoteroif_preferences.ftl"/>
+	</linkset>
+
+    <vbox id="vboxContainer-elem" flex="1">
+
+        <box flex="1">
+            <richlistbox id="richlistbox-elem" flex="1" style='height:580px;padding: 0px 12px 0px 8px;'>
+
+                <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * YAML 模板 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+
+                <hbox align="center" class="zoteroone-hbox-medium-gap">
+                    <hbox align="center" class="zoteroone-hbox-small-gap">
+                        <label><html:h3 style="font-size: 14px;color: #0091ff;" id="message-label">▌ YAML 模板</html:h3></label>
+
+                        <div class="buttonIcon svg-container-yaml"
+                            tooltiptext="点击查看默认模板" 
+                            onclick='Zotero.getMainWindow().ZoteroPane.loadURI("https://www.yuque.com/qnscholar/zotero-one/xz6dhk#vw6cS");'>
+                        </div>
+                    </hbox>
+
+                    <hbox align="center">
+                        <checkbox id="obsidianyamlenable" label='启用 YAML' native="true" oncommand="methodsBody.setValue()"/>
+                    </hbox>
+                </hbox>
+
+                <box flex="1" class="textarea-box">
+                    <html:textarea
+                        id="yamltemplate"
+                        class="textareaStyle"
+                        multiline="true"
+                        oninput="methodsBody.setValue();"
+                    />
+                </box>
+
+                <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * Metadata 模板 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+
+                <hbox align="center" class="zoteroone-hbox-small-gap">
+                    <label><html:h3 style="font-size: 14px;color: #0091ff;" id="message-label">▌ Metadata 模板</html:h3></label>
+
+                    <div class="buttonIcon svg-container-metadata"
+                        tooltiptext="点击查看默认模板" 
+                        onclick='Zotero.getMainWindow().ZoteroPane.loadURI("https://www.yuque.com/qnscholar/zotero-one/sol94e#vw6cS");'>
+                    </div>
+                </hbox>
+
+                <box flex="1" class="textarea-box">
+                    <html:textarea
+                        id="notesmetadatatemplate"
+                        class="textareaStyle"
+                        multiline="true"
+                        oninput="methodsBody.setValue();"
+                    />
+                </box>
+
+                <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 用户笔记区 模板 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+
+                <hbox align="center" class="zoteroone-hbox-small-gap">
+                    <label><html:h3 style="font-size: 14px;color: #0091ff;" id="message-label">▌ 用户笔记区模板</html:h3></label>
+
+                    <div class="buttonIcon svg-container-avatar_user"
+                        tooltiptext="点击查看默认模板" 
+                        onclick='Zotero.getMainWindow().ZoteroPane.loadURI("https://www.yuque.com/qnscholar/zotero-one/kieft6#PqXAW");'>
+                    </div>
+                </hbox>
+
+                <box flex="1" class="textarea-box">
+                    <html:textarea
+                        id="notesusernotestemplate"
+                        class="textareaStyle"
+                        multiline="true"
+                        oninput="methodsBody.setValue();"
+                    />
+                </box>
+
+                <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * QNKey 模板 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+
+                <hbox align="center" class="zoteroone-hbox-small-gap">
+                    <label><html:h3 style="font-size: 14px;color: #0091ff;" id="message-label">▌ QNKey 模板</html:h3></label>
+
+                    <div class="buttonIcon svg-container-rename"
+                        tooltiptext="点击了解更多" 
+                        onclick='Zotero.getMainWindow().ZoteroPane.loadURI("https://www.yuque.com/qnscholar/zotero-one/gibpyck0gbi2k14v?singleDoc# 《QNKey 模板教程》");'>
+                    </div>
+                </hbox>
+                
+                <hbox align="center">
+                    <button id="check.qnkey.template.button" label='检查有效性' oncommand="methodsBody.checkQNKeyTemplate();"></button>
+                    <button id="reset.qnkey.template.button" style="margin-left: 8px;margin-right: 8px;" label='恢复默认' oncommand="methodsBody.resetkQNKeyTemplate();"></button>
+
+                    <label value="模板教程" is="zotero-text-link" href="https://www.yuque.com/qnscholar/zotero-one/gibpyck0gbi2k14v?singleDoc# 《QNKey 模板教程》"></label>
+                </hbox>
+
+                <box flex="1" class="textarea-box" style="margin-top: 10px;margin-bottom: 10px;">
+                    <html:textarea
+                        id="qnkeyTemplate"
+                        class="textareaStyle"
+                        multiline="true"
+                        oninput="methodsBody.setValue();"
+                    />
+                </box>
+                
+                <hbox align="center">
+                    <checkbox id="useItemIDAsQNKeySuffix" label='使用 🆔 作为 QNKey 后缀，以保证文件名绝对唯一性' native="true" oncommand="methodsBody.setValue()"/> 
+                </hbox>
+
+                <hbox align="center">
+                    <checkbox id="useCitationKeyasQNKey" label='改用 CitationKey 作为 QNKey（须安装 Better BibTeX 插件）' native="true" oncommand="methodsBody.setValue()"/> 
+                </hbox>
+
+            </richlistbox>
+        </box>
+    </vbox>
+</dialog>
+
+<keyset>
+	<key id="key_close" key="W" modifiers="accel" oncommand="window.close()"/>
+</keyset>
+</window>

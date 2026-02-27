@@ -1,0 +1,192 @@
+﻿<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero/skin/zotero.css" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero/skin/overlay.css" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero-platform/content/overlay.css" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero-platform/content/zotero.css"?>
+<!DOCTYPE window SYSTEM "chrome://zotero/locale/zotero.dtd">
+
+
+<window
+	id="zotero-select-items-dialog"
+	windowtype="zotero:item-selector"
+	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+	xmlns:html="http://www.w3.org/1999/xhtml"
+	onload="doLoad();updateTextAreaBox4ZoteroScheme(window);"
+	onunload="doUnload();"
+	persist="screenX screenY width height"
+	class="zotero-dialog"
+	drawintitlebar="true"
+	style="min-height: 620px;" 
+>
+<dialog
+	id="select-items-dialog"
+	orient="vertical"
+	buttons="accept"
+	data-l10n-id="select-items-dialog"
+	buttonlabelaccept="OK" 
+>
+<script>
+	Services.scriptloader.loadSubScript("chrome://zotero/content/include.js", this);
+	// Custom elements
+	Services.scriptloader.loadSubScript("chrome://zotero/content/customElements.js", this);
+	Services.scriptloader.loadSubScript("chrome://zotero/content/selectItemsDialog.js", this);
+
+	// 如果按了 esc 取消了，则复位
+	document.addEventListener('dialogcancel', () => {
+		Zotero.ZoteroIF._dataOut_selectedItemsInfo = "";
+	});
+
+	// 根据 Zotero 版本调整样式
+    function updateTextAreaBox4ZoteroScheme(win) {
+        try {
+            let isDark = Zotero.getMainWindow()?.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (!isDark) {
+                win.document.querySelectorAll('.textarea-box').forEach(elem => elem.style.border = "1px solid #dadada");
+            } else {
+                win.document.querySelectorAll('.textarea-box').forEach(elem => elem.style.border = "1px solid #404040");
+            }
+        } catch(e) {
+            Zotero.debug(e);
+        }
+    }
+
+	// 恢复历史
+	function recoveryHistory (){
+		if (!Zotero.ZoteroIF._dataOut_lastSelectedItemsInfo) {
+			document.getElementById("resultMessage").textContent = "🙅 历史记录为空！";
+			return;
+		}
+
+		document.getElementById("zotero-if-xul-selectedItems-textarea").value = Zotero.ZoteroIF._dataOut_lastSelectedItemsInfo;
+		Zotero.ZoteroIF._dataOut_selectedItemsInfo = Zotero.ZoteroIF._dataOut_lastSelectedItemsInfo;
+		document.getElementById("resultMessage").textContent = "✅ 已恢复历史记录！";
+	}
+
+	async function handleSelectedItems (){
+		let itemsID = itemsView.getSelectedItems(true);
+		// 含注释的条目数量
+		let num = 0;
+		let duplicate = 0;
+		let oldValue;
+		for (let itemID of itemsID) {
+			let item = Zotero.Items.get(itemID);
+			// 如果选择的是附件条目
+			if (item.isAttachment()) {
+				oldValue = document.getElementById("zotero-if-xul-selectedItems-textarea").value;
+				// 仅考虑这三种附件类型
+				if (['application/pdf', 'text/html', 'application/epub+zip'].includes(item.attachmentContentType)) {
+					// 此处不能用 与，否则 dialog 解析失败
+					if (item.attachmentLinkMode === 3) {
+						continue;
+					}
+					let annotationItems = await item.getAnnotations();
+					if (annotationItems.length) {
+						let addedValue = `${item.getField('title')} 🆔 ${item.itemID}`;
+						if (!oldValue.includes(addedValue)) {
+							num++;
+							document.getElementById("zotero-if-xul-selectedItems-textarea").value = `${oldValue ? (oldValue + '\n') : ''}${addedValue}`;
+						}
+						else {
+							duplicate++;
+						}
+					}
+				}
+			}
+			// 如果选择的是父条目
+			else if (item.isRegularItem()) {
+				// item = await item.getBestAttachment();
+				let attachmentIDs = item.getAttachments();
+				// 无附件，则跳过
+				if (!attachmentIDs.length) {
+					continue;
+				}
+				// 遍历选中条目的所有附件
+		        for (let id of attachmentIDs) {
+		            item = Zotero.Items.get(id);
+		            // 刷新
+        			oldValue = document.getElementById("zotero-if-xul-selectedItems-textarea").value;
+		            if (['application/pdf', 'text/html', 'application/epub+zip'].includes(item.attachmentContentType)) {
+						if (item.attachmentLinkMode === 3) {
+							continue;
+						}
+						let annotationItems = await item.getAnnotations();
+						if (annotationItems.length) {
+							let addedValue = `${item.getField('title')} 🆔 ${item.itemID}`;
+							if (!oldValue.includes(addedValue)) {
+								num++;
+								document.getElementById("zotero-if-xul-selectedItems-textarea").value = `${oldValue ? (oldValue + '\n') : ''}${addedValue}`;
+							}
+							else {
+								duplicate++;
+							}
+						}
+		            }
+		         }
+			}
+		}
+
+		if (itemsID) {
+			let emoji = num ? "✅" : "❌";
+			let totalNum = 0;
+			let currentValue = document.getElementById("zotero-if-xul-selectedItems-textarea").value;
+			if (currentValue.trim()) {
+				totalNum = document.getElementById("zotero-if-xul-selectedItems-textarea").value.split('\n').length;
+			}
+			document.getElementById("resultMessage").textContent = `${emoji} 您选择了【${itemsID.length}】个条目，其中【${num}】个条目包含注释,【${duplicate}】个条目已经添加过。\t\t🎈 当前共导入【${totalNum}】条 🎈`;
+		}
+
+		// 存储 textarea 值，以供点击 OK 后处理
+		Zotero.ZoteroIF._dataOut_selectedItemsInfo = document.getElementById("zotero-if-xul-selectedItems-textarea").value;
+	}
+
+</script>
+
+<linkset>
+	<html:link rel="localization" href="zotero.ftl" />
+</linkset>
+
+<vbox id="zotero-select-items-container" flex="1">
+	<hbox id="collections-items-container">
+		<vbox id="zotero-collections-tree-container" class="virtualized-table-container">
+			<html:div id="zotero-collections-tree"/>
+		</vbox>
+		<vbox id="zotero-items-tree-container" flex="1">
+			<hbox id="search-toolbar">
+				<quick-search-textbox id="zotero-tb-search" timeout="250" oncommand="onSearch()" dir="reverse"/>
+			</hbox>
+			<hbox id="zotero-items-pane-content" class="virtualized-table-container">
+				<html:div id="zotero-items-tree"/>
+			</hbox>
+		</vbox>
+	</hbox>
+
+
+
+    <hbox align="center" style="margin-top:10px;margin-left: 10px;">
+        <button label="选择" tooltiptext="选择" oncommand="handleSelectedItems();"/>
+        <button label="清空" 
+        		tooltiptext="清空" style="margin-left: 10px;" 
+        		oncommand='document.getElementById("zotero-if-xul-selectedItems-textarea").value = "";Zotero.ZoteroIF._dataOut_selectedItemsInfo = "";document.getElementById("resultMessage").textContent = "📍 选中（可多选）条目，然后点击【选择】按钮";'/>
+
+        <button label="定位当前位置" tooltiptext="定位当前位置" style="margin-left: 15px" oncommand="let collectionID = Zotero.ZoteroIF.getRandomItemCollection(); collectionID != '未分类' ? collectionsView.selectCollection(collectionID) : collectionsView.selectLibrary();"/>
+
+        <button label="恢复历史记录" tooltiptext="恢复历史记录" style="margin-left: 60px" oncommand='recoveryHistory();'/>
+    </hbox>
+
+
+
+    <hbox align="center" class="textarea-box" style="margin:10px;">
+	    <html:textarea
+	            id="zotero-if-xul-selectedItems-textarea"
+	            class="plain"
+	            multiline="true"
+	            style="width:100%;height:100px;padding: 10px;font-size: 13px;line-height: 1.5;"
+	    />
+	</hbox>
+
+    <hbox align="center" style="margin-top:10px;margin-bottom:10px;margin-left: 10px;">
+        <description id="resultMessage" style="font-weight: normal;">📍 选中（可多选）条目，然后点击【选择】按钮</description>
+    </hbox>
+</vbox>
+</dialog>
+</window>

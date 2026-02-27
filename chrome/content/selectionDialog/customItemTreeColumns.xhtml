@@ -1,0 +1,203 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero/skin/zotero.css" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero-platform/content/zotero.css" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero/skin/scaffold.css" type="text/css"?>
+
+<?xml-stylesheet href="chrome://zoteroif/content/assets/css/style.css" type="text/css"?>
+
+<!DOCTYPE window SYSTEM "chrome://zotero/locale/zotero.dtd">
+<window xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+    id="zotero-customItemTreeColumns-dialog"
+    title="主界面列视图" 
+    style="min-width: 450px;"
+    persist="width height screenX screenY"
+    windowtype="zoteroone-windowType-customItemTreeColumns"
+    onload="methodsBody.init();">
+<dialog 
+    buttons="accept"
+    buttonlabelaccept="关闭窗口" 
+    id="ZoteroOneDialog-customItemTreeColumns">
+
+    <script>
+        Services.scriptloader.loadSubScript("chrome://zotero/content/include.js", this);
+        Services.scriptloader.loadSubScript("chrome://zoteroif/content/selectionDialog/customItemTreeColumns.js", this);
+        Services.scriptloader.loadSubScript("chrome://zotero/content/customElements.js", this);
+    </script>
+
+	<html:style>
+		.buttonIcon {
+            margin-right: 15px;
+            transition: transform 0.125s ease;
+		}
+        .buttonIcon:hover {
+            transform: scale(1.1);
+        }
+        .buttonIcon:not(:hover) {
+            transform: scale(1);
+        }
+	</html:style>
+
+    <linkset>
+        <html:link rel="localization" href="customItemTreeColumns.ftl"/>
+    </linkset>  
+
+    <vbox id="vboxContainer-elem">
+
+        <box flex="1">
+            <richlistbox id="richlistbox-elem" flex="1" style='padding-left: 5px;margin-top: 8px;'>
+
+                <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 常规 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+                <groupbox>
+                    <!-- <label><html:h2 data-l10n-id='zoteroif-customItemTreeColumns-title-label'></html:h2></label> -->
+
+                    <!-- 短标题 -->
+
+                   <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
+
+                        <checkbox id="zoteroif.enableCustomItemTreeColumnsshortTitle" 
+                                  preference="extensions.zotero.zoteroif.enableCustomItemTreeColumnsshortTitle" 
+                                  data-l10n-id="zoteroif-customItemTreeColumns-shortTitle" 
+                                  native="true"
+                                  oncommand="Zotero.Prefs.set('zoteroif.enableCustomItemTreeColumnsshortTitle', this.checked);Zotero.ZoteroIF.customItemTreeColumns();"/> 
+
+                        <html:input type="text" 
+                                    id="zoteroif.renameCustomItemTreeColumnsshortTitle"
+                                    preference="extensions.zotero.zoteroif.renameCustomItemTreeColumnsshortTitle"  
+                                    style='margin-right: 100px;' 
+                                    size="15"
+                                    oninput='Zotero.Prefs.set("zoteroif.renameCustomItemTreeColumnsshortTitle", this.value);'></html:input>
+
+                        <div class="buttonIcon svg-container-reset"
+                            tooltiptext="恢复默认" 
+                            onclick='document.getElementById("zoteroif.renameCustomItemTreeColumnsshortTitle").value = "中文标题";Zotero.Prefs.set("zoteroif.renameCustomItemTreeColumnsshortTitle", "中文标题");'>
+                        </div>
+                    </html:div>
+
+                    <!-- 档案 -->
+
+                   <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
+
+                        <checkbox id="zoteroif.enableCustomItemTreeColumnsarchive" 
+                                  preference="extensions.zotero.zoteroif.enableCustomItemTreeColumnsarchive" 
+                                  data-l10n-id="zoteroif-customItemTreeColumns-archive" 
+                                  native="true"
+                                  oncommand="Zotero.Prefs.set('zoteroif.enableCustomItemTreeColumnsarchive', this.checked);Zotero.ZoteroIF.customItemTreeColumns();"/> 
+                                  <!-- Zotero.ZoteroIF_Prefs.onChangeValue.customItemTreeColumns(this.checked, 'archive'); -->
+
+                        <html:input type="text" 
+                                    id="zoteroif.renameCustomItemTreeColumnsarchive"
+                                    preference="extensions.zotero.zoteroif.renameCustomItemTreeColumnsarchive"  
+                                    style='margin-right: 100px;' 
+                                    size="15"
+                                    oninput='Zotero.Prefs.set("zoteroif.renameCustomItemTreeColumnsarchive", this.value);'></html:input>
+
+                        <div class="buttonIcon svg-container-reset"
+                            tooltiptext="恢复默认" 
+                            onclick='document.getElementById("zoteroif.renameCustomItemTreeColumnsarchive").value = "归档日期";Zotero.Prefs.set("zoteroif.renameCustomItemTreeColumnsarchive", "归档日期");'>
+                        </div>
+                    </html:div>
+
+                    <!-- 存档位置 -->
+
+                   <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
+
+                        <checkbox id="zoteroif.enableCustomItemTreeColumnsarchiveLocation" 
+                                  preference="extensions.zotero.zoteroif.enableCustomItemTreeColumnsarchiveLocation" 
+                                  data-l10n-id="zoteroif-customItemTreeColumns-archiveLocation" 
+                                  native="true"
+                                  oncommand="Zotero.Prefs.set('zoteroif.enableCustomItemTreeColumnsarchiveLocation', this.checked);Zotero.ZoteroIF.customItemTreeColumns();"/> 
+
+                        <html:input type="text" 
+                                    id="zoteroif.renameCustomItemTreeColumnsarchiveLocation"
+                                    preference="extensions.zotero.zoteroif.renameCustomItemTreeColumnsarchiveLocation"  
+                                    style='margin-right: 100px;' 
+                                    size="15"
+                                    oninput='Zotero.Prefs.set("zoteroif.renameCustomItemTreeColumnsarchiveLocation", this.value);'></html:input>
+
+                        <div class="buttonIcon svg-container-reset"
+                            tooltiptext="恢复默认" 
+                            onclick='document.getElementById("zoteroif.renameCustomItemTreeColumnsarchiveLocation").value = "引用量";Zotero.Prefs.set("zoteroif.renameCustomItemTreeColumnsarchiveLocation", "引用量");'>
+                        </div>
+                    </html:div>
+
+                    <!-- 文库编目 -->
+
+                   <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
+
+                        <checkbox id="zoteroif.enableCustomItemTreeColumnslibraryCatalog" 
+                                  preference="extensions.zotero.zoteroif.enableCustomItemTreeColumnslibraryCatalog" 
+                                  data-l10n-id="zoteroif-customItemTreeColumns-libraryCatalog" 
+                                  native="true"
+                                  oncommand="Zotero.Prefs.set('zoteroif.enableCustomItemTreeColumnslibraryCatalog', this.checked);Zotero.ZoteroIF.customItemTreeColumns();"/> 
+
+                        <html:input type="text" 
+                                    id="zoteroif.renameCustomItemTreeColumnslibraryCatalog"
+                                    preference="extensions.zotero.zoteroif.renameCustomItemTreeColumnslibraryCatalog"  
+                                    style='margin-right: 100px;' 
+                                    size="15"
+                                    oninput='Zotero.Prefs.set("zoteroif.renameCustomItemTreeColumnslibraryCatalog", this.value);'></html:input>
+
+                        <div class="buttonIcon svg-container-reset"
+                            tooltiptext="恢复默认" 
+                            onclick='document.getElementById("zoteroif.renameCustomItemTreeColumnslibraryCatalog").value = "影响因子";Zotero.Prefs.set("zoteroif.renameCustomItemTreeColumnslibraryCatalog", "影响因子");'>
+                        </div>
+                    </html:div>
+
+                    <!-- 索书号 -->
+
+                   <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
+
+                        <checkbox id="zoteroif.enableCustomItemTreeColumnscallNumber" 
+                                  preference="extensions.zotero.zoteroif.enableCustomItemTreeColumnscallNumber" 
+                                  data-l10n-id="zoteroif-customItemTreeColumns-callNumber" 
+                                  native="true"
+                                  oncommand="Zotero.Prefs.set('zoteroif.enableCustomItemTreeColumnscallNumber', this.checked);Zotero.ZoteroIF.customItemTreeColumns();"/> 
+
+                        <html:input type="text" 
+                                    id="zoteroif.renameCustomItemTreeColumnscallNumber"
+                                    preference="extensions.zotero.zoteroif.renameCustomItemTreeColumnscallNumber"  
+                                    style='margin-right: 100px;' 
+                                    size="15"
+                                    oninput='Zotero.Prefs.set("zoteroif.renameCustomItemTreeColumnscallNumber", this.value);'></html:input>
+
+                        <div class="buttonIcon svg-container-reset"
+                            tooltiptext="恢复默认" 
+                            onclick='document.getElementById("zoteroif.renameCustomItemTreeColumnscallNumber").value = "中科院分区";Zotero.Prefs.set("zoteroif.renameCustomItemTreeColumnscallNumber", "中科院分区");'>
+                        </div>
+                    </html:div>
+
+                    <!-- 版权 -->
+
+                   <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
+
+                        <checkbox id="zoteroif.enableCustomItemTreeColumnsrights" 
+                                  preference="extensions.zotero.zoteroif.enableCustomItemTreeColumnsrights" 
+                                  data-l10n-id="zoteroif-customItemTreeColumns-rights" 
+                                  native="true"
+                                  oncommand="Zotero.Prefs.set('zoteroif.enableCustomItemTreeColumnsrights', this.checked);Zotero.ZoteroIF.customItemTreeColumns();"/> 
+
+                        <html:input type="text" 
+                                    id="zoteroif.renameCustomItemTreeColumnsrights"
+                                    preference="extensions.zotero.zoteroif.renameCustomItemTreeColumnsrights"  
+                                    style='margin-right: 100px;' 
+                                    size="15"
+                                    oninput='Zotero.Prefs.set("zoteroif.renameCustomItemTreeColumnsrights", this.value);'></html:input>
+
+                        <div class="buttonIcon svg-container-reset"
+                            tooltiptext="恢复默认" 
+                            onclick='document.getElementById("zoteroif.renameCustomItemTreeColumnsrights").value = "星标";Zotero.Prefs.set("zoteroif.renameCustomItemTreeColumnsrights", "星标");'>
+                        </div>
+                    </html:div>
+                </groupbox>
+            </richlistbox>
+        </box>
+    </vbox>
+</dialog>
+
+<keyset>
+	<key id="key_close" key="W" modifiers="accel" oncommand="window.close();"/>
+</keyset>
+</window>

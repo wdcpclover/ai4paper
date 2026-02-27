@@ -1,0 +1,136 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero/skin/zotero.css" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero-platform/content/zotero.css" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero/skin/scaffold.css" type="text/css"?>
+
+<!DOCTYPE window SYSTEM "chrome://zotero/locale/zotero.dtd">
+<window xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+    title="AI 对话历史"
+    style="min-width: 1104px; min-height: 723px;"
+    persist="width height screenX screenY"
+    windowtype="zoteroone-windowType-chatHistory"
+    onload="chatHistoryMethods.init();">
+
+<dialog 
+    buttons=","
+    id="zoteroone-dialog-chatHistory">
+
+    <script>
+        Services.scriptloader.loadSubScript("chrome://zotero/content/include.js", this);
+        Services.scriptloader.loadSubScript("chrome://zoteroif/content/selectionDialog/chatHistory.js", this);
+        Services.scriptloader.loadSubScript("chrome://zotero/content/customElements.js", this);
+    </script>
+
+    <vbox id="vboxContainer-elem" flex="1" style="padding: 2px;">
+        
+        <!-- 主容器：左右布局 -->
+        <html:div class="main-container">
+            
+            <!-- 左侧：消息列表 -->
+            <html:div class="left-panel">
+                <html:div class="left-panel-header">
+                    <html:div class="footer-left">
+                        <div class="svg-container-chatHistory svg-btn" tooltiptext="刷新全部"  onclick="chatHistoryMethods.refreshMessages();"></div>
+                        <label id="messagesNum-label">对话历史列表</label>
+                    </html:div>
+
+                    <html:div class="footer-right">
+                        <image id="filter-button" 
+                               class="filter-btn"
+                               src="chrome://zoteroif/content/icons/filter.png" 
+                               tooltiptext="按日期筛选" 
+                               onclick="chatHistoryMethods.onClickFilterBtn(this, event)" 
+                        />
+                    </html:div>
+                </html:div>
+                <html:div id="message-list-container">
+                    <!-- 消息列表项将通过JS动态生成 -->
+                </html:div>
+            </html:div>
+            
+            <!-- 右侧：消息内容 -->
+            <html:div class="right-panel">
+                <html:div class="right-panel-header" onclick="chatHistoryMethods.onClickContentTitle(event);" 
+                    ondblclick="chatHistoryMethods.onDblClickContentTitle(event);">
+                    <html:div id="content-title">请选择一条消息</html:div>
+                    <html:div class="content-meta">
+                        <html:span id="content-time"></html:span>
+                        <html:span id="content-model"></html:span>
+                        <html:span id="content-tokens"></html:span>
+                    </html:div>
+                </html:div>
+                <html:div class="right-panel-body">
+                    <!-- <html:div id="content-body">点击左侧列表查看消息内容</html:div> -->
+                     <iframe id='renderChatHistory-iframe' src="chrome://zoteroif/content/selectionDialog/renderChatHistory.html"></iframe>
+                </html:div>
+
+                <hbox class="right-panel-footer">
+                    <!-- 左侧：搜索框 -->
+                    <html:div class="footer-left">
+                        <quick-search-textbox xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" 
+                            id="textbox-search-history" 
+                            timeout="250" 
+                            width="300"
+                            onkeydown="chatHistoryMethods.handleSearchKeypress(this, event)" 
+                            oninput="ZoteroPane_Local.handleSearchInput(this, event)" 
+                            oncommand="">
+                            <!-- <hbox id="search-wrapper" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+                            <hbox id="zotero-tb-search-dropmarker"/>
+                            </hbox> -->
+                        </quick-search-textbox>
+                    </html:div>
+                    
+                    <!-- 右侧：按钮 -->
+                    <html:div class="footer-right">
+                        <div class="svg-container-add_16px filter-btn add-btn"
+                            tooltiptext="导入外部 AI 对话"
+                            onclick='chatHistoryMethods.importChat();'
+                        ></div>
+                        <div class="svg-container-prefs_16px filter-btn add-btn"
+                            tooltiptext="打开设置"
+                            style="margin-right: 4px;"
+                            onclick='Zotero.ZoteroIF.openPluginSettingsAndFocusElement("navigator-item-chatHistory");'
+                        ></div>
+
+                        <html:button id="fitscreen-btn" class="action-btn" 
+                            onclick="chatHistoryMethods.toggleFitScreen();"
+                            ondblclick="chatHistoryMethods.toggleFullScreen();">
+                            适配屏幕
+                        </html:button>
+                        <html:button class="action-btn" onclick="chatHistoryMethods.refreshMessages();">
+                            刷新全部
+                        </html:button>
+                        <html:button class="action-btn danger" onclick="chatHistoryMethods.deleteMessage();">
+                            删除
+                        </html:button>
+                        <html:button class="action-btn primary" onclick="chatHistoryMethods.loadMessage();">
+                            载入对话
+                        </html:button>
+                    </html:div>
+                </hbox>
+            </html:div>
+            
+        </html:div>
+        
+    </vbox>
+    
+</dialog>
+
+<keyset>
+    <key id="key_close" key="W" modifiers="accel" oncommand="window.close()"/>
+    <!-- 聚焦搜索框 -->
+    <key id="key_search" key="F" modifiers="accel" oncommand="chatHistoryMethods.searchBoxFocus();"/>
+    <!-- CMD/Ctrl R 刷新列表 -->
+    <key id="key_refresh" key="R" modifiers="accel" oncommand="chatHistoryMethods.refreshMessages();"/>
+    <!-- CMD/Ctrl D 新建对话副本 -->
+    <key id="key_refresh" key="D" modifiers="accel" oncommand="chatHistoryMethods.duplicateChat();"/>
+    <!-- Mac 上的 Delete 键 (实际是 Backspace) -->
+    <key id="key_delete_mac" keycode="VK_BACK" oncommand="chatHistoryMethods.deleteMessage();"/>
+    <!-- Windows/Linux 上的 Delete 键 -->
+    <key id="key_delete_win" keycode="VK_DELETE" oncommand="chatHistoryMethods.deleteMessage();"/>
+</keyset>
+
+</window>

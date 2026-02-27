@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero/skin/zotero.css" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero-platform/content/zotero.css" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero/skin/scaffold.css" type="text/css"?>
+
+<?xml-stylesheet href="chrome://zoteroif/content/assets/css/style.css" type="text/css"?>
+
+<!DOCTYPE window SYSTEM "chrome://zotero/locale/zotero.dtd">
+<window xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+    title=""
+    persist="width height screenX screenY"
+    windowtype="zoteroone-windowType-addAnnotationHead"
+    onload="methodsBody.init();">
+<dialog 
+    buttons="cancel,accept"
+    id="ZoteroOneDialog-addAnnotationHead">
+
+    <script>
+        Services.scriptloader.loadSubScript("chrome://zotero/content/include.js", this);
+        Services.scriptloader.loadSubScript("chrome://zotero/content/customElements.js", this);
+
+        Services.scriptloader.loadSubScript("chrome://zoteroif/content/selectionDialog/addAnnotationHead.js", this);
+    </script>
+
+	<html:style>
+        .zoteroone-hbox-small-gap {
+            flex-shrink: 0;
+            gap: 8px;
+        }
+	</html:style>
+
+    <linkset>
+        <html:link rel="localization" href="zoteroif_preferences.ftl"/>
+    </linkset>  
+
+    <vbox id="vboxContainer-elem" flex="1">
+        <hbox align="center" style="margin-bottom:10px;">
+            <div style="transform: scale(1.25);" class="svg-container-enableannotationsvghead"></div>
+            <label value="选择大纲级别："/>
+            <menulist native="true" id="zotero-if-xul-add-anotation-head-level">
+              <menupopup id="zotero-if-xul-add-anotation-head-level-popup">
+                  <menuitem label="H1"/>
+                  <menuitem label="H2"/>
+                  <menuitem label="H3"/>
+                  <menuitem label="H4"/>
+                  <menuitem label="H5"/>
+                  <menuitem label="H6"/>
+              </menupopup>
+            </menulist>
+            <label value="    "/>
+            <button id="zotero-if-xul-add-anotation-head-content-auto-load" label="一键填充" tooltiptext="将【高亮或 Note】内容自动填充为大纲" oncommand="methodsBody.loadHead();"/>
+        </hbox>
+
+        <box flex="1" class="textarea-box">
+            <html:textarea
+                    id="zotero-if-xul-add-anotation-head-content"
+                    class="plain"
+                    multiline="true"
+                    style="width:100%;height:100px;font-size: 13px;padding: 5px;"
+                    onkeydown="methodsBody.checkKeyEnter(event);"
+            />
+        </box>
+
+        <hbox align="center" class="zoteroone-hbox-small-gap" style="margin-top:10px;">
+            <button id="zotero-if-xul-add-anotation-head-content-cancel" label="取消大纲级别" tooltiptext="取消大纲级别" oncommand="methodsBody.removeHead();"/>
+            <checkbox id="zotero-if-xul-add-anotation-head-autoLoad" label='自动填充模式' checked="false" native="true" oncommand="methodsBody.autoLoadHead();"/>
+        </hbox>
+
+    </vbox>
+</dialog>
+
+<keyset>
+	<key id="key_close" key="W" modifiers="accel" oncommand="window.close()"/>
+</keyset>
+</window>

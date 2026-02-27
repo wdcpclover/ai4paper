@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Preview UI</title>
+
+    <!-- Markdown 和 LaTeX 渲染 -->
+    <!-- 其实这里只需要 css，不需要 js 了，因为调用的是在 gptChatUI.js 中注入的函数 -->
+    <script src="chrome://zoteroif/content/assets/js/markdown-it.min.js"></script>
+    <script src="chrome://zoteroif/content/assets/js/katex.min.js"></script>
+    <script src="chrome://zoteroif/content/assets/js/texmath.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="chrome://zoteroif/content/assets/css/katex.min.css">
+    <link type="text/css" rel="stylesheet" href="chrome://zoteroif/content/assets/css/texmath.min.css">
+
+    <!-- highlight.js 代码块高亮 -->
+    <script src="chrome://zoteroif/content/assets/js/highlight.min.js"></script>
+    <!-- 辅助 highlight.js 高亮代码块 css/highlight -->
+    <link id="highlightStyle" rel="stylesheet" type="text/css" href="chrome://zoteroif/content/assets/css/highlight/github.min.css">
+    <!-- github markdown 风格，连同 highlight 一起优化代码块样式 css/highlight -->
+    <link rel="stylesheet" type="text/css" href="chrome://zoteroif/content/assets/css/highlight/github-markdown.min.css">
+
+    <script src="chrome://zoteroif/content/selectionDialog/preview.js"></script>
+    <script src="chrome://zotero/content/include.js"></script>
+
+    <style id="previewUIStyle"></style>
+</head>
+<body onload="init();">
+    <div id="preview-wrapper">
+        <div id="preview-container">
+            <div class="empty-hint">展开任务卡片后将在此显示预览</div>
+        </div>
+
+        <div id="scroll-to-bottom-btn">
+            <svg viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero/skin/zotero.css" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero-platform/content/zotero.css" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero/skin/scaffold.css" type="text/css"?>
+
+<?xml-stylesheet href="chrome://zoteroif/content/assets/css/style.css" type="text/css"?>
+
+<!DOCTYPE window SYSTEM "chrome://zotero/locale/zotero.dtd">
+<window xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+    title="重命名标签"
+    persist="width height screenX screenY"
+    windowtype="zoteroone-windowType-renameTag"
+    onload="methodsBody.init();">
+<dialog 
+    buttons="cancel,accept"
+    id="ZoteroOneDialog-renameTag">
+
+    <script>
+        Services.scriptloader.loadSubScript("chrome://zotero/content/include.js", this);
+        Services.scriptloader.loadSubScript("chrome://zotero/content/customElements.js", this);
+
+        Services.scriptloader.loadSubScript("chrome://zoteroif/content/selectionDialog/renameTag.js", this);
+    </script>
+
+    <linkset>
+        <html:link rel="localization" href="zoteroif_preferences.ftl"/>
+    </linkset>  
+
+    <vbox id="vboxContainer-elem" flex="1">
+        <hbox align="center" style="margin-bottom:8px;">
+            <div class="svg-container-enableannotationsvgtagsselect"></div>
+            <label id="zoteroif.renameTag.oldTag" value=""/>
+        </hbox>
+        <hbox align="center" style="margin-bottom:5px;">
+            <html:input type="text" id="zoteroif.renameTag.inputBox" size="28" style="flex: 1;"></html:input>
+        </hbox>
+    </vbox>
+</dialog>
+
+<keyset>
+	<key id="key_close" key="W" modifiers="accel" oncommand="window.close()"/>
+</keyset>
+</window>

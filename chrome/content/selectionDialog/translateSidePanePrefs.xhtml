@@ -1,0 +1,246 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero/skin/zotero.css" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero-platform/content/zotero.css" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero/skin/scaffold.css" type="text/css"?>
+
+<?xml-stylesheet href="chrome://zoteroif/content/assets/css/style.css" type="text/css"?>
+
+<!DOCTYPE window SYSTEM "chrome://zotero/locale/zotero.dtd">
+<window xmlns:html="http://www.w3.org/1999/xhtml"
+	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+	title="翻译侧边栏设置"
+	style="min-width: 380px;" 
+	persist="width height screenX screenY"
+	windowtype="zoteroone-windowType-translateSidePanePrefs"
+	onload="methodsBody.init();">
+<dialog 
+	buttons="accept"
+	id="ZoteroOneDialog-translateSidePanePrefs">
+
+	<script>
+		Services.scriptloader.loadSubScript("chrome://zotero/content/include.js", this);
+		Services.scriptloader.loadSubScript("chrome://zotero/content/customElements.js", this);
+
+		Services.scriptloader.loadSubScript("chrome://zoteroif/content/selectionDialog/translateSidePanePrefs.js", this);
+	</script>
+
+	<html:style>
+		.buttonIcon {
+            margin-left: 7px;
+            margin-right: 7px;
+            transition: transform 0.125s ease;
+		}
+        .buttonIcon:hover {
+            transform: scale(1.1);
+        }
+        .buttonIcon:not(:hover) {
+            transform: scale(1);
+        }
+
+		.areaButton {
+            transition: transform 0.125s ease;
+		}
+        .areaButton:hover {
+            transform: scale(1.1);
+        }
+        .areaButton:not(:hover) {
+            transform: scale(1);
+        }
+	</html:style>
+
+	<linkset>
+	    <html:link rel="localization" href="zoteroif_preferences.ftl"/>
+	</linkset>
+
+	    <vbox id="ZoteroIF-TranslateSidePanePrefs-container">
+	        <!-- <description style="white-space: pre-wrap; color: gray; font-size: 18px; font-weight: bold;">翻译侧边栏设置</description> -->
+
+			<description style="white-space: pre-wrap; color: #0091ff;margin-bottom: 10px; font-size: 15px; font-weight: bold;">▌基本设置</description>
+
+			<box flex="1">
+				<richlistbox id="richlistbox-elem" flex="1" style='padding-left: 5px;'>
+					<!-- <description style="white-space: pre-wrap; color: #0091ff; margin-top: 10px; margin-bottom: 10px; font-size: 15px; font-weight: bold;">▌常规</description> -->
+
+					<description style="white-space: pre-wrap; color: #fa553c; margin-top: 10px; margin-bottom: 10px; font-size: 14px; font-weight: bold;">▌外观</description>
+
+					<html:div class="two-columns">
+						<hbox align="center">
+							<label value="🔘 字号：" />
+							<menulist id="zotero-if-xul-translateSidePanePrefs-setFontSize" native="true" oncommand="methodsBody.setFontSize()">
+							<menupopup>
+								<menuitem label="14px"/>
+								<menuitem label="15px"/>
+								<menuitem label="16px"/>
+								<menuitem label="17px"/>
+								<menuitem label="18px"/>
+								<menuitem label="19px"/>
+								<menuitem label="20px"/>
+								<menuitem label="21px"/>
+								<menuitem label="22px"/>
+								<menuitem label="23px"/>
+								<menuitem label="24px"/>
+							</menupopup>
+							</menulist>
+						</hbox>
+
+						<hbox align="center">
+							<label value="🔘 行高：" />
+							<menulist id="zotero-if-xul-translateSidePanePrefs-setLineHeight" native="true" oncommand="methodsBody.setLineHeight()">
+							<menupopup>
+								<menuitem label="1.5"/>
+								<menuitem label="2"/>
+								<menuitem label="2.5"/>
+							</menupopup>
+							</menulist>
+						</hbox>
+					</html:div>
+
+					<html:div class="two-columns">
+						<hbox align="center">
+							<checkbox id="zotero-if-xul-translateEnableCustomUIHeight" native="true" checked="false" oncommand="methodsBody.updateUIElementHeight();"/>
+							<label value="源文区高度:"/>
+							<html:input id="zotero-if-xul-translateCustomSourceTextAreaHeight" size="5" oninput='methodsBody.updateUIElementHeight();'></html:input>
+						</hbox>
+
+						<hbox align="center">
+							<label value="译文区高度:"/>
+							<html:input id="zotero-if-xul-translateCustomResponseAreaHeight" size="5" oninput='methodsBody.updateUIElementHeight();'></html:input>
+
+							<div class="buttonIcon svg-container-reset"
+								tooltiptext="恢复默认" 
+								onclick='methodsBody.resetUIElementHeight();'>
+							</div>
+						</hbox>
+					</html:div>
+
+					<description style="white-space: pre-wrap; color: #fa553c; margin-top: 10px; margin-bottom: 10px; font-size: 14px; font-weight: bold;">▌其他</description>
+
+					<html:div class="two-columns">
+						<hbox align="center">
+							<hbox align="center">
+								<checkbox id="zotero-if-xul-translateSidePanePrefs-enableTransCrossShortcuts" native="true" label='长按 Option/Alt 拼接' checked="true" oncommand="methodsBody.enableTransCrossShortcuts()" />
+							</hbox>
+						</hbox>
+
+						<hbox align="center">
+							<div id="source-icon"
+								class="svg-container-raw"
+								style="width: 20px;margin-left: 8px;">
+							</div>
+							<div id="exchange-icon"
+								class="areaButton svg-container-exchange"
+								style="height: 18px;margin-left: 15px;margin-right: 15px;"
+								tooltiptext="交换源文/译文区" 
+								onclick='methodsBody.exchangeSourceResponseArea();'>
+							</div>
+							<div id="response-icon"
+								class="svg-container-result"
+								style="width: 20px;">
+							</div>
+						</hbox>
+
+					</html:div>
+
+				</richlistbox>
+			</box>
+
+	        <description style="white-space: pre-wrap; color: #0091ff; margin-top: 10px; margin-bottom: 10px; font-size: 15px; font-weight: bold;">▌生词</description>
+
+			<box flex="1">
+				<richlistbox id="richlistbox-elem" flex="1" style='padding-left: 5px;'>
+
+					<description style="white-space: pre-wrap; color: #fa553c; margin-top: 10px; margin-bottom: 10px; font-size: 14px; font-weight: bold;">▌生词复习</description>
+
+					<html:div class="two-columns">
+						<hbox align="center">
+							<checkbox id="zotero-if-xul-translateSidePanePrefs-vocabularyReview-give-interpretation" native="true" label='自动显示释义' checked="false" oncommand="methodsBody.setInterpretationMode()"/>
+						</hbox>
+
+						<hbox align="center">
+							<label value="🔘 复习范围：" />
+							<menulist id="zotero-if-xul-translateSidePanePrefs-vocabularyReviewContent" native="true" oncommand="methodsBody.vocabularyReviewContent()">
+							<menupopup>
+								<menuitem label="仅单词"/>
+								<menuitem label="仅短语"/>
+								<menuitem label="仅例句"/>
+								<menuitem label="仅短语和例句"/>
+								<menuitem label="全部"/>
+							</menupopup>
+							</menulist>
+						</hbox>
+					</html:div>
+
+					<description style="white-space: pre-wrap; color: #fa553c; margin-top: 10px; margin-bottom: 10px; font-size: 14px; font-weight: bold;">▌生词导出</description>
+
+					<html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
+
+						<hbox align="center">
+							<label value="⓵"></label>
+							<button label="➡️ 导出生词（适用扇贝等）" oncommand="Zotero.ZoteroIF.exportVocabularyTXT(document.getElementById('shanbei-words-export-filter').label);"/>
+						</hbox>
+
+						<menulist id="shanbei-words-export-filter" native="true">
+						<menupopup>
+							<menuitem label="仅单词"/>
+							<menuitem label="仅短语"/>
+							<menuitem label="仅例句"/>
+							<menuitem label="仅短语和例句"/>
+							<menuitem label="全部"/>
+						</menupopup>
+						</menulist>
+
+						<label value="教程" is="zotero-text-link" href="https://mp.weixin.qq.com/s/feos1Pf7N8dkp5gQq6w6rA"></label>
+					</html:div>
+
+
+					<html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
+
+						<hbox align="center">
+							<label value="⓶"></label>
+							<button label="➡️ 导出生词（适用 Anki）" oncommand="Zotero.ZoteroIF.exportVocabulary2Anki(document.getElementById('anki-words-export-filter').label);"/>
+						</hbox>
+
+						<menulist id="anki-words-export-filter" native="true">
+						<menupopup>
+							<menuitem label="仅单词"/>
+							<menuitem label="仅短语"/>
+							<menuitem label="仅例句"/>
+							<menuitem label="仅短语和例句"/>
+							<menuitem label="全部"/>
+						</menupopup>
+						</menulist>
+
+						<label value="教程" is="zotero-text-link" href="https://i1z03z7kgf9.feishu.cn/wiki/XS8xwd9qvitja4kuTaecwdPAnqg?from=from_copylink"></label>
+					</html:div>
+				
+					<html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
+
+						<hbox align="center">
+							<label value="⓷"></label>
+							<button label="➡️ 同步生词至欧路词典" oncommand="Zotero.ZoteroIF.exportVocabulary2Eudic(document.getElementById('eudic-words-export-filter').label);"/>
+						</hbox>
+
+						<menulist id="eudic-words-export-filter" native="true">
+						<menupopup>
+							<menuitem label="仅单词"/>
+							<menuitem label="仅短语"/>
+							<menuitem label="仅例句"/>
+							<menuitem label="仅短语和例句"/>
+							<menuitem label="全部"/>
+						</menupopup>
+						</menulist>
+
+						<label value="教程" is="zotero-text-link" href="https://mp.weixin.qq.com/s/1U8oumnRSbAGeOOJX8Rx5w"></label>
+					</html:div>
+
+				</richlistbox>
+			</box>
+	    </vbox>
+</dialog>
+
+<keyset>
+	<key id="key_close" key="W" modifiers="accel" oncommand="window.close()"/>
+</keyset>
+</window>

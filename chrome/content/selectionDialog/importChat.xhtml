@@ -1,0 +1,101 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero/skin/zotero.css" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero-platform/content/zotero.css" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero/skin/scaffold.css" type="text/css"?>
+
+<!DOCTYPE window SYSTEM "chrome://zotero/locale/zotero.dtd">
+<window xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+    title="导入外部 AI 对话"
+    style="min-width: 550px;"
+    persist="width height screenX screenY"
+    windowtype="zoteroone-windowType-importChat"
+    onload="methodsBody.init();">
+<dialog 
+    buttons="cancel,accept"
+	buttonlabelaccept="确认导入"
+    id="zoteroone-dialog-importChat">
+
+    <script>
+        Services.scriptloader.loadSubScript("chrome://zotero/content/include.js", this);
+        Services.scriptloader.loadSubScript("chrome://zoteroif/content/selectionDialog/importChat.js", this);
+        Services.scriptloader.loadSubScript("chrome://zotero/content/customElements.js", this);
+    </script>
+
+    <linkset>
+        <html:link rel="localization" href="zoteroif_preferences.ftl"/>
+    </linkset>  
+
+    <vbox id="vboxContainer-elem" flex="1">
+
+        <!-- * * * * * * * * * * * * * 用户问题 * * * * * * * * * * * * * -->
+
+        <hbox align="center" style="margin-bottom:10px;">
+            <div class="svg-container-avatar_user"></div>
+            <label value="请在下方输入【用户问题】："/>
+        </hbox>
+
+        <box flex="1" class="textarea-box">
+            <html:textarea
+                    id="textarea-userQuestion"
+                    class="plain"
+                    multiline="true"
+                    style="width:100%;height:120px;font-size: 13px;padding: 5px;"
+                    onkeydown="methodsBody.checkKeyEnter(event);"
+            />
+        </box>
+
+        <!-- * * * * * * * * * * * * * AI 回复 * * * * * * * * * * * * * -->
+
+        <hbox align="center" style="margin-top:10px;margin-bottom:10px;">
+            <div class="svg-container-gptviewReaderSidepane"></div>
+            <label value="请在下方输入【AI 回复】（Markdown）："/>
+        </hbox>
+
+        <box flex="1" class="textarea-box">
+            <html:textarea
+                    id="textarea-aiResponse"
+                    class="plain"
+                    multiline="true"
+                    style="width:100%;height:200px;font-size: 13px;padding: 5px;"
+                    onkeydown="methodsBody.checkKeyEnter(event);"
+            />
+        </box>
+
+        <!-- * * * * * * * * * * * * * 服务名 * * * * * * * * * * * * * -->
+
+        <hbox align="center" style="margin-top:10px;margin-bottom:10px;">
+            <div class="svg-container-paperai"></div>
+            <label value="请在下方输入【模型服务商名】（选填）："/>
+        </hbox>
+
+        <html:input type="text" 
+                    id="inputBox-serviceName"
+                    placeholder="选填" 
+                    style="flex: 1;padding-left: 4px;"
+                    onkeydown="methodsBody.checkKeyEnter(event);"
+        ></html:input>
+
+        <!-- * * * * * * * * * * * * * 模型名 * * * * * * * * * * * * * -->
+
+        <hbox align="center" style="margin-top:10px;margin-bottom:10px;">
+            <div class="svg-container-paperai"></div>
+            <label value="请在下方输入【模型名】（选填）："/>
+        </hbox>
+
+        <html:input type="text" 
+                    id="inputBox-modelName"
+                    placeholder="选填" 
+                    style="flex: 1;padding-left: 4px;"
+                    onkeydown="methodsBody.checkKeyEnter(event);"
+        ></html:input>
+
+    </vbox>
+</dialog>
+
+<keyset>
+	<key id="key_close" key="W" modifiers="accel" oncommand="window.close()"/>
+</keyset>
+</window>

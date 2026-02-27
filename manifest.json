@@ -1,0 +1,21 @@
+{
+  "manifest_version": 2,
+  "name": "AI4paper",
+  "version": "6.7.6.5",
+  "release_date": "2026-02-25",
+  "description": "让天下没有难读的paper，让天下没有难做的科研",
+  "homepage_url": "https://github.com/wdcpclover",
+  "author": "cpc",
+  "icons": {
+    "48": "chrome/content/icons/logo.png",
+    "96": "chrome/content/icons/logo.png"
+  },
+  "applications": {
+    "zotero": {
+      "id": "zoteroif-deobf@cpc.dev",
+      "update_url": "https://raw.githubusercontent.com/MGaMG/MGM/main/getUpdate.json",
+      "strict_min_version": "6.999",
+      "strict_max_version": "9.9.*"
+    }
+  }
+}

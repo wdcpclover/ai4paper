@@ -1,0 +1,301 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/"?>
+<?xml-stylesheet href="chrome://zotero/skin/zotero.css" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero/skin/overlay.css" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero-platform/content/overlay.css"?>
+<?xml-stylesheet href="chrome://zotero-platform/content/zotero.css"?>
+
+<!DOCTYPE window [
+	<!ENTITY % zoteroDTD SYSTEM "chrome://zotero/locale/zotero.dtd">
+	%zoteroDTD;
+	<!ENTITY % searchboxDTD SYSTEM "chrome://zotero/locale/searchbox.dtd">
+	%searchboxDTD;
+]>
+
+<window
+	id="zotero-advanced-search-dialog"
+	title="导入注释（高级搜索模式）"
+	orient="vertical"
+	persist="screenX screenY width height"
+	onload="ZoteroAdvancedSearch.onLoad();importAnnotationsAdvanced.init()"
+	onunload="ZoteroAdvancedSearch.onUnload();"
+	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+	xmlns:html="http://www.w3.org/1999/xhtml"
+	windowtype="zoterif:importAnnotationsAdvancedSearch"
+	style="display: flex;">
+
+	<script>
+		Services.scriptloader.loadSubScript("chrome://zotero/content/include.js", this);
+		Services.scriptloader.loadSubScript("chrome://zotero/content/customElements.js", this);
+		Services.scriptloader.loadSubScript("chrome://zotero/content/advancedSearch.js", this);
+		Services.scriptloader.loadSubScript("chrome://zoteroif/content/selectionDialog/importAnnotationsAdvanced.js", this);
+
+	    /**
+	     * 重置搜索
+	     * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+	     */
+		function clearConditions() {
+
+			// 恢复默认检索式
+			let _searchBox = document.getElementById('zotero-search-box');
+			let s = new Zotero.Search();
+			// Don't clear the selected library
+			s.libraryID = _searchBox.search.libraryID;
+			s.addCondition('tag', 'contains', '');
+			_searchBox.search = s;
+			_searchBox.active = false;
+
+			// 清空搜索结果
+			let collectionTreeRow = {
+				view: {},
+				ref: _searchBox.search,
+				visibilityGroup: 'default',
+				isSearchMode: () => true,
+				getItems: async () => [],
+				isLibrary: () => false,
+				isCollection: () => false,
+				isSearch: () => true,
+				isPublications: () => false,
+				isDuplicates: () => false,
+				isFeed: () => false,
+				isFeeds: () => false,
+				isFeedsOrFeed: () => false,
+				isShare: () => false,
+				isTrash: () => false
+			};
+
+			ZoteroAdvancedSearch.itemsView.changeCollectionTreeRow(collectionTreeRow);
+
+			// 清空已选择条目
+			Zotero.ZoteroIF._dataOut_selectedItemsAdvancedSearch = [];
+		}
+
+	    /**
+	     * 取消选择，并关闭窗口
+	     * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+	     */
+		function cancelSelection() {
+			// 清空已选择条目
+			Zotero.ZoteroIF._dataOut_selectedItemsAdvancedSearch = [];
+
+			window.close();
+		}
+
+	    /**
+	     * 恢复历史
+	     * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+	     */
+		function recoveryHistory (){
+			if (!Zotero.ZoteroIF._dataOut_lastSelectedItemsAdvancedSearch) {
+				Zotero.ZoteroIF.showProgressWindow(2000, "恢复历史记录", `🙅 历史记录为空！`);
+				return;
+			}
+			
+			Zotero.ZoteroIF.showProgressWindow(2000, "恢复历史记录", `✅ 已恢复历史记录！`);
+			Zotero.ZoteroIF._dataOut_selectedItemsAdvancedSearch = Zotero.ZoteroIF._dataOut_lastSelectedItemsAdvancedSearch;
+			window.close();
+		}
+
+	    /**
+	     * 处理条目选择
+	     * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+	     */
+		async function handleSelectedItems (){
+			Zotero.ZoteroIF._dataOut_selectedItemsAdvancedSearch = [];
+
+			let itemsID = ZoteroAdvancedSearch.itemsView.getSelectedItems(true);
+			// 含注释的条目数量
+			let num = 0;
+			for (let itemID of itemsID) {
+				let item = Zotero.Items.get(itemID);
+				// 如果选择的是附件条目
+				if (item.isAttachment()) {
+					// 仅考虑这三种附件类型
+					if (['application/pdf', 'text/html', 'application/epub+zip'].includes(item.attachmentContentType)) {
+						// 此处不能用 与，否则 dialog 解析失败
+		                if (item.attachmentContentType === 'text/html') {
+		                	if (item.attachmentLinkMode === 3) {
+		                		continue;
+		                	}
+		                }
+						let annotationItems = await item.getAnnotations();
+						if (annotationItems.length) {
+							if (!Zotero.ZoteroIF._dataOut_selectedItemsAdvancedSearch.includes(item)) {
+								num++;
+								Zotero.ZoteroIF._dataOut_selectedItemsAdvancedSearch.push(item);
+							}
+						}
+					}
+				}
+				// 如果选择的是父条目
+				else if (item.isRegularItem()) {
+					// item = await item.getBestAttachment();
+					let attachmentIDs = item.getAttachments();
+					// 无附件，则跳过
+					if (!attachmentIDs.length) {
+						continue;
+					}
+					// 遍历选中条目的所有附件
+			        for (let id of attachmentIDs) {
+			            item = Zotero.Items.get(id);
+			            if (['application/pdf', 'text/html', 'application/epub+zip'].includes(item.attachmentContentType)) {
+							// 此处不能用 与，否则 dialog 解析失败
+			                if (item.attachmentContentType === 'text/html') {
+			                	if (item.attachmentLinkMode === 3) {
+			                		continue;
+			                	}
+			                }
+							let annotationItems = await item.getAnnotations();
+							if (annotationItems.length) {
+								if (!Zotero.ZoteroIF._dataOut_selectedItemsAdvancedSearch.includes(item)) {
+									num++;
+									Zotero.ZoteroIF._dataOut_selectedItemsAdvancedSearch.push(item);
+								}
+							}
+			            }
+			         }
+				}
+			}
+
+			if (itemsID) {
+				let emoji = num ? "✅" : "❌";
+				Zotero.ZoteroIF.showProgressWindow(4000, "导入注释（高级搜索）", `${emoji} 您选择了【${itemsID.length}】个条目，其中【${num}】个条目包含注释。`);
+				// 如果有包含注释的条目，则关闭窗口，继续下一步处理；否则保留窗口，继续选择条目
+				if (num) {
+					window.close();
+				}
+			}
+		}
+
+	    /**
+	     * 统计
+	     * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+	     */
+		async function computeSelectedItems (){
+
+			let itemsID = ZoteroAdvancedSearch.itemsView.getSelectedItems(true);
+			// 含注释的条目数量
+			let num = 0;
+			for (let itemID of itemsID) {
+				let item = Zotero.Items.get(itemID);
+				// 如果选择的是附件条目
+				if (item.isAttachment()) {
+					// 仅考虑这三种附件类型
+					if (['application/pdf', 'text/html', 'application/epub+zip'].includes(item.attachmentContentType)) {
+		                if (item.attachmentContentType === 'text/html') {
+		                	if (item.attachmentLinkMode === 3) {
+		                		continue;
+		                	}
+		                }
+						let annotationItems = await item.getAnnotations();
+						if (annotationItems.length) {
+							if (!Zotero.ZoteroIF._dataOut_selectedItemsAdvancedSearch.includes(item)) {
+								num++;
+							}
+						}
+					}
+				}
+				// 如果选择的是父条目
+				else if (item.isRegularItem()) {
+					// item = await item.getBestAttachment();
+					let attachmentIDs = item.getAttachments();
+					// 无附件，则跳过
+					if (!attachmentIDs.length) {
+						continue;
+					}
+					// 遍历选中条目的所有附件
+			        for (let id of attachmentIDs) {
+			            item = Zotero.Items.get(id);
+			            if (['application/pdf', 'text/html', 'application/epub+zip'].includes(item.attachmentContentType)) {
+			                if (item.attachmentContentType === 'text/html') {
+			                	if (item.attachmentLinkMode === 3) {
+			                		continue;
+			                	}
+			                }
+							let annotationItems = await item.getAnnotations();
+							if (annotationItems.length) {
+								if (!Zotero.ZoteroIF._dataOut_selectedItemsAdvancedSearch.includes(item)) {
+									num++;
+								}
+							}
+			            }
+			         }
+				}
+			}
+
+			if (itemsID) {
+				let emoji = num ? "✅" : "❌";
+				Zotero.ZoteroIF.showProgressWindow(4000, "导入注释统计", `${emoji} 您选择了【${itemsID.length}】个条目，其中【${num}】个条目包含注释。`);
+			}
+		}
+
+	    /**
+	     * 文库中显示
+	     * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+	     */
+		async function showInLibrary (){
+
+			let itemsID = ZoteroAdvancedSearch.itemsView.getSelectedItems(true);
+			if (!itemsID.length) {
+				window.alert("请至少选择一个条目！");
+				return;
+			}
+			// 仅显示一个条目
+			let itemID = itemsID[0];
+            let item = Zotero.Items.get(itemID);
+            if (item.parentItemID) {
+                itemID = item.parentItemID;
+                item = Zotero.Items.get(itemID);
+            }
+            // 先关闭模态窗口，后面操作才能执行。
+            window.close();
+
+            try {
+                let collectionID = item.getCollections()[0];
+                Zotero.getMainWindow().ZoteroPane_Local.collectionsView.selectCollection(collectionID);
+                Zotero.getMainWindow().Zotero_Tabs.select('zotero-pane');
+                await Zotero.Promise.delay(2);
+                let response = await Zotero.getMainWindow().ZoteroPane_Local.selectItem(itemID);
+                if (response === false){
+                    window.alert('未查询到该文献，可能已经被您删除！');
+                }
+            } catch (err) {
+                return false;
+            }
+		}
+
+	</script>
+
+	<popupset>
+		<panel is="autocomplete-richlistbox-popup"
+			id="search-autocomplete-popup"
+			type="autocomplete-richlistbox"
+			noautofocus="true"/>
+	</popupset>
+	
+	<vbox id="zotero-search-box-container" flex="1">
+		<vbox id="zotero-search-box-controls">
+			<zoterosearch id="zotero-search-box" oncommand="if (this.active) { ZoteroAdvancedSearch.search(); }" flex="1"/>
+			
+			<hbox id="zotero-search-buttons">
+				<button id="search-button" label="&zotero.search.search;" default="true" oncommand="ZoteroAdvancedSearch.search()"/>
+				<button label="重置检索" tooltiptext="重置检索" oncommand="clearConditions()"/>
+				<button id="zotero-search-save" label="&zotero.search.saveSearch;" oncommand="ZoteroAdvancedSearch.save()"/>
+
+				<button label="导入选中的条目" tooltiptext="导入选中的条目" style="margin-left: 35px" oncommand="handleSelectedItems();"/>
+				<button label="统计" tooltiptext="统计" style="margin-left: 10px" oncommand="computeSelectedItems();"/>
+				<button label="恢复历史记录" tooltiptext="恢复历史记录" style="margin-left: 10px" oncommand="recoveryHistory();"/>
+				<button label="在文库中显示" tooltiptext="在文库中显示" style="margin-left: 10px" oncommand="showInLibrary();"/>
+				
+				<button label="取消" tooltiptext="取消" style="margin-left: 10px" oncommand="cancelSelection();"/>
+			</hbox>
+		</vbox>
+		<hbox class="virtualized-table-container" flex="1">
+			<html:div id="zotero-items-tree"/>
+		</hbox>
+	</vbox>
+	
+	<keyset>
+		<key id="key_close" key="W" modifiers="accel" oncommand="window.close()"/>
+	</keyset>
+</window>

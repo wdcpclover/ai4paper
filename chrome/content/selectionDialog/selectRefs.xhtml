@@ -1,0 +1,230 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero/skin/zotero.css" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero-platform/content/zotero.css" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero/skin/scaffold.css" type="text/css"?>
+
+<!DOCTYPE window SYSTEM "chrome://zotero/locale/zotero.dtd">
+<window xmlns:html="http://www.w3.org/1999/xhtml"
+	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+	id="zoteroone-window-selectRefs"
+	title="抓取参考文献"
+	style="min-width: 1000px; min-height: 650px;" 
+	persist="width height screenX screenY"
+	windowtype="zoteroone-windowType-selectRefs"
+	onload="methodsBody.init();">
+<dialog 
+	buttons="cancel,accept"
+	id="zoteroone-dialog-selectRefs">
+
+	<script>
+		Services.scriptloader.loadSubScript("chrome://zotero/content/include.js", this);
+		Services.scriptloader.loadSubScript("chrome://zotero/content/customElements.js", this);
+
+		Services.scriptloader.loadSubScript("chrome://zoteroif/content/selectionDialog/selectRefs.js", this);
+	</script>
+
+	<html:style>
+
+		.zoteroone-hbox-tiny-gap {
+			flex-shrink: 0;
+			gap: 5px;
+		}
+
+        .zoteroone-hbox-small-gap {
+            flex-shrink: 0;
+            gap: 8px;
+        }
+
+        .zoteroone-hbox-medium-gap {
+            flex-shrink: 0;
+            gap: 12px;
+        }
+
+        .zoteroone-hbox-large-gap {
+            flex-shrink: 0;
+            gap: 30px;
+        }
+
+		<!-- 进度环 -->
+
+		.progress-ring-container {
+			width: 26px;
+			height: 26px;
+			position: relative;
+		}
+
+		.progress-ring-svg {
+			width: 100%;
+			height: 100%;
+			transform: rotate(-90deg);
+		}
+
+		.progress-ring-bg {
+			stroke: #eee;
+			stroke-width: 6;
+			fill: transparent;
+		}
+		
+		.progress-ring {
+			stroke: #1de710;
+			stroke-width: 6;
+			fill: transparent;
+			stroke-linecap: round;
+		}
+		
+		.progress-ring.animate {
+			transition: stroke-dashoffset 0.3s ease;
+		}
+
+		.checkmark-svg {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			pointer-events: none;
+		}
+		
+		.checkmark {
+			stroke: #52c41a;
+			stroke-width: 6;
+			fill: none;
+			stroke-linecap: round;
+			stroke-linejoin: round;
+			opacity: 0;
+			stroke-dasharray: 60;
+			stroke-dashoffset: 60;
+			transition: opacity 0.3s ease, stroke-dashoffset 0.5s ease;
+		}
+		
+		.checkmark.show {
+			opacity: 1;
+			stroke-dashoffset: 0;
+		}
+
+		<!-- AI 按钮 -->
+
+		.aiButton {
+			width: 20px; 
+			height: 20px;
+			margin-left: 20px;
+			transition: transform 0.125s ease;
+		}
+		.aiButton:hover {
+			transform: scale(1.15);
+		}
+		.aiButton:not(:hover) {
+				transform: scale(1);
+		}
+		
+	</html:style>
+
+	<linkset>
+	    <html:link rel="localization" href="zoteroif_preferences.ftl"/>
+	</linkset>	
+
+	<vbox id="vboxContainer-elem" flex="1">
+        <div class="container" style="display: flex;justify-content: space-between;align-items: center;">
+			<hbox align="center">
+				<div class="svg-container-enablesvgrefs"
+					onclick="if (event.button == 2) return;methodsBody.scrollToTopOrBottom(true);"
+					oncontextmenu="methodsBody.scrollToTopOrBottom();">
+				</div>
+				<label><html:h3 style="font-size: 13px;" id="zotero-selectRefs-intro">选择要导入的参考文献</html:h3></label>
+	        </hbox>
+	        
+            <hbox align="center" class="zoteroone-hbox-medium-gap">
+
+				<hbox align="center" class="zoteroone-hbox-small-gap">
+					<html:description id="progress-label" style="color: #8a8a8a;font-size: 13px;"></html:description>
+					<!-- <label><html:h3 style="font-size: 13px;color: #8a8a8a;" id="progress-label"></html:h3></label> -->
+
+					<div class="progress-ring-container" onclick="if (event.button == 2) return;methodsBody.scrollToPosition();" oncontextmenu="methodsBody.scrollToTopOrBottom();">
+						<svg class="progress-ring-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+							<!-- 背景轨道 -->
+							<circle class="progress-ring-bg" cx="50" cy="50" r="45" />
+							<!-- 动态进度环 -->
+							<circle class="progress-ring" cx="50" cy="50" r="45" />
+						</svg>
+
+						<svg class="checkmark-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+							<!-- 修改了路径，让右边那一笔更长 -->
+							<path class="checkmark" d="M 25 50 L 40 65 L 75 30"></path>
+						</svg>
+					</div>
+				</hbox>
+
+
+
+				<hbox align="center" class="zoteroone-hbox-large-gap">
+					<hbox align="center" class="zoteroone-hbox-medium-gap">
+						<button id="adjustWindowWidth-button" label="最大宽度" oncommand='methodsBody.maxWindowWidth();'/>
+						<button id="adjustWindowWidth-button" label="合适宽度" oncommand='methodsBody.adjustWindowWidthPercent();'/>
+					</hbox>
+
+					<hbox align="center" class="zoteroone-hbox-small-gap">
+						<label><html:h3 style="font-size: 13px;color: #fa553c;" id="zotero-search-intro"></html:h3></label>
+						<button id="back2All-button" label="返回全部" style="display: none;" oncommand="methodsBody.all()"/>
+					</hbox>
+				</hbox>
+
+				<hbox align="center" class="zoteroone-hbox-tiny-gap">
+					<html:input type="text" id="search-inputBox" size="15" placeholder="" onkeydown="methodsBody.checkKeyEnter(event);"></html:input>
+					<div class="svg-container-search" 
+						tooltiptext="点击搜索" 
+						onclick="methodsBody.search();">
+					</div>
+				</hbox>
+            </hbox>
+        </div>
+
+		<box flex="1">
+			<richlistbox id="richlistbox-elem" flex="1" style="width: 800px;height:500px;"></richlistbox>
+		</box>
+
+		<hbox align="center" class="zoteroone-hbox-small-gap" style="margin-top: 2px;">
+
+			<button label="全选" oncommand="methodsBody.selectAll()"/>
+			<button label="取消全选" oncommand="methodsBody.selectAll(true)"/>
+
+			<div class="svg-container-line"></div>
+
+			<checkbox id="zoteroif.retrieverefsSelectCollection" 
+					  label='手动选择存放文件夹' 
+					  checked="false" 
+					  native="true" 
+					  oncommand="methodsBody.updatePrefs();"
+			/>
+			<checkbox id="zoteroif.retrieverefsLocateinCollection" 
+					  label='导入后显示条目' 
+					  checked="false" 
+					  native="true" 
+					  oncommand="methodsBody.updatePrefs();"
+			/>
+			<checkbox id="zoteroif.retrieverefsAbstractTranslationBehind" 
+					  label='摘要翻译在后' 
+					  checked="false" 
+					  native="true" 
+					  oncommand="methodsBody.updatePrefs();"
+			/>
+
+			<div class="svg-container-line"></div>
+
+			<hbox align="center">
+				<label value="🔘 IF 阈值："/>
+				<html:input type="text" id="zoteroif.retrieverefsIFlimit" size="1" oninput="methodsBody.onIFLimitChange();"></html:input>
+				<div class="aiButton svg-container-ai" 
+					tooltiptext="AI 分析参考文献" 
+					onclick="methodsBody.aiAnalysis();">
+				</div>
+			</hbox>
+		</hbox>
+	</vbox>
+</dialog>
+
+<keyset>
+	<key id="key_close" key="W" modifiers="accel" oncommand="window.close()"/>
+</keyset>
+</window>

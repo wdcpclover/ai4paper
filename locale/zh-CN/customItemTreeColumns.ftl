@@ -1,0 +1,13 @@
+zoteroif-customItemTreeColumns-title-label = 🔘 主界面列视图
+zoteroif-customItemTreeColumns-shortTitle = 
+    .label = 短标题
+zoteroif-customItemTreeColumns-archive = 
+    .label = 档案
+zoteroif-customItemTreeColumns-archiveLocation = 
+    .label = 存档位置
+zoteroif-customItemTreeColumns-libraryCatalog = 
+    .label = 文库编目
+zoteroif-customItemTreeColumns-callNumber = 
+    .label = 索书号
+zoteroif-customItemTreeColumns-rights = 
+    .label = 版权

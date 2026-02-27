@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero/skin/zotero.css" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero-platform/content/zotero.css" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero/skin/scaffold.css" type="text/css"?>
+
+<?xml-stylesheet href="chrome://zoteroif/content/assets/css/style.css" type="text/css"?>
+
+<!DOCTYPE window SYSTEM "chrome://zotero/locale/zotero.dtd">
+<window xmlns:html="http://www.w3.org/1999/xhtml"
+	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+	title=""
+	persist="width height screenX screenY"
+	windowtype="zoteroone-windowType-selectBackGroundColor"
+	onload="methodsBody.init();">
+<dialog 
+	buttons="accept"
+	id="ZoteroOneDialog-selectBackGroundColor">
+
+	<script>
+		Services.scriptloader.loadSubScript("chrome://zotero/content/include.js", this);
+		Services.scriptloader.loadSubScript("chrome://zotero/content/customElements.js", this);
+
+		Services.scriptloader.loadSubScript("chrome://zoteroif/content/selectionDialog/selectBackGroundColor.js", this);
+	</script>
+
+	<html:style>
+		.XUL-Button {
+			margin-right: 10px;
+		}
+
+		#backgroundcolor-style radio {
+			margin-bottom: 8px;
+		}
+	</html:style>
+
+	<linkset>
+	    <html:link rel="localization" href="zoteroif_preferences.ftl"/>
+	</linkset>
+
+        <vbox id="vboxContainer-elem" flex="1">
+            <hbox align="center" style="margin-top:5px;">
+				<div class="svg-container-color" style="transform: scale(0.8);"></div>
+            	<label value="AI4paper 护眼色："/>
+            </hbox>
+
+            <hbox align="center" style="margin-top:10px;">
+                <radiogroup id="backgroundcolor-style" oncommand="methodsBody.previewSelectedBackGroundColor();">
+                    <radio class="color-option" label="无" value="default"/>
+                    <radio class="color-option" label="豆沙绿" value="mungbean_green"/>
+                    <radio class="color-option" label="抹茶绿" value="matcha_green"/>
+                    <radio class="color-option" label="青草绿" value="grass_green"/>
+                    <radio class="color-option" label="杏仁黄" value="almond_yellow"/>
+                    <radio class="color-option" label="秋叶褐" value="autumnleaf_brown"/>
+                    <radio class="color-option" label="胭脂红" value="crimson_red"/>
+                    <radio class="color-option" label="海天蓝" value="ocean_blue"/>
+                    <radio class="color-option" label="葛巾紫" value="gauze_purple"/>
+                    <radio class="color-option" label="极光灰" value="aurora_grey"/>
+                    <radio class="color-option" label="象牙白" value="ivory_white"/>
+                </radiogroup>
+            </hbox>
+
+            <hbox align="center" style="margin-top:10px;">
+				<div class="svg-container-zoteroColorSchemeToolBarButton" style="transform: scale(0.8);"></div>
+				<label value="Zotero 主题："/>
+            </hbox>
+
+	        <hbox align="center" style="margin-top:10px;margin-bottom:15px;">
+				<radiogroup orient="horizontal" id="zotero-color-scheme" oncommand="methodsBody.setZoteroColorScheme();">
+					<radio label="跟随系统" value="2"/>
+					<radio label="浅色模式" value="1"/>
+					<radio label="深色模式" value="0"/>
+				</radiogroup>
+	        </hbox>
+        </vbox>
+</dialog>
+
+<keyset>
+	<key id="key_close" key="W" modifiers="accel" oncommand="window.close()"/>
+</keyset>
+</window>

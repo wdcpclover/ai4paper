@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero/skin/zotero.css" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero-platform/content/zotero.css" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero/skin/scaffold.css" type="text/css"?>
+
+<!DOCTYPE window SYSTEM "chrome://zotero/locale/zotero.dtd">
+<window xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+    title="导入外部【AI 文献解读】笔记"
+    style="min-width: 550px;"
+    persist="width height screenX screenY"
+    windowtype="zoteroone-windowType-importAIReading"
+    onload="methodsBody.init();">
+<dialog 
+    buttons="cancel,accept"
+	buttonlabelaccept="追加至【文献解读】笔记附件"
+    id="zoteroone-dialog-importAIReading">
+
+    <script>
+        Services.scriptloader.loadSubScript("chrome://zotero/content/include.js", this);
+        Services.scriptloader.loadSubScript("chrome://zoteroif/content/selectionDialog/importAIReading.js", this);
+        Services.scriptloader.loadSubScript("chrome://zotero/content/customElements.js", this);
+    </script>
+
+    <linkset>
+        <html:link rel="localization" href="zoteroif_preferences.ftl"/>
+    </linkset>  
+
+    <vbox id="vboxContainer-elem" flex="1">
+        <hbox align="center" style="margin-bottom:10px;">
+            <div class="svg-container-importAIReading"></div>
+            <label value="请在下方粘贴 Markdown 文本："/>
+        </hbox>
+
+        <box flex="1" class="textarea-box">
+            <html:textarea
+                    id="textarea-markdownContent"
+                    class="plain"
+                    multiline="true"
+                    style="width:100%;height:300px;font-size: 13px;padding: 5px;"
+                    onkeydown="methodsBody.checkKeyEnter(event);"
+            />
+        </box>
+
+        <hbox align="center" class="zoteroone-hbox-small-gap" style="margin-top:10px;">
+            <button label="创建为【文献解读】笔记附件" oncommand="methodsBody.acceptSelection(false);"/>
+        </hbox>
+
+    </vbox>
+</dialog>
+
+<keyset>
+	<key id="key_close" key="W" modifiers="accel" oncommand="window.close()"/>
+</keyset>
+</window>

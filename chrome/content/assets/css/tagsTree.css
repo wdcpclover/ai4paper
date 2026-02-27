@@ -1,0 +1,26 @@
+  ul {
+    list-style-type: none;
+    padding-left: 20px;
+  }
+  ul li {
+    cursor: pointer;
+    padding-left: 20px;
+  }
+  ul li::before {
+    content: ""; /* 默认的折叠状态箭头 */
+  }
+/*  ul li.expanded::before {
+    content: "▶ ";
+  }*/
+  ul li .title::before {
+    content: "▶ "; /* 展开状态的箭头 */
+    color: #0098ff;
+  }
+  ul li .title.expanded::before {
+    content: "▼ "; /* 展开状态的箭头 */
+    color: #0098ff;
+  }
+  ul li .title.noChild::before {
+    content: "# "; /* 展开状态的箭头 */
+    color: #ff7e02;
+  }

@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero/skin/zotero.css" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero-platform/content/zotero.css" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero/skin/scaffold.css" type="text/css"?>
+
+<?xml-stylesheet href="chrome://zoteroif/content/assets/css/style.css" type="text/css"?>
+
+<!DOCTYPE window SYSTEM "chrome://zotero/locale/zotero.dtd">
+<window xmlns:html="http://www.w3.org/1999/xhtml"
+	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+	title=""
+	persist="width height screenX screenY"
+	windowtype="zoteroone-windowType-selectBlockQuoteLinkStyle"
+	onload="methodsBody.init()">
+<dialog 
+	buttons="cancel,accept"
+	id="ZoteroOneDialog-selectBlockQuoteLinkStyle">
+
+	<script>
+		Services.scriptloader.loadSubScript("chrome://zotero/content/include.js", this);
+		Services.scriptloader.loadSubScript("chrome://zotero/content/customElements.js", this);
+
+		Services.scriptloader.loadSubScript("chrome://zoteroif/content/selectionDialog/selectBlockQuoteLinkStyle.js", this);
+	</script>
+
+	<html:style>
+		.XUL-Button {
+			margin-right: 10px;
+		}
+
+		#blockquotelink-style radio {
+			margin-bottom: 8px;
+		}
+	</html:style>
+
+	<linkset>
+	    <html:link rel="localization" href="zoteroif_preferences.ftl"/>
+	</linkset>	
+
+	<vbox id="vboxContainer-elem" flex="1">
+		<hbox align="center">
+			<div class="svg-container-enableannotationsvgblockquotelink" style="transform: scale(1.25);"></div>
+			<label><html:h3 style="font-size: 13px;" id="zotero-BlockQuoteLinkStyle-intro">选择块引用链接样式</html:h3></label>
+        </hbox>
+
+		<hbox>
+			<radiogroup id="blockquotelink-style">
+				<radio label="嵌入式链接：![[link]]" value='嵌入式链接'/>
+				<radio label="链接：[[link]]" value='链接'/>
+				<radio label="别名链接：[[link|别名]]" value='别名链接'/>
+				<radio label="通用引用链接" value='通用引用链接'/>
+			</radiogroup>
+		</hbox>
+	</vbox>
+</dialog>
+
+<keyset>
+	<key id="key_close" key="W" modifiers="accel" oncommand="window.close()"/>
+</keyset>
+</window>

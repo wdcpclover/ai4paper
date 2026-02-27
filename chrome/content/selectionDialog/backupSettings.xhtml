@@ -1,0 +1,112 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero/skin/zotero.css" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero-platform/content/zotero.css" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero/skin/scaffold.css" type="text/css"?>
+
+<?xml-stylesheet href="chrome://zoteroif/content/assets/css/style.css" type="text/css"?>
+
+<!DOCTYPE window SYSTEM "chrome://zotero/locale/zotero.dtd">
+<window xmlns:html="http://www.w3.org/1999/xhtml"
+	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+	title="备份 AI4paper 设置"
+    style="min-width: 380px;" 
+	persist="width height screenX screenY"
+    windowtype="zoteroone-windowType-backupSettings"
+	onload="methodsBody.init();">
+<dialog 
+	buttons="accept"
+    buttonlabelaccept="关闭窗口" 
+	id="ZoteroOneDialog-backupSettings">
+
+	<script>
+		Services.scriptloader.loadSubScript("chrome://zotero/content/include.js", this);
+		Services.scriptloader.loadSubScript("chrome://zotero/content/customElements.js", this);
+
+		Services.scriptloader.loadSubScript("chrome://zoteroif/content/selectionDialog/backupSettings.js", this);
+	</script>
+
+	<html:style>
+        .zoteroone-hbox-small-gap {
+            flex-shrink: 0;
+            gap: 8px;
+        }
+
+        .zoteroone-hbox-medium-gap {
+            flex-shrink: 0;
+            gap: 12px;
+        }
+
+        .zoteroone-hbox-large-gap {
+            flex-shrink: 0;
+            gap: 30px;
+        }
+
+		#prefs-categories radio {
+			margin-bottom: 6px;
+		}
+	</html:style>
+
+	<linkset>
+	    <html:link rel="localization" href="zoteroif_preferences.ftl"/>
+	</linkset>
+
+    <vbox id="vboxContainer-elem" style="margin-bottom:8px;">
+
+        <hbox align="center">
+            <description style="white-space: pre-wrap; color: #0091ff; margin-top: 10px; margin-bottom: 10px; font-size: 15px; font-weight: bold;">▌导出插件设置</description>
+        </hbox>
+
+        <hbox align="center" class="zoteroone-hbox-medium-gap">
+            <button label="点击导出插件设置" oncommand="methodsBody.exportZoteroOnePrefs();"></button>
+            <div class="prefs-Button svg-container-updateDatabase"
+                tooltiptext="升级【设置】数据库，以确保多设备间的兼容性"
+                onclick='Zotero.ZoteroIF.updateDatabase_ZoteroOnePrefs();'>
+            </div>
+
+			<div class="prefs-Button svg-container-help"
+				tooltiptext="帮助文档" 
+				onclick='Zotero.getMainWindow().ZoteroPane.loadURI("https://www.yuque.com/qnscholar/zotero-one/iw373vk110o5a5gd?singleDoc# 《备份 AI4paper 插件设置》");'>
+			</div>
+        </hbox>
+
+        <hbox align="center" style="margin-top: 10px;">
+            <html:description style="color: gray;font-size: 12px;margin-left: 5px;margin-bottom: 5px;">首次导出时，建议点击右上角【升级设置数据库】按钮。</html:description>
+        </hbox>
+
+        <hbox align="center" style="margin-top: 10px;">
+            <description style="white-space: pre-wrap; color: #ff5f56; margin-top: 10px; margin-bottom: 10px; font-size: 15px; font-weight: bold;">▌导入插件设置</description>
+        </hbox>
+
+        <hbox align="center">
+            <button label="选择 JSON，以导入插件设置" oncommand="methodsBody.importZoteroOnePrefs();"></button>
+        </hbox>
+
+        <hbox align="center" style="margin-top: 10px;">
+            <html:description style="color: gray;font-size: 12px;margin-left: 5px;margin-bottom: 5px;">导入范围选择：</html:description>
+        </hbox>
+
+        <box flex="1">
+            <richlistbox id="prefs-categories" flex="1" style="padding: 5px 5px;">
+                <radiogroup id="category-list">
+                </radiogroup>
+            </richlistbox>
+        </box>
+
+        <hbox align="center" style="margin-top: 10px;">
+            <description style="white-space: pre-wrap; color: #7872e8; margin-top: 10px; margin-bottom: 10px; font-size: 15px; font-weight: bold;">▌拷贝 API-Keys</description>
+        </hbox>
+
+        <hbox align="center">
+            <button label="拷贝全部【翻译 API-Keys】" style="margin-right: 10px;" oncommand="Zotero.ZoteroIF.copyTranslationAPIKeys();"></button>
+            <button label="拷贝全部【GPT API-Keys】" oncommand="Zotero.ZoteroIF.copyGPTAPIKeys();"></button>
+        </hbox>
+
+    </vbox>
+</dialog>
+
+<keyset>
+	<key id="key_close" key="W" modifiers="accel" oncommand="window.close()"/>
+</keyset>
+</window>

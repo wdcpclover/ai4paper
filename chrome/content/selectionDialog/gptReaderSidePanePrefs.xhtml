@@ -1,0 +1,262 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero/skin/zotero.css" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero-platform/content/zotero.css" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero/skin/scaffold.css" type="text/css"?>
+
+<?xml-stylesheet href="chrome://zoteroif/content/assets/css/style.css" type="text/css"?>
+
+<!DOCTYPE window SYSTEM "chrome://zotero/locale/zotero.dtd">
+<window xmlns:html="http://www.w3.org/1999/xhtml"
+	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+    title="GPT 侧边栏设置"
+    style="min-width: 510px;" 
+	persist="width height screenX screenY"
+	windowtype="zoteroone-windowType-gptReaderSidePanePrefs"
+	onload="methodsBody.init();">
+<dialog 
+	buttons="accept"
+	buttonlabelaccept="关闭窗口" 
+	id="ZoteroOneDialog-gptReaderSidePanePrefs">
+
+	<script>
+		Services.scriptloader.loadSubScript("chrome://zotero/content/include.js", this);
+		Services.scriptloader.loadSubScript("chrome://zotero/content/customElements.js", this);
+
+		Services.scriptloader.loadSubScript("chrome://zoteroif/content/selectionDialog/gptReaderSidePanePrefs.js", this);
+	</script>
+
+	<html:style>
+        .zoteroone-hbox-tiny-gap {
+            flex-shrink: 0;
+            gap: 5px;
+        }
+	</html:style>
+
+	<linkset>
+	    <html:link rel="localization" href="zoteroif_preferences.ftl"/>
+	</linkset>
+
+	    <vbox id="vboxContainer-elem">
+	        <!-- <description style="white-space: pre-wrap; color: gray; font-size: 18px; font-weight: bold;">GPT 侧边栏设置</description> -->
+
+			<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * ▌基本设置 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+
+			<description style="white-space: pre-wrap; color: #0091ff;margin-bottom: 10px; font-size: 15px; font-weight: bold;">▌基本设置</description>
+
+			<box flex="1">
+				<richlistbox id="richlistbox-elem" flex="1" style='width: 480px;height:260px;padding-left: 5px;'>
+
+					<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * ▌模型 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+
+					<!-- <description style="white-space: pre-wrap; color: #fa553c; margin-top: 10px; margin-bottom: 10px; font-size: 15px; font-weight: bold;">▌模型</description>
+
+					<hbox align="center">
+						<label value="服务：" />
+						<menulist id="zotero-if-xul-chatgptprefs-gptservice" native="true" oncommand="methodsBody.setGPTServiceModel();">
+						<menupopup id="zotero-if-xul-chatgptprefs-gptservice-menupopup">
+						</menupopup>
+						</menulist>
+
+						<label value="模型：" />
+						<menulist id="zotero-if-xul-chatgptprefs-model" native="true" oncommand="methodsBody.setGPTServiceModel();">
+							<menupopup id="zotero-if-xul-chatgptprefs-model-menupopup">
+							</menupopup>
+						</menulist>
+					</hbox> -->
+
+					<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * ▌外观 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+
+					<description style="white-space: pre-wrap; color: #fa553c; margin-top: 10px; margin-bottom: 10px; font-size: 14px; font-weight: bold;">▌参数调节</description>
+
+					<html:div class="two-columns">
+						<hbox align="center">
+							<button label="参数调节" oncommand='Zotero.ZoteroIF.openDialogByType("setAIModelsParameters");'/>
+						</hbox>
+
+						<hbox align="center">
+							<button  label="功能按钮开关" oncommand='Zotero.ZoteroIF.openDialogByType("gptFuncButtonsEnable")'/>
+						</hbox>
+					</html:div>
+
+					<description style="white-space: pre-wrap; color: #fa553c; margin-top: 10px; margin-bottom: 10px; font-size: 14px; font-weight: bold;">▌外观</description>
+
+					<html:div class="two-columns">
+
+						<hbox align="center">
+							<label value="🔘 字号：" />
+							<menulist id="zotero-if-xul-chatgptprefs-setFontSize" native="true" oncommand="methodsBody.setFontSize()">
+							<menupopup>
+								<menuitem label="13px" value="13px"/>
+								<menuitem label="14px" value="14px"/>
+								<menuitem label="15px" value="15px"/>
+								<menuitem label="16px" value="16px"/>
+								<menuitem label="17px" value="17px"/>
+								<menuitem label="18px" value="18px"/>
+								<menuitem label="19px" value="19px"/>
+								<menuitem label="20px" value="20px"/>
+								<menuitem label="21px" value="21px"/>
+								<menuitem label="22px" value="22px"/>
+								<menuitem label="23px" value="23px"/>
+								<menuitem label="24px" value="24px"/>
+							</menupopup>
+							</menulist>
+						</hbox>
+
+						<hbox align="center">
+							<label value="🔘 深色主题：" />
+							<menulist id="zotero-if-xul-chatgptprefs-darkModeTheme" native="true" oncommand="methodsBody.setDarkModeTheme()">
+							<menupopup>
+								<menuitem label="默认" value="默认"/>
+								<menuitem label="深黑" value="深黑"/>
+								<menuitem label="漆黑" value="漆黑"/>
+								<menuitem label="乌黑" value="乌黑"/>
+								<menuitem label="藏青" value="藏青"/>
+								<menuitem label="花青" value="花青"/>
+								<menuitem label="元青" value="元青"/>
+								<menuitem label="玫瑰红" value="玫瑰红"/>
+								<menuitem label="月季红" value="月季红"/>
+								<menuitem label="番茄红" value="番茄红"/>
+								<menuitem label="灯草灰" value="灯草灰"/>
+								<menuitem label="相思灰" value="相思灰"/>
+							</menupopup>
+							</menulist>
+						</hbox>
+					</html:div>
+
+					<html:div class="two-columns">
+
+						<hbox align="center">
+							<label value="🔘 代码块风格：" />
+							<menulist id="zotero-if-xul-chatgptprefs-gptSidePaneHighlightStyle" native="true" oncommand="methodsBody.setHighlightStyle()">
+							<menupopup>
+								<menuitem label="atom-one-dark-reasonable" value="atom-one-dark-reasonable"/>
+								<menuitem label="default" value="default"/>
+								<menuitem label="dracula" value="dracula"/>
+								<menuitem label="github" value="github"/>
+								<menuitem label="monokai-sublime" value="monokai-sublime"/>
+								<menuitem label="stackoverflow-light" value="stackoverflow-light"/>
+								<menuitem label="vs" value="vs"/>
+								<menuitem label="xcode" value="xcode"/>
+							</menupopup>
+							</menulist>
+						</hbox>
+
+						<hbox align="center">
+							<label value="🙋 用户名："/>
+							<html:input type="text" id="zotero-if-xul-chatgptprefs-userName" size="10" placeholder="" onchange="Zotero.Prefs.set('zoteroif.gptUserName', this.value);Zotero.ZoteroIF.gptReaderSidePane_ChatMode_updateUserName();" oninput="Zotero.Prefs.set('zoteroif.gptUserName', this.value);Zotero.ZoteroIF.gptReaderSidePane_ChatMode_updateUserName();"></html:input>
+						</hbox>
+
+					</html:div>
+
+					<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * ▌AI 笔记 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+
+					<description style="white-space: pre-wrap; color: #fa553c; margin-top: 10px; margin-bottom: 10px; font-size: 14px; font-weight: bold;">▌AI 笔记</description>
+
+					<html:div class="two-columns">
+						<hbox align="center">
+							<checkbox id="zotero-if-xul-chatgptprefs-clearChatOnPaperAI" native="true" label='AI 解读论文前清空历史对话' checked="true" oncommand="Zotero.Prefs.set('zoteroif.clearChatOnPaperAI', this.checked)"/>
+						</hbox>
+
+						<hbox align="center">
+							<checkbox id="zotero-if-xul-chatgptprefs-createAIReadingNoteOnPaperAI" native="true" label='AI 解读论文后自动创建笔记' checked="true" oncommand="Zotero.Prefs.set('zoteroif.createAIReadingNoteOnPaperAI', this.checked)"/>
+							<image src="chrome://zoteroif/content/icons/help.png" 
+								tooltiptext="帮助文档" 
+								style='margin-left: 8px; width: 16px; height: 16px' 
+								onclick='Zotero.getMainWindow().ZoteroPane.loadURI("https://www.yuque.com/qnscholar/zotero-one/cchdn61qqgpvnp0g?singleDoc# 《关于【AI 解读论文后自动创建笔记】选项的说明》");'
+							/>
+						</hbox>
+					</html:div>
+
+					<hbox align="center">
+						<checkbox id="zotero-if-xul-chatgptprefs-addEmojiTag2ParentItemOnPaperAI" native="true" label='生成 AI 解读笔记后，为父条目添加标签：' checked="true" oncommand="Zotero.Prefs.set('zoteroif.addEmojiTag2ParentItemOnPaperAI', this.checked)"/>
+						<html:input type="text" id="zotero-if-xul-chatgptprefs-emojiTagAdded2ParentItemOnPaperAI" size="5" placeholder="" oninput="Zotero.Prefs.set('zoteroif.emojiTagAdded2ParentItemOnPaperAI', this.value);"></html:input>
+					</hbox>
+
+
+					<hbox align="center">
+						<checkbox id="zotero-if-xul-chatgptprefs-updateModifiedDate4PapersMatrix" native="true" label='强制刷新条目修改时间' checked="true" oncommand="Zotero.Prefs.set('zoteroif.updateModifiedDate4PapersMatrix', this.checked)"/>
+					</hbox>
+
+					<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * ▌ Markdown AI 消息导出路径预设 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+
+					<description style="white-space: pre-wrap; color: #fa553c; margin-top: 10px; margin-bottom: 10px; font-size: 14px; font-weight: bold;">▌ Markdown AI 消息导出路径预设</description>
+					<hbox align="center" class="zoteroone-hbox-tiny-gap">
+						<label value="选择路径"/>
+						<html:input type="text" id="zoteroif.gptMarkdownMsgExportPath" size="35" readonly="true"></html:input>
+						<button label="Choose" oncommand="methodsBody.chooseDirectory('gptMarkdownMsgExportPath');"></button>
+					</hbox>
+
+					<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * ▌对话模式 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+
+					<description style="white-space: pre-wrap; color: #fa553c; margin-top: 10px; margin-bottom: 10px; font-size: 14px; font-weight: bold;">▌对话模式</description>
+
+					<html:div class="two-columns">
+						<hbox align="center">
+							<checkbox id="zotero-if-xul-chatgptprefs-enableContinuesChatMode" native="true" label='连续对话' checked="true" oncommand="methodsBody.enableContinuesChatMode()"/>
+						</hbox>
+
+						<hbox align="center">
+							<checkbox id="zotero-if-xul-chatgptprefs-enableStreamMode" native="true" label='流式输出' checked="true" oncommand="methodsBody.enableStreamMode()"/>
+						</hbox>
+					</html:div>
+					
+					<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * ▌更多 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+
+					<description style="white-space: pre-wrap; color: #fa553c; margin-top: 10px; margin-bottom: 10px; font-size: 14px; font-weight: bold;">▌更多</description>
+
+					<html:div class="two-columns">
+						<hbox align="center">
+							<checkbox id="zotero-if-xul-chatgptprefs-renderMarkdownLaTeXRealTime" native="true" label='实时渲染 Markdown 和 LaTeX' checked="true" oncommand="methodsBody.renderMarkdownLaTeXRealTime()"/>
+						</hbox>
+
+						<hbox align="center">
+							<checkbox id="zotero-if-xul-chatgptprefs-gptShowMessageExpandArrow" native="true" label='智能折叠用户消息' checked="true" oncommand="methodsBody.gptShowMessageExpandArrow()"/>
+						</hbox>
+					</html:div>
+
+					<html:div class="two-columns">
+						<hbox align="center">
+							<checkbox id="zotero-if-xul-chatgptprefs-enableShiftKeyMergeText" native="true" label='长按 Option/Alt 拼接' checked="false" oncommand="methodsBody.enableShiftKeyMergeText()"/>
+						</hbox>
+					</html:div>
+
+				</richlistbox>
+			</box>
+
+	        <!-- <description style="white-space: pre-wrap; color: #0091ff; margin-top: 20px; margin-bottom: 10px; font-size: 15px; font-weight: bold;">▌参数调节</description> -->
+
+
+	        <description style="white-space: pre-wrap; color: #0091ff; margin-top: 20px; margin-bottom: 10px; font-size: 15px; font-weight: bold;">▌提问模板</description>
+
+			<box flex="1" class="textarea-box" style="margin-top: 10px;margin-bottom: 10px;">
+				<html:textarea
+						id="zotero-if-xul-chatgptprefs-prompt-template-user"
+						class="plain"
+						multiline="true"
+						placeholder="一行一个模板。模板末尾使用 👉模板别名👈 可设置别名。"
+						style="width:100%;height:200px;padding:5px 8px;"
+						oninput="methodsBody.setPromptTemplateUser();"
+				/>
+			</box>
+
+			<html:div class="two-columns">
+				<hbox align="center">
+					<label value='模板编辑规则' is="zotero-text-link" href="https://www.yuque.com/qnscholar/zotero-one/hpgp8utpv67wi636?singleDoc"></label>
+					<label value=" "/>
+					<label value='模板分享' is="zotero-text-link" href="https://www.yuque.com/qnscholar/zotero-one/lb4kgn5fwup5vykg?singleDoc"></label>
+				</hbox>
+
+				<hbox align="center">
+					<button label="自定义内置提示词" oncommand='Zotero.ZoteroIF.openDialogByType("customBuiltInPrompt");'/>
+				</hbox>
+			</html:div>
+
+	    </vbox>
+</dialog>
+
+<keyset>
+	<key id="key_close" key="W" modifiers="accel" oncommand="window.close()"/>
+</keyset>
+</window>

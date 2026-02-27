@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero/skin/zotero.css" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero-platform/content/zotero.css" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero/skin/scaffold.css" type="text/css"?>
+
+<?xml-stylesheet href="chrome://zoteroif/content/assets/css/style.css" type="text/css"?>
+
+<!DOCTYPE window SYSTEM "chrome://zotero/locale/zotero.dtd">
+<window xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+    title="修改问题后，重新提问"
+	style="min-width: 500px;" 
+    persist="width height screenX screenY"
+    windowtype="zoteroone-windowType-modifyUserMessage"
+    onload="methodsBody.init();">
+<dialog 
+    buttons="accept"
+	buttonlabelaccept="完成修改，开始提问" 
+    id="zoteroif-modifyUserMessage-dialog">
+
+    <script>
+        Services.scriptloader.loadSubScript("chrome://zotero/content/include.js", this);
+        Services.scriptloader.loadSubScript("chrome://zoteroif/content/selectionDialog/modifyUserMessage.js", this);
+        Services.scriptloader.loadSubScript("chrome://zotero/content/customElements.js", this);
+    </script>
+
+    <linkset>
+        <html:link rel="localization" href="zoteroif_preferences.ftl"/>
+    </linkset>  
+
+    <vbox id="vboxContainer-elem" flex="1">
+        <box class="textarea-box" style="margin-right: 5px;">
+			<html:textarea
+				id="userMessage"
+				class="plain"
+				multiline="true"
+				placeholder=""
+				style="width:100%;height:200px;padding: 5px;"
+				onkeydown="methodsBody.checkKeyEnter(event);"
+			/>
+        </box>
+
+		<hbox align="center" style="margin-top:10px;">
+			<button id="reset" label="重置" oncommand='methodsBody.resetUserMessage()'/>
+			<label style="color: gray;font-size: 12px;" value="修改后，会以【此问题之前的上下文 + 修改后的本问题】再次提问。"/>
+		</hbox>
+    </vbox>
+</dialog>
+
+<keyset>
+	<key id="key_close" key="W" modifiers="accel" oncommand="window.close()"/>
+</keyset>
+</window>

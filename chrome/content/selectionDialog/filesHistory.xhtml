@@ -1,0 +1,169 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero/skin/zotero.css" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero-platform/content/zotero.css" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero/skin/scaffold.css" type="text/css"?>
+
+<!DOCTYPE window SYSTEM "chrome://zotero/locale/zotero.dtd">
+<window xmlns:html="http://www.w3.org/1999/xhtml"
+	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+	id="zotero-filesHistory-dialog"
+	title="最近打开"
+	style="min-width: 800px; min-height: 630px;"
+	persist="width height screenX screenY"
+	windowtype="zoteroone-windowType-filesHistory"
+	onload="methodsBody.init()">
+<dialog 
+	buttons="accept"
+    buttonlabelaccept="关闭窗口" 
+	id="zotero-filesHistory">
+
+	<script>
+		Services.scriptloader.loadSubScript("chrome://zotero/content/include.js", this);
+		Services.scriptloader.loadSubScript("chrome://zoteroif/content/selectionDialog/filesHistory.js", this);
+		Services.scriptloader.loadSubScript("chrome://zotero/content/customElements.js", this);
+	</script>
+
+	<html:style>
+        .zoteroone-hbox-small-gap {
+            flex-shrink: 0;
+            gap: 8px;
+        }
+
+        .zoteroone-hbox-medium-gap {
+            flex-shrink: 0;
+            gap: 12px;
+        }
+
+        .zoteroone-hbox-large-gap {
+            flex-shrink: 0;
+            gap: 30px;
+        }
+	</html:style>
+
+	<linkset>
+	    <html:link rel="localization" href="zoteroif_preferences.ftl"/>
+	</linkset>	
+
+	<vbox id="zotero-select-FilesHistory-container" flex="1">
+        <div class="container" style="display: flex;justify-content: space-between;align-items: center;">
+			<hbox align="center" id="filesHistory-message-hbox">
+				<div class="svg-container-enablesvgfileshistory"></div>
+
+				<label><html:h3 style="font-size: 13px;" id="filesHistory-message-label">最近打开的文献</html:h3></label>
+	        </hbox>
+
+			<hbox align="center" id="workSpace-message-hbox">
+				<div class="svg-container-workspace"
+					onclick='methodsBody.onClickWorkSpaceIcon(event);'>
+				</div>
+				<!-- onclick='if (event.shiftKey) methodsBody.deleteAllWorkSpaces();' -->
+				<label><html:h3 style="font-size: 13px;" id="workSpace-message-label">工作区</html:h3></label>
+	        </hbox>
+
+            <hbox align="center" class="zoteroone-hbox-medium-gap">
+				<button id="adjustWindowWidth-button" label="最大宽度" oncommand='methodsBody.maxWindowWidth();'/>
+				<button id="adjustWindowWidth-button" label="合适宽度" oncommand='methodsBody.adjustWindowWidthPercent();' style="margin-right: 60px;"/>
+
+
+            	<button id="filesHistoryView-button" label="最近打开" oncommand="methodsBody.setView('filesHistory');"/>
+				<button id="workSpaceView-button" label="工作区" oncommand="methodsBody.setView('workSpace');"/>
+            </hbox>
+        </div>
+
+		<!-- 最近打开 -->
+
+		<vbox id="filesHistoryView" flex="1">
+			<hbox align="center" style="margin-bottom: 5px;" class="zoteroone-hbox-large-gap">
+
+				<hbox align="center" class="zoteroone-hbox-medium-gap">
+					<button class="filesHistory-filterButton" id="allButton" label="全部" oncommand="methodsBody.all()"/>
+					<button class="filesHistory-filterButton" id="todayButton" label="今天" oncommand="methodsBody.today()"/>
+					<button class="filesHistory-filterButton" id="lastDayButton" label="过去一天" oncommand="methodsBody.lastDay()"/>
+					<button class="filesHistory-filterButton" id="lastWeekButton" label="过去一周" oncommand="methodsBody.lastWeek()"/>
+					<button class="filesHistory-filterButton" id="lastMonthButton" label="过去一个月" oncommand="methodsBody.lastMonth()"/>
+				</hbox>
+
+				<hbox align="center">
+					<html:input type="text" id="zoteroif.filesHistory.search" size="15" onkeydown="methodsBody.checkKeyEnter(event);"></html:input>
+					<div class="svg-container-search" 
+						style="margin-left: 5px;"
+						tooltiptext="搜索最近打开文献" 
+						onclick="methodsBody.search();">
+					</div>
+				</hbox>
+			</hbox>
+
+			<box flex="1">
+				<richlistbox id="zotero-filesHistory-links" flex="1" style="width:800px;height:430px;"></richlistbox>
+			</box>
+		</vbox>
+
+		<!-- 工作区 -->
+
+		<vbox id="workSpaceView" flex="1">
+
+			<div class="container" style="display: flex;justify-content: space-between;align-items: center;">
+				<div class="container" style="display: flex;flex-direction: row;align-items: center;gap: 12px;">
+					<div id="workSpaces-Container" class="container" style="max-width: 1000px;display: flex;overflow-x: auto;padding-bottom: 15px;gap: 12px;padding-right: 2px;padding-left: 1px;">
+						<!-- <button label="SAW" oncommand="methodsBody.lastMonth()"/> -->
+					</div>
+
+					<div class="container" style="display: flex;padding-bottom: 15px;">
+						<div class="svg-container-add" 
+							tooltiptext="将当前打开的所有文献（标签页）创建为新工作区" 
+							onclick="methodsBody.addNewWorkSpace();">
+						</div>
+					</div>
+				</div>
+
+				<hbox align="center">
+					<html:input type="text" id="zoteroif.workSpace.search" size="15" onkeydown="methodsBody.checkKeyEnter_workSpace(event);"></html:input>
+					<div class="svg-container-search" 
+						style="margin-left: 5px;"
+						tooltiptext="搜索选中工作区内的文献" 
+						onclick="methodsBody.searchWorkSpace();">
+					</div>
+				</hbox>
+			</div>
+
+			<box flex="1">
+				<richlistbox id="zotero-workSpace-links" flex="1" style="width:800px;height:430px;"></richlistbox>
+			</box>
+		</vbox>
+
+		<hbox align="center" style="margin-top: 5px;" class="zoteroone-hbox-small-gap">
+
+			<button label="打开选中的文献" oncommand="methodsBody.openSelectedFiles();"/>
+			<button id="openWorkSpaceFiles-button" label="打开工作区内所有文献" oncommand="methodsBody.openWorkSpaceFiles();"/>
+			<button id="openWorkSpaceFilesOnly-button" label="仅打开工作区内所有文献" oncommand="methodsBody.openWorkSpaceFilesOnly();"/>
+			
+			<div id="addItems2WorkSpace-button" 
+				class="svg-container-add_menupopup"
+				tooltiptext="添加文献至工作区" 
+				style="width:28.37px;height:16px;margin-left: 5px;" 
+				onclick="methodsBody.onClickButton_addItems2WorkSpace(event);">
+			</div>
+
+			<button label="全选" style="margin-left: 30px;" oncommand="methodsBody.selectAll();"/>
+			<button label="取消全选" oncommand="methodsBody.selectAll(true);"/>
+
+			<checkbox id="filesHistory-doubleClick-enable" label='双击打开' checked="false" native="true" oncommand='Zotero.Prefs.set("zoteroif.filesHistoryDoubleClick", this.checked);'/>
+			<checkbox id="setFilesHistoryAsDefaultView" label='默认视图：最近打开' checked="false" native="true" oncommand='Zotero.Prefs.set("zoteroif.setFilesHistoryAsDefaultView", this.checked);'/>
+
+			<div class="svg-container-help"
+				tooltiptext="帮助文档" 
+				style='margin-left: 8px;' 
+				onclick='Zotero.getMainWindow().ZoteroPane.loadURI("https://www.yuque.com/qnscholar/zotero-one/ulvegzgxihahv9za?singleDoc");'>
+			</div>
+			
+		</hbox>
+
+	</vbox>
+</dialog>
+
+<keyset>
+	<key id="key_close" key="W" modifiers="accel" oncommand="window.close();"/>
+</keyset>
+</window>

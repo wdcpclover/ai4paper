@@ -1,0 +1,120 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero/skin/zotero.css" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero-platform/content/zotero.css" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero/skin/scaffold.css" type="text/css"?>
+
+<!DOCTYPE window SYSTEM "chrome://zotero/locale/zotero.dtd">
+<window xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+    title="【批量 AI 解读文献】设置"
+    style="min-width: 300px;"
+    persist="width height screenX screenY"
+    windowtype="zoteroone-windowType-batchAIInterpretSettings"
+    onload="methodsBody.init();">
+<dialog 
+    buttons=","
+    id="zoteroone-dialog-batchAIInterpretSettings">
+
+    <script>
+        Services.scriptloader.loadSubScript("chrome://zotero/content/include.js", this);
+        Services.scriptloader.loadSubScript("chrome://zoteroif/content/selectionDialog/batchAIInterpretSettings.js", this);
+        Services.scriptloader.loadSubScript("chrome://zotero/content/customElements.js", this);
+    </script>
+
+    <html:style>
+        .section-title {
+            color: #fa553c; 
+            font-size: 14px; 
+            font-weight: bold;
+            white-space: pre-wrap; 
+            margin-top: 10px; 
+            margin-bottom: 10px;
+        }
+    </html:style>
+
+    <linkset>
+        <html:link rel="localization" href="zoteroif_preferences.ftl"/>
+    </linkset>  
+
+    <vbox id="vboxContainer-elem" flex="1">
+
+        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * 服务和模型 * * * * * * * * * * * * * * * * * * * * * * * * * -->
+        <description class="section-title">▌服务和模型</description>
+        <hbox align="center">
+            <label value="🔘 服务："/>
+            <menulist id="zoteroif.service4BatchAIInterpret" native="true" oncommand="methodsBody.updatePrefs()">
+                <menupopup id="zoteroif-service4BatchAIInterpret-menupopup">
+                </menupopup>
+            </menulist>
+        </hbox>
+        <hbox align="center">
+            <label value="🔘 模型："/>
+            <menulist id="zoteroif.model4BatchAIInterpret" native="true" oncommand="methodsBody.updatePrefs()">
+                <menupopup id="zoteroif-model4BatchAIInterpret-menupopup">
+                </menupopup>
+            </menulist>
+        </hbox>
+
+        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * 提示词 * * * * * * * * * * * * * * * * * * * * * * * * * -->
+        <description class="section-title">▌提示词</description>
+        <hbox align="center">
+            <label value="🔘 选择提示词："/>
+            <menulist id="zoteroif.prompt4BatchAIInterpret" style="width: 200px;" native="true" oncommand="methodsBody.updatePrefs()">
+                <menupopup id="zoteroif-prompt4BatchAIInterpret-menupopup" style="width: 600px;">
+                </menupopup>
+            </menulist>
+        </hbox>
+
+        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * 并发数 * * * * * * * * * * * * * * * * * * * * * * * * * -->
+        <description class="section-title">▌并发数</description>
+        <hbox align="center">
+            <label value="🔘 并发数："/>
+            <menulist id="zoteroif.concurrency4BatchAIInterpret" native="true" oncommand="methodsBody.updatePrefs()">
+                <menupopup>
+                    <menuitem label="1" value="1"/>
+                    <menuitem label="2" value="2"/>
+                    <menuitem label="3" value="3"/>
+                    <menuitem label="4" value="4"/>
+                    <menuitem label="5" value="5"/>
+                    <menuitem label="6" value="6"/>
+                    <menuitem label="7" value="7"/>
+                    <menuitem label="8" value="8"/>
+                    <menuitem label="9" value="9"/>
+                    <menuitem label="10" value="10"/>
+                    <menuitem label="15" value="15"/>
+                    <menuitem label="20" value="20"/>
+                    <menuitem label="30" value="30"/>
+                    <menuitem label="50" value="50"/>
+                    <menuitem label="100" value="100"/>
+                    <menuitem label="200" value="200"/>
+                </menupopup>
+            </menulist>
+        </hbox>
+
+        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * 自动化 * * * * * * * * * * * * * * * * * * * * * * * * * -->
+        <description class="section-title">▌自动化</description>
+        <hbox align="center">
+            <checkbox id="zoteroif.autoInterpretNewItems" native="true" label='新导入到 Zotero 的文献，自动加入解读队列' checked="true" oncommand="methodsBody.updatePrefs()"/>
+        </hbox>
+
+        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * 解读笔记 * * * * * * * * * * * * * * * * * * * * * * * * * -->
+        <description class="section-title">▌解读笔记</description>
+        <hbox align="center">
+            <checkbox id="zoteroif.includeReasoning4BatchAIInterpret" native="true" label='在解读笔记中包含思维链' checked="true" oncommand="methodsBody.updatePrefs()"/>
+        </hbox>
+
+        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * 解读历史 * * * * * * * * * * * * * * * * * * * * * * * * * -->
+        <description class="section-title">▌解读历史</description>
+        <hbox align="center">
+            <checkbox id="zoteroif.syncChatHistory4BatchAIInterpret" native="true" label='保存批量 AI 解读历史对话' checked="true" oncommand="methodsBody.updatePrefs()"/>
+        </hbox>
+
+    </vbox>
+</dialog>
+
+<keyset>
+	<key id="key_close" key="W" modifiers="accel" oncommand="window.close()"/>
+</keyset>
+</window>

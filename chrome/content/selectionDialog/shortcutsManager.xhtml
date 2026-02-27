@@ -1,0 +1,1082 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero/skin/zotero.css" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero-platform/content/zotero.css" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero/skin/scaffold.css" type="text/css"?>
+
+<?xml-stylesheet href="chrome://zoteroif/content/assets/css/style.css" type="text/css"?>
+
+<!DOCTYPE window SYSTEM "chrome://zotero/locale/zotero.dtd">
+<window xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+    title="快捷键" 
+    style="min-width: 520px;"
+    persist="width height screenX screenY"
+    windowtype="zoteroone-windowType-shortcutsManager"
+    onload="methodsBody.init();">
+<dialog 
+    buttons="accept"
+    buttonlabelaccept="关闭窗口" 
+    id="ZoteroOneDialog-shortcutsManager">
+
+    <script>
+        Services.scriptloader.loadSubScript("chrome://zotero/content/include.js", this);
+        Services.scriptloader.loadSubScript("chrome://zotero/content/customElements.js", this);
+
+        Services.scriptloader.loadSubScript("chrome://zoteroif/content/selectionDialog/shortcutsManager.js", this);
+    </script>
+
+    <html:style>
+        .navigate-button {
+              margin-right: 10px;
+        }
+       .buttonIcon {
+              margin-right: 20px;
+              transition: transform 0.125s ease;
+       }
+       .buttonIcon:hover {
+              transform: scale(1.1);
+       }
+       .buttonIcon:not(:hover) {
+              transform: scale(1);
+       }
+    </html:style>
+
+    <linkset>
+        <html:link rel="localization" href="zoteroif_preferences.ftl"/>
+    </linkset>  
+
+    <vbox id="vboxContainer-elem">
+
+        <hbox align="center">
+            <button class="navigate-button" label="常规" oncommand="methodsBody.navigate('general');"/>
+            <button class="navigate-button" label="视图" oncommand="methodsBody.navigate('zoteroPane');"/>
+            <button class="navigate-button" label="GPT" oncommand="methodsBody.navigate('gpt');"/>
+            <button class="navigate-button" label="附件" oncommand="methodsBody.navigate('attachments');"/>
+            <button class="navigate-button" label="笔记" oncommand="methodsBody.navigate('notes');"/>
+        </hbox>
+
+        <box flex="1">
+            <richlistbox id="richlistbox-elem" flex="1" style='height:600px;padding-left: 5px;margin-top: 15px;'>
+
+                <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 常规 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+                <groupbox>
+                    <!-- 【常规】导航元素 -->
+                    <hbox align="center">
+                        <label><html:h3 style="font-size: 15px;color: #fa553c;" id="message-label">▌ 常规</html:h3></label>
+                        <html:input type="text" id="navigator-item-general" style="opacity: 0;"></html:input>
+                    </hbox>
+
+                    <!-- 星标 1 星 -->
+
+                   <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
+                        <checkbox id="zoteroif.enableShortcutsStarOne" 
+                                  label="星标 ⭐" 
+                                  native="true"
+                                  oncommand='methodsBody.enableShortcuts("StarOne", this.checked);'/>
+
+                        <html:input type="text" 
+                                    id="zoteroif.shortcutsInputBox.StarOne" 
+                                    style='margin-right: 80px;' 
+                                    size="15" 
+                                    readonly="true" 
+                                    onfocus='methodsBody.setKeyListener(event); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "0 0 4px blue";};' 
+                                    onblur='methodsBody.setKeyListener(event, "remove"); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "";};'></html:input>
+
+                        <div class="buttonIcon svg-container-reset"
+                            tooltiptext="恢复默认" 
+                            onclick='methodsBody.resetShortcuts("StarOne");'>
+                        </div>
+
+                    </html:div>
+
+                    <!-- 星标 2 星 -->
+
+                   <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
+                        <checkbox id="zoteroif.enableShortcutsStarTwo" 
+                                  label="星标 ⭐⭐" 
+                                  native="true"
+                                  oncommand='methodsBody.enableShortcuts("StarTwo", this.checked);'/>
+
+                        <html:input type="text" 
+                                    id="zoteroif.shortcutsInputBox.StarTwo" 
+                                    style='margin-right: 80px;' 
+                                    size="15" 
+                                    readonly="true" 
+                                    onfocus='methodsBody.setKeyListener(event); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "0 0 4px blue";};' 
+                                    onblur='methodsBody.setKeyListener(event, "remove"); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "";};'></html:input>
+
+                        <div class="buttonIcon svg-container-reset"
+                            tooltiptext="恢复默认" 
+                            onclick='methodsBody.resetShortcuts("StarTwo");'>
+                        </div>
+
+                    </html:div>
+
+                    <!-- 星标 3 星 -->
+
+                   <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
+                        <checkbox id="zoteroif.enableShortcutsStarThree" 
+                                  label="星标 ⭐⭐⭐" 
+                                  native="true"
+                                  oncommand='methodsBody.enableShortcuts("StarThree", this.checked);'/>
+
+                        <html:input type="text" 
+                                    id="zoteroif.shortcutsInputBox.StarThree" 
+                                    style='margin-right: 80px;' 
+                                    size="15" 
+                                    readonly="true" 
+                                    onfocus='methodsBody.setKeyListener(event); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "0 0 4px blue";};' 
+                                    onblur='methodsBody.setKeyListener(event, "remove"); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "";};'></html:input>
+
+                        <div class="buttonIcon svg-container-reset"
+                            tooltiptext="恢复默认" 
+                            onclick='methodsBody.resetShortcuts("StarThree");'>
+                        </div>
+
+                    </html:div>
+
+                    <!-- 星标 4 星 -->
+
+                   <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
+                        <checkbox id="zoteroif.enableShortcutsStarFour" 
+                                  label="星标 ⭐⭐⭐⭐" 
+                                  native="true"
+                                  oncommand='methodsBody.enableShortcuts("StarFour", this.checked);'/>
+
+                        <html:input type="text" 
+                                    id="zoteroif.shortcutsInputBox.StarFour" 
+                                    style='margin-right: 80px;' 
+                                    size="15" 
+                                    readonly="true" 
+                                    onfocus='methodsBody.setKeyListener(event); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "0 0 4px blue";};' 
+                                    onblur='methodsBody.setKeyListener(event, "remove"); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "";};'></html:input>
+
+                        <div class="buttonIcon svg-container-reset"
+                            tooltiptext="恢复默认" 
+                            onclick='methodsBody.resetShortcuts("StarFour");'>
+                        </div>
+
+                    </html:div>
+
+                    <!-- 星标 5 星 -->
+
+                   <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
+                        <checkbox id="zoteroif.enableShortcutsStarFive" 
+                                  label="星标 ⭐⭐⭐⭐⭐" 
+                                  native="true"
+                                  oncommand='methodsBody.enableShortcuts("StarFive", this.checked);'/>
+
+                        <html:input type="text" 
+                                    id="zoteroif.shortcutsInputBox.StarFive" 
+                                    style='margin-right: 80px;' 
+                                    size="15" 
+                                    readonly="true" 
+                                    onfocus='methodsBody.setKeyListener(event); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "0 0 4px blue";};' 
+                                    onblur='methodsBody.setKeyListener(event, "remove"); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "";};'></html:input>
+
+                        <div class="buttonIcon svg-container-reset"
+                            tooltiptext="恢复默认" 
+                            onclick='methodsBody.resetShortcuts("StarFive");'>
+                        </div>
+
+                    </html:div>
+
+                    <!-- 清除星标 -->
+
+                   <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
+                        <checkbox id="zoteroif.enableShortcutsStarClear" 
+                                  label="清除星标" 
+                                  native="true"
+                                  oncommand='methodsBody.enableShortcuts("StarClear", this.checked);'/>
+
+                        <html:input type="text" 
+                                    id="zoteroif.shortcutsInputBox.StarClear" 
+                                    style='margin-right: 80px;' 
+                                    size="15" 
+                                    readonly="true" 
+                                    onfocus='methodsBody.setKeyListener(event); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "0 0 4px blue";};' 
+                                    onblur='methodsBody.setKeyListener(event, "remove"); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "";};'></html:input>
+
+                        <div class="buttonIcon svg-container-reset"
+                            tooltiptext="恢复默认" 
+                            onclick='methodsBody.resetShortcuts("StarClear");'>
+                        </div>
+
+                    </html:div>
+
+                    <!-- 归档 -->
+
+                   <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
+                        <checkbox id="zoteroif.enableShortcutsArchive" 
+                                  label="归档" 
+                                  native="true"
+                                  oncommand='methodsBody.enableShortcuts("Archive", this.checked);'/>
+
+                        <html:input type="text" 
+                                    id="zoteroif.shortcutsInputBox.Archive" 
+                                    style='margin-right: 80px;' 
+                                    size="15" 
+                                    readonly="true" 
+                                    onfocus='methodsBody.setKeyListener(event); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "0 0 4px blue";};' 
+                                    onblur='methodsBody.setKeyListener(event, "remove"); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "";};'></html:input>
+
+                        <div class="buttonIcon svg-container-reset"
+                            tooltiptext="恢复默认" 
+                            onclick='methodsBody.resetShortcuts("Archive");'>
+                        </div>
+
+                    </html:div>
+
+                    <!-- 添加关联文献 -->
+
+                   <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
+                        <checkbox id="zoteroif.enableShortcutsAddRelatedRefs" 
+                                  label="添加关联文献" 
+                                  native="true"
+                                  oncommand='methodsBody.enableShortcuts("AddRelatedRefs", this.checked);'/>
+
+                        <html:input type="text" 
+                                    id="zoteroif.shortcutsInputBox.AddRelatedRefs" 
+                                    style='margin-right: 80px;' 
+                                    size="15" 
+                                    readonly="true" 
+                                    onfocus='methodsBody.setKeyListener(event); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "0 0 4px blue";};' 
+                                    onblur='methodsBody.setKeyListener(event, "remove"); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "";};'></html:input>
+
+                        <div class="buttonIcon svg-container-reset"
+                            tooltiptext="恢复默认" 
+                            onclick='methodsBody.resetShortcuts("AddRelatedRefs");'>
+                        </div>
+
+                    </html:div>
+
+                    <!-- Zotero 高级搜索 -->
+
+                   <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
+                        <checkbox id="zoteroif.enableShortcutsZoteroAdvancedSearch" 
+                                  label="Zotero 高级搜索" 
+                                  native="true"
+                                  oncommand='methodsBody.enableShortcuts("ZoteroAdvancedSearch", this.checked);'/>
+
+                        <html:input type="text" 
+                                    id="zoteroif.shortcutsInputBox.ZoteroAdvancedSearch" 
+                                    style='margin-right: 80px;' 
+                                    size="15" 
+                                    readonly="true" 
+                                    onfocus='methodsBody.setKeyListener(event); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "0 0 4px blue";};' 
+                                    onblur='methodsBody.setKeyListener(event, "remove"); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "";};'></html:input>
+
+                        <div class="buttonIcon svg-container-reset"
+                            tooltiptext="恢复默认" 
+                            onclick='methodsBody.resetShortcuts("ZoteroAdvancedSearch");'>
+                        </div>
+
+                    </html:div>
+                </groupbox>
+
+                <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 视图 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+                <groupbox>
+                    <!-- 导航元素 -->
+                    <hbox align="center">
+                        <label><html:h3 style="font-size: 15px;color: #fa553c;" id="message-label">▌ 视图</html:h3></label>
+                        <html:input type="text" id="navigator-item-zoteroPane" style="opacity: 0;"></html:input>
+                    </hbox>
+
+                    <!-- 展开/折叠左侧边栏（全局）  -->
+
+                   <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
+                        <checkbox id="zoteroif.enableShortcutsCollapseLeftSidePane" 
+                                  label="展开/折叠左侧边栏（全局）" 
+                                  native="true"
+                                  oncommand='methodsBody.enableShortcuts("CollapseLeftSidePane", this.checked);'/>
+
+                        <html:input type="text" 
+                                    id="zoteroif.shortcutsInputBox.CollapseLeftSidePane" 
+                                    style='margin-right: 80px;' 
+                                    size="15" 
+                                    readonly="true" 
+                                    onfocus='methodsBody.setKeyListener(event); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "0 0 4px blue";};' 
+                                    onblur='methodsBody.setKeyListener(event, "remove"); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "";};'></html:input>
+
+                        <div class="buttonIcon svg-container-reset"
+                            tooltiptext="恢复默认" 
+                            onclick='methodsBody.resetShortcuts("CollapseLeftSidePane");'>
+                        </div>
+
+                    </html:div>
+
+                    <!-- 展开/折叠右侧边栏（全局）  -->
+
+                   <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
+                        <checkbox id="zoteroif.enableShortcutsCollapseRightSidePane" 
+                                  label="展开/折叠右侧边栏（全局）" 
+                                  native="true"
+                                  oncommand='methodsBody.enableShortcuts("CollapseRightSidePane", this.checked);'/>
+
+                        <html:input type="text" 
+                                    id="zoteroif.shortcutsInputBox.CollapseRightSidePane" 
+                                    style='margin-right: 80px;' 
+                                    size="15" 
+                                    readonly="true" 
+                                    onfocus='methodsBody.setKeyListener(event); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "0 0 4px blue";};' 
+                                    onblur='methodsBody.setKeyListener(event, "remove"); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "";};'></html:input>
+
+                        <div class="buttonIcon svg-container-reset"
+                            tooltiptext="恢复默认" 
+                            onclick='methodsBody.resetShortcuts("CollapseRightSidePane");'>
+                        </div>
+
+                    </html:div>
+
+                    <!-- 水平分栏  -->
+
+                   <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
+                        <checkbox id="zoteroif.enableShortcutsSplitHorizontally" 
+                                  label="水平分栏" 
+                                  native="true"
+                                  oncommand='methodsBody.enableShortcuts("SplitHorizontally", this.checked);'/>
+
+                        <html:input type="text" 
+                                    id="zoteroif.shortcutsInputBox.SplitHorizontally" 
+                                    style='margin-right: 80px;' 
+                                    size="15" 
+                                    readonly="true" 
+                                    onfocus='methodsBody.setKeyListener(event); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "0 0 4px blue";};' 
+                                    onblur='methodsBody.setKeyListener(event, "remove"); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "";};'></html:input>
+
+                        <div class="buttonIcon svg-container-reset"
+                            tooltiptext="恢复默认" 
+                            onclick='methodsBody.resetShortcuts("SplitHorizontally");'>
+                        </div>
+
+                    </html:div>
+
+                    <!-- 垂直分栏  -->
+
+                   <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
+                        <checkbox id="zoteroif.enableShortcutsSplitVertically" 
+                                  label="垂直分栏" 
+                                  native="true"
+                                  oncommand='methodsBody.enableShortcuts("SplitVertically", this.checked);'/>
+
+                        <html:input type="text" 
+                                    id="zoteroif.shortcutsInputBox.SplitVertically" 
+                                    style='margin-right: 80px;' 
+                                    size="15" 
+                                    readonly="true" 
+                                    onfocus='methodsBody.setKeyListener(event); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "0 0 4px blue";};' 
+                                    onblur='methodsBody.setKeyListener(event, "remove"); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "";};'></html:input>
+
+                        <div class="buttonIcon svg-container-reset"
+                            tooltiptext="恢复默认" 
+                            onclick='methodsBody.resetShortcuts("SplitVertically");'>
+                        </div>
+
+                    </html:div>
+
+                    <!-- 奇数分布  -->
+
+                   <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
+                        <checkbox id="zoteroif.enableShortcutsOddSpreads" 
+                                  label="奇数分布" 
+                                  native="true"
+                                  oncommand='methodsBody.enableShortcuts("OddSpreads", this.checked);'/>
+
+                        <html:input type="text" 
+                                    id="zoteroif.shortcutsInputBox.OddSpreads" 
+                                    style='margin-right: 80px;' 
+                                    size="15" 
+                                    readonly="true" 
+                                    onfocus='methodsBody.setKeyListener(event); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "0 0 4px blue";};' 
+                                    onblur='methodsBody.setKeyListener(event, "remove"); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "";};'></html:input>
+
+                        <div class="buttonIcon svg-container-reset"
+                            tooltiptext="恢复默认" 
+                            onclick='methodsBody.resetShortcuts("OddSpreads");'>
+                        </div>
+
+                    </html:div>
+                </groupbox>
+
+                <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * GPT * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+                <groupbox>
+                    <!-- 导航元素 -->
+                    <hbox align="center">
+                        <label><html:h3 style="font-size: 15px;color: #fa553c;" id="message-label">▌ GPT</html:h3></label>
+                        <html:input type="text" id="navigator-item-gpt" style="opacity: 0;"></html:input>
+                    </hbox>
+
+                    <!-- AI 解读论文  -->
+
+                    <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
+                     <checkbox id="zoteroif.enableShortcutsPaperAI" 
+                                   label="AI 解读论文" 
+                                   native="true"
+                                   oncommand='methodsBody.enableShortcuts("PaperAI", this.checked);'/>
+
+                     <html:input type="text" 
+                                   id="zoteroif.shortcutsInputBox.PaperAI" 
+                                   style='margin-right: 80px;' 
+                                   size="15" 
+                                   readonly="true" 
+                                   onfocus='methodsBody.setKeyListener(event); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "0 0 4px blue";};' 
+                                   onblur='methodsBody.setKeyListener(event, "remove"); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "";};'></html:input>
+
+                     <div class="buttonIcon svg-container-reset"
+                            tooltiptext="恢复默认" 
+                            onclick='methodsBody.resetShortcuts("PaperAI");'>
+                     </div>
+
+                     </html:div>
+
+                    <!-- 定位 Obsidian【AI 文献解读】笔记  -->
+
+                    <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
+                     <checkbox id="zoteroif.enableShortcutsLocateAIReadingNotes" 
+                                   label="定位 Obsidian【AI 文献解读】笔记" 
+                                   native="true"
+                                   oncommand='methodsBody.enableShortcuts("LocateAIReadingNotes", this.checked);'/>
+
+                     <html:input type="text" 
+                                   id="zoteroif.shortcutsInputBox.LocateAIReadingNotes" 
+                                   style='margin-right: 80px;' 
+                                   size="15" 
+                                   readonly="true" 
+                                   onfocus='methodsBody.setKeyListener(event); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "0 0 4px blue";};' 
+                                   onblur='methodsBody.setKeyListener(event, "remove"); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "";};'></html:input>
+
+                        <div class="buttonIcon svg-container-reset"
+                            tooltiptext="恢复默认" 
+                            onclick='methodsBody.resetShortcuts("LocateAIReadingNotes");'>
+                        </div>
+
+                     </html:div>
+
+                    <!-- 导入 PDF 全文  -->
+
+                   <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
+                        <checkbox id="zoteroif.enableShortcutsGetFullText" 
+                                  label="导入 PDF 全文" 
+                                  native="true"
+                                  oncommand='methodsBody.enableShortcuts("GetFullText", this.checked);'/>
+
+                        <html:input type="text" 
+                                    id="zoteroif.shortcutsInputBox.GetFullText" 
+                                    style='margin-right: 80px;' 
+                                    size="15" 
+                                    readonly="true" 
+                                    onfocus='methodsBody.setKeyListener(event); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "0 0 4px blue";};' 
+                                    onblur='methodsBody.setKeyListener(event, "remove"); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "";};'></html:input>
+
+                        <div class="buttonIcon svg-container-reset"
+                            tooltiptext="恢复默认" 
+                            onclick='methodsBody.resetShortcuts("GetFullText");'>
+                        </div>
+
+                    </html:div>
+
+                    <!-- 切换对话模式  -->
+
+                   <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
+                        <checkbox id="zoteroif.enableShortcutsChangeGPTChatMode" 
+                                  label="切换对话模式" 
+                                  native="true"
+                                  oncommand='methodsBody.enableShortcuts("ChangeGPTChatMode", this.checked);'/>
+
+                        <html:input type="text" 
+                                    id="zoteroif.shortcutsInputBox.ChangeGPTChatMode" 
+                                    style='margin-right: 80px;' 
+                                    size="15" 
+                                    readonly="true" 
+                                    onfocus='methodsBody.setKeyListener(event); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "0 0 4px blue";};' 
+                                    onblur='methodsBody.setKeyListener(event, "remove"); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "";};'></html:input>
+
+                        <div class="buttonIcon svg-container-reset"
+                            tooltiptext="恢复默认" 
+                            onclick='methodsBody.resetShortcuts("ChangeGPTChatMode");'>
+                        </div>
+
+                    </html:div>
+                </groupbox>
+
+                <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 附件 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+                <groupbox>
+                    <!-- 导航元素 -->
+                    <hbox align="center">
+                        <label><html:h3 style="font-size: 15px;color: #fa553c;" id="message-label">▌ 附件</html:h3></label>
+                        <html:input type="text" id="navigator-item-attachments" style="opacity: 0;"></html:input>
+                    </hbox>
+
+                    <!-- 最近打开  -->
+
+                   <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
+                        <checkbox id="zoteroif.enableShortcutsFilesHistory" 
+                                  label="最近打开" 
+                                  native="true"
+                                  oncommand='methodsBody.enableShortcuts("FilesHistory", this.checked);'/>
+
+                        <html:input type="text" 
+                                    id="zoteroif.shortcutsInputBox.FilesHistory" 
+                                    style='margin-right: 80px;' 
+                                    size="15" 
+                                    readonly="true" 
+                                    onfocus='methodsBody.setKeyListener(event); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "0 0 4px blue";};' 
+                                    onblur='methodsBody.setKeyListener(event, "remove"); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "";};'></html:input>
+
+                        <div class="buttonIcon svg-container-reset"
+                            tooltiptext="恢复默认" 
+                            onclick='methodsBody.resetShortcuts("FilesHistory");'>
+                        </div>
+
+                    </html:div>
+
+                    <!-- 工作区  -->
+
+                   <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
+                        <checkbox id="zoteroif.enableShortcutsWorkSpace" 
+                                  label="工作区" 
+                                  native="true"
+                                  oncommand='methodsBody.enableShortcuts("WorkSpace", this.checked);'/>
+
+                        <html:input type="text" 
+                                    id="zoteroif.shortcutsInputBox.WorkSpace" 
+                                    style='margin-right: 80px;' 
+                                    size="15" 
+                                    readonly="true" 
+                                    onfocus='methodsBody.setKeyListener(event); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "0 0 4px blue";};' 
+                                    onblur='methodsBody.setKeyListener(event, "remove"); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "";};'></html:input>
+
+                        <div class="buttonIcon svg-container-reset"
+                            tooltiptext="恢复默认" 
+                            onclick='methodsBody.resetShortcuts("WorkSpace");'>
+                        </div>
+
+                    </html:div>
+
+                    <!-- Attach New File  -->
+
+                   <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
+                        <checkbox id="zoteroif.enableShortcutsAttachNewFile" 
+                                  label="绑定新文件" 
+                                  native="true"
+                                  oncommand='methodsBody.enableShortcuts("AttachNewFile", this.checked);'/>
+
+                        <html:input type="text" 
+                                    id="zoteroif.shortcutsInputBox.AttachNewFile" 
+                                    style='margin-right: 80px;' 
+                                    size="15" 
+                                    readonly="true" 
+                                    onfocus='methodsBody.setKeyListener(event); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "0 0 4px blue";};' 
+                                    onblur='methodsBody.setKeyListener(event, "remove"); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "";};'></html:input>
+
+                        <div class="buttonIcon svg-container-reset"
+                            tooltiptext="恢复默认" 
+                            onclick='methodsBody.resetShortcuts("AttachNewFile");'>
+                        </div>
+
+                    </html:div>
+
+                    <!-- 重命名附件  -->
+
+                   <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
+                        <checkbox id="zoteroif.enableShortcutsRenameAttachments" 
+                                  label="重命名附件" 
+                                  native="true"
+                                  oncommand='methodsBody.enableShortcuts("RenameAttachments", this.checked);'/>
+
+                        <html:input type="text" 
+                                    id="zoteroif.shortcutsInputBox.RenameAttachments" 
+                                    style='margin-right: 80px;' 
+                                    size="15" 
+                                    readonly="true" 
+                                    onfocus='methodsBody.setKeyListener(event); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "0 0 4px blue";};' 
+                                    onblur='methodsBody.setKeyListener(event, "remove"); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "";};'></html:input>
+
+                        <div class="buttonIcon svg-container-reset"
+                            tooltiptext="恢复默认" 
+                            onclick='methodsBody.resetShortcuts("RenameAttachments");'>
+                        </div>
+
+                    </html:div>
+
+                    <!-- 拷贝 PDF  -->
+
+                    <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
+                     <checkbox id="zoteroif.enableShortcutsCopyPDF" 
+                               label="拷贝 PDF" 
+                               native="true"
+                               oncommand='methodsBody.enableShortcuts("CopyPDF", this.checked);'/>
+
+                     <html:input type="text" 
+                                 id="zoteroif.shortcutsInputBox.CopyPDF" 
+                                 style='margin-right: 80px;' 
+                                 size="15" 
+                                 readonly="true" 
+                                 onfocus='methodsBody.setKeyListener(event); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "0 0 4px blue";};' 
+                                 onblur='methodsBody.setKeyListener(event, "remove"); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "";};'></html:input>
+
+                        <div class="buttonIcon svg-container-reset"
+                            tooltiptext="恢复默认" 
+                            onclick='methodsBody.resetShortcuts("CopyPDF");'>
+                        </div>
+
+                 </html:div>
+
+                    <!-- Open With  -->
+
+                   <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
+                        <checkbox id="zoteroif.enableShortcutsOpenWith" 
+                                  label="Open With" 
+                                  native="true"
+                                  oncommand='methodsBody.enableShortcuts("OpenWith", this.checked);'/>
+
+                        <html:input type="text" 
+                                    id="zoteroif.shortcutsInputBox.OpenWith" 
+                                    style='margin-right: 80px;' 
+                                    size="15" 
+                                    readonly="true" 
+                                    onfocus='methodsBody.setKeyListener(event); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "0 0 4px blue";};' 
+                                    onblur='methodsBody.setKeyListener(event, "remove"); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "";};'></html:input>
+
+                        <div class="buttonIcon svg-container-reset"
+                            tooltiptext="恢复默认" 
+                            onclick='methodsBody.resetShortcuts("OpenWith");'>
+                        </div>
+
+                    </html:div>
+
+                    <!-- Chat with NewBing  -->
+
+                   <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
+                        <checkbox id="zoteroif.enableShortcutsChatwithNewbing" 
+                                  label="Chat with NewBing" 
+                                  native="true"
+                                  oncommand='methodsBody.enableShortcuts("ChatwithNewbing", this.checked);'/>
+
+                        <html:input type="text" 
+                                    id="zoteroif.shortcutsInputBox.ChatwithNewbing" 
+                                    style='margin-right: 80px;' 
+                                    size="15" 
+                                    readonly="true" 
+                                    onfocus='methodsBody.setKeyListener(event); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "0 0 4px blue";};' 
+                                    onblur='methodsBody.setKeyListener(event, "remove"); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "";};'></html:input>
+
+                        <div class="buttonIcon svg-container-reset"
+                            tooltiptext="恢复默认" 
+                            onclick='methodsBody.resetShortcuts("ChatwithNewbing");'>
+                        </div>
+
+                    </html:div>
+
+                    <!-- 打开 Edge 沉浸式翻译  -->
+
+                   <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
+                        <checkbox id="zoteroif.enableShortcutsImmersiveTranslate" 
+                                  label="打开 Edge 沉浸式翻译" 
+                                  native="true"
+                                  oncommand='methodsBody.enableShortcuts("ImmersiveTranslate", this.checked);'/>
+
+                        <html:input type="text" 
+                                    id="zoteroif.shortcutsInputBox.ImmersiveTranslate" 
+                                    style='margin-right: 80px;' 
+                                    size="15" 
+                                    readonly="true" 
+                                    onfocus='methodsBody.setKeyListener(event); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "0 0 4px blue";};' 
+                                    onblur='methodsBody.setKeyListener(event, "remove"); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "";};'></html:input>
+
+                        <div class="buttonIcon svg-container-reset"
+                            tooltiptext="恢复默认" 
+                            onclick='methodsBody.resetShortcuts("ImmersiveTranslate");'>
+                        </div>
+
+                    </html:div>
+
+                    <!-- 打开通用沉浸式翻译  -->
+
+                   <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
+                        <checkbox id="zoteroif.enableShortcutsUniversalImmersiveTranslate" 
+                                  label="打开通用沉浸式翻译" 
+                                  native="true"
+                                  oncommand='methodsBody.enableShortcuts("UniversalImmersiveTranslate", this.checked);'/>
+
+                        <html:input type="text" 
+                                    id="zoteroif.shortcutsInputBox.UniversalImmersiveTranslate" 
+                                    style='margin-right: 80px;' 
+                                    size="15" 
+                                    readonly="true" 
+                                    onfocus='methodsBody.setKeyListener(event); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "0 0 4px blue";};' 
+                                    onblur='methodsBody.setKeyListener(event, "remove"); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "";};'></html:input>
+
+                        <div class="buttonIcon svg-container-reset"
+                            tooltiptext="恢复默认" 
+                            onclick='methodsBody.resetShortcuts("UniversalImmersiveTranslate");'>
+                        </div>
+
+                    </html:div>
+
+                    <!-- 拷贝 PDF 附件链接  -->
+
+                   <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
+                        <checkbox id="zoteroif.enableShortcutsCopyPDFAttachmentsLink" 
+                                  label="拷贝 PDF 附件链接" 
+                                  native="true"
+                                  oncommand='methodsBody.enableShortcuts("CopyPDFAttachmentsLink", this.checked);'/>
+
+                        <html:input type="text" 
+                                    id="zoteroif.shortcutsInputBox.CopyPDFAttachmentsLink" 
+                                    style='margin-right: 80px;' 
+                                    size="15" 
+                                    readonly="true" 
+                                    onfocus='methodsBody.setKeyListener(event); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "0 0 4px blue";};' 
+                                    onblur='methodsBody.setKeyListener(event, "remove"); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "";};'></html:input>
+
+                        <div class="buttonIcon svg-container-reset"
+                            tooltiptext="恢复默认" 
+                            onclick='methodsBody.resetShortcuts("CopyPDFAttachmentsLink");'>
+                        </div>
+
+                    </html:div>
+                </groupbox>
+
+                <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 笔记 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+
+                <groupbox>
+                    <!-- 导航元素 -->
+                    <hbox align="center">
+                        <label><html:h3 style="font-size: 15px;color: #fa553c;" id="message-label">▌ 笔记</html:h3></label>
+                        <html:input type="text" id="navigator-item-notes" style="opacity: 0;"></html:input>
+                    </hbox>
+
+                    <!-- 添加标签 -->
+
+                    <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
+                        <checkbox id="zoteroif.enableShortcutsAddAnnotationTag" 
+                                  label="添加标签" 
+                                  native="true" 
+                                  oncommand='methodsBody.enableShortcuts("AddAnnotationTag", this.checked);'/>
+
+                        <html:input type="text" 
+                                    id="zoteroif.shortcutsInputBox.AddAnnotationTag" 
+                                    style='margin-right: 80px;' 
+                                    size="15" 
+                                    readonly="true" 
+                                    onfocus='methodsBody.setKeyListener(event); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "0 0 4px blue";};' 
+                                    onblur='methodsBody.setKeyListener(event, "remove"); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "";};'></html:input>
+
+                        <div class="buttonIcon svg-container-reset"
+                            tooltiptext="恢复默认" 
+                            onclick='methodsBody.resetShortcuts("AddAnnotationTag");'>
+                        </div>
+
+                    </html:div>
+
+                    <!-- 标签管理器 -->
+
+                   <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
+                        <checkbox id="zoteroif.enableShortcutsTagCardNotes" 
+                                  label="标签管理器" 
+                                  native="true"
+                                  oncommand='methodsBody.enableShortcuts("TagCardNotes", this.checked);'/>
+
+                        <html:input type="text" 
+                                    id="zoteroif.shortcutsInputBox.TagCardNotes" 
+                                    style='margin-right: 80px;' 
+                                    size="15" 
+                                    readonly="true" 
+                                    onfocus='methodsBody.setKeyListener(event); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "0 0 4px blue";};' 
+                                    onblur='methodsBody.setKeyListener(event, "remove"); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "";};'></html:input>
+
+                        <div class="buttonIcon svg-container-reset"
+                            tooltiptext="恢复默认" 
+                            onclick='methodsBody.resetShortcuts("TagCardNotes");'>
+                        </div>
+
+                    </html:div>
+
+                    <!-- 注释评论模板 -->
+
+                   <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
+                        <checkbox id="zoteroif.enableShortcutsSetCommentTemplate" 
+                                  label="注释评论模板" 
+                                  native="true"
+                                  oncommand='methodsBody.enableShortcuts("SetCommentTemplate", this.checked);'/>
+
+                        <html:input type="text" 
+                                    id="zoteroif.shortcutsInputBox.SetCommentTemplate" 
+                                    style='margin-right: 80px;' 
+                                    size="15" 
+                                    readonly="true" 
+                                    onfocus='methodsBody.setKeyListener(event); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "0 0 4px blue";};' 
+                                    onblur='methodsBody.setKeyListener(event, "remove"); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "";};'></html:input>
+
+                        <div class="buttonIcon svg-container-reset"
+                            tooltiptext="恢复默认" 
+                            onclick='methodsBody.resetShortcuts("SetCommentTemplate");'>
+                        </div>
+
+                    </html:div>
+
+                    <!-- Obsidian Note -->
+
+                   <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
+                        <checkbox id="zoteroif.enableShortcutsObsidianNote" 
+                                  label="Obsidian Note" 
+                                  native="true"
+                                  oncommand='methodsBody.enableShortcuts("ObsidianNote", this.checked);'/>
+
+                        <html:input type="text" 
+                                    id="zoteroif.shortcutsInputBox.ObsidianNote" 
+                                    style='margin-right: 80px;' 
+                                    size="15" 
+                                    readonly="true" 
+                                    onfocus='methodsBody.setKeyListener(event); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "0 0 4px blue";};' 
+                                    onblur='methodsBody.setKeyListener(event, "remove"); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "";};'></html:input>
+
+                        <div class="buttonIcon svg-container-reset"
+                            tooltiptext="恢复默认" 
+                            onclick='methodsBody.resetShortcuts("ObsidianNote");'>
+                        </div>
+
+                    </html:div>
+
+                    <!-- 跳转 Obsidian 卡片 -->
+
+                   <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
+                        <checkbox id="zoteroif.enableShortcutsObsidianBlock" 
+                                  label="跳转 Obsidian 卡片" 
+                                  native="true"
+                                  oncommand='methodsBody.enableShortcuts("ObsidianBlock", this.checked);'/>
+
+                        <html:input type="text" 
+                                    id="zoteroif.shortcutsInputBox.ObsidianBlock" 
+                                    style='margin-right: 80px;' 
+                                    size="15" 
+                                    readonly="true" 
+                                    onfocus='methodsBody.setKeyListener(event); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "0 0 4px blue";};' 
+                                    onblur='methodsBody.setKeyListener(event, "remove"); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "";};'></html:input>
+
+                        <div class="buttonIcon svg-container-reset"
+                            tooltiptext="恢复默认" 
+                            onclick='methodsBody.resetShortcuts("ObsidianBlock");'>
+                        </div>
+
+                    </html:div>
+
+                    <!-- 在智能文献矩阵中定位本条目 -->
+
+                   <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
+                        <checkbox id="zoteroif.enableShortcutsLocateItemInPapersMatrix" 
+                                  label="在智能文献矩阵中定位本条目" 
+                                  native="true"
+                                  oncommand='methodsBody.enableShortcuts("LocateItemInPapersMatrix", this.checked);'/>
+
+                        <html:input type="text" 
+                                    id="zoteroif.shortcutsInputBox.LocateItemInPapersMatrix" 
+                                    style='margin-right: 80px;' 
+                                    size="15" 
+                                    readonly="true" 
+                                    onfocus='methodsBody.setKeyListener(event); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "0 0 4px blue";};' 
+                                    onblur='methodsBody.setKeyListener(event, "remove"); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "";};'></html:input>
+
+                        <div class="buttonIcon svg-container-reset"
+                            tooltiptext="恢复默认" 
+                            onclick='methodsBody.resetShortcuts("LocateItemInPapersMatrix");'>
+                        </div>
+
+                    </html:div>
+
+                    <!-- 在智能文献矩阵中查询本条目分类 -->
+
+                   <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
+                        <checkbox id="zoteroif.enableShortcutsSearchCollectionInPapersMatrix" 
+                                  label="在智能文献矩阵中查询本条目分类" 
+                                  native="true"
+                                  oncommand='methodsBody.enableShortcuts("SearchCollectionInPapersMatrix", this.checked);'/>
+
+                        <html:input type="text" 
+                                    id="zoteroif.shortcutsInputBox.SearchCollectionInPapersMatrix" 
+                                    style='margin-right: 80px;' 
+                                    size="15" 
+                                    readonly="true" 
+                                    onfocus='methodsBody.setKeyListener(event); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "0 0 4px blue";};' 
+                                    onblur='methodsBody.setKeyListener(event, "remove"); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "";};'></html:input>
+
+                        <div class="buttonIcon svg-container-reset"
+                            tooltiptext="恢复默认" 
+                            onclick='methodsBody.resetShortcuts("SearchCollectionInPapersMatrix");'>
+                        </div>
+
+                    </html:div>
+
+                    <!-- 拷贝块引用链接 -->
+
+                 <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
+                        <checkbox id="zoteroif.enableShortcutsCopyBlockQuoteLink" 
+                                  label="拷贝块引用链接" 
+                                  native="true"
+                                  oncommand='methodsBody.enableShortcuts("CopyBlockQuoteLink", this.checked);'/>
+
+                        <html:input type="text" 
+                                    id="zoteroif.shortcutsInputBox.CopyBlockQuoteLink" 
+                                    style='margin-right: 80px;' 
+                                    size="15" 
+                                    readonly="true" 
+                                    onfocus='methodsBody.setKeyListener(event); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "0 0 4px blue";};' 
+                                    onblur='methodsBody.setKeyListener(event, "remove"); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "";};'></html:input>
+
+                        <div class="buttonIcon svg-container-reset"
+                            tooltiptext="恢复默认" 
+                            onclick='methodsBody.resetShortcuts("CopyBlockQuoteLink");'>
+                        </div>
+
+                    </html:div>
+
+                    <!-- 大纲标题 -->
+
+                  <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
+                        <checkbox id="zoteroif.enableShortcutsSetAnnotationHead" 
+                                  label="大纲标题" 
+                                  native="true"
+                                  oncommand='methodsBody.enableShortcuts("SetAnnotationHead", this.checked);'/>
+
+                        <html:input type="text" 
+                                    id="zoteroif.shortcutsInputBox.SetAnnotationHead" 
+                                    style='margin-right: 80px;' 
+                                    size="15" 
+                                    readonly="true" 
+                                    onfocus='methodsBody.setKeyListener(event); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "0 0 4px blue";};' 
+                                    onblur='methodsBody.setKeyListener(event, "remove"); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "";};'></html:input>
+
+                        <div class="buttonIcon svg-container-reset"
+                            tooltiptext="恢复默认" 
+                            onclick='methodsBody.resetShortcuts("SetAnnotationHead");'>
+                        </div>
+
+                    </html:div>
+
+                    <!-- 卡片笔记搜索 -->
+
+                   <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
+                        <checkbox id="zoteroif.enableShortcutsCardNotesSearch" 
+                                  label="卡片笔记搜索" 
+                                  native="true"
+                                  oncommand='methodsBody.enableShortcuts("CardNotesSearch", this.checked);'/>
+
+                        <html:input type="text" 
+                                    id="zoteroif.shortcutsInputBox.CardNotesSearch" 
+                                    style='margin-right: 80px;' 
+                                    size="15" 
+                                    readonly="true" 
+                                    onfocus='methodsBody.setKeyListener(event); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "0 0 4px blue";};' 
+                                    onblur='methodsBody.setKeyListener(event, "remove"); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "";};'></html:input>
+
+                        <div class="buttonIcon svg-container-reset"
+                            tooltiptext="恢复默认" 
+                            onclick='methodsBody.resetShortcuts("CardNotesSearch");'>
+                        </div>
+
+                    </html:div>
+
+                    <!-- 拷贝注释 -->
+
+                   <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
+                        <checkbox id="zoteroif.enableShortcutsCopyAnnotationLink" 
+                                  label="拷贝注释" 
+                                  native="true"
+                                  oncommand='methodsBody.enableShortcuts("CopyAnnotationLink", this.checked);'/>
+
+                        <html:input type="text" 
+                                    id="zoteroif.shortcutsInputBox.CopyAnnotationLink" 
+                                    style='margin-right: 80px;' 
+                                    size="15" 
+                                    readonly="true" 
+                                    onfocus='methodsBody.setKeyListener(event); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "0 0 4px blue";};' 
+                                    onblur='methodsBody.setKeyListener(event, "remove"); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "";};'></html:input>
+
+                        <div class="buttonIcon svg-container-reset"
+                            tooltiptext="恢复默认" 
+                            onclick='methodsBody.resetShortcuts("CopyAnnotationLink");'>
+                        </div>
+
+                    </html:div>
+
+                    <!-- 拷贝注释回链 -->
+
+                   <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
+                        <checkbox id="zoteroif.enableShortcutsCopyAnnotationLinkOnly" 
+                                  label="拷贝注释回链" 
+                                  native="true"
+                                  oncommand='methodsBody.enableShortcuts("CopyAnnotationLinkOnly", this.checked);'/>
+
+                        <html:input type="text" 
+                                    id="zoteroif.shortcutsInputBox.CopyAnnotationLinkOnly" 
+                                    style='margin-right: 80px;' 
+                                    size="15" 
+                                    readonly="true" 
+                                    onfocus='methodsBody.setKeyListener(event); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "0 0 4px blue";};' 
+                                    onblur='methodsBody.setKeyListener(event, "remove"); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "";};'></html:input>
+
+                        <div class="buttonIcon svg-container-reset"
+                            tooltiptext="恢复默认" 
+                            onclick='methodsBody.resetShortcuts("CopyAnnotationLinkOnly");'>
+                        </div>
+
+                    </html:div>
+
+                    <!-- 拷贝注释回链（MD） -->
+
+                   <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
+                        <checkbox id="zoteroif.enableShortcutsCopyAnnotationLinkMD" 
+                                  label="拷贝注释回链（MD）" 
+                                  native="true"
+                                  oncommand='methodsBody.enableShortcuts("CopyAnnotationLinkMD", this.checked);'/>
+
+                        <html:input type="text" 
+                                    id="zoteroif.shortcutsInputBox.CopyAnnotationLinkMD" 
+                                    style='margin-right: 80px;' 
+                                    size="15" 
+                                    readonly="true" 
+                                    onfocus='methodsBody.setKeyListener(event); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "0 0 4px blue";};' 
+                                    onblur='methodsBody.setKeyListener(event, "remove"); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "";};'></html:input>
+
+                        <div class="buttonIcon svg-container-reset"
+                            tooltiptext="恢复默认" 
+                            onclick='methodsBody.resetShortcuts("CopyAnnotationLinkMD");'>
+                        </div>
+
+                    </html:div>
+
+                    <!-- 拷贝注释文本 -->
+
+                   <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
+                        <checkbox id="zoteroif.enableShortcutsCopyAnnotationText" 
+                                  label="拷贝注释文本" 
+                                  native="true"
+                                  oncommand='methodsBody.enableShortcuts("CopyAnnotationText", this.checked);'/>
+
+                        <html:input type="text" 
+                                    id="zoteroif.shortcutsInputBox.CopyAnnotationText" 
+                                    style='margin-right: 80px;' 
+                                    size="15" 
+                                    readonly="true" 
+                                    onfocus='methodsBody.setKeyListener(event); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "0 0 4px blue";};' 
+                                    onblur='methodsBody.setKeyListener(event, "remove"); if (Zotero.isWin || Zotero.isLinux) {this.style.boxShadow = "";};'></html:input>
+
+                        <div class="buttonIcon svg-container-reset"
+                            tooltiptext="恢复默认" 
+                            onclick='methodsBody.resetShortcuts("CopyAnnotationText");'>
+                        </div>
+
+                    </html:div>
+                </groupbox>
+            </richlistbox>
+        </box>
+    </vbox>
+</dialog>
+
+<keyset>
+	<key id="key_close" key="W" modifiers="accel" oncommand="window.close();"/>
+</keyset>
+</window>

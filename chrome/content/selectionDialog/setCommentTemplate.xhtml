@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero/skin/zotero.css" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero-platform/content/zotero.css" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero/skin/scaffold.css" type="text/css"?>
+
+<!DOCTYPE window SYSTEM "chrome://zotero/locale/zotero.dtd">
+<window xmlns:html="http://www.w3.org/1999/xhtml"
+	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+	id="zoteroone-window-setCommentTemplate"
+	title=""
+	style="min-width: 480px;"
+	persist="width height screenX screenY"
+	windowtype="zoteroone-windowType-setCommentTemplate"
+	onload="methodsBody.init()">
+<dialog 
+	buttons="cancel, accept"
+	id="zoteroone-dialog-setCommentTemplate">
+
+	<script>
+		Services.scriptloader.loadSubScript("chrome://zotero/content/include.js", this);
+		Services.scriptloader.loadSubScript("chrome://zoteroif/content/selectionDialog/setCommentTemplate.js", this);
+		Services.scriptloader.loadSubScript("chrome://zotero/content/customElements.js", this);
+	</script>
+
+	<html:style>
+        .zoteroone-hbox-medium-gap {
+            flex-shrink: 0;
+            gap: 12px;
+        }
+	</html:style>
+
+	<linkset>
+	    <html:link rel="localization" href="zoteroif_preferences.ftl"/>
+	</linkset>	
+
+	<vbox id="vboxContainer-elem" flex="1">
+        <div class="container" style="display: flex;justify-content: space-between;align-items: center;">
+
+			<hbox align="center">
+				<div class="svg-container-template"></div>
+				<label><html:h3 style="font-size: 13px;" id="message-label">注释评论模板</html:h3></label>
+                <div class="svg-container-help"
+                    tooltiptext="帮助文档" 
+                    onclick='Zotero.getMainWindow().ZoteroPane.loadURI("https://www.yuque.com/qnscholar/zotero-one/dufkehryhaftq7ag?singleDoc# 《【注释评论模板】使用提示》");'
+                    style="margin-left: 8px;">
+                </div>
+	        </hbox>
+
+            <hbox align="center" class="zoteroone-hbox-medium-gap">
+            	<button id="view-button-templateItems" label="选择模板" oncommand="methodsBody.updateButtonStatus('templateItems');"/>
+				<button id="view-button-setTemplate" label="设置模板" oncommand="methodsBody.updateButtonStatus('setTemplate');"/>
+            </hbox>
+        </div>
+
+		<vbox id="vbox-templateItems" flex="1">
+			<box flex="1">
+				<richlistbox id="richlistbox-elem" flex="1" style="width:480px;height:500px;"></richlistbox>
+			</box>
+		</vbox>
+
+		<vbox id="vbox-setTemplate" flex="1">
+			<box flex="1" class="textarea-box">
+				<html:textarea
+						id="textarea-annotationCommentTemplate"
+						class="plain"
+						multiline="true"
+						placeholder="可换行输入多个模板"
+						style="width:100%;height:490px;padding: 5px;"
+						oninput="methodsBody.updateTemplate();"
+				/>
+			</box>
+		</vbox>
+
+	</vbox>
+</dialog>
+
+<keyset>
+	<key id="key_close" key="W" modifiers="accel" oncommand="window.close();"/>
+</keyset>
+</window>

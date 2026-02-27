@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero/skin/zotero.css" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero-platform/content/zotero.css" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero/skin/scaffold.css" type="text/css"?>
+
+<!DOCTYPE window SYSTEM "chrome://zotero/locale/zotero.dtd">
+<window xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+    title="增加 GPT 请求参数"
+    style="min-width: 550px;"
+    persist="width height screenX screenY"
+    windowtype="zoteroone-windowType-addRequestArguments"
+    onload="methodsBody.init();">
+<dialog 
+    buttons="accept"
+    id="zoteroone-dialog-addRequestArguments">
+
+    <script>
+        Services.scriptloader.loadSubScript("chrome://zotero/content/include.js", this);
+        Services.scriptloader.loadSubScript("chrome://zoteroif/content/selectionDialog/addRequestArguments.js", this);
+        Services.scriptloader.loadSubScript("chrome://zotero/content/customElements.js", this);
+    </script>
+
+    <linkset>
+        <html:link rel="localization" href="zoteroif_preferences.ftl"/>
+    </linkset>  
+
+    <vbox id="vboxContainer-elem" flex="1">
+
+        <div class="container" style="display: flex;justify-content: space-between;align-items: center;margin-bottom: 10px;">
+            <hbox align="center">
+                <checkbox id="enableRequestArguments" label='启用以下请求参数' checked="false" native="true" oncommand="methodsBody.enableRequestArguments();"/>
+                <div class="svg-container-help"
+                    tooltiptext="帮助文档" 
+                    onclick='Zotero.getMainWindow().ZoteroPane.loadURI("https://www.yuque.com/qnscholar/zotero-one/dlfrhurb6hm8a23x?singleDoc# 《【增加 GPT 请求参数】使用提示》");'
+                    style="margin-left: 8px;">
+                </div>
+            </hbox>
+            
+
+            <button label="检查 JSON 语法规范" oncommand="methodsBody.checkJSON();"/>
+        </div>
+
+        <box flex="1" class="textarea-box">
+            <html:textarea
+                    id="textarea-requestArguments"
+                    class="plain"
+                    multiline="true"
+                    placeholder="可换行输入多个模板"
+                    style="width:100%;height:300px;padding: 5px;"
+                    oninput="methodsBody.updateRequestArguments();"
+            />
+        </box>
+        
+    </vbox>
+</dialog>
+
+<keyset>
+	<key id="key_close" key="W" modifiers="accel" oncommand="window.close()"/>
+</keyset>
+</window>

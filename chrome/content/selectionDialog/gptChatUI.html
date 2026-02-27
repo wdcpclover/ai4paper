@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GPT Chat UI</title>
+
+    <!-- Markdown 和 LaTeX 渲染 -->
+    <script src="chrome://zoteroif/content/assets/js/markdown-it.min.js"></script>
+    <script src="chrome://zoteroif/content/assets/js/katex.min.js"></script>
+    <script src="chrome://zoteroif/content/assets/js/texmath.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="chrome://zoteroif/content/assets/css/katex.min.css">
+    <link type="text/css" rel="stylesheet" href="chrome://zoteroif/content/assets/css/texmath.min.css">
+
+    <!-- highlight.js 代码块高亮 -->
+    <script src="chrome://zoteroif/content/assets/js/highlight.min.js"></script>
+    <!-- 辅助 highlight.js 高亮代码块 css/highlight -->
+    <link id="highlightStyle" rel="stylesheet" type="text/css" href="chrome://zoteroif/content/assets/css/highlight/github.min.css">
+    <!-- github markdown 风格，连同 highlight 一起优化代码块样式 css/highlight -->
+    <link rel="stylesheet" type="text/css" href="chrome://zoteroif/content/assets/css/highlight/github-markdown.min.css">
+
+    <script src="chrome://zoteroif/content/selectionDialog/gptChatUI.js"></script>
+    <script src="chrome://zotero/content/include.js"></script>
+    <style id="chatUIStyle">
+
+    </style>
+</head>
+<body onload='init();'>
+
+    <div style="position: relative;">
+        <div id="chat-container" class="chat-container">
+            <div class="openaiLogoContainer" style="display: '';">
+                <img id="OpenAI-Lgo" src="chrome://zoteroif/content/icons/logo.png" class="openaiLogo" draggable="false">
+            </div>
+        </div>
+
+        <div id="scroll-to-bottom-btn">
+            <svg viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+        </div>
+    </div>
+
+    <div style="position: relative; width: 100%;">
+        <textarea id="message-input" 
+                class="htmlTextArea"
+                placeholder="想聊什么，请输入..." 
+                style="width:100%;height:220px;font-family: Arial, sans-serif;padding: 5px 8px 5px 8px;font-size:14px;resize:vertical;box-sizing: border-box;outline: none;" 
+                onkeydown="messageInput_checkKeyEnter(event);" 
+                oninput="pushText();" 
+                onchange="pushText();">
+        </textarea>
+        
+        <div id="send-button" 
+               class="quickButton svg-container-send"
+               style="right: 15px;" 
+               title="发送" 
+               onmouseover="updateButtonBgColor(this);" 
+               onmouseout="this.style.background='';" 
+               onclick='Zotero.ZoteroIF.gptReaderSidePane_ChatMode_send();'
+        ></div>
+        <div id="clear-button" 
+               class="quickButton svg-container-remove" 
+               style="right: 47px;" 
+               title="清空消息输入框" 
+               onmouseover="updateButtonBgColor(this);this.innerHTML = Zotero.ZoteroIF.svg_icon_20px['remove'].replace(/#0281ff/g, '#f40614');" 
+               onmouseout="this.style.background='';this.innerHTML = Zotero.ZoteroIF.svg_icon_20px['remove'];" 
+               onclick='document.getElementById("message-input").value = ""; Zotero.Prefs.set("zoteroif.chatgptprompt", "");'
+        ></div>
+        <div id="metaso-button"
+               class="quickButton svg-container-metaso" 
+               style="right: 79px;" 
+               title="秘塔 AI 搜索" 
+               onmouseover="updateButtonBgColor(this);this.innerHTML = Zotero.ZoteroIF.svg_icon_20px['metaso'].replace(/#0281ff/g, '#f40614');" 
+               onmouseout="this.style.background='';this.innerHTML = Zotero.ZoteroIF.svg_icon_20px['metaso'];" 
+               onclick='metaso();'
+        ></div>
+        <div id="chatHistory-button" 
+               class="quickButton svg-container-chatHistory" 
+               style="right: 111px;" 
+               title="AI 对话历史" 
+               onmouseover="updateButtonBgColor(this);this.innerHTML = Zotero.ZoteroIF.svg_icon_20px['chatHistory'].replace(/#0281ff/g, '#f40614');" 
+               onmouseout="this.style.background='';this.innerHTML = Zotero.ZoteroIF.svg_icon_20px['chatHistory'];" 
+               onclick='onClickChatHistoryBtn(event);'
+        ></div>
+        <div id="paperai_batch-button"
+               class="quickButton svg-container-paperai_batch" 
+               style="right: 143px;" 
+               title="批量 AI 解读文献" 
+               onmouseover="updateButtonBgColor(this);this.innerHTML = Zotero.ZoteroIF.svg_icon_20px['paperai_batch'].replace(/#0281ff/g, '#f40614');" 
+               onmouseout="this.style.background='';this.innerHTML = Zotero.ZoteroIF.svg_icon_20px['paperai_batch'];" 
+               onclick='onClickPaperAIBatchBtn(event);'
+               oncontextmenu='Zotero.ZoteroIF.batchInterpretSelectedItems();'
+        ></div>
+        <div id="paperAI-button" 
+               class="quickButton svg-container-paperai"
+               style="right: 175px;" 
+               title="AI 解读文献" 
+               onmouseover="updateButtonBgColor(this);this.innerHTML = Zotero.ZoteroIF.svg_icon_20px['paperai'].replace(/#0281ff/g, '#f40614');" 
+               onmouseout="this.style.background='';this.innerHTML = Zotero.ZoteroIF.svg_icon_20px['paperai'];" 
+               onmousedown='paperAI(event);'
+        ></div>
+    </div>
+
+    <div id="context-menu">
+        <ul>
+            <li>选择消息以导出为卡片笔记</li>
+            <li>选择全部消息</li>
+            <li>取消全部选择</li>
+            <li>发送至翻译区</li>
+            <li>拷贝已选消息</li>
+            <li>拷贝全部 AI 回复</li>
+            <li>前往本消息顶部</li>
+            <li>创建为【文献解读】笔记附件</li>
+            <li>追加至【文献解读】笔记附件</li>
+            <li>拷贝 Markdown 消息</li>
+            <li>拷贝消息</li>
+            <li>拷贝附件标题</li>
+            <li>拷贝附件全文</li>
+            <li>打开附件</li>
+            <li>在本地显示附件</li>
+        </ul>
+    </div>
+
+</body>
+</html>

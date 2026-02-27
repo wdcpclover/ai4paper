@@ -1,0 +1,86 @@
+.zotero-zoteroif-collection-icon {
+    list-style-image: url('chrome://zoteroif/content/icons/favorite-collection.png.png');
+}
+
+.color-option {
+  font-size: 12px; /* 修改字体大小为13像素 */
+}
+
+.color-option::before {
+    content: "";
+    display: inline-block;
+    width: 17px;
+    height: 17px;
+    margin-right: 10px;
+    background-color: var(--before-bg-color, rgb(248,244,230)); 
+}
+
+.color-option[value="default"]::before {
+    background-color: #faf9f8;
+}
+
+.color-option[value="mungbean_green"]::before {
+    background-color: rgb(199,237,204);
+}
+
+.color-option[value="matcha_green"]::before {
+    background-color: rgb(204,232,207);
+}
+
+.color-option[value="grass_green"]::before {
+    background-color: rgb(227,237,205);
+}
+
+.color-option[value="almond_yellow"]::before {
+    background-color: rgb(250,249, 222);
+}
+
+.color-option[value="autumnleaf_brown"]::before {
+    background-color: rgb(255,242,226);
+}
+
+.color-option[value="crimson_red"]::before {
+    background-color: rgb(253,230,224);
+}
+
+.color-option[value="ocean_blue"]::before {
+    background-color: rgb(220,226,241);
+}
+
+.color-option[value="gauze_purple"]::before {
+    background-color: rgb(233,235,254);
+}
+
+.color-option[value="aurora_grey"]::before {
+    background-color: rgb(234,234,239);
+}
+
+.color-option[value="ivory_white"]::before {
+    background-color: rgb(248,244,230);
+}
+
+/* 双列排布 renameTags.js defineColorLabel.js */
+.two-columns {
+    display: grid; 
+    grid-template-columns: 1fr 1fr;
+}
+
+/*标签过滤 A-Z 图片*/
+
+.filter-character {
+    width:32px;
+    height:32px;
+    transition: transform 0.125s ease;
+}
+
+/* 备份设置里的按钮 */
+
+.prefs-Button {
+    transition: transform 0.125s ease;
+}
+.prefs-Button:hover {
+    transform: scale(1.1);
+}
+.prefs-Button:not(:hover) {
+    transform: scale(1);
+}

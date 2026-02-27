@@ -1,0 +1,149 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero/skin/zotero.css" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero-platform/content/zotero.css" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero/skin/scaffold.css" type="text/css"?>
+
+<!DOCTYPE window SYSTEM "chrome://zotero/locale/zotero.dtd">
+<window xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+    title="功能按钮开关"
+    style="min-width: 360px;" 
+    persist="width height screenX screenY"
+    windowtype="zoteroone-windowType-gptFuncButtonsEnable"
+    onload="methodsBody.init();">
+<dialog 
+    buttons="accept"
+    buttonlabelaccept="关闭窗口" 
+    id="ZoteroOneDialog-gptFuncButtonsEnable">
+
+    <script>
+        Services.scriptloader.loadSubScript("chrome://zotero/content/include.js", this);
+        Services.scriptloader.loadSubScript("chrome://zotero/content/customElements.js", this);
+
+        Services.scriptloader.loadSubScript("chrome://zoteroif/content/selectionDialog/gptFuncButtonsEnable.js", this);
+    </script>
+
+	<html:style>
+		.buttonIcon {
+            transform: scale(0.875);
+		}
+	</html:style>
+
+    <linkset>
+        <html:link rel="localization" href="zoteroif_preferences.ftl"/>
+    </linkset>  
+
+    <vbox id="vboxContainer-elem" flex="1">
+
+        <description style="white-space: pre-wrap; color: #0091ff;margin-bottom: 10px; font-size: 15px; font-weight: bold;">▌对话按钮</description>
+
+			<box flex="1">
+				<richlistbox id="richlistbox-elem" flex="1" style='padding-left: 5px;'>
+                    <hbox align="center">
+                        <checkbox id="chatButton-ClearChat" label='' native="true" checked="true" oncommand="methodsBody.setChatButtons();"/>
+                        <div class="buttonIcon svg-container-addNewChat"></div>
+                        <label value="创建新对话"/>
+                    </hbox> 
+
+                    <hbox align="center">
+                        <checkbox id="chatButton-ImportFulltext" label='' native="true" checked="true" oncommand="methodsBody.setChatButtons();"/>
+                        <div class="buttonIcon svg-container-fulltext"></div>
+                        <label value="导入 PDF 全文"/>
+                    </hbox>
+
+                    <hbox align="center">
+                        <checkbox id="chatButton-ImportAbstract" label='' native="true" checked="true" oncommand="methodsBody.setChatButtons();"/> 
+                        <div class="buttonIcon svg-container-abstract"></div>
+                        <label value="导入摘要"/>   
+                    </hbox>
+
+                    <hbox align="center">
+                        <checkbox id="chatButton-AIAnalysis" label='' native="true" checked="true" oncommand="methodsBody.setChatButtons();"/> 
+                        <div class="buttonIcon svg-container-ai_16px"></div>
+                        <label value="AI 分析"/>   
+                    </hbox>
+
+                    <hbox align="center">
+                        <checkbox id="chatButton-AddNotes" label='' native="true" checked="true" oncommand="methodsBody.setChatButtons();"/>
+                        <div class="buttonIcon svg-container-addGPTNote"></div>
+                        <label value="添加到笔记"/>
+                    </hbox>
+
+                    <hbox align="center">
+                        <checkbox id="chatButton-ImportAIReading" label='' native="true" checked="true" oncommand="methodsBody.setChatButtons();"/>
+                        <div class="buttonIcon svg-container-importAIReading"></div>
+                        <label value="导入外部【AI 文献解读】笔记"/>
+                    </hbox>
+
+                    <hbox align="center">
+                        <checkbox id="chatButton-LocateAIReadingNotes" label='' native="true" checked="true" oncommand="methodsBody.setChatButtons();"/>
+                        <div class="buttonIcon svg-container-locateAIReadingNotes"></div>
+                        <label value="定位 Obsidian【AI 文献解读】笔记"/>
+                    </hbox>
+				</richlistbox>
+			</box>
+
+
+        <description style="white-space: pre-wrap; color: #0091ff; margin-top: 10px; margin-bottom: 10px; font-size: 15px; font-weight: bold;">▌消息按钮</description>
+
+			<box flex="1">
+				<richlistbox id="richlistbox-elem" flex="1" style='padding-left: 5px;'>
+                    <hbox align="center">
+                        <checkbox id="messageButton-Go2MessageTop" label='' native="true" checked="true" oncommand="methodsBody.setMessageButtons();"/>
+                        <div class="buttonIcon svg-container-scrollTop"></div>
+                        <label value="前往消息顶部"/>
+                    </hbox> 
+
+                    <hbox align="center">
+                        <checkbox id="messageButton-CopyMessage" label='' native="true" checked="true" oncommand="methodsBody.setMessageButtons();"/>
+                        <div class="buttonIcon svg-container-clipboard"></div>
+                        <label value="拷贝消息"/>
+                    </hbox> 
+
+                    <hbox align="center">
+                        <checkbox id="messageButton-CopyMessageSourceText" label='' native="true" checked="true" oncommand="methodsBody.setMessageButtons();"/>
+                        <div class="buttonIcon svg-container-markdown"></div>
+                        <label value="拷贝 Markdown 消息"/>
+                    </hbox> 
+
+                    <hbox align="center">
+                        <checkbox id="messageButton-SaveMessages" label='' native="true" checked="true" oncommand="methodsBody.setMessageButtons();"/>
+                        <div class="buttonIcon svg-container-save"></div>
+                        <label value="保存消息"/>
+                    </hbox> 
+
+                    <hbox align="center">
+                        <checkbox id="messageButton-ModifyUserMessage" label='' native="true" checked="true" oncommand="methodsBody.setMessageButtons();"/>
+                        <div class="buttonIcon svg-container-rename_16px"></div>
+                        <label value="修改后重新提问"/>
+                    </hbox> 
+
+                    <hbox align="center">
+                        <checkbox id="messageButton-UpdateAssistantMessage" label='' native="true" checked="true" oncommand="methodsBody.setMessageButtons();"/>
+                        <div class="buttonIcon svg-container-update_16px"></div>
+                        <label value="重新生成回复"/>
+                    </hbox> 
+
+                    <hbox align="center">
+                        <checkbox id="messageButton-AddMessage2SelectedAnnotation" label='' native="true" checked="true" oncommand="methodsBody.setMessageButtons();"/>
+                        <div class="buttonIcon svg-container-importAnnotations"></div>
+                        <label value="添加至注释评论"/>
+                    </hbox> 
+
+                    <hbox align="center">
+                        <checkbox id="messageButton-CreateAIReadingNoteItem" label='' native="true" checked="true" oncommand="methodsBody.setMessageButtons();"/>
+                        <div class="buttonIcon svg-container-add_16px"></div>
+                        <label value="追加至【文献解读】笔记附件"/>
+                    </hbox> 
+				</richlistbox>
+			</box>
+
+    </vbox>
+</dialog>
+
+<keyset>
+	<key id="key_close" key="W" modifiers="accel" oncommand="window.close()"/>
+</keyset>
+</window>

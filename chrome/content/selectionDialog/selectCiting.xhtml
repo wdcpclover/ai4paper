@@ -1,0 +1,153 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero/skin/zotero.css" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero-platform/content/zotero.css" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero/skin/scaffold.css" type="text/css"?>
+
+<!DOCTYPE window SYSTEM "chrome://zotero/locale/zotero.dtd">
+<window xmlns:html="http://www.w3.org/1999/xhtml"
+	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+	id="zoteroone-window-selectCiting"
+	title="抓取施引文献"
+	style="min-width: 1000px; min-height: 650px;" 
+	persist="width height screenX screenY"
+	windowtype="zoteroone-windowType-selectCiting"
+	onload="methodsBody.init();">
+<dialog 
+	buttons="cancel,accept"
+	id="zoteroone-dialog-selectCiting">
+
+	<script>
+		Services.scriptloader.loadSubScript("chrome://zotero/content/include.js", this);
+		Services.scriptloader.loadSubScript("chrome://zotero/content/customElements.js", this);
+
+		Services.scriptloader.loadSubScript("chrome://zoteroif/content/selectionDialog/selectCiting.js", this);
+	</script>
+
+	<html:style>
+
+		.zoteroone-hbox-tiny-gap {
+			flex-shrink: 0;
+			gap: 5px;
+		}
+
+        .zoteroone-hbox-small-gap {
+            flex-shrink: 0;
+            gap: 8px;
+        }
+
+        .zoteroone-hbox-medium-gap {
+            flex-shrink: 0;
+            gap: 12px;
+        }
+
+        .zoteroone-hbox-large-gap {
+            flex-shrink: 0;
+            gap: 30px;
+        }
+
+		<!-- AI 按钮 -->
+
+		.aiButton {
+			width: 20px; 
+			height: 20px;
+			margin-left: 20px;
+			transition: transform 0.125s ease;
+		}
+		.aiButton:hover {
+			transform: scale(1.15);
+		}
+		.aiButton:not(:hover) {
+			transform: scale(1);
+		}
+	</html:style>
+
+	<linkset>
+	    <html:link rel="localization" href="zoteroif_preferences.ftl"/>
+	</linkset>	
+
+	<vbox id="vboxContainer-elem" flex="1">
+        <div class="container" style="display: flex;justify-content: space-between;align-items: center;">
+
+			<hbox align="center">
+				<div class="svg-container-enablesvgciting"
+					 onclick="if (event.button == 2) return;methodsBody.scrollToTopOrBottom(true);"
+					 oncontextmenu="methodsBody.scrollToTopOrBottom();">
+				</div>
+
+				<label><html:h3 style="font-size: 13px;" id="zotero-selectCiting-intro">选择要导入的施引文献</html:h3></label>
+	        </hbox>
+	        
+            <hbox align="center" class="zoteroone-hbox-medium-gap">
+
+				<hbox align="center" class="zoteroone-hbox-large-gap">
+					<hbox align="center" class="zoteroone-hbox-medium-gap">
+						<button id="adjustWindowWidth-button" label="最大宽度" oncommand='methodsBody.maxWindowWidth();'/>
+						<button id="adjustWindowWidth-button" label="合适宽度" oncommand='methodsBody.adjustWindowWidthPercent();'/>
+					</hbox>
+
+					<hbox align="center" class="zoteroone-hbox-small-gap">
+						<label><html:h3 style="font-size: 13px;color: #fa553c;" id="zotero-search-intro"></html:h3></label>
+						<button id="back2All-button" label="返回全部" style="display: none;" oncommand="methodsBody.all()"/>
+					</hbox>
+				</hbox>
+
+				<hbox align="center" class="zoteroone-hbox-tiny-gap">
+					<html:input type="text" id="search-inputBox" size="15" placeholder="" onkeydown="methodsBody.checkKeyEnter(event);"></html:input>
+					<div class="svg-container-search" 
+						 tooltiptext="点击搜索" 
+						 onclick="methodsBody.search();">
+					</div>
+				</hbox>
+            </hbox>
+        </div>
+        
+		<box flex="1">
+			<richlistbox id="richlistbox-elem" flex="1" style="width: 800px;height:500px;"></richlistbox>
+		</box>
+
+		<hbox align="center" class="zoteroone-hbox-small-gap" style="margin-top: 2px;">
+
+			<button label="全选" oncommand="methodsBody.selectAll()"/>
+			<button label="取消全选" oncommand="methodsBody.selectAll(true)"/>
+
+			<div class="svg-container-line"></div>
+
+			<checkbox id="zoteroif.retrieverefsSelectCollection" 
+					  label='手动选择存放文件夹' 
+					  checked="false" 
+					  native="true" 
+					  oncommand="methodsBody.updatePrefs();"
+			/>
+			<checkbox id="zoteroif.retrieverefsLocateinCollection" 
+					  label='导入后显示条目' 
+					  checked="false" 
+					  native="true" 
+					  oncommand="methodsBody.updatePrefs();"
+			/>
+			<checkbox id="zoteroif.retrieverefsAbstractTranslationBehind" 
+					  label='摘要翻译在后' 
+					  checked="false" 
+					  native="true" 
+					  oncommand="methodsBody.updatePrefs();"
+			/>
+
+			<div class="svg-container-line"></div>
+
+			<hbox align="center">
+				<label value="🔘 IF 阈值："/>
+				<html:input type="text" id="zoteroif.retrieverefsIFlimit" size="1" oninput="methodsBody.onIFLimitChange();"></html:input>
+				<div class="aiButton svg-container-ai" 
+					 tooltiptext="AI 分析施引文献" 
+					 onclick="methodsBody.aiAnalysis();">
+				</div>
+			</hbox>
+		</hbox>
+	</vbox>
+</dialog>
+
+<keyset>
+	<key id="key_close" key="W" modifiers="accel" oncommand="window.close()"/>
+</keyset>
+</window>

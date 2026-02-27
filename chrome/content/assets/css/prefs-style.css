@@ -1,0 +1,31 @@
+.grid-layout-items {
+    display: grid; 
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+/* renameTags.js */
+.two-columns {
+    display: grid; 
+    grid-template-columns: 1fr 1fr;
+/*    display: grid;
+    align-items: center;
+    grid-template-columns: 1fr max-content max-content;*/
+}
+
+/*.tick-cross {
+    display: none; 
+    min-width: 16px;
+    min-height: 16px;
+    width: 16px;
+    height: 16px;
+    margin-right: 16px;
+    margin-left: 16px;
+}*/
+
+/*导航按钮排列*/
+
+/*.navigator-layout {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}*/

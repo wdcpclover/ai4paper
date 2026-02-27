@@ -1,0 +1,68 @@
+﻿<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero/skin/zotero.css" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero/skin/overlay.css" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero-platform/content/overlay.css" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero-platform/content/zotero.css"?>
+<!DOCTYPE window SYSTEM "chrome://zotero/locale/zotero.dtd">
+
+
+<window
+	id="zotero-select-items-dialog"
+	windowtype="zotero:item-selector"
+	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+	xmlns:html="http://www.w3.org/1999/xhtml"
+	onload="doLoad();"
+	onunload="doUnload();"
+	persist="screenX screenY width height"
+	class="zotero-dialog"
+	drawintitlebar="true"
+>
+<dialog
+	id="select-items-dialog"
+	orient="vertical"
+	buttons="cancel"
+	data-l10n-id="select-items-dialog"
+	data-l10n-attrs="buttonlabelaccept"
+>
+<script>
+	Services.scriptloader.loadSubScript("chrome://zotero/content/include.js", this);
+	// Custom elements
+	Services.scriptloader.loadSubScript("chrome://zotero/content/customElements.js", this);
+	Services.scriptloader.loadSubScript("chrome://zotero/content/selectItemsDialog.js", this);
+
+	// 如果按了 esc 取消了，则取消存放
+	document.addEventListener('dialogcancel', () => {
+		Zotero.ZoteroIF._dataOut_SelectedCollection = null;
+	});
+</script>
+
+<linkset>
+	<html:link rel="localization" href="zotero.ftl" />
+</linkset>
+
+<vbox id="zotero-select-items-container" flex="1">
+	<hbox id="collections-items-container">
+		<vbox id="zotero-collections-tree-container" class="virtualized-table-container">
+			<html:div id="zotero-collections-tree"/>
+		</vbox>
+		<vbox id="zotero-items-tree-container" flex="1">
+			<hbox id="search-toolbar">
+				<quick-search-textbox id="zotero-tb-search" timeout="250" oncommand="onSearch()" dir="reverse"/>
+			</hbox>
+			<hbox id="zotero-items-pane-content" class="virtualized-table-container">
+				<html:div id="zotero-items-tree"/>
+			</hbox>
+		</vbox>
+	</hbox>
+
+	<hbox align="center" style="margin-top: 20px;margin-bottom: 20px;">
+		<button label="确认选择" style="font-size: 13px;margin-left: 15px" default="true" oncommand="Zotero.ZoteroIF._dataOut_SelectedCollection = collectionsView.getSelectedCollection();window.close(); Zotero.ZoteroIF._refsCollectionIndex = -1;"/>
+		<button label="定位当前条目文件夹" style="font-size: 13px;margin-left: 15px" oncommand="let collectionID = Zotero.ZoteroIF.getRandomItemCollection(); collectionID != '未分类' ? collectionsView.selectCollection(collectionID) : collectionsView.selectLibrary();"/>
+
+		<button label="取消导入" style="font-size: 13px;margin-left: 30px" oncommand="Zotero.ZoteroIF._dataOut_SelectedCollection = null;window.close();"/>
+		<!-- 如果选择了我的文库，Zotero.ZoteroIF._dataOut_SelectedCollection 结果为 undefined 而不是 null，程序会让文献放入设定的文件夹，如果未设定则放入我的文库 -->
+	</hbox>
+</vbox>
+</dialog>
+</window>

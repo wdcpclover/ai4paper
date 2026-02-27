@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <title>ZoteroIF GPT ReaderSidePane iframe</title>
+
+  <style>
+      .gpt-textarea {
+          font-family: Arial, sans-serif;
+          margin-left: 2px;
+          padding: 5px 8px 5px 8px;
+          font-size: 14px;
+          width: 95%;
+          height: 300px;
+          resize:vertical;
+          outline: none;
+      }
+  </style>
+
+  <script src="chrome://zoteroif/content/selectionDialog/gptReaderSidePane.js"></script>
+  <script src="chrome://zotero/content/include.js"></script>
+</head>
+
+<body onload='gptReaderSidePane_init();'>
+
+    <!-- 输入和响应 -->
+
+    <vbox  align="center">
+
+        <!---------------------------------------------------------- 输入区 ----------------------------------------------------------->
+
+        <!-- 拼接模式下 0 0 3px #b4009e -->
+        <textarea id="zoteroif-chatgpt-readerSidePane-chatgpt-prompt" 
+                  class="htmlTextArea gpt-textarea"
+                  flex="1" 
+                  placeholder="这里输入内容"  
+                  multiline="true" 
+                  onkeydown="readerSidePane_checkKeyEnter(event);" 
+                  oninput="readerSidePane_pushText();">
+        </textarea>
+
+        <!---------------------------------------------------------- 一些描述内容 ----------------------------------------------------------->
+
+        <div style="display: flex;align-items: center; margin-top: 7px;margin-bottom: 7px;">
+
+            <div id="chatgpt-readerSidePane-chatgpt-icon"
+                class="svg-container-gptviewReaderSidepane" 
+                style="width: 20px;height: 20px;vertical-align: middle;margin-right: 5px;" 
+                title="点击访问 ChatGPT 官网" 
+                onclick='Zotero.ZoteroIF.visitChatGPT();'
+            ></div>
+            
+            <description id="zoteroif-chatgpt-readerSidePane-chatgpt-response-time" style="font-family: Arial, sans-serif;white-space: pre-wrap; font-size: 14px;vertical-align: middle">Hi，有什么能帮助您吗？</description>
+            <description id="zoteroif-chatgpt-readerSidePane-chatgpt-space" style="display:none">&nbsp;</description>
+            <description id="zoteroif-chatgpt-readerSidePane-chatgpt-token-used" style="display:none;font-family: Arial, sans-serif;white-space: pre-wrap; font-size: 14px;vertical-align: middle"></description>
+        </div>
+
+        <!---------------------------------------------------------- 响应区 ----------------------------------------------------------->
+
+        <textarea id="zoteroif-chatgpt-readerSidePane-chatgpt-response" 
+                  class="htmlTextArea gpt-textarea"
+                  flex="1" 
+                  placeholder="这里显示结果"  
+                  multiline="true">
+        </textarea>
+    </vbox>
+    
+</body>
+
+</html>

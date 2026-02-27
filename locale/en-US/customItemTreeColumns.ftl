@@ -1,0 +1,13 @@
+zoteroif-customItemTreeColumns-title-label = 🔘 Custom Item Tree Columns
+zoteroif-customItemTreeColumns-shortTitle = 
+    .label = Short Title
+zoteroif-customItemTreeColumns-archive = 
+    .label = Archive
+zoteroif-customItemTreeColumns-archiveLocation = 
+    .label = Loc. in Archive
+zoteroif-customItemTreeColumns-libraryCatalog = 
+    .label = Library Catalog
+zoteroif-customItemTreeColumns-callNumber = 
+    .label = Call Number
+zoteroif-customItemTreeColumns-rights = 
+    .label = Rights

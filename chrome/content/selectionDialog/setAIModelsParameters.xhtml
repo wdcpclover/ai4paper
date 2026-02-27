@@ -1,0 +1,262 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero/skin/zotero.css" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero-platform/content/zotero.css" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero/skin/scaffold.css" type="text/css"?>
+
+<!DOCTYPE window SYSTEM "chrome://zotero/locale/zotero.dtd">
+<window xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+    title="参数调节"
+    persist="width height screenX screenY"
+    windowtype="zoteroone-windowType-setAIModelsParameters"
+    onload="methodsBody.init();">
+<dialog 
+    buttons="accept"
+    buttonlabelaccept="关闭窗口" 
+    id="zoteroone-dialog-setAIModelsParameters">
+
+    <script>
+        Services.scriptloader.loadSubScript("chrome://zotero/content/include.js", this);
+        Services.scriptloader.loadSubScript("chrome://zoteroif/content/selectionDialog/setAIModelsParameters.js", this);
+        Services.scriptloader.loadSubScript("chrome://zotero/content/customElements.js", this);
+    </script>
+
+	<html:style>
+		.buttonIcon {
+            margin-left: 7px;
+            margin-right: 7px;
+            transition: transform 0.125s ease;
+		}
+        .buttonIcon:hover {
+            transform: scale(1.1);
+        }
+        .buttonIcon:not(:hover) {
+            transform: scale(1);
+        }
+	</html:style>
+
+    <linkset>
+        <html:link rel="localization" href="zoteroif_preferences.ftl"/>
+    </linkset>
+
+        <vbox id="vboxContainer-elem" flex="1">
+
+            <description style="white-space: pre-wrap; color: #0091ff;margin-bottom: 10px; font-size: 15px; font-weight: bold;">▌界面参数</description>
+
+			<box flex="1">
+				<richlistbox id="richlistbox-elem" flex="1" style='padding-left: 5px;'>
+                    <!-- <description style="white-space: pre-wrap; black: red; margin-bottom: 10px; font-size: 13px; font-weight: bold;">🔘 连续对话模式</description> -->
+
+                    <description style="white-space: pre-wrap; color: #fa553c; margin-top: 10px; margin-bottom: 10px; font-size: 14px; font-weight: bold;">▌连续对话模式</description>
+
+                    <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
+
+                        <hbox align="center">
+                            <checkbox id="zotero-if-xul-gptEnableCustomChatModeGPTUIHeight" native="true" checked="false" oncommand="methodsBody.updateChatModeUIElementHeight();"/>
+                            <label value="提问区高度:"/>
+                            <html:input id="zotero-if-xul-gptCustomChatModePromptAreaHeight" size="5" oninput='methodsBody.updateChatModeUIElementHeight();'></html:input>
+                        </hbox>
+
+
+                        <hbox align="center">
+                            <label value="响应区高度:"/>
+                            <html:input id="zotero-if-xul-gptCustomChatModeResponseAreaHeight" size="5" oninput='methodsBody.updateChatModeUIElementHeight();'></html:input>
+                        </hbox>
+
+                        <div class="buttonIcon svg-container-reset"
+                            tooltiptext="恢复默认" 
+                            onclick='methodsBody.resetChatModeUIElementHeight();'
+                        ></div>
+                    </html:div>
+
+                    <!-- <description style="white-space: pre-wrap; black: red; margin-bottom: 10px; font-size: 13px; font-weight: bold;">🔘 非连续对话模式</description> -->
+
+                    <description style="white-space: pre-wrap; color: #fa553c; margin-top: 10px; margin-bottom: 10px; font-size: 14px; font-weight: bold;">▌非连续对话模式</description>
+
+                    <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
+
+                        <hbox align="center">
+                            <checkbox id="zotero-if-xul-gptEnableCustomGPTUIHeight" native="true" checked="false" oncommand="methodsBody.updateUIElementHeight();"/>
+                            <label value="提问区高度:"/>
+                            <html:input id="zotero-if-xul-gptCustomPromptAreaHeight" size="5" oninput='methodsBody.updateUIElementHeight();'></html:input>
+                        </hbox>
+
+
+                        <hbox align="center">
+                            <label value="响应区高度:"/>
+                            <html:input id="zotero-if-xul-gptCustomResponseAreaHeight" size="5" oninput='methodsBody.updateUIElementHeight();'></html:input>
+                        </hbox>
+
+                        <div class="buttonIcon svg-container-reset"
+                            tooltiptext="恢复默认" 
+                            onclick='methodsBody.resetUIElementHeight();'>
+                        </div>
+                    </html:div>
+				</richlistbox>
+			</box>
+
+
+
+            <description style="white-space: pre-wrap; color: #0091ff; margin-top: 10px; margin-bottom: 10px; font-size: 15px; font-weight: bold;">▌模型参数</description>
+
+			<box flex="1">
+				<richlistbox id="richlistbox-elem" flex="1" style='padding-left: 5px;'>
+
+                    <!-- <description style="white-space: pre-wrap; black: red; margin-bottom: 10px; font-size: 13px; font-weight: bold;">🔘 max_tokens</description> -->
+
+                    <description style="white-space: pre-wrap; color: #fa553c; margin-top: 10px; margin-bottom: 10px; font-size: 14px; font-weight: bold;">▌max_tokens</description>
+
+                    <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
+                        <!-- 开关 -->
+                        <checkbox id="zotero-if-xul-gptMaxtokensSetting-maxtokens-enable" label="OpenAI:" native="true" checked="false" oncommand="methodsBody.enableMaxtokens()"/>
+                        <hbox align="center">
+                            <!-- 数值输入框 -->
+                            <html:input id="zotero-if-xul-gptMaxtokensSetting-maxtokens-scalevalue" size="5" onkeydown="methodsBody.checkKeyEnter(event);" oninput='methodsBody.onInputValue();'></html:input>
+                            <!-- 减 -->
+                            <div id="zotero-if-xul-gptMaxtokensSetting-maxtokens-scale-minus"
+                                class="buttonIcon svg-container-minus"
+                                tooltiptext="减 1024" 
+                                onclick='methodsBody.minusMaxtokens();'>
+                            </div>
+                            <!-- 滑动条 -->
+                            <html:input type="range" id="zotero-if-xul-gptMaxtokensSetting-maxtokens-scale" min="0" max="100000" value="4096" class="slider" oninput='methodsBody.updateMaxtokens();'></html:input>
+                            <!-- 加 -->
+                            <div id="zotero-if-xul-gptMaxtokensSetting-maxtokens-scale-plus"
+                                class="buttonIcon svg-container-add_16px"
+                                tooltiptext="加 1024" 
+                                onclick='methodsBody.plusMaxtokens();'>
+                            </div>
+                        </hbox>
+                        <!-- 复位 -->
+                        <div id="zotero-if-xul-gptMaxtokensSetting-maxtokens-scale-reset"
+                            class="buttonIcon svg-container-reset"
+                            tooltiptext="恢复默认" 
+                            onclick='methodsBody.resetMaxtokens();'>
+                        </div>
+                    </html:div>
+
+                    <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
+                        <!-- 开关 -->
+                        <checkbox id="zotero-if-xul-gptMaxtokensSetting-api2dmaxtokens-enable" label="API2D:" native="true" checked="false" oncommand="methodsBody.enableMaxtokens()"/>
+                        <hbox align="center">
+                            <!-- 数值输入框 -->
+                            <html:input id="zotero-if-xul-gptMaxtokensSetting-api2dmaxtokens-scalevalue" size="5" onkeydown="methodsBody.checkKeyEnterAPI2D(event);" oninput='methodsBody.onInputValue();'></html:input>
+                            <!-- 减 -->
+                            <div id="zotero-if-xul-gptMaxtokensSetting-api2dmaxtokens-scale-minus"
+                                class="buttonIcon svg-container-minus"
+                                tooltiptext="减 1024" 
+                                onclick='methodsBody.minusAPI2DMaxtokens();'>
+                            </div>
+                            <!-- 滑动条 -->
+                            <html:input type="range" id="zotero-if-xul-gptMaxtokensSetting-api2dmaxtokens-scale" min="0" max="100000" value="4096" oninput='methodsBody.updateAPI2DMaxtokens();'></html:input>
+                            <!-- 加 -->
+                            <div id="zotero-if-xul-gptMaxtokensSetting-api2dmaxtokens-scale-plus"
+                                class="buttonIcon svg-container-add_16px"
+                                tooltiptext="加 1024" 
+                                onclick='methodsBody.plusAPI2DMaxtokens();'>
+                            </div>
+                        </hbox>
+                        <!-- 复位 -->
+                        <div id="zotero-if-xul-gptMaxtokensSetting-api2dmaxtokens-scale-reset"
+                            class="buttonIcon svg-container-reset"
+                            tooltiptext="恢复默认" 
+                            onclick='methodsBody.resetAPI2DMaxtokens();'>
+                        </div>
+                    </html:div>
+
+                    <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
+                        <!-- 开关 -->
+                        <checkbox id="zotero-if-xul-gptMaxtokensSetting-chatanywheremaxtokens-enable" label="ChatAnywhere:" native="true" checked="false" oncommand="methodsBody.enableMaxtokens()"/>
+                        <hbox align="center">
+                            <!-- 数值输入框 -->
+                            <html:input id="zotero-if-xul-gptMaxtokensSetting-chatanywheremaxtokens-scalevalue" size="5" onkeydown="methodsBody.checkKeyEnterChatAnywhere(event);" oninput='methodsBody.onInputValue();'></html:input>
+                            <!-- 减 -->
+                            <div id="zotero-if-xul-gptMaxtokensSetting-chatanywheremaxtokens-scale-minus"
+                                class="buttonIcon svg-container-minus"
+                                tooltiptext="减 1024" 
+                                onclick='methodsBody.minusChatAnywhereMaxtokens();'>
+                            </div>
+                            <!-- 滑动条 -->
+                            <html:input type="range" id="zotero-if-xul-gptMaxtokensSetting-chatanywheremaxtokens-scale" min="0" max="100000" value="4096" oninput='methodsBody.updateChatAnywhereMaxtokens();'></html:input>
+                            <!-- 加 -->
+                            <div id="zotero-if-xul-gptMaxtokensSetting-chatanywheremaxtokens-scale-plus"
+                                class="buttonIcon svg-container-add_16px"
+                                tooltiptext="加 1024" 
+                                onclick='methodsBody.plusChatAnywhereMaxtokens();'>
+                            </div>
+                        </hbox>
+                        <!-- 复位 -->
+                        <div id="zotero-if-xul-gptMaxtokensSetting-chatanywheremaxtokens-scale-reset"
+                            class="buttonIcon svg-container-reset"
+                            tooltiptext="恢复默认" 
+                            onclick='methodsBody.resetChatAnywhereMaxtokens();'>
+                        </div>
+                    </html:div>
+
+                    <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
+                        <!-- 开关 -->
+                        <checkbox id="zotero-if-xul-gptMaxtokensSetting-gptcustommaxtokens-enable" label="自定:" native="true" checked="false" oncommand="methodsBody.enableMaxtokens()"/>
+                        <hbox align="center">
+                            <!-- 数值输入框 -->
+                            <html:input id="zotero-if-xul-gptMaxtokensSetting-gptcustommaxtokens-scalevalue" size="5" onkeydown="methodsBody.checkKeyEnterGPTCustom(event);" oninput='methodsBody.onInputValue();'></html:input>
+                            <!-- 减 -->
+                            <div id="zotero-if-xul-gptMaxtokensSetting-gptcustommaxtokens-scale-minus"
+                                class="buttonIcon svg-container-minus"
+                                tooltiptext="减 1024" 
+                                onclick='methodsBody.minusGPTCustomMaxtokens();'>
+                            </div>
+                            <!-- 滑动条 -->
+                            <html:input type="range" id="zotero-if-xul-gptMaxtokensSetting-gptcustommaxtokens-scale" min="0" max="100000" value="4096" oninput='methodsBody.updateGPTCustomMaxtokens();'></html:input>
+                            <!-- 加 -->
+                            <div id="zotero-if-xul-gptMaxtokensSetting-gptcustommaxtokens-scale-plus"
+                                class="buttonIcon svg-container-add_16px"
+                                tooltiptext="加 1024" 
+                                onclick='methodsBody.plusGPTCustomMaxtokens();'>
+                            </div>
+                        </hbox>
+                        <!-- 复位 -->
+                        <div id="zotero-if-xul-gptMaxtokensSetting-gptcustommaxtokens-scale-reset"
+                            class="buttonIcon svg-container-reset"
+                            tooltiptext="恢复默认" 
+                            onclick='methodsBody.resetGPTCustomMaxtokens();'>
+                        </div>
+                    </html:div>
+
+                    <hbox align="center">
+                        <description style="white-space: pre-wrap; color: #fa553c; margin-top: 10px; margin-bottom: 10px; font-size: 14px; font-weight: bold;">▌Gemini thinkingBudget</description>
+
+                        <div class="svg-container-help"
+                            style='margin-left: 8px;' 
+                            tooltiptext="帮助文档" 
+                            onclick='Zotero.getMainWindow().ZoteroPane.loadURI("https://www.yuque.com/qnscholar/zotero-one/vfuqga3k8il0e2hr?singleDoc# 《Gemini 思考模式设置》");'>
+                        </div>
+                        
+                        <!-- <image src="chrome://zoteroif/content/icons/help.png" 
+                            tooltiptext="帮助文档" 
+                            style='margin-left: 8px; width: 16px; height: 16px' 
+                            onclick='Zotero.getMainWindow().ZoteroPane.loadURI("https://www.yuque.com/qnscholar/zotero-one/vfuqga3k8il0e2hr?singleDoc# 《Gemini 思考模式设置》");'
+                        /> -->
+                    </hbox>
+                    
+                    <hbox align="center" style="margin-bottom:5px;">
+                        <radiogroup id="gemini-thinkingBudget" orient="horizontal" oncommand="Zotero.Prefs.set('zoteroif.geminiThinkingBudget', this.value);">
+                            <radio label="关闭" value="disable"/>
+                            <radio label="动态" value="dynamic"/>
+                            <radio label="低" value="low"/>
+                            <radio label="适度" value="moderate"/>
+                            <radio label="高" value="high"/>
+                        </radiogroup>
+                    </hbox>
+
+				</richlistbox>
+			</box>
+
+        </vbox>
+</dialog>
+
+<keyset>
+	<key id="key_close" key="W" modifiers="accel" oncommand="window.close()"/>
+</keyset>
+</window>
