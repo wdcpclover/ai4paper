@@ -1,14 +1,14 @@
 var methodsBody = function () {};
 methodsBody.init = function () {
-  Zotero.ZoteroIF.update_svg_icons(document);
-  Zotero.ZoteroIF.setFontSize_Dialog(document.querySelector("dialog"), 0.92);
-  Zotero.ZoteroIF.blurActiveElement(window);
-  let var1 = Zotero.ZoteroIF._shortCuts_items;
+  Zotero.AI4Paper.update_svg_icons(document);
+  Zotero.AI4Paper.setFontSize_Dialog(document.querySelector("dialog"), 0.92);
+  Zotero.AI4Paper.blurActiveElement(window);
+  let var1 = Zotero.AI4Paper._shortCuts_items;
   methodsBody._inputBoxElems = [];
   for (let var2 of var1) {
-    document.getElementById('zoteroif.enableShortcuts' + var2).checked = Zotero.Prefs.get('zoteroif.enableShortcuts' + var2);
-    document.getElementById("zoteroif.shortcutsInputBox." + var2).value = Zotero.Prefs.get("zoteroif.shortcuts" + var2);
-    methodsBody._inputBoxElems.push(document.getElementById("zoteroif.shortcutsInputBox." + var2));
+    document.getElementById('ai4paper.enableShortcuts' + var2).checked = Zotero.Prefs.get('ai4paper.enableShortcuts' + var2);
+    document.getElementById("ai4paper.shortcutsInputBox." + var2).value = Zotero.Prefs.get("ai4paper.shortcuts" + var2);
+    methodsBody._inputBoxElems.push(document.getElementById("ai4paper.shortcutsInputBox." + var2));
   }
   methodsBody._shortcuts_param = {
     'AddAnnotationTag': {
@@ -325,20 +325,20 @@ methodsBody.handleShortcuts_init = function (param4, param5) {
 };
 methodsBody.handleShortcuts = function (param6, param7, param8) {
   let var15 = methodsBody._shortcuts_param;
-  var15[param6] && (param7 ? (document.getElementById('zoteroif.enableShortcuts' + param6).checked = false, Zotero.Prefs.set("zoteroif.enableShortcuts" + param6, false), Zotero.Prefs.set('zoteroif.shortcuts' + param6, '')) : Zotero.Prefs.set('zoteroif.shortcuts' + param6, param8), Zotero.ZoteroIF[var15[param6].func]());
+  var15[param6] && (param7 ? (document.getElementById('ai4paper.enableShortcuts' + param6).checked = false, Zotero.Prefs.set("ai4paper.enableShortcuts" + param6, false), Zotero.Prefs.set('ai4paper.shortcuts' + param6, '')) : Zotero.Prefs.set('ai4paper.shortcuts' + param6, param8), Zotero.AI4Paper[var15[param6].func]());
 };
 methodsBody.resetShortcuts = function (param9) {
   let var16 = methodsBody._shortcuts_param;
   if (var16[param9]) {
     let var17 = Zotero.isMac ? var16[param9].mac_Shortcuts : var16[param9].win_linux_Shortcuts;
-    Zotero.Prefs.set("zoteroif.shortcuts" + param9, var17);
-    document.getElementById("zoteroif.shortcutsInputBox." + param9).value = var17;
-    Zotero.ZoteroIF[var16[param9].func]();
+    Zotero.Prefs.set("ai4paper.shortcuts" + param9, var17);
+    document.getElementById("ai4paper.shortcutsInputBox." + param9).value = var17;
+    Zotero.AI4Paper[var16[param9].func]();
   }
 };
 methodsBody.enableShortcuts = function (param10, param11) {
   let var18 = methodsBody._shortcuts_param;
-  var18[param10] && (Zotero.Prefs.set("zoteroif.enableShortcuts" + param10, param11), Zotero.ZoteroIF[var18[param10].func]());
+  var18[param10] && (Zotero.Prefs.set("ai4paper.enableShortcuts" + param10, param11), Zotero.AI4Paper[var18[param10].func]());
 };
 methodsBody.navigate = function (param12) {
   let var19 = document.getElementById('navigator-item-' + param12);

@@ -5,7 +5,7 @@
 <?xml-stylesheet href="chrome://zotero-platform/content/zotero.css" type="text/css"?>
 <?xml-stylesheet href="chrome://zotero/skin/scaffold.css" type="text/css"?>
 
-<?xml-stylesheet href="chrome://zoteroif/content/assets/css/style.css" type="text/css"?>
+<?xml-stylesheet href="chrome://ai4paper/content/assets/css/style.css" type="text/css"?>
 
 <!DOCTYPE window SYSTEM "chrome://zotero/locale/zotero.dtd">
 <window xmlns:html="http://www.w3.org/1999/xhtml"
@@ -22,17 +22,17 @@
 
     <script>
         Services.scriptloader.loadSubScript("chrome://zotero/content/include.js", this);
-        Services.scriptloader.loadSubScript("chrome://zoteroif/content/selectionDialog/defineColorLabel.js", this);
+        Services.scriptloader.loadSubScript("chrome://ai4paper/content/selectionDialog/defineColorLabel.js", this);
         Services.scriptloader.loadSubScript("chrome://zotero/content/customElements.js", this);
     </script>
 
     <linkset>
-        <html:link rel="localization" href="zoteroif_preferences.ftl"/>
+        <html:link rel="localization" href="ai4paper_preferences.ftl"/>
     </linkset>  
 
     <vbox id="vboxContainer-elem" flex="1">
         <hbox align="center" style="margin-bottom:10px;">
-            <checkbox id="zoteroif.ColorLabel.enable" label='启用自定义颜色名称' checked="false" native="true" oncommand="methodsBody.enableColorLabel();"/>
+            <checkbox id="ai4paper.ColorLabel.enable" label='启用自定义颜色名称' checked="false" native="true" oncommand="methodsBody.enableColorLabel();"/>
         </hbox>
 
         <box flex="1">
@@ -42,7 +42,7 @@
                         <label value="黄色：   "/>
                     </hbox>
                     <hbox align="center" flex="1">
-                        <html:input type="text" style="margin-left: 10px;" id="zoteroif.defineColorLabel.yellow" size="10" flex="1" oninput="methodsBody.setColorLabel();"></html:input>
+                        <html:input type="text" style="margin-left: 10px;" id="ai4paper.defineColorLabel.yellow" size="10" flex="1" oninput="methodsBody.setColorLabel();"></html:input>
                     </hbox>
                 </html:div>
 
@@ -51,7 +51,7 @@
                         <label value="红色：   "/>
                     </hbox>
                     <hbox align="center" flex="1">
-                        <html:input type="text" style="margin-left: 10px;" id="zoteroif.defineColorLabel.red" size="10" flex="1" oninput="methodsBody.setColorLabel();"></html:input>
+                        <html:input type="text" style="margin-left: 10px;" id="ai4paper.defineColorLabel.red" size="10" flex="1" oninput="methodsBody.setColorLabel();"></html:input>
                     </hbox>
                 </html:div>
 
@@ -60,7 +60,7 @@
                         <label value="绿色：   "/>
                     </hbox>
                     <hbox align="center" flex="1">
-                        <html:input type="text" style="margin-left: 10px;" id="zoteroif.defineColorLabel.green" size="10" flex="1" oninput="methodsBody.setColorLabel();"></html:input>
+                        <html:input type="text" style="margin-left: 10px;" id="ai4paper.defineColorLabel.green" size="10" flex="1" oninput="methodsBody.setColorLabel();"></html:input>
                     </hbox>
                 </html:div>
 
@@ -69,7 +69,7 @@
                         <label value="蓝色：   "/>
                     </hbox>
                     <hbox align="center" flex="1">
-                        <html:input type="text" style="margin-left: 10px;" id="zoteroif.defineColorLabel.blue" size="10" flex="1" oninput="methodsBody.setColorLabel();"></html:input>
+                        <html:input type="text" style="margin-left: 10px;" id="ai4paper.defineColorLabel.blue" size="10" flex="1" oninput="methodsBody.setColorLabel();"></html:input>
                     </hbox>
                 </html:div>
 
@@ -78,7 +78,7 @@
                         <label value="紫色：   "/>
                     </hbox>
                     <hbox align="center" flex="1">
-                        <html:input type="text" style="margin-left: 10px;" id="zoteroif.defineColorLabel.purple" size="10" flex="1" oninput="methodsBody.setColorLabel();"></html:input>
+                        <html:input type="text" style="margin-left: 10px;" id="ai4paper.defineColorLabel.purple" size="10" flex="1" oninput="methodsBody.setColorLabel();"></html:input>
                     </hbox>
                 </html:div>
 
@@ -87,7 +87,7 @@
                         <label value="洋红色："/>
                     </hbox>
                     <hbox align="center" flex="1">
-                        <html:input type="text" style="margin-left: 10px;" id="zoteroif.defineColorLabel.magenta" size="10" flex="1" oninput="methodsBody.setColorLabel();"></html:input>
+                        <html:input type="text" style="margin-left: 10px;" id="ai4paper.defineColorLabel.magenta" size="10" flex="1" oninput="methodsBody.setColorLabel();"></html:input>
                     </hbox>
                 </html:div>
 
@@ -96,7 +96,7 @@
                         <label value="橘色：   "/>
                     </hbox>
                     <hbox align="center" flex="1">
-                        <html:input type="text" style="margin-left: 10px;" id="zoteroif.defineColorLabel.orange" size="10" flex="1" oninput="methodsBody.setColorLabel();"></html:input>
+                        <html:input type="text" style="margin-left: 10px;" id="ai4paper.defineColorLabel.orange" size="10" flex="1" oninput="methodsBody.setColorLabel();"></html:input>
                     </hbox>
                 </html:div>
 
@@ -105,7 +105,7 @@
                         <label value="灰色：   "/>
                     </hbox>
                     <hbox align="center" flex="1">
-                        <html:input type="text" style="margin-left: 10px;" id="zoteroif.defineColorLabel.gray" size="10" flex="1" oninput="methodsBody.setColorLabel();"></html:input>
+                        <html:input type="text" style="margin-left: 10px;" id="ai4paper.defineColorLabel.gray" size="10" flex="1" oninput="methodsBody.setColorLabel();"></html:input>
                     </hbox>
                 </html:div>
             </richlistbox>

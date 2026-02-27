@@ -1,8 +1,8 @@
 var methodsBody = function () {};
 methodsBody.init = function () {
-  Zotero.ZoteroIF.update_svg_icons(document);
+  Zotero.AI4Paper.update_svg_icons(document);
   document.addEventListener('dialogaccept', () => methodsBody.acceptSelection());
-  Zotero.ZoteroIF.lastRefsSearchInput && (document.getElementById('search-inputBox').placeholder = Zotero.ZoteroIF.lastRefsSearchInput);
+  Zotero.AI4Paper.lastRefsSearchInput && (document.getElementById('search-inputBox').placeholder = Zotero.AI4Paper.lastRefsSearchInput);
   methodsBody.buildContextMenu(null, true);
   document.getElementById("search-inputBox").focus();
   methodsBody.updatePrefs(true);
@@ -22,7 +22,7 @@ methodsBody.resetProgressRing = function () {
 };
 methodsBody.buildItemNodes = function (param1) {
   let var3 = methodsBody.io.dataIn.item;
-  Zotero.ZoteroIF._isDuplicatedArray = JSON.parse(var3._references_isDuplicated);
+  Zotero.AI4Paper._isDuplicatedArray = JSON.parse(var3._references_isDuplicated);
   var var4 = document.getElementById('richlistbox-elem');
   for (var var5 in param1) {
     var var6 = param1[var5],
@@ -46,8 +46,8 @@ methodsBody.buildItemNodes = function (param1) {
     var11.style.marginRight = "5px";
     var11.style.marginLeft = "5px";
     var11.style.transition = "transform 0.125s ease";
-    var11.innerHTML = Zotero.ZoteroIF.svg_icon_16px.document;
-    var3._hasRefsCache && Zotero.ZoteroIF._isDuplicatedArray[var5]._isDuplicated === true && (var11.setAttribute("tooltiptext", "点击显示"), var11.innerHTML = Zotero.ZoteroIF.svg_icon_16px.document_active, var11.setAttribute("_itemID", Zotero.ZoteroIF._isDuplicatedArray[var5]._itemID), var11.addEventListener("mouseover", () => {
+    var11.innerHTML = Zotero.AI4Paper.svg_icon_16px.document;
+    var3._hasRefsCache && Zotero.AI4Paper._isDuplicatedArray[var5]._isDuplicated === true && (var11.setAttribute("tooltiptext", "点击显示"), var11.innerHTML = Zotero.AI4Paper.svg_icon_16px.document_active, var11.setAttribute("_itemID", Zotero.AI4Paper._isDuplicatedArray[var5]._itemID), var11.addEventListener("mouseover", () => {
       var11.style.transform = "scale(1.15)";
     }), var11.addEventListener('mouseout', () => {
       var11.style.transform = 'scale(1)';
@@ -59,7 +59,7 @@ methodsBody.buildItemNodes = function (param1) {
       if (var7.indexOf('🆔') != -0x1 && var7.indexOf("🈯️") != -0x1) {
         let var12 = var7.indexOf('🈯️'),
           var13 = var7.substring(var12 + 0x3).trim();
-        var13 && Number(var13) >= Number(Zotero.Prefs.get("zoteroif.retrieverefsIFlimit")) && (var9.style.color = "#ff922b");
+        var13 && Number(var13) >= Number(Zotero.Prefs.get("ai4paper.retrieverefsIFlimit")) && (var9.style.color = "#ff922b");
       }
     }
     var9.addEventListener("click", _0x442314 => {
@@ -78,7 +78,7 @@ methodsBody.buildItemNodes = function (param1) {
   methodsBody.registerScrollListener();
   methodsBody.restoreScrollPosition();
   !var3._hasRefsCache && methodsBody.updateDuplicate();
-  Zotero.ZoteroIF.fetchAndDisplayRealtime(var3);
+  Zotero.AI4Paper.fetchAndDisplayRealtime(var3);
 };
 methodsBody.updateDuplicate = async function () {
   let var15 = methodsBody.io.dataIn.item;
@@ -88,8 +88,8 @@ methodsBody.updateDuplicate = async function () {
   for (let var19 = 0x0; var19 < var16.childNodes.length; var19++) {
     let var20 = var16.childNodes[var19].querySelector(".document-icon");
     if (var17[var19] != "DOI-null") {
-      let var21 = await Zotero.ZoteroIF.checkDOIDuplicateJournalArt(var17[var19]);
-      var21 && (var20.setAttribute('tooltiptext', "点击显示"), var20.innerHTML = Zotero.ZoteroIF.svg_icon_16px.document_active, var20.setAttribute("_itemID", var21.itemID), var20.addEventListener("mouseover", () => {
+      let var21 = await Zotero.AI4Paper.checkDOIDuplicateJournalArt(var17[var19]);
+      var21 && (var20.setAttribute('tooltiptext', "点击显示"), var20.innerHTML = Zotero.AI4Paper.svg_icon_16px.document_active, var20.setAttribute("_itemID", var21.itemID), var20.addEventListener("mouseover", () => {
         var20.style.transform = "scale(1.15)";
       }), var20.addEventListener("mouseout", () => {
         var20.style.transform = "scale(1)";
@@ -104,21 +104,21 @@ methodsBody.updateDuplicate = async function () {
 };
 methodsBody.showInMyLibrary = async function (param2) {
   let var22 = Number(param2.getAttribute("_itemID"));
-  if (var22 === -0x1) return Zotero.ZoteroIF.showProgressWindow(0xfa0, "❌ 出错了", '条目\x20🆔\x20有误！'), false;
+  if (var22 === -0x1) return Zotero.AI4Paper.showProgressWindow(0xfa0, "❌ 出错了", '条目\x20🆔\x20有误！'), false;
   let var23 = Zotero.Items.get(var22);
   window.close();
   try {
     let var24 = var23.getCollections();
     if (var24.length) {
-      Zotero.ZoteroIF.getGlobal("Zotero_Tabs").select("zotero-pane");
+      Zotero.AI4Paper.getGlobal("Zotero_Tabs").select("zotero-pane");
       let var25 = var24[0x0];
-      Zotero.ZoteroIF.getGlobal("ZoteroPane_Local").collectionsView.selectCollection(var25);
-      let var26 = await Zotero.ZoteroIF.getGlobal("ZoteroPane_Local").selectItem(var22);
-      var26 === false && Zotero.ZoteroIF.showProgressWindow(0xfa0, "未找到到该文献", "未在【我的文库】找到该文献，可能已经被您删除！");
+      Zotero.AI4Paper.getGlobal("ZoteroPane_Local").collectionsView.selectCollection(var25);
+      let var26 = await Zotero.AI4Paper.getGlobal("ZoteroPane_Local").selectItem(var22);
+      var26 === false && Zotero.AI4Paper.showProgressWindow(0xfa0, "未找到到该文献", "未在【我的文库】找到该文献，可能已经被您删除！");
     } else {
-      Zotero.ZoteroIF.getGlobal('Zotero_Tabs').select("zotero-pane");
-      let var27 = await Zotero.ZoteroIF.getGlobal('ZoteroPane_Local').selectItem(var22);
-      var27 === false && Zotero.ZoteroIF.showProgressWindow(0xfa0, "未找到到该文献", '未在【我的文库】找到该文献，可能已经被您删除！');
+      Zotero.AI4Paper.getGlobal('Zotero_Tabs').select("zotero-pane");
+      let var27 = await Zotero.AI4Paper.getGlobal('ZoteroPane_Local').selectItem(var22);
+      var27 === false && Zotero.AI4Paper.showProgressWindow(0xfa0, "未找到到该文献", '未在【我的文库】找到该文献，可能已经被您删除！');
     }
   } catch (_0x56d86f) {
     return false;
@@ -149,15 +149,15 @@ methodsBody.checkKeyEnter = function (param4) {
 methodsBody.updatePrefs = function (param5) {
   let var35 = ["retrieverefsSelectCollection", 'retrieverefsLocateinCollection', "retrieverefsAbstractTranslationBehind"];
   if (!param5) for (let var36 of var35) {
-    Zotero.Prefs.set("zoteroif." + var36, document.getElementById('zoteroif.' + var36).checked);
+    Zotero.Prefs.set("ai4paper." + var36, document.getElementById('ai4paper.' + var36).checked);
   } else for (let var37 of var35) {
-    document.getElementById("zoteroif." + var37).checked = Zotero.Prefs.get('zoteroif.' + var37);
+    document.getElementById("ai4paper." + var37).checked = Zotero.Prefs.get('ai4paper.' + var37);
   }
   let var38 = ["retrieverefsIFlimit"];
   if (!param5) for (let var39 of var38) {
-    Zotero.Prefs.set("zoteroif." + var39, document.getElementById("zoteroif." + var39).value);
+    Zotero.Prefs.set("ai4paper." + var39, document.getElementById("ai4paper." + var39).value);
   } else for (let var40 of var38) {
-    document.getElementById("zoteroif." + var40).value = Zotero.Prefs.get("zoteroif." + var40);
+    document.getElementById("ai4paper." + var40).value = Zotero.Prefs.get("ai4paper." + var40);
   }
 };
 methodsBody.handleCheckboxChange = function (param6) {
@@ -179,7 +179,7 @@ methodsBody.handleCheckboxChange = function (param6) {
   }
 };
 methodsBody.onIFLimitChange = function () {
-  Zotero.Prefs.set("zoteroif.retrieverefsIFlimit", document.getElementById("zoteroif.retrieverefsIFlimit").value);
+  Zotero.Prefs.set("ai4paper.retrieverefsIFlimit", document.getElementById("ai4paper.retrieverefsIFlimit").value);
   methodsBody.updateIFAnalysis();
 };
 methodsBody.updateIFAnalysis = function () {
@@ -190,7 +190,7 @@ methodsBody.updateIFAnalysis = function () {
     if (var51.indexOf('🆔') != -0x1 && var51.indexOf('🈯') != -0x1) {
       let var52 = var51.indexOf('🈯'),
         var53 = var51.substring(var52 + 0x3).trim();
-      var53 && Number(var53) >= Number(Zotero.Prefs.get('zoteroif.retrieverefsIFlimit')) ? var50.style.color = "#ff922b" : var50.style.color = '';
+      var53 && Number(var53) >= Number(Zotero.Prefs.get('ai4paper.retrieverefsIFlimit')) ? var50.style.color = "#ff922b" : var50.style.color = '';
     }
   }
 };
@@ -207,7 +207,7 @@ methodsBody.search = function () {
   var var57 = document.getElementById("richlistbox-elem"),
     var58 = document.getElementById("search-inputBox").value.trim();
   if (var58 === '' && document.getElementById("search-inputBox").placeholder === '') return methodsBody.all(), false;else var58 === '' && document.getElementById('search-inputBox').placeholder != '' && (var58 = document.getElementById('search-inputBox').placeholder, document.getElementById("search-inputBox").value = document.getElementById("search-inputBox").placeholder);
-  Zotero.ZoteroIF.lastRefsSearchInput = var58;
+  Zotero.AI4Paper.lastRefsSearchInput = var58;
   var58 = var58.toLowerCase();
   document.getElementById("back2All-button").style.display = '';
   let var59 = 0x0;
@@ -230,7 +230,7 @@ methodsBody.maxWindowWidth = function () {
     window.moveTo(var68, var66);
     window.resizeTo(var67, var65);
   } catch (_0x2b1b28) {
-    Zotero.ZoteroIF.showProgressWindow(0xbb8, '❌\x20窗口尺寸调整失败', "出错了！窗口尺寸调整遇到问题。");
+    Zotero.AI4Paper.showProgressWindow(0xbb8, '❌\x20窗口尺寸调整失败', "出错了！窗口尺寸调整遇到问题。");
   }
 };
 methodsBody.adjustWindowWidthPercent = function () {
@@ -246,13 +246,13 @@ methodsBody.adjustWindowWidthPercent = function () {
     window.moveTo(var76, var72);
     window.resizeTo(var75, var71);
   } catch (_0x545e60) {
-    Zotero.ZoteroIF.showProgressWindow(0xbb8, "❌ 窗口尺寸调整失败", "出错了！窗口尺寸调整遇到问题。");
+    Zotero.AI4Paper.showProgressWindow(0xbb8, "❌ 窗口尺寸调整失败", "出错了！窗口尺寸调整遇到问题。");
   }
 };
 methodsBody.copyPreview = function () {
   let var77 = document.getElementById("preview-div").textContent;
-  Zotero.ZoteroIF.copy2Clipboard(var77);
-  !var77 ? Zotero.ZoteroIF.showProgressWindow(0xbb8, "温馨提示", "当前预览为空，双击条目后可生成预览！") : Zotero.ZoteroIF.showProgressWindow(0x7d0, "✅ 拷贝预览", "成功拷贝预览至剪切板！");
+  Zotero.AI4Paper.copy2Clipboard(var77);
+  !var77 ? Zotero.AI4Paper.showProgressWindow(0xbb8, "温馨提示", "当前预览为空，双击条目后可生成预览！") : Zotero.AI4Paper.showProgressWindow(0x7d0, "✅ 拷贝预览", "成功拷贝预览至剪切板！");
 };
 methodsBody.buildContextMenu = function (param7, param8) {
   let var78 = document.querySelector("#richlistitem-contextpanel");
@@ -286,7 +286,7 @@ methodsBody.buildContextMenu = function (param7, param8) {
   var84.style = "display: flex;border-radius: 6px;box-shadow: 0 0 1px #8a8a8a;padding: 6px;overflow-y: hidden;overflow-x: hidden;word-wrap: break-word;clear: both;white-space: pre-wrap;-ms-word-break:break-all;";
   var84.addEventListener("dblclick", _0x2a081c => {
     let var85 = _0x2a081c.target.textContent;
-    Zotero.ZoteroIF.copy2Clipboard(var85);
+    Zotero.AI4Paper.copy2Clipboard(var85);
   });
   var81.appendChild(var84);
   let var86 = window.document.createXULElement("div");
@@ -303,7 +303,7 @@ methodsBody.buildContextMenu = function (param7, param8) {
   var87.textContent = '联网获取摘要中...';
   var87.addEventListener('dblclick', _0x356746 => {
     let var88 = _0x356746.target.textContent;
-    Zotero.ZoteroIF.copy2Clipboard(var88);
+    Zotero.AI4Paper.copy2Clipboard(var88);
   });
   var81.appendChild(var87);
   if (var80.includes('🆔')) {
@@ -311,7 +311,7 @@ methodsBody.buildContextMenu = function (param7, param8) {
     var89.id = "connectedPapers_DIV";
     var89.style = 'display:\x20flex;justify-content:\x20center;align-items:\x20center;margin-top:\x2012px;border-radius:\x205px;background-color:\x20' + (var82 ? "#3e3c3d" : "#e9f4ff") + ";color: #2c98f7;padding: 5px;cursor: pointer;";
     var89.addEventListener('click', _0xd09c77 => {
-      let var90 = Zotero.ZoteroIF.extractDOIFromItemInfo(var80);
+      let var90 = Zotero.AI4Paper.extractDOIFromItemInfo(var80);
       Zotero.getMainWindow().ZoteroPane.loadURI("https://connectedpapers.com/api/redirect/doi/" + var90);
     });
     let var91 = window.document.createXULElement("div");
@@ -342,22 +342,22 @@ methodsBody.updatePanel = async function (param9, param10) {
   var94.textContent = var95;
   var95 = param10.target.closest("richlistitem")?.['querySelector']("checkbox")["label"];
   if (var95.includes('🆔') && var95.includes("Title-null")) {
-    let var99 = Zotero.ZoteroIF.extractDOIFromItemInfo(var95),
-      var100 = await Zotero.ZoteroIF.fetchItemDetails(var99);
-    var100.title != "fetchTitle-error" && (var94.textContent = Zotero.ZoteroIF.formatSingleItemInfo(var100));
+    let var99 = Zotero.AI4Paper.extractDOIFromItemInfo(var95),
+      var100 = await Zotero.AI4Paper.fetchItemDetails(var99);
+    var100.title != "fetchTitle-error" && (var94.textContent = Zotero.AI4Paper.formatSingleItemInfo(var100));
   }
   let var101 = param9.querySelector("#abstract_DIV");
   var95 = param10.target.closest("richlistitem")?.["querySelector"]("checkbox")["label"];
   if (var95.indexOf('🆔') != -0x1) {
-    let var102 = Zotero.ZoteroIF.extractDOIFromItemInfo(var95),
+    let var102 = Zotero.AI4Paper.extractDOIFromItemInfo(var95),
       var103 = [];
-    Zotero.ZoteroIF._data_fetchAbstractErrors = [];
-    await Zotero.ZoteroIF.fetchAbstractFromSemanticScholarAndCrossRef(var102, ["fetchAbstractFromSemanticScholar", "fetchAbstractFromCrossRef"], var103);
+    Zotero.AI4Paper._data_fetchAbstractErrors = [];
+    await Zotero.AI4Paper.fetchAbstractFromSemanticScholarAndCrossRef(var102, ["fetchAbstractFromSemanticScholar", "fetchAbstractFromCrossRef"], var103);
     let var104 = var103[0x0],
       var105 = var103[0x1],
       var106 = '';
     if (var104 && var104 != "fetchAbstract error") var106 = var104;else {
-      if (var105 && var105 != "fetchAbstract error") var106 = var105;else var104 === "fetchAbstract error" || var105 === "fetchAbstract error" ? var106 = "🆔 " + var102 + "\n\n❌ 请求摘要时发生错误！【常见错误码含义】见：https://www.yuque.com/qnscholar/zotero-one/ho8yw7ookhod8evw?singleDoc \n\n" + String(Zotero.ZoteroIF._data_fetchAbstractErrors) : var106 = "🆔 " + var102 + "\n\n😫 在【Semantic Scholar】和【CrossRef】数据库中均无摘要信息！";
+      if (var105 && var105 != "fetchAbstract error") var106 = var105;else var104 === "fetchAbstract error" || var105 === "fetchAbstract error" ? var106 = "🆔 " + var102 + "\n\n❌ 请求摘要时发生错误！【常见错误码含义】见：https://www.yuque.com/qnscholar/zotero-one/ho8yw7ookhod8evw?singleDoc \n\n" + String(Zotero.AI4Paper._data_fetchAbstractErrors) : var106 = "🆔 " + var102 + "\n\n😫 在【Semantic Scholar】和【CrossRef】数据库中均无摘要信息！";
     }
     var101.textContent = methodsBody.formatAbstract(var106);
   } else var101.textContent = "无 🆔 信息，无法抓取摘要。";
@@ -368,8 +368,8 @@ methodsBody.updatePanel = async function (param9, param10) {
 methodsBody.translateAbstract = async function (param11) {
   let var107 = param11.textContent;
   if (var107 && !var107.includes('🆔')) {
-    let var108 = await Zotero.ZoteroIF.volcanoFree_transAbstractInPanel(var107);
-    var108 && (Zotero.Prefs.get('zoteroif.retrieverefsAbstractTranslationBehind') ? param11.textContent = var107 + "\n\n🎈【摘要翻译】" + var108 : param11.textContent = '🎈【摘要翻译】' + var108 + "\n\n🍋【摘要原文】" + var107, param11.style.height = "auto", param11.style.height = Math.min(param11.scrollHeight, 0x12c) + 'px');
+    let var108 = await Zotero.AI4Paper.volcanoFree_transAbstractInPanel(var107);
+    var108 && (Zotero.Prefs.get('ai4paper.retrieverefsAbstractTranslationBehind') ? param11.textContent = var107 + "\n\n🎈【摘要翻译】" + var108 : param11.textContent = '🎈【摘要翻译】' + var108 + "\n\n🍋【摘要原文】" + var107, param11.style.height = "auto", param11.style.height = Math.min(param11.scrollHeight, 0x12c) + 'px');
   }
 };
 methodsBody.formatAbstract = function (param12) {
@@ -377,7 +377,7 @@ methodsBody.formatAbstract = function (param12) {
 };
 methodsBody.viewOnline = function (param13) {
   if (param13.includes('🆔')) {
-    let var109 = Zotero.ZoteroIF.extractDOIFromItemInfo(param13);
+    let var109 = Zotero.AI4Paper.extractDOIFromItemInfo(param13);
     Zotero.getMainWindow().ZoteroPane.loadURI("https://doi.org/" + var109);
   }
 };
@@ -429,14 +429,14 @@ methodsBody.scrollToTopOrBottom = function (param15) {
 };
 methodsBody.aiAnalysis = function () {
   if (!document.querySelector(".checkmark").classList.contains("show")) {
-    Zotero.ZoteroIF.showProgressWindow(0xbb8, "【AI4paper】AI 分析参考文献", "❌ 请等待详情加载完成后，再执行 AI 分析！");
+    Zotero.AI4Paper.showProgressWindow(0xbb8, "【AI4paper】AI 分析参考文献", "❌ 请等待详情加载完成后，再执行 AI 分析！");
     return;
   }
-  let var117 = Zotero.ZoteroIF.getRefsJSON4AIAnalysis(methodsBody.io.dataIn.item, 'cited');
+  let var117 = Zotero.AI4Paper.getRefsJSON4AIAnalysis(methodsBody.io.dataIn.item, 'cited');
   if (var117) {
     window.close();
     let var118 = "下面是一篇名为\"" + methodsBody.io.dataIn.item.getField("title") + "\"论文及其参考文献的结构化数据，现在我希望你深度分析参考文献情况及其与当前论文的联系。至少包括以下几个方面：\n\t\t\n1. 参考文献发表期刊的特征？\n2. 参考文献发表年份的特征？根据特征，分析研究的高峰期。\n3. 参考文献作者的特征？\n4. 参考文献的影响因子（impactFactor）情况？\n5. 从本论文及所有参考文献标题中提取一些典型关键词（Keywords），以尽可能体现这些文献的主要研究焦点。\n\n分析时，请尽量详实，适当用一些表格来呈现分析结果，并用 Markdown 形式给我。\n\n论文及其参考文献的结构化数据如下：\n\n" + var117,
-      var119 = Zotero.ZoteroIF.gptReaderSidePane_setMessageInput(var118);
-    var119 && Zotero.ZoteroIF.showProgressWindow(0x1388, "【AI4paper】AI 分析参考文献", "【参考文献的 JSON 结构化数据】及【默认提示词】，已经填充至 GPT 侧边栏。现在，请自行选择合适的 AI 模型，并执行分析！");
+      var119 = Zotero.AI4Paper.gptReaderSidePane_setMessageInput(var118);
+    var119 && Zotero.AI4Paper.showProgressWindow(0x1388, "【AI4paper】AI 分析参考文献", "【参考文献的 JSON 结构化数据】及【默认提示词】，已经填充至 GPT 侧边栏。现在，请自行选择合适的 AI 模型，并执行分析！");
   }
 };

@@ -5,7 +5,7 @@
 <?xml-stylesheet href="chrome://zotero-platform/content/zotero.css" type="text/css"?>
 <?xml-stylesheet href="chrome://zotero/skin/scaffold.css" type="text/css"?>
 
-<?xml-stylesheet href="chrome://zoteroif/content/assets/css/style.css" type="text/css"?>
+<?xml-stylesheet href="chrome://ai4paper/content/assets/css/style.css" type="text/css"?>
 
 <!DOCTYPE window SYSTEM "chrome://zotero/locale/zotero.dtd">
 <window xmlns:html="http://www.w3.org/1999/xhtml"
@@ -22,20 +22,20 @@
         Services.scriptloader.loadSubScript("chrome://zotero/content/include.js", this);
         Services.scriptloader.loadSubScript("chrome://zotero/content/customElements.js", this);
 
-        Services.scriptloader.loadSubScript("chrome://zoteroif/content/selectionDialog/renameTag.js", this);
+        Services.scriptloader.loadSubScript("chrome://ai4paper/content/selectionDialog/renameTag.js", this);
     </script>
 
     <linkset>
-        <html:link rel="localization" href="zoteroif_preferences.ftl"/>
+        <html:link rel="localization" href="ai4paper_preferences.ftl"/>
     </linkset>  
 
     <vbox id="vboxContainer-elem" flex="1">
         <hbox align="center" style="margin-bottom:8px;">
             <div class="svg-container-enableannotationsvgtagsselect"></div>
-            <label id="zoteroif.renameTag.oldTag" value=""/>
+            <label id="ai4paper.renameTag.oldTag" value=""/>
         </hbox>
         <hbox align="center" style="margin-bottom:5px;">
-            <html:input type="text" id="zoteroif.renameTag.inputBox" size="28" style="flex: 1;"></html:input>
+            <html:input type="text" id="ai4paper.renameTag.inputBox" size="28" style="flex: 1;"></html:input>
         </hbox>
     </vbox>
 </dialog>

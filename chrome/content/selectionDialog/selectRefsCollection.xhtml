@@ -33,7 +33,7 @@
 
 	// 如果按了 esc 取消了，则取消存放
 	document.addEventListener('dialogcancel', () => {
-		Zotero.ZoteroIF._dataOut_SelectedCollection = null;
+		Zotero.AI4Paper._dataOut_SelectedCollection = null;
 	});
 </script>
 
@@ -57,11 +57,11 @@
 	</hbox>
 
 	<hbox align="center" style="margin-top: 20px;margin-bottom: 20px;">
-		<button label="确认选择" style="font-size: 13px;margin-left: 15px" default="true" oncommand="Zotero.ZoteroIF._dataOut_SelectedCollection = collectionsView.getSelectedCollection();window.close(); Zotero.ZoteroIF._refsCollectionIndex = -1;"/>
-		<button label="定位当前条目文件夹" style="font-size: 13px;margin-left: 15px" oncommand="let collectionID = Zotero.ZoteroIF.getRandomItemCollection(); collectionID != '未分类' ? collectionsView.selectCollection(collectionID) : collectionsView.selectLibrary();"/>
+		<button label="确认选择" style="font-size: 13px;margin-left: 15px" default="true" oncommand="Zotero.AI4Paper._dataOut_SelectedCollection = collectionsView.getSelectedCollection();window.close(); Zotero.AI4Paper._refsCollectionIndex = -1;"/>
+		<button label="定位当前条目文件夹" style="font-size: 13px;margin-left: 15px" oncommand="let collectionID = Zotero.AI4Paper.getRandomItemCollection(); collectionID != '未分类' ? collectionsView.selectCollection(collectionID) : collectionsView.selectLibrary();"/>
 
-		<button label="取消导入" style="font-size: 13px;margin-left: 30px" oncommand="Zotero.ZoteroIF._dataOut_SelectedCollection = null;window.close();"/>
-		<!-- 如果选择了我的文库，Zotero.ZoteroIF._dataOut_SelectedCollection 结果为 undefined 而不是 null，程序会让文献放入设定的文件夹，如果未设定则放入我的文库 -->
+		<button label="取消导入" style="font-size: 13px;margin-left: 30px" oncommand="Zotero.AI4Paper._dataOut_SelectedCollection = null;window.close();"/>
+		<!-- 如果选择了我的文库，Zotero.AI4Paper._dataOut_SelectedCollection 结果为 undefined 而不是 null，程序会让文献放入设定的文件夹，如果未设定则放入我的文库 -->
 	</hbox>
 </vbox>
 </dialog>

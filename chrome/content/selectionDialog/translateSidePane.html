@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8" />
-  <title>ZoteroIF Translate ReaderSidePane iframe</title>
+  <title>AI4Paper Translate ReaderSidePane iframe</title>
 
   <style>
       .translate-textarea {
@@ -30,7 +30,7 @@
       }
   </style>
   
-  <script src="chrome://zoteroif/content/selectionDialog/translateSidePane.js"></script>
+  <script src="chrome://ai4paper/content/selectionDialog/translateSidePane.js"></script>
   <script src="chrome://zotero/content/include.js"></script>
 </head>
 
@@ -41,7 +41,7 @@
 
         <!---------------------------------------------------------- 翻译源文文字框 ----------------------------------------------------------->
 
-        <textarea id="zoteroif-translate-readerSidePane-sourcetext" 
+        <textarea id="ai4paper-translate-readerSidePane-sourcetext" 
                   class="htmlTextArea translate-textarea"
                   flex="1" 
                   placeholder="这里输入翻译源文" 
@@ -62,25 +62,25 @@
                 onclick='clearTranslation();'>
             </div>
 
-            <div id="zoteroif-translate-readerSidePane-prefs"
+            <div id="ai4paper-translate-readerSidePane-prefs"
                 class="buttonIcon svg-container-prefs_16px"
                 style="margin-right: 7px;"
                 title="翻译侧边栏设置" 
-                onclick='Zotero.ZoteroIF.openDialogByType("translateSidePanePrefs");'>
+                onclick='Zotero.AI4Paper.openDialogByType("translateSidePanePrefs");'>
             </div>
 
             <input type="checkbox" 
-                   id="zoteroif-translate-readerSidePane-vocaulary-review" 
+                   id="ai4paper-translate-readerSidePane-vocaulary-review" 
                    style="vertical-align: middle" 
                    onclick="enableVocabularyReview()">
 
             <div style="font-size: 13px;margin-left: 2px;margin-right: 5px;font-family: Arial, sans-serif;">生词复习</div>
 
-            <button id="zoteroif-translate-readerSidePane-vocabulary-next" 
+            <button id="ai4paper-translate-readerSidePane-vocabulary-next" 
                     style="display:none;font-size: 13px;" 
-                    onclick="Zotero.ZoteroIF.getVocabularyOneWord();">下一个</button>
+                    onclick="Zotero.AI4Paper.getVocabularyOneWord();">下一个</button>
 
-            <button id="zoteroif-translate-readerSidePane-vocabulary-interpretation" 
+            <button id="ai4paper-translate-readerSidePane-vocabulary-interpretation" 
                     style="display:none;font-size: 13px;" 
                     onclick="translateText();">释义</button>
 
@@ -102,7 +102,7 @@
 
         <!---------------------------------------------------------- 翻译结果文字框 ----------------------------------------------------------->
 
-        <textarea id="zoteroif-translate-readerSidePane-response" 
+        <textarea id="ai4paper-translate-readerSidePane-response" 
                   class="htmlTextArea translate-textarea"
                   flex="1" 
                   placeholder="这里显示翻译结果" 

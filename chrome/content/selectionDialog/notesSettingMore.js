@@ -3,45 +3,45 @@ methodsBody.init = function () {
   document.addEventListener('dialogaccept', () => {});
 
   // 设置 Dialog 字体大小
-  Zotero.ZoteroIF.setFontSize_Dialog(document.querySelector('dialog'), 0.92);
+  Zotero.AI4Paper.setFontSize_Dialog(document.querySelector('dialog'), 0.92);
 
   // 设置 Dialog 字体大小
   // var dialog = document.querySelector('dialog');
   // Zotero.UIProperties.registerRoot(dialog);
 
-  // Zotero.ZoteroIF.setFontSize_Dialog(document.querySelector('dialog'));
+  // Zotero.AI4Paper.setFontSize_Dialog(document.querySelector('dialog'));
 
   // 自动生成注释笔记附件
-  document.getElementById("zotero-if-xul-autoannotationsnote").checked = Zotero.Prefs.get('zoteroif.autoannotationsnote');
+  document.getElementById("zotero-if-xul-autoannotationsnote").checked = Zotero.Prefs.get('ai4paper.autoannotationsnote');
   // 注释笔记行距
   let lineheight = {
     '紧凑型': 0,
     '宽松型': 1
   };
-  document.getElementById("zotero-if-xul-autoannotationsnote-lineheight").selectedIndex = lineheight[Zotero.Prefs.get('zoteroif.autoannotationsnotelineheight')];
+  document.getElementById("zotero-if-xul-autoannotationsnote-lineheight").selectedIndex = lineheight[Zotero.Prefs.get('ai4paper.autoannotationsnotelineheight')];
   // 导出注释笔记
-  document.getElementById("zotero-if-xul-export-annotations-notes").checked = Zotero.Prefs.get('zoteroif.exportannotationsnotes');
+  document.getElementById("zotero-if-xul-export-annotations-notes").checked = Zotero.Prefs.get('ai4paper.exportannotationsnotes');
   // 导出生词
-  document.getElementById("zotero-if-xul-export-vocabulary-notes").checked = Zotero.Prefs.get('zoteroif.exportvocabularynotes');
+  document.getElementById("zotero-if-xul-export-vocabulary-notes").checked = Zotero.Prefs.get('ai4paper.exportvocabularynotes');
   // 导出划词翻译
-  document.getElementById("zotero-if-xul-export-translation-notes").checked = Zotero.Prefs.get('zoteroif.exporttranslationnotes');
+  document.getElementById("zotero-if-xul-export-translation-notes").checked = Zotero.Prefs.get('ai4paper.exporttranslationnotes');
   // 导出 GPT 笔记
-  document.getElementById("zotero-if-xul-export-chatgpt-notes").checked = Zotero.Prefs.get('zoteroif.chatgptnotes');
+  document.getElementById("zotero-if-xul-export-chatgpt-notes").checked = Zotero.Prefs.get('ai4paper.chatgptnotes');
   // 导出 AI 文献解读
-  document.getElementById("zotero-if-xul-exportAIReadingNotes").checked = Zotero.Prefs.get('zoteroif.exportAIReadingNotes');
+  document.getElementById("zotero-if-xul-exportAIReadingNotes").checked = Zotero.Prefs.get('ai4paper.exportAIReadingNotes');
   // 去除作者内链
-  document.getElementById("zotero-if-xul-export-notes-creators-no-internal-links").checked = Zotero.Prefs.get('zoteroif.creatorsnointernallinks');
+  document.getElementById("zotero-if-xul-export-notes-creators-no-internal-links").checked = Zotero.Prefs.get('ai4paper.creatorsnointernallinks');
   // 卡片时间戳
-  document.getElementById("zotero-if-xul-obsidian-cardNotes-date").checked = Zotero.Prefs.get('zoteroif.generateCardNoteDate');
+  document.getElementById("zotero-if-xul-obsidian-cardNotes-date").checked = Zotero.Prefs.get('ai4paper.generateCardNoteDate');
   // 图库标签单独管理
-  document.getElementById("zotero-if-xul-obsidian-images-tags-specific").checked = Zotero.Prefs.get('zoteroif.imagesspecifictags');
+  document.getElementById("zotero-if-xul-obsidian-images-tags-specific").checked = Zotero.Prefs.get('ai4paper.imagesspecifictags');
   // 框选注释图片时
   let action = {
     '无操作': 0,
     '自动拷贝图片': 1,
     '自动通过 PicGo 上传至图床': 2
   };
-  document.getElementById("zotero-if-xul-annotaionimage-actions").selectedIndex = action[Zotero.Prefs.get('zoteroif.annotationimageactions')];
+  document.getElementById("zotero-if-xul-annotaionimage-actions").selectedIndex = action[Zotero.Prefs.get('ai4paper.annotationimageactions')];
   // 不生成笔记的注释颜色
   let colors = {
     '黄色': 0,
@@ -81,15 +81,15 @@ methodsBody.init = function () {
     '全部颜色（下划线与文本）': 26,
     '无': 27
   };
-  document.getElementById("zotero-if-xul-annotaionimage-color-excluded").selectedIndex = colors[Zotero.Prefs.get('zoteroif.autoannotationscolorexcluded')];
+  document.getElementById("zotero-if-xul-annotaionimage-color-excluded").selectedIndex = colors[Zotero.Prefs.get('ai4paper.autoannotationscolorexcluded')];
   // 图片宽度
-  document.getElementById("zotero-if-xul-annotaionimage-image-width").value = Zotero.Prefs.get('zoteroif.autoannotationsnoteimagewidth');
+  document.getElementById("zotero-if-xul-annotaionimage-image-width").value = Zotero.Prefs.get('ai4paper.autoannotationsnoteimagewidth');
   // 回链样式
   let linkStyle = {
     '页码': 0,
     '作者年份页码': 1
   };
-  document.getElementById("zotero-if-xul-cardLink-style").selectedIndex = linkStyle[Zotero.Prefs.get('zoteroif.cardlinkstyle')];
+  document.getElementById("zotero-if-xul-cardLink-style").selectedIndex = linkStyle[Zotero.Prefs.get('ai4paper.cardlinkstyle')];
 
   // 高亮色透明度
   methodsBody.setTransparency(true);
@@ -97,84 +97,84 @@ methodsBody.init = function () {
 methodsBody.run = function () {
   // 导出注释笔记
   if (document.getElementById("zotero-if-xul-export-annotations-notes").checked) {
-    Zotero.Prefs.set('zoteroif.exportannotationsnotes', true);
+    Zotero.Prefs.set('ai4paper.exportannotationsnotes', true);
   } else {
-    Zotero.Prefs.set('zoteroif.exportannotationsnotes', false);
+    Zotero.Prefs.set('ai4paper.exportannotationsnotes', false);
   }
   // 导出生词
   if (document.getElementById("zotero-if-xul-export-vocabulary-notes").checked) {
-    Zotero.Prefs.set('zoteroif.exportvocabularynotes', true);
+    Zotero.Prefs.set('ai4paper.exportvocabularynotes', true);
   } else {
-    Zotero.Prefs.set('zoteroif.exportvocabularynotes', false);
+    Zotero.Prefs.set('ai4paper.exportvocabularynotes', false);
   }
   // 导出划词翻译
   if (document.getElementById("zotero-if-xul-export-translation-notes").checked) {
-    Zotero.Prefs.set('zoteroif.exporttranslationnotes', true);
+    Zotero.Prefs.set('ai4paper.exporttranslationnotes', true);
   } else {
-    Zotero.Prefs.set('zoteroif.exporttranslationnotes', false);
+    Zotero.Prefs.set('ai4paper.exporttranslationnotes', false);
   }
   // 导出 GPT 笔记
   if (document.getElementById("zotero-if-xul-export-chatgpt-notes").checked) {
-    Zotero.Prefs.set('zoteroif.chatgptnotes', true);
+    Zotero.Prefs.set('ai4paper.chatgptnotes', true);
   } else {
-    Zotero.Prefs.set('zoteroif.chatgptnotes', false);
+    Zotero.Prefs.set('ai4paper.chatgptnotes', false);
   }
   // 导出 AI 文献解读
-  Zotero.Prefs.set('zoteroif.exportAIReadingNotes', document.getElementById("zotero-if-xul-exportAIReadingNotes").checked);
+  Zotero.Prefs.set('ai4paper.exportAIReadingNotes', document.getElementById("zotero-if-xul-exportAIReadingNotes").checked);
   // 去除作者内链
   if (document.getElementById("zotero-if-xul-export-notes-creators-no-internal-links").checked) {
-    Zotero.Prefs.set('zoteroif.creatorsnointernallinks', true);
+    Zotero.Prefs.set('ai4paper.creatorsnointernallinks', true);
   } else {
-    Zotero.Prefs.set('zoteroif.creatorsnointernallinks', false);
+    Zotero.Prefs.set('ai4paper.creatorsnointernallinks', false);
   }
   // 卡片时间戳
   if (document.getElementById("zotero-if-xul-obsidian-cardNotes-date").checked) {
-    Zotero.Prefs.set('zoteroif.generateCardNoteDate', true);
+    Zotero.Prefs.set('ai4paper.generateCardNoteDate', true);
   } else {
-    Zotero.Prefs.set('zoteroif.generateCardNoteDate', false);
+    Zotero.Prefs.set('ai4paper.generateCardNoteDate', false);
   }
   // 图库标签单独管理
   if (document.getElementById("zotero-if-xul-obsidian-images-tags-specific").checked) {
-    Zotero.Prefs.set('zoteroif.imagesspecifictags', true);
+    Zotero.Prefs.set('ai4paper.imagesspecifictags', true);
   } else {
-    Zotero.Prefs.set('zoteroif.imagesspecifictags', false);
+    Zotero.Prefs.set('ai4paper.imagesspecifictags', false);
   }
   // 框选注释图片时
   if (document.getElementById('zotero-if-xul-annotaionimage-actions').label === '无操作') {
-    Zotero.Prefs.set('zoteroif.annotationimageactions', '无操作');
+    Zotero.Prefs.set('ai4paper.annotationimageactions', '无操作');
   } else if (document.getElementById('zotero-if-xul-annotaionimage-actions').label === '自动拷贝图片') {
-    Zotero.Prefs.set('zoteroif.annotationimageactions', '自动拷贝图片');
+    Zotero.Prefs.set('ai4paper.annotationimageactions', '自动拷贝图片');
   } else if (document.getElementById('zotero-if-xul-annotaionimage-actions').label === '自动通过 PicGo 上传至图床') {
-    Zotero.Prefs.set('zoteroif.annotationimageactions', '自动通过 PicGo 上传至图床');
+    Zotero.Prefs.set('ai4paper.annotationimageactions', '自动通过 PicGo 上传至图床');
   } else {
-    Zotero.Prefs.set('zoteroif.annotationimageactions', '无操作');
+    Zotero.Prefs.set('ai4paper.annotationimageactions', '无操作');
   }
 
   // 不生成笔记的注释颜色
-  Zotero.Prefs.set('zoteroif.autoannotationscolorexcluded', document.getElementById('zotero-if-xul-annotaionimage-color-excluded').label);
+  Zotero.Prefs.set('ai4paper.autoannotationscolorexcluded', document.getElementById('zotero-if-xul-annotaionimage-color-excluded').label);
 
   // 图片宽度
-  Zotero.Prefs.set('zoteroif.autoannotationsnoteimagewidth', document.getElementById('zotero-if-xul-annotaionimage-image-width').label);
+  Zotero.Prefs.set('ai4paper.autoannotationsnoteimagewidth', document.getElementById('zotero-if-xul-annotaionimage-image-width').label);
 
   // 自动生成注释笔记附件
   if (document.getElementById("zotero-if-xul-autoannotationsnote").checked) {
-    Zotero.Prefs.set('zoteroif.autoannotationsnote', true);
+    Zotero.Prefs.set('ai4paper.autoannotationsnote', true);
   } else {
-    Zotero.Prefs.set('zoteroif.autoannotationsnote', false);
+    Zotero.Prefs.set('ai4paper.autoannotationsnote', false);
   }
   // 注释笔记行距
-  Zotero.Prefs.set('zoteroif.autoannotationsnotelineheight', document.getElementById('zotero-if-xul-autoannotationsnote-lineheight').label);
+  Zotero.Prefs.set('ai4paper.autoannotationsnotelineheight', document.getElementById('zotero-if-xul-autoannotationsnote-lineheight').label);
 
   // 回链样式
-  Zotero.Prefs.set('zoteroif.cardlinkstyle', document.getElementById('zotero-if-xul-cardLink-style').label);
+  Zotero.Prefs.set('ai4paper.cardlinkstyle', document.getElementById('zotero-if-xul-cardLink-style').label);
 };
 methodsBody.setTransparency = function (isInit) {
   let items = ["yellowtransparency", "redtransparency", "greentransparency", "bluetransparency", "purpletransparency", "magentatransparency", "orangetransparency", "graytransparency"];
   for (let item of items) {
     if (isInit) {
-      document.getElementById(`highlightColor-${item}`).value = Zotero.Prefs.get(`zoteroif.${item}`);
+      document.getElementById(`highlightColor-${item}`).value = Zotero.Prefs.get(`ai4paper.${item}`);
     } else {
-      Zotero.Prefs.set(`zoteroif.${item}`, document.getElementById(`highlightColor-${item}`).value);
+      Zotero.Prefs.set(`ai4paper.${item}`, document.getElementById(`highlightColor-${item}`).value);
     }
   }
 };

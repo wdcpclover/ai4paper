@@ -1,9 +1,9 @@
 var methodsBody = function () {};
 methodsBody.init = async function () {
-  Zotero.ZoteroIF.update_svg_icons(document);
+  Zotero.AI4Paper.update_svg_icons(document);
 
   // 根据 Zotero 版本调整样式
-  Zotero.ZoteroIF.updateTextAreaBox4ZoteroScheme(window);
+  Zotero.AI4Paper.updateTextAreaBox4ZoteroScheme(window);
   document.addEventListener('dialogaccept', () => methodsBody.acceptSelection());
   document.addEventListener('dialogcancel', () => methodsBody.cancelSelection());
   this.io = window.arguments[0];
@@ -75,7 +75,7 @@ methodsBody.setPopup = function () {
     first.remove();
     first = popup.firstElementChild;
   }
-  let userPromptTemplate = Zotero.Prefs.get('zoteroif.gptNotesAttachItems');
+  let userPromptTemplate = Zotero.Prefs.get('ai4paper.gptNotesAttachItems');
   let prompTemplateObject = [];
   if (userPromptTemplate != '') {
     let userPromptTemplateArray = userPromptTemplate.split('\n');
@@ -100,13 +100,13 @@ methodsBody.setPopup = function () {
       }
     }
   }
-  Zotero.Prefs.set('zoteroif.gptNotesAttachItemsObject', JSON.stringify(prompTemplateObject));
-  if (Zotero.Prefs.get('zoteroif.gptNotesLastSelectedItem') != '') {
+  Zotero.Prefs.set('ai4paper.gptNotesAttachItemsObject', JSON.stringify(prompTemplateObject));
+  if (Zotero.Prefs.get('ai4paper.gptNotesLastSelectedItem') != '') {
     // 刷新模板选择
     let menulist = document.getElementById("zotero-if-xul-add-chatgpt-note-tag-fixeditems2attach");
     let allTemplates = popup.childNodes;
     for (let i = 0; i < allTemplates.length; i++) {
-      if (allTemplates[i].label === Zotero.Prefs.get('zoteroif.gptNotesLastSelectedItem')) {
+      if (allTemplates[i].label === Zotero.Prefs.get('ai4paper.gptNotesLastSelectedItem')) {
         menulist.selectedIndex = i;
         return;
       }

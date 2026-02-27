@@ -1,9 +1,9 @@
 var methodsBody = function () {};
 methodsBody.init = async function () {
   // 根据 Zotero 版本调整样式
-  Zotero.ZoteroIF.updateTextAreaBox4ZoteroScheme(window);
-  document.getElementById("enableNewBingTemplate").checked = Zotero.Prefs.get('zoteroif.enableNewBingTemplate');
-  document.getElementById("newBingTemplate").value = Zotero.Prefs.get('zoteroif.newBingTemplate');
+  Zotero.AI4Paper.updateTextAreaBox4ZoteroScheme(window);
+  document.getElementById("enableNewBingTemplate").checked = Zotero.Prefs.get('ai4paper.enableNewBingTemplate');
+  document.getElementById("newBingTemplate").value = Zotero.Prefs.get('ai4paper.newBingTemplate');
 
   // 聚焦
   await Zotero.Promise.delay(10);
@@ -12,8 +12,8 @@ methodsBody.init = async function () {
   document.getElementById("newBingTemplate").focus();
 };
 methodsBody.enableTemplate = function () {
-  Zotero.Prefs.set('zoteroif.enableNewBingTemplate', document.getElementById("enableNewBingTemplate").checked);
+  Zotero.Prefs.set('ai4paper.enableNewBingTemplate', document.getElementById("enableNewBingTemplate").checked);
 };
 methodsBody.updateTemplate = function () {
-  Zotero.Prefs.set('zoteroif.newBingTemplate', document.getElementById("newBingTemplate").value);
+  Zotero.Prefs.set('ai4paper.newBingTemplate', document.getElementById("newBingTemplate").value);
 };

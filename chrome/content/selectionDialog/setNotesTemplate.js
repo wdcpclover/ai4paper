@@ -1,13 +1,13 @@
 var methodsBody = function () {};
 methodsBody.init = function () {
-  Zotero.ZoteroIF.update_svg_icons(document);
+  Zotero.AI4Paper.update_svg_icons(document);
   document.addEventListener('dialogaccept', () => {});
 
   // 设置 Dialog 字体大小
-  Zotero.ZoteroIF.setFontSize_Dialog(document.querySelector('dialog'), 0.92);
+  Zotero.AI4Paper.setFontSize_Dialog(document.querySelector('dialog'), 0.92);
 
   // 根据 Zotero 版本调整样式
-  Zotero.ZoteroIF.updateTextAreaBox4ZoteroScheme(window);
+  Zotero.AI4Paper.updateTextAreaBox4ZoteroScheme(window);
 
   // 设置值
   methodsBody.setValue(true);
@@ -17,16 +17,16 @@ methodsBody.setValue = function (isInit) {
   let checkboxItems = ["obsidianyamlenable", "useItemIDAsQNKeySuffix", "useCitationKeyasQNKey"];
   for (let item of textareaItems) {
     if (isInit) {
-      document.getElementById(item).value = Zotero.Prefs.get(`zoteroif.${item}`);
+      document.getElementById(item).value = Zotero.Prefs.get(`ai4paper.${item}`);
     } else {
-      Zotero.Prefs.set(`zoteroif.${item}`, document.getElementById(item).value);
+      Zotero.Prefs.set(`ai4paper.${item}`, document.getElementById(item).value);
     }
   }
   for (let item of checkboxItems) {
     if (isInit) {
-      document.getElementById(item).checked = Zotero.Prefs.get(`zoteroif.${item}`);
+      document.getElementById(item).checked = Zotero.Prefs.get(`ai4paper.${item}`);
     } else {
-      Zotero.Prefs.set(`zoteroif.${item}`, document.getElementById(item).checked);
+      Zotero.Prefs.set(`ai4paper.${item}`, document.getElementById(item).checked);
     }
   }
 };
@@ -50,7 +50,7 @@ methodsBody.checkQNKeyTemplate = function () {
     return positions;
   }
   // 读取模板，并将单引号替换为双引号
-  let qnkeyTemplate = Zotero.Prefs.get('zoteroif.qnkeyTemplate').replace(/'/g, '"');
+  let qnkeyTemplate = Zotero.Prefs.get('ai4paper.qnkeyTemplate').replace(/'/g, '"');
   // [[[ 位置数组
   const positionsL = findTripleBracketPositions(qnkeyTemplate, 0);
   // ]]] 位置数组
@@ -72,10 +72,10 @@ methodsBody.checkQNKeyTemplate = function () {
 };
 methodsBody.resetkQNKeyTemplate = function () {
   // 🆔 作为后缀
-  Zotero.Prefs.set('zoteroif.useItemIDAsQNKeySuffix', true);
+  Zotero.Prefs.set('ai4paper.useItemIDAsQNKeySuffix', true);
   // 不启用 citationKey
-  Zotero.Prefs.set('zoteroif.useCitationKeyasQNKey', false);
-  Zotero.Prefs.set('zoteroif.qnkeyTemplate', `// 属性名请用双引号括住；非布尔型属性值请用双引号括住；最后一个属性值后不可以有逗号。
+  Zotero.Prefs.set('ai4paper.useCitationKeyasQNKey', false);
+  Zotero.Prefs.set('ai4paper.qnkeyTemplate', `// 属性名请用双引号括住；非布尔型属性值请用双引号括住；最后一个属性值后不可以有逗号。
 [[[
     {
         "variable": "year",

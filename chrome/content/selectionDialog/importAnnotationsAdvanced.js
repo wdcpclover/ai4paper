@@ -14,7 +14,7 @@ importAnnotationsAdvanced.init = async function () {
     document.addEventListener('keydown', event => {
       if (event.key === 'Escape') {
         // 清空已选择条目
-        Zotero.ZoteroIF._dataOut_selectedItemsAdvancedSearch = [];
+        Zotero.AI4Paper._dataOut_selectedItemsAdvancedSearch = [];
         window.close();
       }
     });
@@ -67,7 +67,7 @@ importAnnotationsAdvanced.setContextMenu = function () {
       let textSearch = document.getElementById('zotero-search-box').querySelector('input').value;
       if (textSearch) {
         // 存储搜索记录
-        Zotero.ZoteroIF.updateImportAnnotationsAdvancedSearchHistory(textSearch);
+        Zotero.AI4Paper.updateImportAnnotationsAdvancedSearchHistory(textSearch);
       }
     }
   });
@@ -75,7 +75,7 @@ importAnnotationsAdvanced.setContextMenu = function () {
 
 // 创建右键菜单
 importAnnotationsAdvanced.buildContextMenu = function () {
-  let searchTextHistory = Zotero.Prefs.get('zoteroif.importAnnotationsAdvancedHistory').split('😊🎈🍓');
+  let searchTextHistory = Zotero.Prefs.get('ai4paper.importAnnotationsAdvancedHistory').split('😊🎈🍓');
   // 如果无搜索记录，则返回。
   if (searchTextHistory.length === 1 && searchTextHistory[0] === '') {
     return false;
@@ -115,7 +115,7 @@ importAnnotationsAdvanced.addListener2SearchButton = function () {
     let textSearch = document.getElementById('zotero-search-box').querySelector('input').value;
     if (textSearch) {
       // 存储搜索记录
-      Zotero.ZoteroIF.updateImportAnnotationsAdvancedSearchHistory(textSearch);
+      Zotero.AI4Paper.updateImportAnnotationsAdvancedSearchHistory(textSearch);
     }
   });
 };

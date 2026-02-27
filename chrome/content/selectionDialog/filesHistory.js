@@ -1,19 +1,19 @@
 var methodsBody = function () {};
 methodsBody.init = function () {
-  Zotero.ZoteroIF.update_svg_icons(document);
+  Zotero.AI4Paper.update_svg_icons(document);
   document.addEventListener('dialogaccept', () => window.close());
   methodsBody.registerShortcuts();
   document.addEventListener("focus", () => {
     methodsBody.updateViewOnFocus();
   });
-  document.getElementById("filesHistory-doubleClick-enable").checked = Zotero.Prefs.get('zoteroif.filesHistoryDoubleClick');
-  document.getElementById("setFilesHistoryAsDefaultView").checked = Zotero.Prefs.get("zoteroif.setFilesHistoryAsDefaultView");
-  if (Zotero.ZoteroIF._data_useWorkSpaceView) {
+  document.getElementById("filesHistory-doubleClick-enable").checked = Zotero.Prefs.get('ai4paper.filesHistoryDoubleClick');
+  document.getElementById("setFilesHistoryAsDefaultView").checked = Zotero.Prefs.get("ai4paper.setFilesHistoryAsDefaultView");
+  if (Zotero.AI4Paper._data_useWorkSpaceView) {
     methodsBody.setView("workSpace");
-    Zotero.ZoteroIF._data_useWorkSpaceView = null;
+    Zotero.AI4Paper._data_useWorkSpaceView = null;
   } else {
-    let var1 = Zotero.Prefs.get("zoteroif.setFilesHistoryAsDefaultView") ? 'filesHistory' : "workSpace";
-    methodsBody.setView(Zotero.ZoteroIF.lastFilesHistoryView ? Zotero.ZoteroIF.lastFilesHistoryView : var1);
+    let var1 = Zotero.Prefs.get("ai4paper.setFilesHistoryAsDefaultView") ? 'filesHistory' : "workSpace";
+    methodsBody.setView(Zotero.AI4Paper.lastFilesHistoryView ? Zotero.AI4Paper.lastFilesHistoryView : var1);
   }
   methodsBody.initFilesHistoryList();
   methodsBody.buildWorkSpaceButtons("init");
@@ -71,11 +71,11 @@ methodsBody.switchTypeView = function () {
   }
 };
 methodsBody.focusSearchBox = function () {
-  document.getElementById("filesHistoryView-button").getAttribute("default") === "true" ? document.getElementById("zoteroif.filesHistory.search").focus() : document.getElementById("zoteroif.workSpace.search").focus();
+  document.getElementById("filesHistoryView-button").getAttribute("default") === "true" ? document.getElementById("ai4paper.filesHistory.search").focus() : document.getElementById("ai4paper.workSpace.search").focus();
 };
 methodsBody.buildWorkSpaceButtons = function (param2, param3) {
   let var10 = methodsBody.getCurrentWorkSpaceName(),
-    var11 = JSON.parse(Zotero.Prefs.get("zoteroif.workSpacesData")).map(_0x54da3a => _0x54da3a.workSpaceName);
+    var11 = JSON.parse(Zotero.Prefs.get("ai4paper.workSpacesData")).map(_0x54da3a => _0x54da3a.workSpaceName);
   document.querySelectorAll(".workSpaceButton").forEach(_0x36e180 => _0x36e180.remove());
   for (let var12 of var11) {
     let _0x5d67a9 = document.createXULElement("button");
@@ -132,11 +132,11 @@ methodsBody.getCurrentWorkSpaceName = function () {
   return false;
 };
 methodsBody.addNewWorkSpace = function () {
-  let var20 = Zotero.ZoteroIF.createTabsAsWorkSpace();
+  let var20 = Zotero.AI4Paper.createTabsAsWorkSpace();
   var20 && methodsBody.buildWorkSpaceButtons("add");
 };
 methodsBody.renameWorkSpace = function (param4) {
-  let var21 = Zotero.ZoteroIF.renameWorkSpace(param4);
+  let var21 = Zotero.AI4Paper.renameWorkSpace(param4);
   if (var21) {
     methodsBody.buildWorkSpaceButtons("rename", var21);
   }
@@ -144,31 +144,31 @@ methodsBody.renameWorkSpace = function (param4) {
 methodsBody.deleteWorkSpace = function (param5) {
   var var22 = window.confirm("是否确认删除工作区【" + param5 + '】？');
   if (var22) {
-    let var23 = Zotero.ZoteroIF.deleteWorkSpace(param5);
+    let var23 = Zotero.AI4Paper.deleteWorkSpace(param5);
     var23 && methodsBody.buildWorkSpaceButtons('init');
   }
 };
 methodsBody.deleteAllWorkSpaces = function () {
   var var24 = window.confirm('是否确认删除所有工作区？👉\x20删除后将无法恢复。👈');
   if (var24) {
-    Zotero.Prefs.set("zoteroif.workSpacesData", JSON.stringify([]));
+    Zotero.Prefs.set("ai4paper.workSpacesData", JSON.stringify([]));
     methodsBody.buildWorkSpaceButtons("init");
   }
 };
 methodsBody.addCurrentTab2WorkSpace = function (param6) {
-  let var25 = Zotero.ZoteroIF.addCurrentTab2WorkSpace(param6);
+  let var25 = Zotero.AI4Paper.addCurrentTab2WorkSpace(param6);
   var25 && methodsBody.buildWorkSpaceButtons("move", param6);
 };
 methodsBody.addAllTabs2WorkSpace = function (param7) {
-  let var26 = Zotero.ZoteroIF.addAllTabs2WorkSpace(param7);
+  let var26 = Zotero.AI4Paper.addAllTabs2WorkSpace(param7);
   var26 && methodsBody.buildWorkSpaceButtons("move", param7);
 };
 methodsBody.replaceWorkSpaceItems = function (param8) {
-  let var27 = Zotero.ZoteroIF.replaceWorkSpaceItems(param8);
+  let var27 = Zotero.AI4Paper.replaceWorkSpaceItems(param8);
   var27 && methodsBody.buildWorkSpaceButtons("move", param8);
 };
 methodsBody.removeItemFromWorkSpace = function (param9, param10) {
-  let var28 = Zotero.ZoteroIF.removeItemFromWorkSpace(param9, param10);
+  let var28 = Zotero.AI4Paper.removeItemFromWorkSpace(param9, param10);
   var28 && methodsBody.buildWorkSpaceButtons("move", param9);
 };
 methodsBody.removeSelectedItemsFromWorkSpace = function (param11) {
@@ -185,11 +185,11 @@ methodsBody.removeSelectedItemsFromWorkSpace = function (param11) {
   if (!var30.length) {
     return window.alert("❌ 还未任选任何条目！"), false;
   }
-  let var35 = Zotero.ZoteroIF.removeSelectedItemsFromWorkSpace(param11, var30);
+  let var35 = Zotero.AI4Paper.removeSelectedItemsFromWorkSpace(param11, var30);
   var35 && methodsBody.buildWorkSpaceButtons("move", param11);
 };
 methodsBody.removeAllItemsFromWorkSpace = function (param12) {
-  let var36 = Zotero.ZoteroIF.removeAllItemsFromWorkSpace(param12);
+  let var36 = Zotero.AI4Paper.removeAllItemsFromWorkSpace(param12);
   var36 && methodsBody.buildWorkSpaceButtons("move", param12);
 };
 methodsBody.sendSelectedItems2AI = function (param13) {
@@ -205,8 +205,8 @@ methodsBody.sendSelectedItems2AI = function (param13) {
   if (!var38.length) {
     return window.alert("❌ 还未任选任何条目！"), false;
   }
-  Zotero.ZoteroIF._dataOut_selectedPDFsInfo = var38.join('\x0a');
-  Zotero.ZoteroIF.processTextAreaValue_importPDFs();
+  Zotero.AI4Paper._dataOut_selectedPDFsInfo = var38.join('\x0a');
+  Zotero.AI4Paper.processTextAreaValue_importPDFs();
 };
 methodsBody.addSelectedItems2TargetCollection = async function (param14) {
   var var42 = document.getElementById('zotero-workSpace-links');
@@ -217,7 +217,7 @@ methodsBody.addSelectedItems2TargetCollection = async function (param14) {
       let _0x9ec0b5 = var45.firstElementChild.getAttribute("label"),
         _0x35f4f3 = _0x9ec0b5.lastIndexOf('🆔'),
         _0x567181 = _0x9ec0b5.substring(_0x35f4f3 + 0x2).trim(),
-        _0x27d89d = Zotero.ZoteroIF.findItemByIDORKey(_0x567181);
+        _0x27d89d = Zotero.AI4Paper.findItemByIDORKey(_0x567181);
       _0x27d89d && (_0x27d89d.parentItem && (_0x27d89d = _0x27d89d.parentItem), var43.push(_0x27d89d));
     }
   }
@@ -244,29 +244,29 @@ methodsBody.onClickButton_addItems2WorkSpace = function (param15) {
   var54 && var54.openPopup(var52, "after_start", 0x0, 0x0, false, false);
 };
 methodsBody.setTopWorkSpace = function (param16) {
-  let var55 = Zotero.ZoteroIF.setTopWorkSpace(param16);
+  let var55 = Zotero.AI4Paper.setTopWorkSpace(param16);
   var55 && methodsBody.buildWorkSpaceButtons("move", param16);
 };
 methodsBody.moveUpWorkSpace = function (param17) {
-  let var56 = Zotero.ZoteroIF.moveUpWorkSpace(param17);
+  let var56 = Zotero.AI4Paper.moveUpWorkSpace(param17);
   if (var56) {
     methodsBody.buildWorkSpaceButtons("move", param17);
   }
 };
 methodsBody.moveDownWorkSpace = function (param18) {
-  let var57 = Zotero.ZoteroIF.moveDownWorkSpace(param18);
+  let var57 = Zotero.AI4Paper.moveDownWorkSpace(param18);
   var57 && methodsBody.buildWorkSpaceButtons("move", param18);
 };
 methodsBody.setTopWorkSpaceItem = function (param19, param20) {
-  let var58 = Zotero.ZoteroIF.setTopWorkSpaceItem(param19, param20);
+  let var58 = Zotero.AI4Paper.setTopWorkSpaceItem(param19, param20);
   var58 && (methodsBody.buildWorkSpaceButtons("move", param19), methodsBody.selectWorkSpaceItemAfterMove(param20));
 };
 methodsBody.moveUpWorkSpaceItem = function (param21, param22) {
-  let var59 = Zotero.ZoteroIF.moveUpWorkSpaceItem(param21, param22);
+  let var59 = Zotero.AI4Paper.moveUpWorkSpaceItem(param21, param22);
   var59 && (methodsBody.buildWorkSpaceButtons('move', param21), methodsBody.selectWorkSpaceItemAfterMove(param22));
 };
 methodsBody.moveDownWorkSpaceItem = function (param23, param24) {
-  let var60 = Zotero.ZoteroIF.moveDownWorkSpaceItem(param23, param24);
+  let var60 = Zotero.AI4Paper.moveDownWorkSpaceItem(param23, param24);
   if (var60) {
     methodsBody.buildWorkSpaceButtons("move", param23);
     methodsBody.selectWorkSpaceItemAfterMove(param24);
@@ -287,7 +287,7 @@ methodsBody.selectWorkSpaceItemAfterMove = function (param25) {
 methodsBody.showWorkSpaceItems = function (param26) {
   var var65 = document.getElementById('workSpace-message-label'),
     var66 = document.getElementById('zotero-workSpace-links'),
-    var67 = Zotero.ZoteroIF.getWorkSpaceItemsInfo(param26);
+    var67 = Zotero.AI4Paper.getWorkSpaceItemsInfo(param26);
   methodsBody.clearListbox(var66);
   methodsBody.buildItemNodes(var66, var67, true);
   if (var67.length === 0x0) {
@@ -299,7 +299,7 @@ methodsBody.showWorkSpaceItems = function (param26) {
 methodsBody.initFilesHistoryList = function () {
   let var68 = ["all", 'today', "lastDay", "lastWeek", 'lastMonth'];
   for (let var69 of var68) {
-    if (var69 === Zotero.ZoteroIF.lastFilesHistoryPane) {
+    if (var69 === Zotero.AI4Paper.lastFilesHistoryPane) {
       methodsBody[var69]();
       return;
     }
@@ -309,7 +309,7 @@ methodsBody.initFilesHistoryList = function () {
 methodsBody.all = function () {
   var var70 = document.getElementById('filesHistory-message-label'),
     var71 = document.getElementById("zotero-filesHistory-links"),
-    var72 = Zotero.ZoteroIF.getFilesHistory();
+    var72 = Zotero.AI4Paper.getFilesHistory();
   methodsBody.updateButtonStatus("all");
   methodsBody.clearListbox(var71);
   methodsBody.buildItemNodes(var71, var72);
@@ -318,7 +318,7 @@ methodsBody.all = function () {
 methodsBody.today = function () {
   var var73 = document.getElementById("filesHistory-message-label"),
     var74 = document.getElementById("zotero-filesHistory-links"),
-    var75 = Zotero.ZoteroIF.getFilesHistoryToday();
+    var75 = Zotero.AI4Paper.getFilesHistoryToday();
   methodsBody.updateButtonStatus("today");
   methodsBody.clearListbox(var74);
   methodsBody.buildItemNodes(var74, var75);
@@ -327,7 +327,7 @@ methodsBody.today = function () {
 methodsBody.lastDay = function () {
   var var76 = document.getElementById('filesHistory-message-label'),
     var77 = document.getElementById("zotero-filesHistory-links"),
-    var78 = Zotero.ZoteroIF.getFilesHistoryLastDay();
+    var78 = Zotero.AI4Paper.getFilesHistoryLastDay();
   methodsBody.updateButtonStatus('lastDay');
   methodsBody.clearListbox(var77);
   methodsBody.buildItemNodes(var77, var78);
@@ -336,7 +336,7 @@ methodsBody.lastDay = function () {
 methodsBody.lastWeek = function () {
   var var79 = document.getElementById("filesHistory-message-label"),
     var80 = document.getElementById("zotero-filesHistory-links"),
-    var81 = Zotero.ZoteroIF.getFilesHistoryLastWeek();
+    var81 = Zotero.AI4Paper.getFilesHistoryLastWeek();
   methodsBody.updateButtonStatus("lastWeek");
   methodsBody.clearListbox(var80);
   methodsBody.buildItemNodes(var80, var81);
@@ -345,7 +345,7 @@ methodsBody.lastWeek = function () {
 methodsBody.lastMonth = function () {
   var var82 = document.getElementById("filesHistory-message-label"),
     var83 = document.getElementById("zotero-filesHistory-links"),
-    var84 = Zotero.ZoteroIF.getFilesHistoryLastMonth();
+    var84 = Zotero.AI4Paper.getFilesHistoryLastMonth();
   methodsBody.updateButtonStatus("lastMonth");
   methodsBody.clearListbox(var83);
   methodsBody.buildItemNodes(var83, var84);
@@ -354,11 +354,11 @@ methodsBody.lastMonth = function () {
 methodsBody.search = function () {
   var var85 = document.getElementById("filesHistory-message-label"),
     var86 = document.getElementById('zotero-filesHistory-links'),
-    var87 = document.getElementById("zoteroif.filesHistory.search").value.trim();
+    var87 = document.getElementById("ai4paper.filesHistory.search").value.trim();
   if (!var87) return;
   methodsBody.updateButtonStatus("all");
-  let var88 = Zotero.ZoteroIF.getFilesHistory(),
-    var89 = Zotero.ZoteroIF.getFilesHistorySearch(var87);
+  let var88 = Zotero.AI4Paper.getFilesHistory(),
+    var89 = Zotero.AI4Paper.getFilesHistorySearch(var87);
   methodsBody.clearListbox(var86);
   methodsBody.buildItemNodes(var86, var89);
   var85.textContent = "最近打开的【" + var88.length + "】篇文献中，标题包含【" + var87 + "】的文献共【" + var89.length + '】篇';
@@ -366,15 +366,15 @@ methodsBody.search = function () {
 methodsBody.searchWorkSpace = function () {
   var var90 = document.getElementById("workSpace-message-label"),
     var91 = document.getElementById("zotero-workSpace-links"),
-    var92 = document.getElementById("zoteroif.workSpace.search").value.trim();
+    var92 = document.getElementById("ai4paper.workSpace.search").value.trim();
   if (!var92) {
     return;
   }
   let var93 = Array.from(document.querySelectorAll(".workSpaceButton")).filter(_0x48a67e => _0x48a67e.getAttribute("default") === "true")[0x0];
   if (!var93) return;
   let var94 = var93.getAttribute("label"),
-    var95 = Zotero.ZoteroIF.getWorkSpaceItemsInfo(var94),
-    var96 = Zotero.ZoteroIF.searchWorkSpaceItems(var94, var92);
+    var95 = Zotero.AI4Paper.getWorkSpaceItemsInfo(var94),
+    var96 = Zotero.AI4Paper.searchWorkSpaceItems(var94, var92);
   methodsBody.clearListbox(var91);
   methodsBody.buildItemNodes(var91, var96);
   var90.textContent = "工作区【" + var94 + "】的【" + var95.length + '】篇文献中，标题包含【' + var92 + "】的文献共【" + var96.length + '】篇';
@@ -393,8 +393,8 @@ methodsBody.onClickWorkSpaceIcon = function (param29) {
   if (param29.shiftKey) {
     methodsBody.deleteAllWorkSpaces();
   } else {
-    let var97 = JSON.parse(Zotero.Prefs.get("zoteroif.workSpacesData")).map(_0x259c2c => _0x259c2c.workSpaceName);
-    Zotero.ZoteroIF.showProgressWindow(0xbb8, "统计工作区数量【AI4paper】", "共有【" + var97.length + "】个工作区！");
+    let var97 = JSON.parse(Zotero.Prefs.get("ai4paper.workSpacesData")).map(_0x259c2c => _0x259c2c.workSpaceName);
+    Zotero.AI4Paper.showProgressWindow(0xbb8, "统计工作区数量【AI4paper】", "共有【" + var97.length + "】个工作区！");
   }
 };
 methodsBody.selectAll = function (param30) {
@@ -406,7 +406,7 @@ methodsBody.selectAll = function (param30) {
   return var98.childNodes.length;
 };
 methodsBody.shiftClick = function (param31) {
-  Zotero.ZoteroIF.go2FilesHistoryItem(param31);
+  Zotero.AI4Paper.go2FilesHistoryItem(param31);
   methodsBody.storeCurrentView();
 };
 methodsBody.openSelectedFiles = function () {
@@ -419,8 +419,8 @@ methodsBody.openSelectedFiles = function () {
     var var103 = var100.childNodes[var102];
     var103.firstElementChild.checked && var101.push(var103.firstElementChild.getAttribute("label"));
   }
-  if (!var101.length) return Zotero.ZoteroIF.showProgressWindow(0x1388, "温馨提示", "您还未选择文献！"), false;
-  Zotero.ZoteroIF.openFilesHistoryItem(var101);
+  if (!var101.length) return Zotero.AI4Paper.showProgressWindow(0x1388, "温馨提示", "您还未选择文献！"), false;
+  Zotero.AI4Paper.openFilesHistoryItem(var101);
   methodsBody.storeCurrentView();
 };
 methodsBody.openWorkSpaceFiles = function () {
@@ -438,26 +438,26 @@ methodsBody.openWorkSpaceFilesOnly = async function () {
   }
 };
 methodsBody.doubleClickJump = function (param32) {
-  if (!Zotero.Prefs.get('zoteroif.filesHistoryDoubleClick')) return;
-  Zotero.ZoteroIF.openFilesHistoryItem([param32]);
+  if (!Zotero.Prefs.get('ai4paper.filesHistoryDoubleClick')) return;
+  Zotero.AI4Paper.openFilesHistoryItem([param32]);
   methodsBody.storeCurrentView();
 };
 methodsBody.storeCurrentView = function () {
-  Zotero.ZoteroIF.lastFilesHistoryView = "filesHistory";
-  if (document.getElementById("workSpaceView-button").getAttribute("default") === "true") Zotero.ZoteroIF.lastFilesHistoryView = 'workSpace';else {
+  Zotero.AI4Paper.lastFilesHistoryView = "filesHistory";
+  if (document.getElementById("workSpaceView-button").getAttribute("default") === "true") Zotero.AI4Paper.lastFilesHistoryView = 'workSpace';else {
     let var106 = ["all", "today", "lastDay", 'lastWeek', "lastMonth"];
     for (let var107 of var106) {
       if (document.getElementById(var107 + 'Button').getAttribute('default') === "true") {
-        Zotero.ZoteroIF.lastFilesHistoryPane = var107;
+        Zotero.AI4Paper.lastFilesHistoryPane = var107;
       }
     }
   }
 };
 methodsBody.updateViewOnFocus = function () {
-  if (Zotero.ZoteroIF._data_useWorkSpaceView) {
+  if (Zotero.AI4Paper._data_useWorkSpaceView) {
     methodsBody.setView('workSpace');
     methodsBody.buildWorkSpaceButtons("focus");
-    Zotero.ZoteroIF._data_useWorkSpaceView = null;
+    Zotero.AI4Paper._data_useWorkSpaceView = null;
   } else {
     if (document.getElementById("workSpaceView-button").getAttribute("default") === "true") methodsBody.buildWorkSpaceButtons("focus");else {
       let var108 = ["all", "today", "lastDay", "lastWeek", "lastMonth"];
@@ -545,9 +545,9 @@ methodsBody.buildContextMenu = function (param38, param39) {
   }
   let var125 = window.document.createXULElement("menuitem");
   return var125.setAttribute("label", "打开文献"), var125.addEventListener("command", () => {
-    Zotero.ZoteroIF.openFilesHistoryItem([var123]);
+    Zotero.AI4Paper.openFilesHistoryItem([var123]);
   }), var122.appendChild(var125), var122.appendChild(document.createXULElement("menuseparator")), var125 = window.document.createXULElement('menuitem'), var125.setAttribute('label', "在文库中显示"), var125.addEventListener('command', () => {
-    Zotero.ZoteroIF.go2FilesHistoryItem(var123);
+    Zotero.AI4Paper.go2FilesHistoryItem(var123);
   }), var122.appendChild(var125), var122;
 };
 methodsBody.buildContextMenu_workSpaceItem = function (param40, param41) {
@@ -576,13 +576,13 @@ methodsBody.buildContextMenu_workSpaceItem = function (param40, param41) {
   }), var126.appendChild(var132), var132 = window.document.createXULElement("menuitem"), var132.setAttribute("label", '下移'), var132.addEventListener("command", () => {
     methodsBody.moveDownWorkSpaceItem(var130, var129);
   }), var126.appendChild(var132), var126.appendChild(document.createXULElement("menuseparator")), var132 = window.document.createXULElement("menuitem"), var132.setAttribute("label", "打开文献"), var132.addEventListener("command", () => {
-    Zotero.ZoteroIF.openFilesHistoryItem([var127]);
+    Zotero.AI4Paper.openFilesHistoryItem([var127]);
   }), var126.appendChild(var132), var132 = window.document.createXULElement('menuitem'), var132.setAttribute("label", "在文库中显示"), var132.addEventListener('command', () => {
-    Zotero.ZoteroIF.go2FilesHistoryItem(var127);
+    Zotero.AI4Paper.go2FilesHistoryItem(var127);
   }), var126.appendChild(var132), var132 = window.document.createXULElement('menuitem'), var132.setAttribute("label", "拷贝 PDF"), var132.addEventListener("command", () => {
-    let var133 = Zotero.ZoteroIF.findItemByIDORKey(var129);
+    let var133 = Zotero.AI4Paper.findItemByIDORKey(var129);
     !var133 && window.alert("❌ 条目不存在！");
-    Zotero.ZoteroIF.copyPDF(var133);
+    Zotero.AI4Paper.copyPDF(var133);
   }), var126.appendChild(var132), var126.appendChild(document.createXULElement("menuseparator")), var132 = window.document.createXULElement("menuitem"), var132.setAttribute("label", "从工作区移除当前文献"), var132.addEventListener("command", () => {
     methodsBody.removeItemFromWorkSpace(var130, var129);
   }), var126.appendChild(var132), var132 = window.document.createXULElement("menuitem"), var132.setAttribute("label", "从工作区移除选中的所有文献"), var132.addEventListener("command", () => {
@@ -632,11 +632,11 @@ methodsBody.buildContextMenu_workSpaceButton = function (param42, param43) {
   }), var134.appendChild(var137), var137 = window.document.createXULElement("menuitem"), var137.setAttribute('label', '清空工作区内全部文献'), var137.addEventListener("command", () => {
     methodsBody.removeAllItemsFromWorkSpace(var135);
   }), var134.appendChild(var137), var134.appendChild(document.createXULElement("menuseparator")), var137 = window.document.createXULElement("menuitem"), var137.setAttribute('label', "拷贝工作区名称"), var137.addEventListener("command", () => {
-    Zotero.ZoteroIF.copy2Clipboard(var135);
+    Zotero.AI4Paper.copy2Clipboard(var135);
   }), var134.appendChild(var137), var137 = window.document.createXULElement("menuitem"), var137.setAttribute("label", "拷贝工作区概要"), var137.addEventListener("command", () => {
-    Zotero.ZoteroIF.copyWorkSpaceSummary(var135);
+    Zotero.AI4Paper.copyWorkSpaceSummary(var135);
   }), var134.appendChild(var137), var137 = window.document.createXULElement("menuitem"), var137.setAttribute("label", "拷贝全部工作区概要"), var137.addEventListener("command", () => {
-    Zotero.ZoteroIF.copyAllWorkSpacesSummary();
+    Zotero.AI4Paper.copyAllWorkSpacesSummary();
   }), var134.appendChild(var137), var134.appendChild(document.createXULElement("menuseparator")), var137 = window.document.createXULElement('menuitem'), var137.setAttribute("label", "关闭所有已打开文献"), var137.addEventListener("command", () => {
     Zotero.getMainWindow().Zotero_Tabs.closeAll();
   }), var134.appendChild(var137), var134;
@@ -699,7 +699,7 @@ methodsBody.maxWindowWidth = function () {
     window.moveTo(_0xa9a715, _0x6fa0fc);
     window.resizeTo(_0x10d40a, _0x36ea1d);
   } catch (_0x2ced6c) {
-    Zotero.ZoteroIF.showProgressWindow(0xbb8, '❌\x20窗口尺寸调整失败', "出错了！窗口尺寸调整遇到问题。");
+    Zotero.AI4Paper.showProgressWindow(0xbb8, '❌\x20窗口尺寸调整失败', "出错了！窗口尺寸调整遇到问题。");
   }
 };
 methodsBody.adjustWindowWidthPercent = function () {
@@ -715,6 +715,6 @@ methodsBody.adjustWindowWidthPercent = function () {
     window.moveTo(_0x45d1b1, _0x389744);
     window.resizeTo(_0xf68e01, _0xbcaed);
   } catch (_0x2cf445) {
-    Zotero.ZoteroIF.showProgressWindow(0xbb8, '❌\x20窗口尺寸调整失败', "出错了！窗口尺寸调整遇到问题。");
+    Zotero.AI4Paper.showProgressWindow(0xbb8, '❌\x20窗口尺寸调整失败', "出错了！窗口尺寸调整遇到问题。");
   }
 };

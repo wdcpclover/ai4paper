@@ -1,6 +1,6 @@
 var methodsBody = function () {};
 methodsBody.init = function () {
-  Zotero.ZoteroIF.update_svg_icons(document);
+  Zotero.AI4Paper.update_svg_icons(document);
   document.addEventListener('dialogaccept', () => methodsBody.acceptSelection());
   document.addEventListener('dialogcancel', () => methodsBody.cancelSelection());
   this.io = window.arguments[0];

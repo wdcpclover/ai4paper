@@ -2,7 +2,7 @@ var methodsBody = function () {};
 methodsBody.init = function () {
   document.addEventListener('dialogaccept', () => methodsBody.acceptSelection());
   this.io = window.arguments[0];
-  let categories = Zotero.ZoteroIF._data_EudicCategories;
+  let categories = Zotero.AI4Paper._data_EudicCategories;
   let _radio;
   for (let category of categories) {
     _radio = document.createXULElement('radio');

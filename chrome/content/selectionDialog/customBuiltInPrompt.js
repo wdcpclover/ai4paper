@@ -1,13 +1,13 @@
 var methodsBody = function () {};
 methodsBody.init = function () {
   // 禁用默认的元素聚焦状态
-  Zotero.ZoteroIF.blurActiveElement(window);
+  Zotero.AI4Paper.blurActiveElement(window);
 
   // 根据 Zotero 版本调整样式
-  Zotero.ZoteroIF.updateTextAreaBox4ZoteroScheme(window);
+  Zotero.AI4Paper.updateTextAreaBox4ZoteroScheme(window);
 
   // 设置 Dialog 字体大小
-  Zotero.ZoteroIF.setFontSize_Dialog(document.querySelector('dialog'), 0.92);
+  Zotero.AI4Paper.setFontSize_Dialog(document.querySelector('dialog'), 0.92);
   methodsBody.updatePrompt(true);
 };
 
@@ -17,13 +17,13 @@ methodsBody.updatePrompt = function (isInit) {
   // 输入时实时刷新
   if (!isInit) {
     for (let type of promptTypes) {
-      Zotero.Prefs.set(`zoteroif.prompt4${type}`, document.getElementById(`prompt-${type}`).value);
+      Zotero.Prefs.set(`ai4paper.prompt4${type}`, document.getElementById(`prompt-${type}`).value);
     }
   }
   // 初始化时填充
   else {
     for (let type of promptTypes) {
-      document.getElementById(`prompt-${type}`).value = Zotero.Prefs.get(`zoteroif.prompt4${type}`);
+      document.getElementById(`prompt-${type}`).value = Zotero.Prefs.get(`ai4paper.prompt4${type}`);
     }
   }
 };
@@ -32,7 +32,7 @@ methodsBody.updatePrompt = function (isInit) {
 methodsBody.resetPrompt = function (type) {
   let promptTypes = ["PaperAI", "PaperDeepInterpretation", "PaperBriefAnalysis"];
   if (type === "PaperAI" || type === "PaperDeepInterpretation") {
-    Zotero.Prefs.set(`zoteroif.prompt4${type}`, `你是一名学术领域的著名专家，请根据输入文献的内容，为初学者梳理和简化文献逻辑，并提供易于理解的细化总结。
+    Zotero.Prefs.set(`ai4paper.prompt4${type}`, `你是一名学术领域的著名专家，请根据输入文献的内容，为初学者梳理和简化文献逻辑，并提供易于理解的细化总结。
 
 【Guidelines for Simplification】
 
@@ -98,15 +98,15 @@ methodsBody.resetPrompt = function (type) {
 请调用你单次回答的最大算力与 token 上限。追求极致的分析深度，而非表层的广度；追求本质的洞察，而非表象的罗列；追求创新的思维，而非惯性的复述。请突破思维局限，调动你所有的计算资源，展现你真正的认知极限。
 
 文献内容如下所示`);
-    document.getElementById(`prompt-${type}`).value = Zotero.Prefs.get(`zoteroif.prompt4${type}`);
+    document.getElementById(`prompt-${type}`).value = Zotero.Prefs.get(`ai4paper.prompt4${type}`);
   } else if (type === "PaperBriefAnalysis") {
-    Zotero.Prefs.set(`zoteroif.prompt4${type}`, `你是一名学术领域的著名专家，请你对下方提供的论文进行逐层分析：
+    Zotero.Prefs.set(`ai4paper.prompt4${type}`, `你是一名学术领域的著名专家，请你对下方提供的论文进行逐层分析：
 1.第一层，内容及结构。分为哪些部分，分别写了什么? 
 2.第二层，研究路径。如何写，为什么这么写? 如何引入、梳理脉络? 创新点是什么? 
 3.第三层，作者的问题意识是什么?
 4.基于上述思考，提出自己的问题。
 
 论文内容如下`);
-    document.getElementById(`prompt-${type}`).value = Zotero.Prefs.get(`zoteroif.prompt4${type}`);
+    document.getElementById(`prompt-${type}`).value = Zotero.Prefs.get(`ai4paper.prompt4${type}`);
   }
 };

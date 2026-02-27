@@ -1,4 +1,4 @@
-Zotero.ZoteroIF._data_cscd = {
+Zotero.AI4Paper._data_cscd = {
 "abiotech":"CSCD核心",
 "acta biochimica et biophysica sinica":"CSCD核心",
 "acta geochimica":"CSCD核心",

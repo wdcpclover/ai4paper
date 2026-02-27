@@ -6,14 +6,14 @@ var injectScriptsMethods = {
   },
   'injectCryptoJS': function () {
     try {
-      Zotero.ZoteroIF._CryptoJS = CryptoJS;
+      Zotero.AI4Paper._CryptoJS = CryptoJS;
     } catch (_0x2f4483) {
       Zotero.debug(_0x2f4483);
     }
   },
   'injectRenderingFunc': function () {
     try {
-      !Zotero.ZoteroIF.renderMarkdownLaTeX && (Zotero.ZoteroIF.renderMarkdownLaTeX = function (param1) {
+      !Zotero.AI4Paper.renderMarkdownLaTeX && (Zotero.AI4Paper.renderMarkdownLaTeX = function (param1) {
         try {
           const _0x185e1c = markdownit({
             'html': true,
@@ -42,7 +42,7 @@ var injectScriptsMethods = {
           return param1;
         }
       });
-      !Zotero.ZoteroIF.renderMarkdown && (Zotero.ZoteroIF.renderMarkdown = function (param4) {
+      !Zotero.AI4Paper.renderMarkdown && (Zotero.AI4Paper.renderMarkdown = function (param4) {
         try {
           const _0x253b3f = markdownit({
             'html': true,
@@ -63,7 +63,7 @@ var injectScriptsMethods = {
           return param4;
         }
       });
-      !Zotero.ZoteroIF.highlightAll && (Zotero.ZoteroIF.highlightAll = function () {
+      !Zotero.AI4Paper.highlightAll && (Zotero.AI4Paper.highlightAll = function () {
         hljs.highlightAll();
       });
     } catch (_0x50eeab) {
@@ -76,7 +76,7 @@ var injectScriptsMethods = {
         encode: _0x26a341,
         decode: _0x4eed09
       } = GPTTokenizer_cl100k_base;
-      Zotero.ZoteroIF._calculateTokens = _0x26a341;
+      Zotero.AI4Paper._calculateTokens = _0x26a341;
     } catch (_0x1a9a63) {
       Zotero.debug(_0x1a9a63);
     }

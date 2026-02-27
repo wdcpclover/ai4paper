@@ -1,5 +1,5 @@
 // 20240623
-Zotero.ZoteroIF._data_full_to_abbrev = {
+Zotero.AI4Paper._data_full_to_abbrev = {
 "ca-a cancer journal for clinicians":"CA-CANCER J CLIN",
 "nature reviews drug discovery":"NAT REV DRUG DISCOV",
 "lancet":"LANCET",

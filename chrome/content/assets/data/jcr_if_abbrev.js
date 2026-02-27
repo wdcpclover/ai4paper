@@ -1,5 +1,5 @@
 // 20240623。缺失 20250618 数据，暂不使用
-Zotero.ZoteroIF._data_jcr_if_abbrev = {
+Zotero.AI4Paper._data_jcr_if_abbrev = {
 "ca-cancer j clin":"503.1IFQ1",
 "nat rev drug discov":"122.7IFQ1",
 "lancet":"98.4IFQ1",

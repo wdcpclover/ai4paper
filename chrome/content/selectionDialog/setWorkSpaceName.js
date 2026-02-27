@@ -1,6 +1,6 @@
 var methodsBody = function () {};
 methodsBody.init = function () {
-  Zotero.ZoteroIF.update_svg_icons(document);
+  Zotero.AI4Paper.update_svg_icons(document);
   document.addEventListener('dialogaccept', () => methodsBody.acceptSelection());
   document.addEventListener('dialogcancel', () => methodsBody.cancelSelection());
   this.io = window.arguments[0];
@@ -54,7 +54,7 @@ methodsBody.buildContextMenu = function (isInit) {
   let menuitem = window.document.createXULElement('menuitem');
   menuitem.setAttribute('label', "填入【当前日期】");
   menuitem.addEventListener('command', () => {
-    inputBoxElem.value = `${inputBoxElem.value} ${Zotero.ZoteroIF.getDate()}`;
+    inputBoxElem.value = `${inputBoxElem.value} ${Zotero.AI4Paper.getDate()}`;
   });
   popup.appendChild(menuitem);
 
@@ -65,7 +65,7 @@ methodsBody.buildContextMenu = function (isInit) {
   menuitem = window.document.createXULElement('menuitem');
   menuitem.setAttribute('label', "填入【当前日期时间】");
   menuitem.addEventListener('command', () => {
-    inputBoxElem.value = `${inputBoxElem.value} ${Zotero.ZoteroIF.getDateTime()}`;
+    inputBoxElem.value = `${inputBoxElem.value} ${Zotero.AI4Paper.getDateTime()}`;
   });
   popup.appendChild(menuitem);
 
@@ -73,7 +73,7 @@ methodsBody.buildContextMenu = function (isInit) {
   menuitem = window.document.createXULElement('menuitem');
   menuitem.setAttribute('label', "填入【当前时间】");
   menuitem.addEventListener('command', () => {
-    inputBoxElem.value = `${inputBoxElem.value} ${Zotero.ZoteroIF.getTime()}`;
+    inputBoxElem.value = `${inputBoxElem.value} ${Zotero.AI4Paper.getTime()}`;
   });
   popup.appendChild(menuitem);
   return popup;

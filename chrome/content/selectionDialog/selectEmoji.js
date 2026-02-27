@@ -1,6 +1,6 @@
 var methodsBody = function () {};
 methodsBody.init = function () {
-  Zotero.ZoteroIF.update_svg_icons(document);
+  Zotero.AI4Paper.update_svg_icons(document);
   document.addEventListener('dialogaccept', () => methodsBody.acceptSelection());
 
   // var sbc = document.getElementById('zotero-select-Emoji-container');
@@ -41,7 +41,7 @@ methodsBody.init = function () {
     listbox.getItemAtIndex(0).firstElementChild.checked = true;
   }
   // captioin 刷新
-  document.getElementById('zotero-selectEmoji-intro').textContent = Zotero.Prefs.get('zoteroif.blockquotelinkstyledialogcaption');
+  document.getElementById('zotero-selectEmoji-intro').textContent = Zotero.Prefs.get('ai4paper.blockquotelinkstyledialogcaption');
 };
 methodsBody.acceptSelection = function () {
   var listbox = document.getElementById("zotero-selectEmoji-links");

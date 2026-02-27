@@ -1,5 +1,5 @@
 // 20250618
-Zotero.ZoteroIF._data_jcr_if_issn = {
+Zotero.AI4Paper._data_jcr_if_issn = {
 "0001-0782":"12.2IFQ1",
 "0001-1452":"2.8IFQ1",
 "0001-1541":"4.0IFQ2",

@@ -19,7 +19,7 @@
 
     <script>
         Services.scriptloader.loadSubScript("chrome://zotero/content/include.js", this);
-        Services.scriptloader.loadSubScript("chrome://zoteroif/content/selectionDialog/batchAIInterpretSettings.js", this);
+        Services.scriptloader.loadSubScript("chrome://ai4paper/content/selectionDialog/batchAIInterpretSettings.js", this);
         Services.scriptloader.loadSubScript("chrome://zotero/content/customElements.js", this);
     </script>
 
@@ -35,7 +35,7 @@
     </html:style>
 
     <linkset>
-        <html:link rel="localization" href="zoteroif_preferences.ftl"/>
+        <html:link rel="localization" href="ai4paper_preferences.ftl"/>
     </linkset>  
 
     <vbox id="vboxContainer-elem" flex="1">
@@ -44,15 +44,15 @@
         <description class="section-title">▌服务和模型</description>
         <hbox align="center">
             <label value="🔘 服务："/>
-            <menulist id="zoteroif.service4BatchAIInterpret" native="true" oncommand="methodsBody.updatePrefs()">
-                <menupopup id="zoteroif-service4BatchAIInterpret-menupopup">
+            <menulist id="ai4paper.service4BatchAIInterpret" native="true" oncommand="methodsBody.updatePrefs()">
+                <menupopup id="ai4paper-service4BatchAIInterpret-menupopup">
                 </menupopup>
             </menulist>
         </hbox>
         <hbox align="center">
             <label value="🔘 模型："/>
-            <menulist id="zoteroif.model4BatchAIInterpret" native="true" oncommand="methodsBody.updatePrefs()">
-                <menupopup id="zoteroif-model4BatchAIInterpret-menupopup">
+            <menulist id="ai4paper.model4BatchAIInterpret" native="true" oncommand="methodsBody.updatePrefs()">
+                <menupopup id="ai4paper-model4BatchAIInterpret-menupopup">
                 </menupopup>
             </menulist>
         </hbox>
@@ -61,8 +61,8 @@
         <description class="section-title">▌提示词</description>
         <hbox align="center">
             <label value="🔘 选择提示词："/>
-            <menulist id="zoteroif.prompt4BatchAIInterpret" style="width: 200px;" native="true" oncommand="methodsBody.updatePrefs()">
-                <menupopup id="zoteroif-prompt4BatchAIInterpret-menupopup" style="width: 600px;">
+            <menulist id="ai4paper.prompt4BatchAIInterpret" style="width: 200px;" native="true" oncommand="methodsBody.updatePrefs()">
+                <menupopup id="ai4paper-prompt4BatchAIInterpret-menupopup" style="width: 600px;">
                 </menupopup>
             </menulist>
         </hbox>
@@ -71,7 +71,7 @@
         <description class="section-title">▌并发数</description>
         <hbox align="center">
             <label value="🔘 并发数："/>
-            <menulist id="zoteroif.concurrency4BatchAIInterpret" native="true" oncommand="methodsBody.updatePrefs()">
+            <menulist id="ai4paper.concurrency4BatchAIInterpret" native="true" oncommand="methodsBody.updatePrefs()">
                 <menupopup>
                     <menuitem label="1" value="1"/>
                     <menuitem label="2" value="2"/>
@@ -96,19 +96,19 @@
         <!-- * * * * * * * * * * * * * * * * * * * * * * * * * 自动化 * * * * * * * * * * * * * * * * * * * * * * * * * -->
         <description class="section-title">▌自动化</description>
         <hbox align="center">
-            <checkbox id="zoteroif.autoInterpretNewItems" native="true" label='新导入到 Zotero 的文献，自动加入解读队列' checked="true" oncommand="methodsBody.updatePrefs()"/>
+            <checkbox id="ai4paper.autoInterpretNewItems" native="true" label='新导入到 Zotero 的文献，自动加入解读队列' checked="true" oncommand="methodsBody.updatePrefs()"/>
         </hbox>
 
         <!-- * * * * * * * * * * * * * * * * * * * * * * * * * 解读笔记 * * * * * * * * * * * * * * * * * * * * * * * * * -->
         <description class="section-title">▌解读笔记</description>
         <hbox align="center">
-            <checkbox id="zoteroif.includeReasoning4BatchAIInterpret" native="true" label='在解读笔记中包含思维链' checked="true" oncommand="methodsBody.updatePrefs()"/>
+            <checkbox id="ai4paper.includeReasoning4BatchAIInterpret" native="true" label='在解读笔记中包含思维链' checked="true" oncommand="methodsBody.updatePrefs()"/>
         </hbox>
 
         <!-- * * * * * * * * * * * * * * * * * * * * * * * * * 解读历史 * * * * * * * * * * * * * * * * * * * * * * * * * -->
         <description class="section-title">▌解读历史</description>
         <hbox align="center">
-            <checkbox id="zoteroif.syncChatHistory4BatchAIInterpret" native="true" label='保存批量 AI 解读历史对话' checked="true" oncommand="methodsBody.updatePrefs()"/>
+            <checkbox id="ai4paper.syncChatHistory4BatchAIInterpret" native="true" label='保存批量 AI 解读历史对话' checked="true" oncommand="methodsBody.updatePrefs()"/>
         </hbox>
 
     </vbox>

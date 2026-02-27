@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8" />
-  <title>ZoteroIF GPT ReaderSidePane iframe</title>
+  <title>AI4Paper GPT ReaderSidePane iframe</title>
 
   <style>
       .gpt-textarea {
@@ -18,7 +18,7 @@
       }
   </style>
 
-  <script src="chrome://zoteroif/content/selectionDialog/gptReaderSidePane.js"></script>
+  <script src="chrome://ai4paper/content/selectionDialog/gptReaderSidePane.js"></script>
   <script src="chrome://zotero/content/include.js"></script>
 </head>
 
@@ -31,7 +31,7 @@
         <!---------------------------------------------------------- 输入区 ----------------------------------------------------------->
 
         <!-- 拼接模式下 0 0 3px #b4009e -->
-        <textarea id="zoteroif-chatgpt-readerSidePane-chatgpt-prompt" 
+        <textarea id="ai4paper-chatgpt-readerSidePane-chatgpt-prompt" 
                   class="htmlTextArea gpt-textarea"
                   flex="1" 
                   placeholder="这里输入内容"  
@@ -48,17 +48,17 @@
                 class="svg-container-gptviewReaderSidepane" 
                 style="width: 20px;height: 20px;vertical-align: middle;margin-right: 5px;" 
                 title="点击访问 ChatGPT 官网" 
-                onclick='Zotero.ZoteroIF.visitChatGPT();'
+                onclick='Zotero.AI4Paper.visitChatGPT();'
             ></div>
             
-            <description id="zoteroif-chatgpt-readerSidePane-chatgpt-response-time" style="font-family: Arial, sans-serif;white-space: pre-wrap; font-size: 14px;vertical-align: middle">Hi，有什么能帮助您吗？</description>
-            <description id="zoteroif-chatgpt-readerSidePane-chatgpt-space" style="display:none">&nbsp;</description>
-            <description id="zoteroif-chatgpt-readerSidePane-chatgpt-token-used" style="display:none;font-family: Arial, sans-serif;white-space: pre-wrap; font-size: 14px;vertical-align: middle"></description>
+            <description id="ai4paper-chatgpt-readerSidePane-chatgpt-response-time" style="font-family: Arial, sans-serif;white-space: pre-wrap; font-size: 14px;vertical-align: middle">Hi，有什么能帮助您吗？</description>
+            <description id="ai4paper-chatgpt-readerSidePane-chatgpt-space" style="display:none">&nbsp;</description>
+            <description id="ai4paper-chatgpt-readerSidePane-chatgpt-token-used" style="display:none;font-family: Arial, sans-serif;white-space: pre-wrap; font-size: 14px;vertical-align: middle"></description>
         </div>
 
         <!---------------------------------------------------------- 响应区 ----------------------------------------------------------->
 
-        <textarea id="zoteroif-chatgpt-readerSidePane-chatgpt-response" 
+        <textarea id="ai4paper-chatgpt-readerSidePane-chatgpt-response" 
                   class="htmlTextArea gpt-textarea"
                   flex="1" 
                   placeholder="这里显示结果"  

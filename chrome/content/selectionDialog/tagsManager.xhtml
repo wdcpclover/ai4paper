@@ -5,8 +5,8 @@
 <?xml-stylesheet href="chrome://zotero-platform/content/zotero.css" type="text/css"?>
 <?xml-stylesheet href="chrome://zotero/skin/scaffold.css" type="text/css"?>
 
-<?xml-stylesheet href="chrome://zoteroif/content/assets/css/style.css" type="text/css"?>
-<?xml-stylesheet href="chrome://zoteroif/content/assets/css/tagsTree.css" type="text/css"?>
+<?xml-stylesheet href="chrome://ai4paper/content/assets/css/style.css" type="text/css"?>
+<?xml-stylesheet href="chrome://ai4paper/content/assets/css/tagsTree.css" type="text/css"?>
 
 <!DOCTYPE window SYSTEM "chrome://zotero/locale/zotero.dtd">
 <window xmlns:html="http://www.w3.org/1999/xhtml"
@@ -26,7 +26,7 @@
 		Services.scriptloader.loadSubScript("chrome://zotero/content/include.js", this);
 		Services.scriptloader.loadSubScript("chrome://zotero/content/customElements.js", this);
 
-		Services.scriptloader.loadSubScript("chrome://zoteroif/content/selectionDialog/tagsManager.js", this);
+		Services.scriptloader.loadSubScript("chrome://ai4paper/content/selectionDialog/tagsManager.js", this);
 	</script>
 
 	<html:style>
@@ -47,13 +47,13 @@
 	</html:style>
 
 	<linkset>
-	    <html:link rel="localization" href="zoteroif_preferences.ftl"/>
+	    <html:link rel="localization" href="ai4paper_preferences.ftl"/>
 	</linkset>	
 
 	<vbox flex="1">
         <div class="container" style="display: flex;justify-content: space-between;align-items: center;">
 			<hbox align="center">
-				<image id="annotationTagType-image" src="chrome://zoteroif/content/icons/annotationTag.png" tooltiptext="刷新注释标签" onclick="methodsBody.updateAnnotationTagsDialog()" style="width:32px;height:32px;"/>
+				<image id="annotationTagType-image" src="chrome://ai4paper/content/icons/annotationTag.png" tooltiptext="刷新注释标签" onclick="methodsBody.updateAnnotationTagsDialog()" style="width:32px;height:32px;"/>
 				<label><html:h3 style="font-size: 13px;" id="message-label">选一个注释标签</html:h3></label>
 				<label><html:h3 style="font-size: 13px;" id="message-label-nestedView">选一个注释标签</html:h3></label>
 			</hbox>
@@ -68,28 +68,28 @@
 
 			<hbox align="center" class="zoteroone-hbox-large-gap" style="padding-top: 3px;padding-bottom: 3px;">
 				<button id="annotationTagButton" label="注释标签" oncommand="methodsBody.annotationTag();"/>
-				<!-- <image src="chrome://zoteroif/content/icons/update.png" tooltiptext="刷新注释标签" onclick="methodsBody.updateTags('annotationTag');" style="width:32px;height:32px;"/> -->
+				<!-- <image src="chrome://ai4paper/content/icons/update.png" tooltiptext="刷新注释标签" onclick="methodsBody.updateTags('annotationTag');" style="width:32px;height:32px;"/> -->
 				<div class="svg-container-update"
 					tooltiptext="刷新注释标签" 
 					onclick="methodsBody.updateTags('annotationTag');">
 				</div>
 				<!-- <label value=" "/> -->
 				<button id="imageAnnotationTagButton" label="图片注释标签" oncommand="methodsBody.imageAnnotationTag();"/>
-				<!-- <image src="chrome://zoteroif/content/icons/update.png" tooltiptext="刷新图片注释标签" onclick="methodsBody.updateTags('imageAnnotationTag');" style="width:32px;height:32px;"/> -->
+				<!-- <image src="chrome://ai4paper/content/icons/update.png" tooltiptext="刷新图片注释标签" onclick="methodsBody.updateTags('imageAnnotationTag');" style="width:32px;height:32px;"/> -->
 				<div class="svg-container-update"
 					tooltiptext="刷新图片注释标签" 
 					onclick="methodsBody.updateTags('imageAnnotationTag');">
 				</div>
 				<!-- <label value=" "/> -->
 				<button id="itemTagButton" label="条目标签" oncommand="methodsBody.itemTag();"/>
-				<!-- <image src="chrome://zoteroif/content/icons/update.png" tooltiptext="刷新条目标签" onclick="methodsBody.updateTags('itemTag');" style="width:32px;height:32px;"/> -->
+				<!-- <image src="chrome://ai4paper/content/icons/update.png" tooltiptext="刷新条目标签" onclick="methodsBody.updateTags('itemTag');" style="width:32px;height:32px;"/> -->
 				<div class="svg-container-update"
 					tooltiptext="刷新条目标签" 
 					onclick="methodsBody.updateTags('itemTag');">
 				</div>
 				<!-- <label value=" "/> -->
 				<button id="gptNoteTagButton" label="GPT 标签" oncommand="methodsBody.gptNoteTag();"/>
-				<!-- <image src="chrome://zoteroif/content/icons/update.png" tooltiptext="刷新 GPT 笔记标签" onclick="methodsBody.updateTags('gptNoteTag');" style="width:32px;height:32px;"/> -->
+				<!-- <image src="chrome://ai4paper/content/icons/update.png" tooltiptext="刷新 GPT 笔记标签" onclick="methodsBody.updateTags('gptNoteTag');" style="width:32px;height:32px;"/> -->
 				<div class="svg-container-update"
 					tooltiptext="刷新 GPT 笔记标签" 
 					onclick="methodsBody.updateTags('gptNoteTag');">
@@ -97,38 +97,38 @@
 			</hbox>
 
 			<hbox align="center">
-				<image id="tagFilter-A" src="chrome://zoteroif/content/icons/A.png" tooltiptext="A"  onclick="methodsBody.filter('A')" class="filter-character"/>
-				<image id="tagFilter-B" src="chrome://zoteroif/content/icons/B.png" tooltiptext="B"  onclick="methodsBody.filter('B')" class="filter-character"/>
-				<image id="tagFilter-C" src="chrome://zoteroif/content/icons/C.png" tooltiptext="C"  onclick="methodsBody.filter('C')" class="filter-character"/>
-				<image id="tagFilter-D" src="chrome://zoteroif/content/icons/D.png" tooltiptext="D"  onclick="methodsBody.filter('D')" class="filter-character"/>
-				<image id="tagFilter-E" src="chrome://zoteroif/content/icons/E.png" tooltiptext="E"  onclick="methodsBody.filter('E')" class="filter-character"/>
-				<image id="tagFilter-F" src="chrome://zoteroif/content/icons/F.png" tooltiptext="F"  onclick="methodsBody.filter('F')" class="filter-character"/>
-				<image id="tagFilter-G" src="chrome://zoteroif/content/icons/G.png" tooltiptext="G"  onclick="methodsBody.filter('G')" class="filter-character"/>
-				<image id="tagFilter-H" src="chrome://zoteroif/content/icons/H.png" tooltiptext="H"  onclick="methodsBody.filter('H')" class="filter-character"/>
-				<image id="tagFilter-I" src="chrome://zoteroif/content/icons/I.png" tooltiptext="I"  onclick="methodsBody.filter('I')" class="filter-character"/>
-				<image id="tagFilter-J" src="chrome://zoteroif/content/icons/J.png" tooltiptext="J"  onclick="methodsBody.filter('J')" class="filter-character"/>
-				<image id="tagFilter-K" src="chrome://zoteroif/content/icons/K.png" tooltiptext="K"  onclick="methodsBody.filter('K')" class="filter-character"/>
-				<image id="tagFilter-L" src="chrome://zoteroif/content/icons/L.png" tooltiptext="L"  onclick="methodsBody.filter('L')" class="filter-character"/>
-				<image id="tagFilter-M" src="chrome://zoteroif/content/icons/M.png" tooltiptext="M"  onclick="methodsBody.filter('M')" class="filter-character"/>
-				<image id="tagFilter-N" src="chrome://zoteroif/content/icons/N.png" tooltiptext="N"  onclick="methodsBody.filter('N')" class="filter-character"/>
-				<image id="tagFilter-O" src="chrome://zoteroif/content/icons/O.png" tooltiptext="O"  onclick="methodsBody.filter('O')" class="filter-character"/>
-				<image id="tagFilter-P" src="chrome://zoteroif/content/icons/P.png" tooltiptext="P"  onclick="methodsBody.filter('P')" class="filter-character"/>
+				<image id="tagFilter-A" src="chrome://ai4paper/content/icons/A.png" tooltiptext="A"  onclick="methodsBody.filter('A')" class="filter-character"/>
+				<image id="tagFilter-B" src="chrome://ai4paper/content/icons/B.png" tooltiptext="B"  onclick="methodsBody.filter('B')" class="filter-character"/>
+				<image id="tagFilter-C" src="chrome://ai4paper/content/icons/C.png" tooltiptext="C"  onclick="methodsBody.filter('C')" class="filter-character"/>
+				<image id="tagFilter-D" src="chrome://ai4paper/content/icons/D.png" tooltiptext="D"  onclick="methodsBody.filter('D')" class="filter-character"/>
+				<image id="tagFilter-E" src="chrome://ai4paper/content/icons/E.png" tooltiptext="E"  onclick="methodsBody.filter('E')" class="filter-character"/>
+				<image id="tagFilter-F" src="chrome://ai4paper/content/icons/F.png" tooltiptext="F"  onclick="methodsBody.filter('F')" class="filter-character"/>
+				<image id="tagFilter-G" src="chrome://ai4paper/content/icons/G.png" tooltiptext="G"  onclick="methodsBody.filter('G')" class="filter-character"/>
+				<image id="tagFilter-H" src="chrome://ai4paper/content/icons/H.png" tooltiptext="H"  onclick="methodsBody.filter('H')" class="filter-character"/>
+				<image id="tagFilter-I" src="chrome://ai4paper/content/icons/I.png" tooltiptext="I"  onclick="methodsBody.filter('I')" class="filter-character"/>
+				<image id="tagFilter-J" src="chrome://ai4paper/content/icons/J.png" tooltiptext="J"  onclick="methodsBody.filter('J')" class="filter-character"/>
+				<image id="tagFilter-K" src="chrome://ai4paper/content/icons/K.png" tooltiptext="K"  onclick="methodsBody.filter('K')" class="filter-character"/>
+				<image id="tagFilter-L" src="chrome://ai4paper/content/icons/L.png" tooltiptext="L"  onclick="methodsBody.filter('L')" class="filter-character"/>
+				<image id="tagFilter-M" src="chrome://ai4paper/content/icons/M.png" tooltiptext="M"  onclick="methodsBody.filter('M')" class="filter-character"/>
+				<image id="tagFilter-N" src="chrome://ai4paper/content/icons/N.png" tooltiptext="N"  onclick="methodsBody.filter('N')" class="filter-character"/>
+				<image id="tagFilter-O" src="chrome://ai4paper/content/icons/O.png" tooltiptext="O"  onclick="methodsBody.filter('O')" class="filter-character"/>
+				<image id="tagFilter-P" src="chrome://ai4paper/content/icons/P.png" tooltiptext="P"  onclick="methodsBody.filter('P')" class="filter-character"/>
 			</hbox>
 			<hbox align="center">
-				<image id="tagFilter-Q" src="chrome://zoteroif/content/icons/Q.png" tooltiptext="Q"  onclick="methodsBody.filter('Q')" class="filter-character"/>
-				<image id="tagFilter-R" src="chrome://zoteroif/content/icons/R.png" tooltiptext="R"  onclick="methodsBody.filter('R')" class="filter-character"/>
-				<image id="tagFilter-S" src="chrome://zoteroif/content/icons/S.png" tooltiptext="S"  onclick="methodsBody.filter('S')" class="filter-character"/>
-				<image id="tagFilter-T" src="chrome://zoteroif/content/icons/T.png" tooltiptext="T"  onclick="methodsBody.filter('T')" class="filter-character"/>
-				<image id="tagFilter-U" src="chrome://zoteroif/content/icons/U.png" tooltiptext="U"  onclick="methodsBody.filter('U')" class="filter-character"/>
-				<image id="tagFilter-V" src="chrome://zoteroif/content/icons/V.png" tooltiptext="V"  onclick="methodsBody.filter('V')" class="filter-character"/>
-				<image id="tagFilter-W" src="chrome://zoteroif/content/icons/W.png" tooltiptext="W"  onclick="methodsBody.filter('W')" class="filter-character"/>
-				<image id="tagFilter-X" src="chrome://zoteroif/content/icons/X.png" tooltiptext="X"  onclick="methodsBody.filter('X')" class="filter-character"/>
-				<image id="tagFilter-Y" src="chrome://zoteroif/content/icons/Y.png" tooltiptext="Y"  onclick="methodsBody.filter('Y')" class="filter-character"/>
-				<image id="tagFilter-Z" src="chrome://zoteroif/content/icons/Z.png" tooltiptext="Z"  onclick="methodsBody.filter('Z')" class="filter-character"/>
-				<image id="tagFilter-OT" src="chrome://zoteroif/content/icons/OT.png" tooltiptext="#"  onclick="methodsBody.filter('OT')" class="filter-character"/>
+				<image id="tagFilter-Q" src="chrome://ai4paper/content/icons/Q.png" tooltiptext="Q"  onclick="methodsBody.filter('Q')" class="filter-character"/>
+				<image id="tagFilter-R" src="chrome://ai4paper/content/icons/R.png" tooltiptext="R"  onclick="methodsBody.filter('R')" class="filter-character"/>
+				<image id="tagFilter-S" src="chrome://ai4paper/content/icons/S.png" tooltiptext="S"  onclick="methodsBody.filter('S')" class="filter-character"/>
+				<image id="tagFilter-T" src="chrome://ai4paper/content/icons/T.png" tooltiptext="T"  onclick="methodsBody.filter('T')" class="filter-character"/>
+				<image id="tagFilter-U" src="chrome://ai4paper/content/icons/U.png" tooltiptext="U"  onclick="methodsBody.filter('U')" class="filter-character"/>
+				<image id="tagFilter-V" src="chrome://ai4paper/content/icons/V.png" tooltiptext="V"  onclick="methodsBody.filter('V')" class="filter-character"/>
+				<image id="tagFilter-W" src="chrome://ai4paper/content/icons/W.png" tooltiptext="W"  onclick="methodsBody.filter('W')" class="filter-character"/>
+				<image id="tagFilter-X" src="chrome://ai4paper/content/icons/X.png" tooltiptext="X"  onclick="methodsBody.filter('X')" class="filter-character"/>
+				<image id="tagFilter-Y" src="chrome://ai4paper/content/icons/Y.png" tooltiptext="Y"  onclick="methodsBody.filter('Y')" class="filter-character"/>
+				<image id="tagFilter-Z" src="chrome://ai4paper/content/icons/Z.png" tooltiptext="Z"  onclick="methodsBody.filter('Z')" class="filter-character"/>
+				<image id="tagFilter-OT" src="chrome://ai4paper/content/icons/OT.png" tooltiptext="#"  onclick="methodsBody.filter('OT')" class="filter-character"/>
 
-				<html:input type="text" id="zoteroif.AnnotationTags.search" size="15" placeholder="" onkeydown="methodsBody.checkKeyEnter(event);"></html:input>
-				<!-- <image id="search-icon" src="chrome://zoteroif/content/icons/search.png" tooltiptext="点击搜索" onclick="methodsBody.search();" style="width:32px;height:32px;"/> -->
+				<html:input type="text" id="ai4paper.AnnotationTags.search" size="15" placeholder="" onkeydown="methodsBody.checkKeyEnter(event);"></html:input>
+				<!-- <image id="search-icon" src="chrome://ai4paper/content/icons/search.png" tooltiptext="点击搜索" onclick="methodsBody.search();" style="width:32px;height:32px;"/> -->
 				<div class="svg-container-search" 
 					style="margin-left: 5px;"
 					tooltiptext="点击搜索" 
@@ -142,9 +142,9 @@
 				<hbox align="center" class="zoteroone-hbox-small-gap">
 					<button label="跳转" oncommand="methodsBody.jumpWithDialogOpen();"/>
 					<checkbox id="cardNotes-doubleClick-enable" label='双击跳转' checked="false" native="true" oncommand="methodsBody.run();"/>
-					<checkbox id="imageCardNote-Search-First" label='优先跳转图片卡片' checked="false" native="true" oncommand="Zotero.Prefs.set('zoteroif.imageCardNoteSearchFirst', this.checked)"/>
+					<checkbox id="imageCardNote-Search-First" label='优先跳转图片卡片' checked="false" native="true" oncommand="Zotero.Prefs.set('ai4paper.imageCardNoteSearchFirst', this.checked)"/>
 
-					<!-- <image src="chrome://zoteroif/content/icons/help.png" 
+					<!-- <image src="chrome://ai4paper/content/icons/help.png" 
 						tooltiptext="若您对【非图片注释】和【图片注释】的标签打法有差异，建议开启【优先跳转图片卡片】。点击查看更多使用提示。" 
 						style='width: 16px; height: 16px' 
 						onclick='Zotero.getMainWindow().ZoteroPane.loadURI("https://www.yuque.com/qnscholar/zotero-one/htkif0mz2s1ca1kc?singleDoc# 《【聚合标签卡片】使用提示》");'
@@ -157,8 +157,8 @@
 				</hbox>
 
 				<hbox align="center" class="zoteroone-hbox-medium-gap">
-					<button label="批量重命名标签" oncommand="Zotero.ZoteroIF.renameTagsBatch();"/>
-					<button label="批量删除标签" oncommand="Zotero.ZoteroIF.deleteTagsBatch();"/>
+					<button label="批量重命名标签" oncommand="Zotero.AI4Paper.renameTagsBatch();"/>
+					<button label="批量删除标签" oncommand="Zotero.AI4Paper.deleteTagsBatch();"/>
 				</hbox>
 			</hbox>
 		</vbox>
@@ -166,7 +166,7 @@
 		<vbox id="tagsNestedView" flex="1">
 			<hbox align="center" class="zoteroone-hbox-large-gap" style="padding-top: 3px;padding-bottom: 3px;">
 				<button id="annotationTagButton-NestedView" label="注释标签" oncommand="methodsBody.buildNestedView('annotationTag');"/>
-				<!-- <image src="chrome://zoteroif/content/icons/update.png" tooltiptext="刷新注释标签" onclick="methodsBody.updateTags('annotationTag', 'nested');" style="width:32px;height:32px;"/> -->
+				<!-- <image src="chrome://ai4paper/content/icons/update.png" tooltiptext="刷新注释标签" onclick="methodsBody.updateTags('annotationTag', 'nested');" style="width:32px;height:32px;"/> -->
 				<div class="svg-container-update"
 					tooltiptext="刷新注释标签" 
 					onclick="methodsBody.updateTags('annotationTag', 'nested');">
@@ -174,7 +174,7 @@
 				<!-- <label value=" "/> -->
 
 				<button id="imageAnnotationTagButton-NestedView" label="图片注释标签" oncommand="methodsBody.buildNestedView('imageAnnotationTag');"/>
-				<!-- <image src="chrome://zoteroif/content/icons/update.png" tooltiptext="刷新图片注释标签" onclick="methodsBody.updateTags('imageAnnotationTag', 'nested');" style="width:32px;height:32px;"/> -->
+				<!-- <image src="chrome://ai4paper/content/icons/update.png" tooltiptext="刷新图片注释标签" onclick="methodsBody.updateTags('imageAnnotationTag', 'nested');" style="width:32px;height:32px;"/> -->
 				<div class="svg-container-update"
 					tooltiptext="刷新图片注释标签" 
 					onclick="methodsBody.updateTags('imageAnnotationTag', 'nested');">
@@ -182,14 +182,14 @@
 				<!-- <label value=" "/> -->
 
 				<button id="itemTagButton-NestedView" label="条目标签" oncommand="methodsBody.buildNestedView('itemTag');"/>
-				<!-- <image src="chrome://zoteroif/content/icons/update.png" tooltiptext="刷新条目标签" onclick="methodsBody.updateTags('itemTag', 'nested');" style="width:32px;height:32px;"/> -->
+				<!-- <image src="chrome://ai4paper/content/icons/update.png" tooltiptext="刷新条目标签" onclick="methodsBody.updateTags('itemTag', 'nested');" style="width:32px;height:32px;"/> -->
 				<div class="svg-container-update"
 					tooltiptext="刷新条目标签" 
 					onclick="methodsBody.updateTags('itemTag', 'nested');">
 				</div>
 
 				<button id="gptNoteTagButton-NestedView" label="GPT 标签" oncommand="methodsBody.buildNestedView('gptNoteTag');"/>
-				<!-- <image src="chrome://zoteroif/content/icons/update.png" tooltiptext="刷新 GPT 笔记标签" onclick="methodsBody.updateTags('gptNoteTag', 'nested');" style="width:32px;height:32px;"/> -->
+				<!-- <image src="chrome://ai4paper/content/icons/update.png" tooltiptext="刷新 GPT 笔记标签" onclick="methodsBody.updateTags('gptNoteTag', 'nested');" style="width:32px;height:32px;"/> -->
 				<div class="svg-container-update"
 					tooltiptext="刷新 GPT 笔记标签" 
 					onclick="methodsBody.updateTags('gptNoteTag', 'nested');">
@@ -201,13 +201,13 @@
 				<button id="collapseTopNestedTags" label="折叠顶层" oncommand="methodsBody.collapseTopNestedTags();"/>
 				<button id="expandNestedTags" label="展开全部" oncommand="methodsBody.expandNestedTags();"/>
 				<button id="collapseNestedTags" label="折叠全部" oncommand="methodsBody.collapseNestedTags();"/>
-				<!-- <image src="chrome://zoteroif/content/icons/help.png" tooltiptext="📌 【双击】或者【Shift + 单击】：跳转 Obsidian；【右击】：查看完整嵌套标签" style='margin-left: 10px; width: 16px; height: 16px'/> -->
+				<!-- <image src="chrome://ai4paper/content/icons/help.png" tooltiptext="📌 【双击】或者【Shift + 单击】：跳转 Obsidian；【右击】：查看完整嵌套标签" style='margin-left: 10px; width: 16px; height: 16px'/> -->
 
 				<!-- <label value=" "/> -->
 
 				<hbox align="center">
-					<html:input type="text" id="zoteroif.nestedAnnotationTags.search" size="15" placeholder="" onkeydown="methodsBody.checkKeyEnter_nestedView(event);"></html:input>
-					<!-- <image src="chrome://zoteroif/content/icons/search.png" tooltiptext="点击搜索" onclick="methodsBody.searchNestedTags();" style="width:32px;height:32px;"/> -->
+					<html:input type="text" id="ai4paper.nestedAnnotationTags.search" size="15" placeholder="" onkeydown="methodsBody.checkKeyEnter_nestedView(event);"></html:input>
+					<!-- <image src="chrome://ai4paper/content/icons/search.png" tooltiptext="点击搜索" onclick="methodsBody.searchNestedTags();" style="width:32px;height:32px;"/> -->
 					<div class="svg-container-search" 
 						style="margin-left: 5px;"
 						tooltiptext="点击搜索" 
@@ -230,13 +230,13 @@
 						onmouseout='this.style.transform = "scale(1)";'>
 					</div>
 
-					<!-- <image src="chrome://zoteroif/content/icons/up.png" 
+					<!-- <image src="chrome://ai4paper/content/icons/up.png" 
 						style="width: 16px;height: 16px;margin-left: 5px;transition: transform 0.125s ease;" 
 						tooltiptext="上一个" 
 						onclick="methodsBody.searchNestedTags_previous();" 
 						onmouseover='this.style.transform = "scale(1.2)";' 
 						onmouseout='this.style.transform = "scale(1)";'/>
-					<image src="chrome://zoteroif/content/icons/down.png" 
+					<image src="chrome://ai4paper/content/icons/down.png" 
 						style="width: 16px;height: 16px;margin-left: 6px;transition: transform 0.125s ease;" 
 						tooltiptext="下一个" 
 						onclick="methodsBody.searchNestedTags_next();" 

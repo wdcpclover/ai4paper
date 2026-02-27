@@ -1,7 +1,7 @@
 function init() {
   window._previewReady = true;
   injectStyle();
-  Zotero.ZoteroIF.updateChatUI4HighlightStyle(window);
+  Zotero.AI4Paper.updateChatUI4HighlightStyle(window);
   const var1 = document.getElementById("preview-container"),
     var2 = document.getElementById("scroll-to-bottom-btn"),
     var3 = 0x1e;
@@ -44,7 +44,7 @@ function init() {
     var7 && requestAnimationFrame(() => {
       var1.scrollTop = var1.scrollHeight;
     });
-    Zotero.ZoteroIF.gptReaderSidePane_ChatMode_enhanceMessageElem(window);
+    Zotero.AI4Paper.gptReaderSidePane_ChatMode_enhanceMessageElem(window);
   };
   window.scrollToBottom = function () {
     var1.scrollTop = var1.scrollHeight;

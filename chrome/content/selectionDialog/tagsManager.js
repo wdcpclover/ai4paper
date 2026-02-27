@@ -1,7 +1,7 @@
 var methodsBody = function () {};
 methodsBody.init = function () {
-  Zotero.ZoteroIF.update_svg_icons(document);
-  Zotero.ZoteroIF.setFontSize_Dialog(document.querySelector("dialog"), 0.92);
+  Zotero.AI4Paper.update_svg_icons(document);
+  Zotero.AI4Paper.setFontSize_Dialog(document.querySelector("dialog"), 0.92);
   document.addEventListener("focus", () => {
     let var1 = Zotero.getMainWindow()?.["matchMedia"]("(prefers-color-scheme: dark)")['matches'];
     document.getElementById("tagTree").querySelectorAll(".tagSelected").forEach(_0x592129 => {
@@ -17,10 +17,10 @@ methodsBody.init = function () {
   !document._switchViewShortcutsAdded && (document._switchViewShortcutsAdded = true, document.addEventListener("keydown", _0x5c12ac => {
     Zotero.isMac ? (_0x5c12ac.key === 't' && !_0x5c12ac.ctrlKey && !_0x5c12ac.shiftKey && !_0x5c12ac.altKey && _0x5c12ac.metaKey && methodsBody.switchTagsView(), _0x5c12ac.key === 'd' && !_0x5c12ac.ctrlKey && !_0x5c12ac.shiftKey && !_0x5c12ac.altKey && _0x5c12ac.metaKey && methodsBody.switchTagsTypeView(), _0x5c12ac.key === 'f' && !_0x5c12ac.ctrlKey && !_0x5c12ac.shiftKey && !_0x5c12ac.altKey && _0x5c12ac.metaKey && methodsBody.focusSearchBox()) : (_0x5c12ac.key === 't' && _0x5c12ac.ctrlKey && !_0x5c12ac.shiftKey && !_0x5c12ac.altKey && !_0x5c12ac.metaKey && methodsBody.switchTagsView(), _0x5c12ac.key === 'd' && _0x5c12ac.ctrlKey && !_0x5c12ac.shiftKey && !_0x5c12ac.altKey && !_0x5c12ac.metaKey && methodsBody.switchTagsTypeView(), _0x5c12ac.key === 'f' && _0x5c12ac.ctrlKey && !_0x5c12ac.shiftKey && !_0x5c12ac.altKey && !_0x5c12ac.metaKey && methodsBody.focusSearchBox());
   }));
-  document.getElementById("cardNotes-doubleClick-enable").checked = Zotero.Prefs.get('zoteroif.cardNotesDoubleClick');
-  document.getElementById("imageCardNote-Search-First").checked = Zotero.Prefs.get("zoteroif.imageCardNoteSearchFirst");
-  Zotero.ZoteroIF.lastcardnotestaginput && (document.getElementById("zoteroif.AnnotationTags.search").placeholder = Zotero.ZoteroIF.lastcardnotestaginput, document.getElementById("zoteroif.nestedAnnotationTags.search").placeholder = Zotero.ZoteroIF.lastcardnotestaginput);
-  Zotero.ZoteroIF.lastTagsCardNoteView === "GeneralView" ? (methodsBody.buildNestedView(null, true), methodsBody.buildGeneralView(), methodsBody.setTagsView("GeneralView")) : (methodsBody.buildGeneralView(), methodsBody.buildNestedView(null, true), methodsBody.setTagsView("NestedView"));
+  document.getElementById("cardNotes-doubleClick-enable").checked = Zotero.Prefs.get('ai4paper.cardNotesDoubleClick');
+  document.getElementById("imageCardNote-Search-First").checked = Zotero.Prefs.get("ai4paper.imageCardNoteSearchFirst");
+  Zotero.AI4Paper.lastcardnotestaginput && (document.getElementById("ai4paper.AnnotationTags.search").placeholder = Zotero.AI4Paper.lastcardnotestaginput, document.getElementById("ai4paper.nestedAnnotationTags.search").placeholder = Zotero.AI4Paper.lastcardnotestaginput);
+  Zotero.AI4Paper.lastTagsCardNoteView === "GeneralView" ? (methodsBody.buildNestedView(null, true), methodsBody.buildGeneralView(), methodsBody.setTagsView("GeneralView")) : (methodsBody.buildGeneralView(), methodsBody.buildNestedView(null, true), methodsBody.setTagsView("NestedView"));
   methodsBody.updateAnnotationNestedTagsData();
   methodsBody.initContextMenu_GeneralView();
 };
@@ -34,8 +34,8 @@ methodsBody.setTagsView = function (param1) {
     document.getElementById('message-label-nestedView').hidden = true;
     document.getElementById("message-label").before(document.getElementById("message-label-nestedView"));
     methodsBody.updateMessageIconOnSetView("GeneralView");
-    document.getElementById("zoteroif.AnnotationTags.search").focus();
-  } else param1 === "NestedView" && (document.getElementById("tagsNestedView-button").setAttribute("default", true), document.getElementById("tagsGeneralView-button").setAttribute("default", false), document.getElementById("tagsNestedView").hidden = false, document.getElementById('tagsGeneralView').hidden = true, document.getElementById('message-label').hidden = true, document.getElementById("message-label-nestedView").hidden = false, document.getElementById("message-label-nestedView").before(document.getElementById('message-label')), methodsBody.updateMessageIconOnSetView("NestedView"), document.getElementById('zoteroif.nestedAnnotationTags.search').focus());
+    document.getElementById("ai4paper.AnnotationTags.search").focus();
+  } else param1 === "NestedView" && (document.getElementById("tagsNestedView-button").setAttribute("default", true), document.getElementById("tagsGeneralView-button").setAttribute("default", false), document.getElementById("tagsNestedView").hidden = false, document.getElementById('tagsGeneralView').hidden = true, document.getElementById('message-label').hidden = true, document.getElementById("message-label-nestedView").hidden = false, document.getElementById("message-label-nestedView").before(document.getElementById('message-label')), methodsBody.updateMessageIconOnSetView("NestedView"), document.getElementById('ai4paper.nestedAnnotationTags.search').focus());
 };
 methodsBody.switchTagsView = function () {
   if (document.getElementById("tagsNestedView-button").getAttribute("default") === 'true') methodsBody.setTagsView("GeneralView");else document.getElementById("tagsGeneralView-button").getAttribute('default') === 'true' && methodsBody.setTagsView("NestedView");
@@ -74,7 +74,7 @@ methodsBody.switchTagsTypeView = function () {
   }
 };
 methodsBody.focusSearchBox = function () {
-  if (document.getElementById("tagsNestedView-button").getAttribute('default') === "true") document.getElementById("zoteroif.nestedAnnotationTags.search").focus();else document.getElementById('tagsGeneralView-button').getAttribute("default") === "true" && document.getElementById("zoteroif.AnnotationTags.search").focus();
+  if (document.getElementById("tagsNestedView-button").getAttribute('default') === "true") document.getElementById("ai4paper.nestedAnnotationTags.search").focus();else document.getElementById('tagsGeneralView-button').getAttribute("default") === "true" && document.getElementById("ai4paper.AnnotationTags.search").focus();
 };
 methodsBody.buildNestedView = function (param3, param4) {
   let var7 = 0x0;
@@ -119,7 +119,7 @@ methodsBody.buildNestedView = function (param3, param4) {
           var14 != var11 && !var14.classList.contains('tagSearched') && !var14.classList.contains("tagSearchFocus") && (var14.style.backgroundColor = '', var14.style.borderRadius = '', var14.style.color = '', var14.classList.toggle("tagSelected", false));
         }
         !var11.classList.contains("tagSearched") && !var11.classList.contains("tagSearchFocus") && (var11.style.backgroundColor = methodsBody.isDark() ? '#145a7a' : "#2d3436", var11.style.borderRadius = "6px", var11.style.color = "#ff7e02", var11.classList.toggle('tagSelected', true));
-        _0x38be83.shiftKey && Zotero.ZoteroIF.showItemsBasedOnTag(var11.fullName);
+        _0x38be83.shiftKey && Zotero.AI4Paper.showItemsBasedOnTag(var11.fullName);
       };
       var11.textContent = var9;
       Object.keys(param6[var9]).length ? (var11.textContent = var9 + '\x20(' + fn2(param6[var9]) + ')', var11.nameWithCount = var9 + '\x20(' + fn2(param6[var9]) + ')', var11.classList.add("hasChild")) : var11.classList.add("noChild");
@@ -179,22 +179,22 @@ methodsBody.buildNestedView = function (param3, param4) {
   methodsBody._searchResults = [];
   methodsBody._searchResults_index = 0x0;
   let var24,
-    var25 = Zotero.ZoteroIF.lastTagsCardNotePane;
+    var25 = Zotero.AI4Paper.lastTagsCardNotePane;
   if (param4 && var25 === "annotationTagPane" || param3 === "annotationTag") {
-    var24 = Zotero.ZoteroIF.returnAnnotationTags();
+    var24 = Zotero.AI4Paper.returnAnnotationTags();
     methodsBody.nestedView_updateTagsNumMessage(var24, "annotationTag");
     methodsBody.nestedView_updateButtonStatus("annotationTag");
   } else {
     if (param4 && var25 === "imageAnnotationTagPane" || param3 === "imageAnnotationTag") {
-      var24 = Zotero.ZoteroIF.returnImageAnnotationTags();
+      var24 = Zotero.AI4Paper.returnImageAnnotationTags();
       methodsBody.nestedView_updateTagsNumMessage(var24, 'imageAnnotationTag');
       methodsBody.nestedView_updateButtonStatus("imageAnnotationTag");
     } else {
       if (param4 && var25 === "itemTagPane" || param3 === 'itemTag') {
-        var24 = Zotero.ZoteroIF.returnItemTags();
+        var24 = Zotero.AI4Paper.returnItemTags();
         methodsBody.nestedView_updateTagsNumMessage(var24, "itemTag");
         methodsBody.nestedView_updateButtonStatus('itemTag');
-      } else param4 && var25 === "gptNoteTagPane" || param3 === "gptNoteTag" ? (var24 = Zotero.ZoteroIF.returnGPTNoteTags(), methodsBody.nestedView_updateTagsNumMessage(var24, "gptNoteTag"), methodsBody.nestedView_updateButtonStatus("gptNoteTag")) : (var24 = Zotero.ZoteroIF.returnAnnotationTags(), methodsBody.nestedView_updateTagsNumMessage(var24, 'annotationTag'), methodsBody.nestedView_updateButtonStatus('annotationTag'));
+      } else param4 && var25 === "gptNoteTagPane" || param3 === "gptNoteTag" ? (var24 = Zotero.AI4Paper.returnGPTNoteTags(), methodsBody.nestedView_updateTagsNumMessage(var24, "gptNoteTag"), methodsBody.nestedView_updateButtonStatus("gptNoteTag")) : (var24 = Zotero.AI4Paper.returnAnnotationTags(), methodsBody.nestedView_updateTagsNumMessage(var24, 'annotationTag'), methodsBody.nestedView_updateButtonStatus('annotationTag'));
     }
   }
   const var26 = fn3(var24);
@@ -235,12 +235,12 @@ methodsBody.expandNestedTags = function () {
 };
 methodsBody.searchNestedTags = function () {
   methodsBody.expandNestedTags();
-  let var41 = document.getElementById("zoteroif.nestedAnnotationTags.search").value.trim();
-  if (var41 === '' && document.getElementById("zoteroif.nestedAnnotationTags.search").placeholder === '') return false;else var41 === '' && document.getElementById("zoteroif.nestedAnnotationTags.search").placeholder != '' && (var41 = document.getElementById('zoteroif.nestedAnnotationTags.search').placeholder, document.getElementById("zoteroif.nestedAnnotationTags.search").value = document.getElementById("zoteroif.nestedAnnotationTags.search").placeholder);
+  let var41 = document.getElementById("ai4paper.nestedAnnotationTags.search").value.trim();
+  if (var41 === '' && document.getElementById("ai4paper.nestedAnnotationTags.search").placeholder === '') return false;else var41 === '' && document.getElementById("ai4paper.nestedAnnotationTags.search").placeholder != '' && (var41 = document.getElementById('ai4paper.nestedAnnotationTags.search').placeholder, document.getElementById("ai4paper.nestedAnnotationTags.search").value = document.getElementById("ai4paper.nestedAnnotationTags.search").placeholder);
   document._lastSearchTextNestedView = var41;
-  document.getElementById("zoteroif.nestedAnnotationTags.search").placeholder = var41;
-  document.getElementById("zoteroif.AnnotationTags.search").placeholder = var41;
-  Zotero.ZoteroIF.lastcardnotestaginput = var41;
+  document.getElementById("ai4paper.nestedAnnotationTags.search").placeholder = var41;
+  document.getElementById("ai4paper.AnnotationTags.search").placeholder = var41;
+  Zotero.AI4Paper.lastcardnotestaginput = var41;
   methodsBody._searchResults = [];
   const var42 = document.getElementById('tagTree');
   var42.querySelectorAll('.tagSearched').forEach(_0x86cea7 => {
@@ -340,25 +340,25 @@ methodsBody.updateAnnotationNestedTagsData = function () {
       });
     }), var51;
   }
-  let var54 = Zotero.ZoteroIF.returnAnnotationTags(),
+  let var54 = Zotero.AI4Paper.returnAnnotationTags(),
     var55 = fn5(var54);
   fn4(var55);
-  Zotero.Prefs.set("zoteroif.nestedAnnotationtagsrecent", JSON.stringify(var48));
+  Zotero.Prefs.set("ai4paper.nestedAnnotationtagsrecent", JSON.stringify(var48));
   var48 = [];
-  var54 = Zotero.ZoteroIF.returnImageAnnotationTags();
+  var54 = Zotero.AI4Paper.returnImageAnnotationTags();
   var55 = fn5(var54);
   fn4(var55);
-  Zotero.Prefs.set('zoteroif.nestedImageannotationtagsrecent', JSON.stringify(var48));
+  Zotero.Prefs.set('ai4paper.nestedImageannotationtagsrecent', JSON.stringify(var48));
   var48 = [];
-  var54 = Zotero.ZoteroIF.returnItemTags();
+  var54 = Zotero.AI4Paper.returnItemTags();
   var55 = fn5(var54);
   fn4(var55);
-  Zotero.Prefs.set("zoteroif.nestedItemTags", JSON.stringify(var48));
+  Zotero.Prefs.set("ai4paper.nestedItemTags", JSON.stringify(var48));
   var48 = [];
-  var54 = Zotero.ZoteroIF.returnGPTNoteTags();
+  var54 = Zotero.AI4Paper.returnGPTNoteTags();
   var55 = fn5(var54);
   fn4(var55);
-  Zotero.Prefs.set("zoteroif.nestedGPTNoteTags", JSON.stringify(var48));
+  Zotero.Prefs.set("ai4paper.nestedGPTNoteTags", JSON.stringify(var48));
 };
 methodsBody.buildContextMenu = function () {
   let var56 = document.querySelector("#tags-contextmenu");
@@ -366,14 +366,14 @@ methodsBody.buildContextMenu = function () {
 };
 methodsBody.renameTag = async function () {
   let var57 = methodsBody._ContextMenu_selectedTag.fullName,
-    var58 = Zotero.ZoteroIF.openDialogByType_modal("renameTag", var57);
+    var58 = Zotero.AI4Paper.openDialogByType_modal("renameTag", var57);
   if (!var58 || var58.trim() === var57) return;
   try {
     await Zotero.Tags.rename(0x1, var57, var58.trim());
   } catch (_0x124a06) {
-    Zotero.ZoteroIF.showProgressWindow(0x1388, "❌ 重命名标签", Zotero.getString(_0x124a06));
+    Zotero.AI4Paper.showProgressWindow(0x1388, "❌ 重命名标签", Zotero.getString(_0x124a06));
   }
-  let var59 = JSON.parse(Zotero.Prefs.get("zoteroif.annotationtagsrecent") || '[]'),
+  let var59 = JSON.parse(Zotero.Prefs.get("ai4paper.annotationtagsrecent") || '[]'),
     var60 = var57,
     var61 = 0x0,
     var62 = {
@@ -381,49 +381,49 @@ methodsBody.renameTag = async function () {
       'type': var61
     },
     var63 = var59.findIndex(_0x42d8ea => JSON.stringify(_0x42d8ea) === JSON.stringify(var62));
-  var63 !== -0x1 && (var59.splice(var63, 0x1), Zotero.Prefs.set('zoteroif.annotationtagsrecent', JSON.stringify(var59)), var60 = var58.trim(), var62 = {
+  var63 !== -0x1 && (var59.splice(var63, 0x1), Zotero.Prefs.set('ai4paper.annotationtagsrecent', JSON.stringify(var59)), var60 = var58.trim(), var62 = {
     'tag': var60,
     'type': var61
-  }, !JSON.stringify(var59).includes(JSON.stringify(var62)) && (var59.push(var62), Zotero.Prefs.set("zoteroif.annotationtagsrecent", JSON.stringify(var59))));
+  }, !JSON.stringify(var59).includes(JSON.stringify(var62)) && (var59.push(var62), Zotero.Prefs.set("ai4paper.annotationtagsrecent", JSON.stringify(var59))));
   var63 = -0x1;
   var59 = [];
-  var59 = JSON.parse(Zotero.Prefs.get("zoteroif.imageannotationtagsrecent") || '[]');
+  var59 = JSON.parse(Zotero.Prefs.get("ai4paper.imageannotationtagsrecent") || '[]');
   var60 = var57;
   var62 = {
     'tag': var60,
     'type': var61
   };
   var63 = var59.findIndex(_0x3feadd => JSON.stringify(_0x3feadd) === JSON.stringify(var62));
-  var63 !== -0x1 && (var59.splice(var63, 0x1), Zotero.Prefs.set("zoteroif.imageannotationtagsrecent", JSON.stringify(var59)), var60 = var58.trim(), var62 = {
+  var63 !== -0x1 && (var59.splice(var63, 0x1), Zotero.Prefs.set("ai4paper.imageannotationtagsrecent", JSON.stringify(var59)), var60 = var58.trim(), var62 = {
     'tag': var60,
     'type': var61
-  }, !JSON.stringify(var59).includes(JSON.stringify(var62)) && (var59.push(var62), Zotero.Prefs.set("zoteroif.imageannotationtagsrecent", JSON.stringify(var59))));
+  }, !JSON.stringify(var59).includes(JSON.stringify(var62)) && (var59.push(var62), Zotero.Prefs.set("ai4paper.imageannotationtagsrecent", JSON.stringify(var59))));
   var63 = -0x1;
   var59 = [];
-  var59 = JSON.parse(Zotero.Prefs.get('zoteroif.itemTags') || '[]');
+  var59 = JSON.parse(Zotero.Prefs.get('ai4paper.itemTags') || '[]');
   var60 = var57;
   var62 = {
     'tag': var60,
     'type': var61
   };
   var63 = var59.findIndex(_0x144d93 => JSON.stringify(_0x144d93) === JSON.stringify(var62));
-  var63 !== -0x1 && (var59.splice(var63, 0x1), Zotero.Prefs.set("zoteroif.itemTags", JSON.stringify(var59)), var60 = var58.trim(), var62 = {
+  var63 !== -0x1 && (var59.splice(var63, 0x1), Zotero.Prefs.set("ai4paper.itemTags", JSON.stringify(var59)), var60 = var58.trim(), var62 = {
     'tag': var60,
     'type': var61
-  }, !JSON.stringify(var59).includes(JSON.stringify(var62)) && (var59.push(var62), Zotero.Prefs.set("zoteroif.itemTags", JSON.stringify(var59))));
+  }, !JSON.stringify(var59).includes(JSON.stringify(var62)) && (var59.push(var62), Zotero.Prefs.set("ai4paper.itemTags", JSON.stringify(var59))));
   var63 = -0x1;
   var59 = [];
-  var59 = JSON.parse(Zotero.Prefs.get("zoteroif.gptnotetagsrecent") || '[]');
+  var59 = JSON.parse(Zotero.Prefs.get("ai4paper.gptnotetagsrecent") || '[]');
   var60 = var57;
   var62 = {
     'tag': var60,
     'type': var61
   };
   var63 = var59.findIndex(_0x2ca018 => JSON.stringify(_0x2ca018) === JSON.stringify(var62));
-  var63 !== -0x1 && (var59.splice(var63, 0x1), Zotero.Prefs.set("zoteroif.gptnotetagsrecent", JSON.stringify(var59)), var60 = var58.trim(), var62 = {
+  var63 !== -0x1 && (var59.splice(var63, 0x1), Zotero.Prefs.set("ai4paper.gptnotetagsrecent", JSON.stringify(var59)), var60 = var58.trim(), var62 = {
     'tag': var60,
     'type': var61
-  }, !JSON.stringify(var59).includes(JSON.stringify(var62)) && (var59.push(var62), Zotero.Prefs.set("zoteroif.gptnotetagsrecent", JSON.stringify(var59))));
+  }, !JSON.stringify(var59).includes(JSON.stringify(var62)) && (var59.push(var62), Zotero.Prefs.set("ai4paper.gptnotetagsrecent", JSON.stringify(var59))));
   var63 = -0x1;
   var59 = [];
   methodsBody.nestedView_updateTagTree();
@@ -436,9 +436,9 @@ methodsBody.deleteTag = async function () {
     let var66 = Zotero.Tags.getID(var64);
     var66 && (await Zotero.Tags.removeFromLibrary(0x1, var66));
   } catch (_0x5961aa) {
-    Zotero.ZoteroIF.showProgressWindow(0x1388, '❌\x20删除标签', Zotero.getString(_0x5961aa));
+    Zotero.AI4Paper.showProgressWindow(0x1388, '❌\x20删除标签', Zotero.getString(_0x5961aa));
   }
-  let var67 = JSON.parse(Zotero.Prefs.get("zoteroif.annotationtagsrecent") || '[]'),
+  let var67 = JSON.parse(Zotero.Prefs.get("ai4paper.annotationtagsrecent") || '[]'),
     var68 = var64,
     var69 = 0x0,
     var70 = {
@@ -446,22 +446,22 @@ methodsBody.deleteTag = async function () {
       'type': var69
     },
     var71 = var67.findIndex(_0x22070e => JSON.stringify(_0x22070e) === JSON.stringify(var70));
-  var71 !== -0x1 && (var67.splice(var71, 0x1), Zotero.Prefs.set("zoteroif.annotationtagsrecent", JSON.stringify(var67)));
+  var71 !== -0x1 && (var67.splice(var71, 0x1), Zotero.Prefs.set("ai4paper.annotationtagsrecent", JSON.stringify(var67)));
   var71 = -0x1;
   var67 = [];
-  var67 = JSON.parse(Zotero.Prefs.get("zoteroif.imageannotationtagsrecent") || '[]');
+  var67 = JSON.parse(Zotero.Prefs.get("ai4paper.imageannotationtagsrecent") || '[]');
   var71 = var67.findIndex(_0x12cef6 => JSON.stringify(_0x12cef6) === JSON.stringify(var70));
-  var71 !== -0x1 && (var67.splice(var71, 0x1), Zotero.Prefs.set("zoteroif.imageannotationtagsrecent", JSON.stringify(var67)));
+  var71 !== -0x1 && (var67.splice(var71, 0x1), Zotero.Prefs.set("ai4paper.imageannotationtagsrecent", JSON.stringify(var67)));
   var71 = -0x1;
   var67 = [];
-  var67 = JSON.parse(Zotero.Prefs.get("zoteroif.itemTags") || '[]');
+  var67 = JSON.parse(Zotero.Prefs.get("ai4paper.itemTags") || '[]');
   var71 = var67.findIndex(_0x2cbce5 => JSON.stringify(_0x2cbce5) === JSON.stringify(var70));
-  var71 !== -0x1 && (var67.splice(var71, 0x1), Zotero.Prefs.set("zoteroif.itemTags", JSON.stringify(var67)));
+  var71 !== -0x1 && (var67.splice(var71, 0x1), Zotero.Prefs.set("ai4paper.itemTags", JSON.stringify(var67)));
   var71 = -0x1;
   var67 = [];
-  var67 = JSON.parse(Zotero.Prefs.get("zoteroif.gptnotetagsrecent") || '[]');
+  var67 = JSON.parse(Zotero.Prefs.get("ai4paper.gptnotetagsrecent") || '[]');
   var71 = var67.findIndex(_0x223a52 => JSON.stringify(_0x223a52) === JSON.stringify(var70));
-  var71 !== -0x1 && (var67.splice(var71, 0x1), Zotero.Prefs.set("zoteroif.gptnotetagsrecent", JSON.stringify(var67)));
+  var71 !== -0x1 && (var67.splice(var71, 0x1), Zotero.Prefs.set("ai4paper.gptnotetagsrecent", JSON.stringify(var67)));
   var71 = -0x1;
   var67 = [];
   methodsBody.nestedView_updateTagTree();
@@ -475,16 +475,16 @@ methodsBody.nestedView_updateTagTree = function () {
 };
 methodsBody.showItemsBasedOnTag = function () {
   let var72 = methodsBody._ContextMenu_selectedTag.fullName;
-  Zotero.ZoteroIF.showItemsBasedOnTag(var72);
+  Zotero.AI4Paper.showItemsBasedOnTag(var72);
 };
 methodsBody.go2ImportAnnotations = function () {
   let var73 = methodsBody._ContextMenu_selectedTag.fullName;
-  Zotero.ZoteroIF.openDialogAdvancedSearch_importAnnotations(var73);
-  Zotero.ZoteroIF.processAdvancedSearch_importAnnotations();
+  Zotero.AI4Paper.openDialogAdvancedSearch_importAnnotations(var73);
+  Zotero.AI4Paper.processAdvancedSearch_importAnnotations();
 };
 methodsBody.queryPapersMatrix = function () {
   let var74 = methodsBody._ContextMenu_selectedTag.fullName;
-  Zotero.ZoteroIF.queryPapersMatrix("filterByTag", var74);
+  Zotero.AI4Paper.queryPapersMatrix("filterByTag", var74);
 };
 methodsBody.focusParentTag = function () {
   let var75 = methodsBody._ContextMenu_selectedTag.parentTag,
@@ -524,8 +524,8 @@ methodsBody.focusTopTag = function () {
 };
 methodsBody.copyTagName = function () {
   let var84 = methodsBody._ContextMenu_selectedTag.fullName;
-  Zotero.ZoteroIF.copy2Clipboard(var84);
-  Zotero.ZoteroIF.showProgressWindow(0x5dc, "✅ 拷贝标签名", "已拷贝标签【" + var84 + '】');
+  Zotero.AI4Paper.copy2Clipboard(var84);
+  Zotero.AI4Paper.showProgressWindow(0x5dc, "✅ 拷贝标签名", "已拷贝标签【" + var84 + '】');
 };
 methodsBody.go2SubTags = function (param13) {
   let var85 = document.getElementById("showSubTags-menu");
@@ -605,27 +605,27 @@ methodsBody.exportTagTree = function (param15, param16) {
     return fn10(param21, 0x1), var99;
   }
   let var101 = [];
-  param15 === 'annotationTags' ? (var101 = Zotero.ZoteroIF.returnAnnotationTags(), var101.length ? param16 === "list" ? Zotero.ZoteroIF.exportTagTree(fn7(fn6(var101)), '注释') : Zotero.ZoteroIF.exportTagTree(fn9(fn6(var101)), '注释') : Zotero.ZoteroIF.showProgressWindow(0xbb8, "❌ 注释标签库为空", "注释标签库为空！无注释标签，或未刷新注释标签库。")) : (var101 = Zotero.ZoteroIF.returnImageAnnotationTags(), var101.length ? param16 === "list" ? Zotero.ZoteroIF.exportTagTree(fn7(fn6(var101)), "图片注释") : Zotero.ZoteroIF.exportTagTree(fn9(fn6(var101)), "图片注释") : Zotero.ZoteroIF.showProgressWindow(0xbb8, "❌ 图片注释标签库为空", "图片注释标签库为空！无图片注释标签，或未刷新图片注释标签库。"));
+  param15 === 'annotationTags' ? (var101 = Zotero.AI4Paper.returnAnnotationTags(), var101.length ? param16 === "list" ? Zotero.AI4Paper.exportTagTree(fn7(fn6(var101)), '注释') : Zotero.AI4Paper.exportTagTree(fn9(fn6(var101)), '注释') : Zotero.AI4Paper.showProgressWindow(0xbb8, "❌ 注释标签库为空", "注释标签库为空！无注释标签，或未刷新注释标签库。")) : (var101 = Zotero.AI4Paper.returnImageAnnotationTags(), var101.length ? param16 === "list" ? Zotero.AI4Paper.exportTagTree(fn7(fn6(var101)), "图片注释") : Zotero.AI4Paper.exportTagTree(fn9(fn6(var101)), "图片注释") : Zotero.AI4Paper.showProgressWindow(0xbb8, "❌ 图片注释标签库为空", "图片注释标签库为空！无图片注释标签，或未刷新图片注释标签库。"));
 };
 methodsBody.buildGeneralView = function () {
-  (Zotero.isWin || Zotero.isLinux) && document.getElementById('zoteroif.AnnotationTags.search').focus();
+  (Zotero.isWin || Zotero.isLinux) && document.getElementById('ai4paper.AnnotationTags.search').focus();
   let var102,
-    var103 = Zotero.ZoteroIF.lastTagsCardNotePane;
+    var103 = Zotero.AI4Paper.lastTagsCardNotePane;
   if (var103 === "annotationTagPane") {
-    var102 = Zotero.ZoteroIF.returnAnnotationTags();
+    var102 = Zotero.AI4Paper.returnAnnotationTags();
     methodsBody.generalView_updateTagsNumMessage(var102, 'annotationTag');
     methodsBody.generalView_updateButtonStatus("annotationTag");
   } else {
     if (var103 === "imageAnnotationTagPane") {
-      var102 = Zotero.ZoteroIF.returnImageAnnotationTags();
+      var102 = Zotero.AI4Paper.returnImageAnnotationTags();
       methodsBody.generalView_updateTagsNumMessage(var102, 'imageAnnotationTag');
       methodsBody.generalView_updateButtonStatus('imageAnnotationTag');
     } else {
       if (var103 === "itemTagPane") {
-        var102 = Zotero.ZoteroIF.returnItemTags();
+        var102 = Zotero.AI4Paper.returnItemTags();
         methodsBody.generalView_updateTagsNumMessage(var102, 'itemTag');
         methodsBody.generalView_updateButtonStatus("itemTag");
-      } else var103 === "gptNoteTagPane" ? (var102 = Zotero.ZoteroIF.returnGPTNoteTags(), methodsBody.generalView_updateTagsNumMessage(var102, "gptNoteTag"), methodsBody.generalView_updateButtonStatus("gptNoteTag")) : (var102 = Zotero.ZoteroIF.returnAnnotationTags(), methodsBody.generalView_updateTagsNumMessage(var102, "annotationTag"), methodsBody.generalView_updateButtonStatus("annotationTag"));
+      } else var103 === "gptNoteTagPane" ? (var102 = Zotero.AI4Paper.returnGPTNoteTags(), methodsBody.generalView_updateTagsNumMessage(var102, "gptNoteTag"), methodsBody.generalView_updateButtonStatus("gptNoteTag")) : (var102 = Zotero.AI4Paper.returnAnnotationTags(), methodsBody.generalView_updateTagsNumMessage(var102, "annotationTag"), methodsBody.generalView_updateButtonStatus("annotationTag"));
     }
   }
   methodsBody.generalView_clearListbox();
@@ -636,33 +636,33 @@ methodsBody.filter = function (param24) {
   methodsBody.generalView_updateFilterButtons(null, param24);
   let var104;
   var var105 = document.getElementById("annotationTagType-image");
-  if (var105.getAttribute("src") === "chrome://zoteroif/content/icons/annotationTag.png") {
-    var104 = Zotero.ZoteroIF.returnAnnotationTagsFilter(param24);
+  if (var105.getAttribute("src") === "chrome://ai4paper/content/icons/annotationTag.png") {
+    var104 = Zotero.AI4Paper.returnAnnotationTagsFilter(param24);
     methodsBody.generalView_updateButtonStatus('annotationTag');
   } else {
-    if (var105.getAttribute('src') === 'chrome://zoteroif/content/icons/imageAnnotationTag.png') {
-      var104 = Zotero.ZoteroIF.returnImageAnnotationTagsFilter(param24);
+    if (var105.getAttribute('src') === 'chrome://ai4paper/content/icons/imageAnnotationTag.png') {
+      var104 = Zotero.AI4Paper.returnImageAnnotationTagsFilter(param24);
       methodsBody.generalView_updateButtonStatus('imageAnnotationTag');
     } else {
-      if (var105.getAttribute("src") === "chrome://zoteroif/content/icons/itemTag.png") {
-        var104 = Zotero.ZoteroIF.returnItemTagsFilter(param24);
+      if (var105.getAttribute("src") === "chrome://ai4paper/content/icons/itemTag.png") {
+        var104 = Zotero.AI4Paper.returnItemTagsFilter(param24);
         methodsBody.generalView_updateButtonStatus('itemTag');
-      } else var105.getAttribute("src") === "chrome://zoteroif/content/icons/robot.png" ? (var104 = Zotero.ZoteroIF.returnGPTNoteTagsFilter(param24), methodsBody.generalView_updateButtonStatus('gptNoteTag')) : (var104 = Zotero.ZoteroIF.returnAnnotationTagsFilter(param24), methodsBody.generalView_updateButtonStatus("annotationTag"));
+      } else var105.getAttribute("src") === "chrome://ai4paper/content/icons/robot.png" ? (var104 = Zotero.AI4Paper.returnGPTNoteTagsFilter(param24), methodsBody.generalView_updateButtonStatus('gptNoteTag')) : (var104 = Zotero.AI4Paper.returnAnnotationTagsFilter(param24), methodsBody.generalView_updateButtonStatus("annotationTag"));
     }
   }
   methodsBody.generalView_clearListbox();
   methodsBody.generalView_buildItemNodes(var104);
   param24 = param24 === 'OT' ? '#' : param24;
   var var106 = document.getElementById("message-label");
-  if (var105.getAttribute("src") === 'chrome://zoteroif/content/icons/annotationTag.png') var106.textContent = param24 + '：包含【' + var104.length + "】个注释标签";else {
-    if (var105.getAttribute("src") === "chrome://zoteroif/content/icons/imageAnnotationTag.png") var106.textContent = param24 + "：包含【" + var104.length + "】个图片注释标签";else {
-      if (var105.getAttribute("src") === 'chrome://zoteroif/content/icons/itemTag.png') var106.textContent = param24 + '：包含【' + var104.length + "】个条目标签";else var105.getAttribute("src") === "chrome://zoteroif/content/icons/robot.png" && (var106.textContent = param24 + '：包含【' + var104.length + '】个\x20GPT\x20笔记标签');
+  if (var105.getAttribute("src") === 'chrome://ai4paper/content/icons/annotationTag.png') var106.textContent = param24 + '：包含【' + var104.length + "】个注释标签";else {
+    if (var105.getAttribute("src") === "chrome://ai4paper/content/icons/imageAnnotationTag.png") var106.textContent = param24 + "：包含【" + var104.length + "】个图片注释标签";else {
+      if (var105.getAttribute("src") === 'chrome://ai4paper/content/icons/itemTag.png') var106.textContent = param24 + '：包含【' + var104.length + "】个条目标签";else var105.getAttribute("src") === "chrome://ai4paper/content/icons/robot.png" && (var106.textContent = param24 + '：包含【' + var104.length + '】个\x20GPT\x20笔记标签');
     }
   }
 };
 methodsBody.annotationTag = function (param25) {
   methodsBody.generalView_updateButtonStatus("annotationTag");
-  let var107 = Zotero.ZoteroIF.returnAnnotationTags();
+  let var107 = Zotero.AI4Paper.returnAnnotationTags();
   methodsBody.generalView_clearListbox();
   methodsBody.generalView_buildItemNodes(var107);
   !param25 ? methodsBody.generalView_updateTagsNumMessage(var107, "annotationTag") : document.getElementById('message-label').textContent = '刷新完成，共有【' + var107.length + "】个注释标签";
@@ -670,7 +670,7 @@ methodsBody.annotationTag = function (param25) {
 };
 methodsBody.imageAnnotationTag = function (param26) {
   methodsBody.generalView_updateButtonStatus("imageAnnotationTag");
-  let var108 = Zotero.ZoteroIF.returnImageAnnotationTags();
+  let var108 = Zotero.AI4Paper.returnImageAnnotationTags();
   methodsBody.generalView_clearListbox();
   methodsBody.generalView_buildItemNodes(var108);
   !param26 ? methodsBody.generalView_updateTagsNumMessage(var108, "imageAnnotationTag") : document.getElementById("message-label").textContent = "刷新完成，共有【" + var108.length + "】个图片注释标签";
@@ -678,7 +678,7 @@ methodsBody.imageAnnotationTag = function (param26) {
 };
 methodsBody.itemTag = function (param27) {
   methodsBody.generalView_updateButtonStatus('itemTag');
-  let var109 = Zotero.ZoteroIF.returnItemTags();
+  let var109 = Zotero.AI4Paper.returnItemTags();
   methodsBody.generalView_clearListbox();
   methodsBody.generalView_buildItemNodes(var109);
   !param27 ? methodsBody.generalView_updateTagsNumMessage(var109, "itemTag") : document.getElementById("message-label").textContent = "刷新完成，共有【" + var109.length + "】个条目标签";
@@ -686,7 +686,7 @@ methodsBody.itemTag = function (param27) {
 };
 methodsBody.gptNoteTag = function (param28) {
   methodsBody.generalView_updateButtonStatus("gptNoteTag");
-  let var110 = Zotero.ZoteroIF.returnGPTNoteTags();
+  let var110 = Zotero.AI4Paper.returnGPTNoteTags();
   methodsBody.generalView_clearListbox();
   methodsBody.generalView_buildItemNodes(var110);
   !param28 ? methodsBody.generalView_updateTagsNumMessage(var110, 'gptNoteTag') : document.getElementById("message-label").textContent = "刷新完成，共有【" + var110.length + '】个\x20GPT\x20笔记标签';
@@ -701,30 +701,30 @@ methodsBody.updateTags = async function (param29, param30) {
     },
     var112 = await Zotero.Tags.getAll(0x1);
   if (var112.length === 0x0) {
-    Zotero.ZoteroIF.showProgressWindow(0xbb8, '❌\x20未发现标签【Zotero\x20One】', "未在【我的文库】中发现任何标签！");
+    Zotero.AI4Paper.showProgressWindow(0xbb8, '❌\x20未发现标签【Zotero\x20One】', "未在【我的文库】中发现任何标签！");
     return;
   }
-  document.getElementById("annotationTagType-image").setAttribute('src', "chrome://zoteroif/content/icons/" + (param29 === 'gptNoteTag' ? "robot" : param29) + ".png");
+  document.getElementById("annotationTagType-image").setAttribute('src', "chrome://ai4paper/content/icons/" + (param29 === 'gptNoteTag' ? "robot" : param29) + ".png");
   param30 === "nested" ? document.getElementById("message-label-nestedView").textContent = "正在刷新" + var111[param29] + "，右下角查看进度..." : document.getElementById("message-label").textContent = "正在刷新" + var111[param29] + "，右下角查看进度...";
   let var113 = "_selectAnnotationTagDialog_update_" + param29;
-  Zotero.ZoteroIF.progressPercent_initProgress(var112, var113, var111[param29]);
+  Zotero.AI4Paper.progressPercent_initProgress(var112, var113, var111[param29]);
   methodsBody["update_" + param29 + "_checkNext"](var113, var111[param29], param30);
 };
 methodsBody.update_annotationTag_checkNext = async function (param31, param32, param33) {
-  Zotero.ZoteroIF["numberOfUpdatedItems" + param31]++;
-  if (Zotero.ZoteroIF["current" + param31] == Zotero.ZoteroIF['toUpdate' + param31] - 0x1) {
-    Zotero.ZoteroIF['progressWindow' + param31].close();
-    Zotero.ZoteroIF.progressPercent_resetState(null, param31, param32);
-    Zotero.Prefs.set("zoteroif.annotationtagsrecent", JSON.stringify(Zotero.ZoteroIF['_progressData_' + param31]));
+  Zotero.AI4Paper["numberOfUpdatedItems" + param31]++;
+  if (Zotero.AI4Paper["current" + param31] == Zotero.AI4Paper['toUpdate' + param31] - 0x1) {
+    Zotero.AI4Paper['progressWindow' + param31].close();
+    Zotero.AI4Paper.progressPercent_resetState(null, param31, param32);
+    Zotero.Prefs.set("ai4paper.annotationtagsrecent", JSON.stringify(Zotero.AI4Paper['_progressData_' + param31]));
     param33 === "nested" ? methodsBody.buildNestedView("annotationTag") : methodsBody.annotationTag(true);
     return;
   }
-  Zotero.ZoteroIF.progressPercent_updatePercent(param31, '检查所有标签：\x20');
-  methodsBody.update_annotationTag_checkTag(Zotero.ZoteroIF["itemsToUpdate" + param31][Zotero.ZoteroIF["current" + param31]], param31, param32, param33);
+  Zotero.AI4Paper.progressPercent_updatePercent(param31, '检查所有标签：\x20');
+  methodsBody.update_annotationTag_checkTag(Zotero.AI4Paper["itemsToUpdate" + param31][Zotero.AI4Paper["current" + param31]], param31, param32, param33);
 };
 methodsBody.update_annotationTag_checkTag = async function (param34, param35, param36, param37) {
   try {
-    let var114 = await Zotero.ZoteroIF.checkAnnotationTag(param34.tag);
+    let var114 = await Zotero.AI4Paper.checkAnnotationTag(param34.tag);
     if (var114) {
       let var115 = param34.tag,
         var116 = 0x0,
@@ -732,7 +732,7 @@ methodsBody.update_annotationTag_checkTag = async function (param34, param35, pa
           'tag': var115,
           'type': var116
         };
-      !JSON.stringify(Zotero.ZoteroIF["_progressData_" + param35]).includes(JSON.stringify(var117)) && (Zotero.ZoteroIF["_progressData_" + param35].push(var117), Zotero.ZoteroIF["counter" + param35]++);
+      !JSON.stringify(Zotero.AI4Paper["_progressData_" + param35]).includes(JSON.stringify(var117)) && (Zotero.AI4Paper["_progressData_" + param35].push(var117), Zotero.AI4Paper["counter" + param35]++);
     }
   } catch (_0x2211f1) {
     Zotero.debug(_0x2211f1);
@@ -740,20 +740,20 @@ methodsBody.update_annotationTag_checkTag = async function (param34, param35, pa
   methodsBody.update_annotationTag_checkNext(param35, param36, param37);
 };
 methodsBody.update_imageAnnotationTag_checkNext = async function (param38, param39, param40) {
-  Zotero.ZoteroIF["numberOfUpdatedItems" + param38]++;
-  if (Zotero.ZoteroIF['current' + param38] == Zotero.ZoteroIF["toUpdate" + param38] - 0x1) {
-    Zotero.ZoteroIF["progressWindow" + param38].close();
-    Zotero.ZoteroIF.progressPercent_resetState(null, param38, param39);
-    Zotero.Prefs.set("zoteroif.imageannotationtagsrecent", JSON.stringify(Zotero.ZoteroIF["_progressData_" + param38]));
+  Zotero.AI4Paper["numberOfUpdatedItems" + param38]++;
+  if (Zotero.AI4Paper['current' + param38] == Zotero.AI4Paper["toUpdate" + param38] - 0x1) {
+    Zotero.AI4Paper["progressWindow" + param38].close();
+    Zotero.AI4Paper.progressPercent_resetState(null, param38, param39);
+    Zotero.Prefs.set("ai4paper.imageannotationtagsrecent", JSON.stringify(Zotero.AI4Paper["_progressData_" + param38]));
     param40 === "nested" ? methodsBody.buildNestedView("imageAnnotationTag") : methodsBody.imageAnnotationTag(true);
     return;
   }
-  Zotero.ZoteroIF.progressPercent_updatePercent(param38, '检查所有标签：\x20');
-  methodsBody.update_imageAnnotationTag_checkTag(Zotero.ZoteroIF["itemsToUpdate" + param38][Zotero.ZoteroIF["current" + param38]], param38, param39, param40);
+  Zotero.AI4Paper.progressPercent_updatePercent(param38, '检查所有标签：\x20');
+  methodsBody.update_imageAnnotationTag_checkTag(Zotero.AI4Paper["itemsToUpdate" + param38][Zotero.AI4Paper["current" + param38]], param38, param39, param40);
 };
 methodsBody.update_imageAnnotationTag_checkTag = async function (param41, param42, param43, param44) {
   try {
-    let var118 = await Zotero.ZoteroIF.checkImageAnnotationTag(param41.tag);
+    let var118 = await Zotero.AI4Paper.checkImageAnnotationTag(param41.tag);
     if (var118) {
       let var119 = param41.tag,
         var120 = 0x0,
@@ -761,7 +761,7 @@ methodsBody.update_imageAnnotationTag_checkTag = async function (param41, param4
           'tag': var119,
           'type': var120
         };
-      !JSON.stringify(Zotero.ZoteroIF["_progressData_" + param42]).includes(JSON.stringify(var121)) && (Zotero.ZoteroIF["_progressData_" + param42].push(var121), Zotero.ZoteroIF["counter" + param42]++);
+      !JSON.stringify(Zotero.AI4Paper["_progressData_" + param42]).includes(JSON.stringify(var121)) && (Zotero.AI4Paper["_progressData_" + param42].push(var121), Zotero.AI4Paper["counter" + param42]++);
     }
   } catch (_0x27895e) {
     Zotero.debug(_0x27895e);
@@ -769,20 +769,20 @@ methodsBody.update_imageAnnotationTag_checkTag = async function (param41, param4
   methodsBody.update_imageAnnotationTag_checkNext(param42, param43, param44);
 };
 methodsBody.update_itemTag_checkNext = async function (param45, param46, param47) {
-  Zotero.ZoteroIF['numberOfUpdatedItems' + param45]++;
-  if (Zotero.ZoteroIF['current' + param45] == Zotero.ZoteroIF['toUpdate' + param45] - 0x1) {
-    Zotero.ZoteroIF["progressWindow" + param45].close();
-    Zotero.ZoteroIF.progressPercent_resetState(null, param45, param46);
-    Zotero.Prefs.set("zoteroif.itemTags", JSON.stringify(Zotero.ZoteroIF["_progressData_" + param45]));
+  Zotero.AI4Paper['numberOfUpdatedItems' + param45]++;
+  if (Zotero.AI4Paper['current' + param45] == Zotero.AI4Paper['toUpdate' + param45] - 0x1) {
+    Zotero.AI4Paper["progressWindow" + param45].close();
+    Zotero.AI4Paper.progressPercent_resetState(null, param45, param46);
+    Zotero.Prefs.set("ai4paper.itemTags", JSON.stringify(Zotero.AI4Paper["_progressData_" + param45]));
     param47 === "nested" ? methodsBody.buildNestedView('itemTag') : methodsBody.itemTag(true);
     return;
   }
-  Zotero.ZoteroIF.progressPercent_updatePercent(param45, "检查所有标签： ");
-  methodsBody.update_itemTag_checkTag(Zotero.ZoteroIF['itemsToUpdate' + param45][Zotero.ZoteroIF['current' + param45]], param45, param46, param47);
+  Zotero.AI4Paper.progressPercent_updatePercent(param45, "检查所有标签： ");
+  methodsBody.update_itemTag_checkTag(Zotero.AI4Paper['itemsToUpdate' + param45][Zotero.AI4Paper['current' + param45]], param45, param46, param47);
 };
 methodsBody.update_itemTag_checkTag = async function (param48, param49, param50, param51) {
   try {
-    let var122 = await Zotero.ZoteroIF.checkItemTag(param48.tag);
+    let var122 = await Zotero.AI4Paper.checkItemTag(param48.tag);
     if (var122) {
       let var123 = param48.tag,
         var124 = 0x0,
@@ -790,7 +790,7 @@ methodsBody.update_itemTag_checkTag = async function (param48, param49, param50,
           'tag': var123,
           'type': var124
         };
-      !JSON.stringify(Zotero.ZoteroIF['_progressData_' + param49]).includes(JSON.stringify(var125)) && (Zotero.ZoteroIF["_progressData_" + param49].push(var125), Zotero.ZoteroIF['counter' + param49]++);
+      !JSON.stringify(Zotero.AI4Paper['_progressData_' + param49]).includes(JSON.stringify(var125)) && (Zotero.AI4Paper["_progressData_" + param49].push(var125), Zotero.AI4Paper['counter' + param49]++);
     }
   } catch (_0x33540e) {
     Zotero.debug(_0x33540e);
@@ -798,20 +798,20 @@ methodsBody.update_itemTag_checkTag = async function (param48, param49, param50,
   methodsBody.update_itemTag_checkNext(param49, param50, param51);
 };
 methodsBody.update_gptNoteTag_checkNext = async function (param52, param53, param54) {
-  Zotero.ZoteroIF["numberOfUpdatedItems" + param52]++;
-  if (Zotero.ZoteroIF["current" + param52] == Zotero.ZoteroIF["toUpdate" + param52] - 0x1) {
-    Zotero.ZoteroIF["progressWindow" + param52].close();
-    Zotero.ZoteroIF.progressPercent_resetState(null, param52, param53);
-    Zotero.Prefs.set("zoteroif.gptnotetagsrecent", JSON.stringify(Zotero.ZoteroIF["_progressData_" + param52]));
+  Zotero.AI4Paper["numberOfUpdatedItems" + param52]++;
+  if (Zotero.AI4Paper["current" + param52] == Zotero.AI4Paper["toUpdate" + param52] - 0x1) {
+    Zotero.AI4Paper["progressWindow" + param52].close();
+    Zotero.AI4Paper.progressPercent_resetState(null, param52, param53);
+    Zotero.Prefs.set("ai4paper.gptnotetagsrecent", JSON.stringify(Zotero.AI4Paper["_progressData_" + param52]));
     param54 === 'nested' ? methodsBody.buildNestedView("gptNoteTag") : methodsBody.gptNoteTag(true);
     return;
   }
-  Zotero.ZoteroIF.progressPercent_updatePercent(param52, "检查所有标签： ");
-  methodsBody.update_gptNoteTag_checkTag(Zotero.ZoteroIF["itemsToUpdate" + param52][Zotero.ZoteroIF["current" + param52]], param52, param53, param54);
+  Zotero.AI4Paper.progressPercent_updatePercent(param52, "检查所有标签： ");
+  methodsBody.update_gptNoteTag_checkTag(Zotero.AI4Paper["itemsToUpdate" + param52][Zotero.AI4Paper["current" + param52]], param52, param53, param54);
 };
 methodsBody.update_gptNoteTag_checkTag = async function (param55, param56, param57, param58) {
   try {
-    let var126 = await Zotero.ZoteroIF.checkGPTNoteTag(param55.tag);
+    let var126 = await Zotero.AI4Paper.checkGPTNoteTag(param55.tag);
     if (var126) {
       let var127 = param55.tag,
         var128 = 0x0,
@@ -819,7 +819,7 @@ methodsBody.update_gptNoteTag_checkTag = async function (param55, param56, param
           'tag': var127,
           'type': var128
         };
-      !JSON.stringify(Zotero.ZoteroIF["_progressData_" + param56]).includes(JSON.stringify(var129)) && (Zotero.ZoteroIF["_progressData_" + param56].push(var129), Zotero.ZoteroIF["counter" + param56]++);
+      !JSON.stringify(Zotero.AI4Paper["_progressData_" + param56]).includes(JSON.stringify(var129)) && (Zotero.AI4Paper["_progressData_" + param56].push(var129), Zotero.AI4Paper["counter" + param56]++);
     }
   } catch (_0xf8fbc3) {
     Zotero.debug(_0xf8fbc3);
@@ -827,24 +827,24 @@ methodsBody.update_gptNoteTag_checkTag = async function (param55, param56, param
   methodsBody.update_gptNoteTag_checkNext(param56, param57, param58);
 };
 methodsBody.search = function () {
-  var var130 = document.getElementById('zoteroif.AnnotationTags.search').value.trim();
-  if (var130 === '' && document.getElementById("zoteroif.AnnotationTags.search").placeholder === '') return false;else var130 === '' && document.getElementById("zoteroif.AnnotationTags.search").placeholder != '' && (var130 = document.getElementById("zoteroif.AnnotationTags.search").placeholder, document.getElementById('zoteroif.AnnotationTags.search').value = document.getElementById("zoteroif.AnnotationTags.search").placeholder);
-  document.getElementById("zoteroif.nestedAnnotationTags.search").placeholder = var130;
-  document.getElementById("zoteroif.AnnotationTags.search").placeholder = var130;
-  Zotero.ZoteroIF.lastcardnotestaginput = var130;
+  var var130 = document.getElementById('ai4paper.AnnotationTags.search').value.trim();
+  if (var130 === '' && document.getElementById("ai4paper.AnnotationTags.search").placeholder === '') return false;else var130 === '' && document.getElementById("ai4paper.AnnotationTags.search").placeholder != '' && (var130 = document.getElementById("ai4paper.AnnotationTags.search").placeholder, document.getElementById('ai4paper.AnnotationTags.search').value = document.getElementById("ai4paper.AnnotationTags.search").placeholder);
+  document.getElementById("ai4paper.nestedAnnotationTags.search").placeholder = var130;
+  document.getElementById("ai4paper.AnnotationTags.search").placeholder = var130;
+  Zotero.AI4Paper.lastcardnotestaginput = var130;
   let var131;
   if (document.getElementById("annotationTagButton").getAttribute("default") === 'true') {
-    var131 = Zotero.ZoteroIF.returnAnnotationTagsSearch(var130);
+    var131 = Zotero.AI4Paper.returnAnnotationTagsSearch(var130);
     methodsBody.generalView_updateButtonStatus("annotationTag");
   } else {
     if (document.getElementById("imageAnnotationTagButton").getAttribute("default") === "true") {
-      var131 = Zotero.ZoteroIF.returnImageAnnotationTagsSearch(var130);
+      var131 = Zotero.AI4Paper.returnImageAnnotationTagsSearch(var130);
       methodsBody.generalView_updateButtonStatus("imageAnnotationTag");
     } else {
       if (document.getElementById("itemTagButton").getAttribute('default') === 'true') {
-        var131 = Zotero.ZoteroIF.returnItemTagsSearch(var130);
+        var131 = Zotero.AI4Paper.returnItemTagsSearch(var130);
         methodsBody.generalView_updateButtonStatus("itemTag");
-      } else document.getElementById("gptNoteTagButton").getAttribute("default") === "true" ? (var131 = Zotero.ZoteroIF.returnGPTNoteTagsSearch(var130), methodsBody.generalView_updateButtonStatus("gptNoteTag")) : (var131 = Zotero.ZoteroIF.returnAnnotationTagsSearch(var130), methodsBody.generalView_updateButtonStatus("annotationTag"));
+      } else document.getElementById("gptNoteTagButton").getAttribute("default") === "true" ? (var131 = Zotero.AI4Paper.returnGPTNoteTagsSearch(var130), methodsBody.generalView_updateButtonStatus("gptNoteTag")) : (var131 = Zotero.AI4Paper.returnAnnotationTagsSearch(var130), methodsBody.generalView_updateButtonStatus("annotationTag"));
     }
   }
   methodsBody.generalView_clearListbox();
@@ -861,18 +861,18 @@ methodsBody.checkKeyEnter = function (param59) {
   !param59.shiftKey && !param59.ctrlKey && !param59.altKey && !param59.metaKey && param59.keyCode === 0xd && (param59.returnValue = false, param59.preventDefault && param59.preventDefault(), methodsBody.search());
 };
 methodsBody.checkKeyEnter_nestedView = function (param60) {
-  !param60.shiftKey && !param60.ctrlKey && !param60.altKey && !param60.metaKey && param60.keyCode === 0xd && (param60.returnValue = false, param60.preventDefault && param60.preventDefault(), document.getElementById("tagTree").querySelectorAll(".tagSearched").length > 0x1 && document.getElementById("zoteroif.nestedAnnotationTags.search").value.trim() === document._lastSearchTextNestedView ? methodsBody.searchNestedTags_next() : methodsBody.searchNestedTags());
+  !param60.shiftKey && !param60.ctrlKey && !param60.altKey && !param60.metaKey && param60.keyCode === 0xd && (param60.returnValue = false, param60.preventDefault && param60.preventDefault(), document.getElementById("tagTree").querySelectorAll(".tagSearched").length > 0x1 && document.getElementById("ai4paper.nestedAnnotationTags.search").value.trim() === document._lastSearchTextNestedView ? methodsBody.searchNestedTags_next() : methodsBody.searchNestedTags());
 };
 methodsBody.acceptSelection = function () {
-  Zotero.ZoteroIF.selectAnnotationTagWindow = null;
+  Zotero.AI4Paper.selectAnnotationTagWindow = null;
   var var133 = document.getElementById('generalView-richlistbox-elem');
   let var134 = [];
   for (var var135 = 0x0; var135 < var133.childNodes.length; var135++) {
     var var136 = var133.childNodes[var135];
     var136.firstElementChild.checked && var134.push(var136.firstElementChild.getAttribute("label"));
   }
-  if (!var134.length) return Zotero.ZoteroIF.showProgressWindow(0x1388, "温馨提示", '请先选择一个标签！'), false;
-  if (var134.length > 0x1) return Zotero.ZoteroIF.showProgressWindow(0x1388, "温馨提示", "请仅选择一个标签！"), false;
+  if (!var134.length) return Zotero.AI4Paper.showProgressWindow(0x1388, "温馨提示", '请先选择一个标签！'), false;
+  if (var134.length > 0x1) return Zotero.AI4Paper.showProgressWindow(0x1388, "温馨提示", "请仅选择一个标签！"), false;
   methodsBody.checkTagType(var134[0x0]);
 };
 methodsBody.selectAll = function (param61) {
@@ -898,17 +898,17 @@ methodsBody.jumpWithDialogOpen = function () {
     var var147 = var144.childNodes[var146];
     var147.firstElementChild.checked && var145.push(var147.firstElementChild.getAttribute('label'));
   }
-  if (!var145.length) return Zotero.ZoteroIF.showProgressWindow(0x1388, "温馨提示", "请先选择一个标签！"), false;
-  if (var145.length > 0x1) return Zotero.ZoteroIF.showProgressWindow(0x1388, '温馨提示', "请仅选择一个标签！"), false;
+  if (!var145.length) return Zotero.AI4Paper.showProgressWindow(0x1388, "温馨提示", "请先选择一个标签！"), false;
+  if (var145.length > 0x1) return Zotero.AI4Paper.showProgressWindow(0x1388, '温馨提示', "请仅选择一个标签！"), false;
   methodsBody.checkTagType(var145[0x0]);
 };
 methodsBody.quickJump = function (param63) {
-  if (!Zotero.Prefs.get('zoteroif.cardNotesDoubleClick')) return;
+  if (!Zotero.Prefs.get('ai4paper.cardNotesDoubleClick')) return;
   methodsBody.checkTagType(param63);
 };
 methodsBody.checkTagType = function (param64) {
-  let var148 = Zotero.Prefs.get("zoteroif.annotationtagsrecent"),
-    var149 = Zotero.Prefs.get("zoteroif.imageannotationtagsrecent");
+  let var148 = Zotero.Prefs.get("ai4paper.annotationtagsrecent"),
+    var149 = Zotero.Prefs.get("ai4paper.imageannotationtagsrecent");
   var var150 = document.getElementById("annotationTagType-image");
   let var151 = param64,
     var152 = 0x0,
@@ -916,37 +916,37 @@ methodsBody.checkTagType = function (param64) {
       'tag': var151,
       'type': var152
     };
-  if (document.getElementById("itemTagButton").getAttribute('default') === 'true') Zotero.ZoteroIF.queryPapersMatrix('filterByTag', param64);else {
-    if (document.getElementById("gptNoteTagButton").getAttribute("default") === "true") Zotero.ZoteroIF.tagGPTCardNotes(param64);else {
+  if (document.getElementById("itemTagButton").getAttribute('default') === 'true') Zotero.AI4Paper.queryPapersMatrix('filterByTag', param64);else {
+    if (document.getElementById("gptNoteTagButton").getAttribute("default") === "true") Zotero.AI4Paper.tagGPTCardNotes(param64);else {
       if (document.getElementById("imageAnnotationTagButton").getAttribute('default') === "true") {
-        Zotero.Prefs.set("zoteroif.annotationtagtype", "type_imageAnnotationTag");
-        Zotero.ZoteroIF.tagImageCardNotes(param64);
-      } else document.getElementById("annotationTagButton").getAttribute("default") === "true" ? Zotero.Prefs.get('zoteroif.imageCardNoteSearchFirst') && var149.includes(JSON.stringify(var153)) ? (Zotero.Prefs.set("zoteroif.annotationtagtype", "type_imageAnnotationTag"), Zotero.ZoteroIF.tagImageCardNotes(param64)) : (Zotero.Prefs.set("zoteroif.annotationtagtype", "type_annotationTag"), Zotero.ZoteroIF.tagCardNotes(param64)) : (Zotero.Prefs.set("zoteroif.annotationtagtype", 'type_annotationTag'), Zotero.ZoteroIF.tagCardNotes(param64));
+        Zotero.Prefs.set("ai4paper.annotationtagtype", "type_imageAnnotationTag");
+        Zotero.AI4Paper.tagImageCardNotes(param64);
+      } else document.getElementById("annotationTagButton").getAttribute("default") === "true" ? Zotero.Prefs.get('ai4paper.imageCardNoteSearchFirst') && var149.includes(JSON.stringify(var153)) ? (Zotero.Prefs.set("ai4paper.annotationtagtype", "type_imageAnnotationTag"), Zotero.AI4Paper.tagImageCardNotes(param64)) : (Zotero.Prefs.set("ai4paper.annotationtagtype", "type_annotationTag"), Zotero.AI4Paper.tagCardNotes(param64)) : (Zotero.Prefs.set("ai4paper.annotationtagtype", 'type_annotationTag'), Zotero.AI4Paper.tagCardNotes(param64));
     }
   }
-  document.getElementById("tagsGeneralView-button").getAttribute("default") === 'true' ? Zotero.ZoteroIF.lastTagsCardNoteView = 'GeneralView' : Zotero.ZoteroIF.lastTagsCardNoteView = 'NestedView';
-  if (document.getElementById("annotationTagButton").getAttribute("default") === "true") Zotero.ZoteroIF.lastTagsCardNotePane = "annotationTagPane";else {
-    if (document.getElementById("imageAnnotationTagButton").getAttribute("default") === 'true') Zotero.ZoteroIF.lastTagsCardNotePane = "imageAnnotationTagPane";else {
-      if (document.getElementById("itemTagButton").getAttribute("default") === 'true') Zotero.ZoteroIF.lastTagsCardNotePane = 'itemTagPane';else document.getElementById("gptNoteTagButton").getAttribute('default') === "true" ? Zotero.ZoteroIF.lastTagsCardNotePane = "gptNoteTagPane" : Zotero.ZoteroIF.lastTagsCardNotePane = "annotationTagPane";
+  document.getElementById("tagsGeneralView-button").getAttribute("default") === 'true' ? Zotero.AI4Paper.lastTagsCardNoteView = 'GeneralView' : Zotero.AI4Paper.lastTagsCardNoteView = 'NestedView';
+  if (document.getElementById("annotationTagButton").getAttribute("default") === "true") Zotero.AI4Paper.lastTagsCardNotePane = "annotationTagPane";else {
+    if (document.getElementById("imageAnnotationTagButton").getAttribute("default") === 'true') Zotero.AI4Paper.lastTagsCardNotePane = "imageAnnotationTagPane";else {
+      if (document.getElementById("itemTagButton").getAttribute("default") === 'true') Zotero.AI4Paper.lastTagsCardNotePane = 'itemTagPane';else document.getElementById("gptNoteTagButton").getAttribute('default') === "true" ? Zotero.AI4Paper.lastTagsCardNotePane = "gptNoteTagPane" : Zotero.AI4Paper.lastTagsCardNotePane = "annotationTagPane";
     }
   }
 };
 methodsBody.checkTagType_nestedView = function (param65) {
-  let var154 = JSON.parse(Zotero.Prefs.get("zoteroif.nestedAnnotationtagsrecent")),
-    var155 = JSON.parse(Zotero.Prefs.get("zoteroif.nestedImageannotationtagsrecent"));
+  let var154 = JSON.parse(Zotero.Prefs.get("ai4paper.nestedAnnotationtagsrecent")),
+    var155 = JSON.parse(Zotero.Prefs.get("ai4paper.nestedImageannotationtagsrecent"));
   var var156 = document.getElementById('annotationTagType-image');
-  if (document.getElementById("itemTagButton-NestedView").getAttribute('default') === 'true') Zotero.ZoteroIF.queryPapersMatrix("filterByTag", param65);else {
-    if (document.getElementById("gptNoteTagButton-NestedView").getAttribute('default') === 'true') Zotero.ZoteroIF.tagGPTCardNotes(param65);else {
+  if (document.getElementById("itemTagButton-NestedView").getAttribute('default') === 'true') Zotero.AI4Paper.queryPapersMatrix("filterByTag", param65);else {
+    if (document.getElementById("gptNoteTagButton-NestedView").getAttribute('default') === 'true') Zotero.AI4Paper.tagGPTCardNotes(param65);else {
       if (document.getElementById("imageAnnotationTagButton-NestedView").getAttribute("default") === "true") {
-        Zotero.Prefs.set('zoteroif.annotationtagtype', "type_imageAnnotationTag");
-        Zotero.ZoteroIF.tagImageCardNotes(param65);
-      } else document.getElementById("annotationTagButton-NestedView").getAttribute("default") === "true" ? Zotero.Prefs.get("zoteroif.imageCardNoteSearchFirst") && var155.includes(param65) ? (Zotero.Prefs.set("zoteroif.annotationtagtype", 'type_imageAnnotationTag'), Zotero.ZoteroIF.tagImageCardNotes(param65)) : (Zotero.Prefs.set('zoteroif.annotationtagtype', "type_annotationTag"), Zotero.ZoteroIF.tagCardNotes(param65)) : (Zotero.Prefs.set('zoteroif.annotationtagtype', "type_annotationTag"), Zotero.ZoteroIF.tagCardNotes(param65));
+        Zotero.Prefs.set('ai4paper.annotationtagtype', "type_imageAnnotationTag");
+        Zotero.AI4Paper.tagImageCardNotes(param65);
+      } else document.getElementById("annotationTagButton-NestedView").getAttribute("default") === "true" ? Zotero.Prefs.get("ai4paper.imageCardNoteSearchFirst") && var155.includes(param65) ? (Zotero.Prefs.set("ai4paper.annotationtagtype", 'type_imageAnnotationTag'), Zotero.AI4Paper.tagImageCardNotes(param65)) : (Zotero.Prefs.set('ai4paper.annotationtagtype', "type_annotationTag"), Zotero.AI4Paper.tagCardNotes(param65)) : (Zotero.Prefs.set('ai4paper.annotationtagtype', "type_annotationTag"), Zotero.AI4Paper.tagCardNotes(param65));
     }
   }
-  document.getElementById("tagsGeneralView-button").getAttribute("default") === "true" ? Zotero.ZoteroIF.lastTagsCardNoteView = "GeneralView" : Zotero.ZoteroIF.lastTagsCardNoteView = "NestedView";
-  if (document.getElementById("annotationTagButton-NestedView").getAttribute("default") === "true") Zotero.ZoteroIF.lastTagsCardNotePane = "annotationTagPane";else {
-    if (document.getElementById('imageAnnotationTagButton-NestedView').getAttribute('default') === 'true') Zotero.ZoteroIF.lastTagsCardNotePane = "imageAnnotationTagPane";else {
-      if (document.getElementById('itemTagButton-NestedView').getAttribute("default") === 'true') Zotero.ZoteroIF.lastTagsCardNotePane = "itemTagPane";else document.getElementById('gptNoteTagButton-NestedView').getAttribute('default') === "true" ? Zotero.ZoteroIF.lastTagsCardNotePane = 'gptNoteTagPane' : Zotero.ZoteroIF.lastTagsCardNotePane = "annotationTagPane";
+  document.getElementById("tagsGeneralView-button").getAttribute("default") === "true" ? Zotero.AI4Paper.lastTagsCardNoteView = "GeneralView" : Zotero.AI4Paper.lastTagsCardNoteView = "NestedView";
+  if (document.getElementById("annotationTagButton-NestedView").getAttribute("default") === "true") Zotero.AI4Paper.lastTagsCardNotePane = "annotationTagPane";else {
+    if (document.getElementById('imageAnnotationTagButton-NestedView').getAttribute('default') === 'true') Zotero.AI4Paper.lastTagsCardNotePane = "imageAnnotationTagPane";else {
+      if (document.getElementById('itemTagButton-NestedView').getAttribute("default") === 'true') Zotero.AI4Paper.lastTagsCardNotePane = "itemTagPane";else document.getElementById('gptNoteTagButton-NestedView').getAttribute('default') === "true" ? Zotero.AI4Paper.lastTagsCardNotePane = 'gptNoteTagPane' : Zotero.AI4Paper.lastTagsCardNotePane = "annotationTagPane";
     }
   }
 };
@@ -965,19 +965,19 @@ methodsBody.buildContextMenu_GeneralView = function (param67) {
   }
   let var161 = window.document.createXULElement("menuitem");
   return var161.setAttribute("label", "拷贝标签"), var161.addEventListener("command", () => {
-    Zotero.ZoteroIF.copy2Clipboard(var158);
-    Zotero.ZoteroIF.showProgressWindow(0x7d0, "拷贝标签【AI4paper】", '已拷贝标签【' + var158 + '】');
+    Zotero.AI4Paper.copy2Clipboard(var158);
+    Zotero.AI4Paper.showProgressWindow(0x7d0, "拷贝标签【AI4paper】", '已拷贝标签【' + var158 + '】');
   }), var159.appendChild(var161), var159.appendChild(window.document.createXULElement("menuseparator")), var161 = window.document.createXULElement("menuitem"), var161.setAttribute('label', "检索所属文献"), var161.addEventListener('command', () => {
-    Zotero.ZoteroIF.showItemsBasedOnTag(var158);
+    Zotero.AI4Paper.showItemsBasedOnTag(var158);
   }), var159.appendChild(var161), var159.appendChild(window.document.createXULElement('menuseparator')), var161 = window.document.createXULElement("menuitem"), var161.setAttribute('label', '跳转至【导入注释】'), var161.addEventListener("command", () => {
-    Zotero.ZoteroIF.openDialogAdvancedSearch_importAnnotations(var158);
-    Zotero.ZoteroIF.processAdvancedSearch_importAnnotations();
+    Zotero.AI4Paper.openDialogAdvancedSearch_importAnnotations(var158);
+    Zotero.AI4Paper.processAdvancedSearch_importAnnotations();
   }), var159.appendChild(var161), var161 = window.document.createXULElement("menuitem"), var161.setAttribute("label", "在【智能文献矩阵】中查询"), var161.addEventListener("command", () => {
-    Zotero.ZoteroIF.queryPapersMatrix("filterByTag", var158);
+    Zotero.AI4Paper.queryPapersMatrix("filterByTag", var158);
   }), var159.appendChild(var161), var159;
 };
 methodsBody.run = function () {
-  Zotero.Prefs.set('zoteroif.cardNotesDoubleClick', document.getElementById("cardNotes-doubleClick-enable").checked);
+  Zotero.Prefs.set('ai4paper.cardNotesDoubleClick', document.getElementById("cardNotes-doubleClick-enable").checked);
 };
 methodsBody.generalView_buildItemNodes = function (param68) {
   var var162 = document.getElementById('generalView-richlistbox-elem');
@@ -997,7 +997,7 @@ methodsBody.generalView_buildItemNodes = function (param68) {
       _0x38d557.target == var167 && (var168.checked = !var168.checked);
       var168.checked && methodsBody.singleSelect(var168);
       if (_0x38d557.shiftKey) {
-        Zotero.ZoteroIF.showItemsBasedOnTag(_0x38d557.target.closest("richlistitem")?.["querySelector"]("checkbox")["label"]);
+        Zotero.AI4Paper.showItemsBasedOnTag(_0x38d557.target.closest("richlistitem")?.["querySelector"]("checkbox")["label"]);
         return;
       }
       if (_0x38d557.button === 0x2) {
@@ -1040,7 +1040,7 @@ methodsBody.generalView_updateTagsNumMessage = function (param70, param71) {
     'gptNoteTag': " GPT 笔记标签"
   };
   document.getElementById("message-label").textContent = '共有【' + param70.length + '】个' + var175[param71];
-  document.getElementById("annotationTagType-image").setAttribute('src', "chrome://zoteroif/content/icons/" + (param71 === "gptNoteTag" ? "robot" : param71) + ".png");
+  document.getElementById("annotationTagType-image").setAttribute('src', "chrome://ai4paper/content/icons/" + (param71 === "gptNoteTag" ? "robot" : param71) + ".png");
 };
 methodsBody.nestedView_updateTagsNumMessage = function (param72, param73) {
   let var176 = {
@@ -1050,28 +1050,28 @@ methodsBody.nestedView_updateTagsNumMessage = function (param72, param73) {
     'gptNoteTag': " GPT 笔记标签"
   };
   document.getElementById("message-label-nestedView").textContent = "共有【" + param72.length + '】个' + var176[param73];
-  document.getElementById('annotationTagType-image').setAttribute("src", "chrome://zoteroif/content/icons/" + (param73 === 'gptNoteTag' ? "robot" : param73) + ".png");
+  document.getElementById('annotationTagType-image').setAttribute("src", "chrome://ai4paper/content/icons/" + (param73 === 'gptNoteTag' ? "robot" : param73) + ".png");
 };
 methodsBody.generalView_updateButtonStatus = function (param74) {
   let var177 = ['annotationTag', "imageAnnotationTag", "itemTag", "gptNoteTag"];
   for (let var178 of var177) {
     var178 === param74 ? document.getElementById(var178 + "Button")?.['setAttribute']("default", true) : document.getElementById(var178 + "Button")?.["setAttribute"]("default", false);
   }
-  document.getElementById('annotationTagType-image').setAttribute("src", 'chrome://zoteroif/content/icons/' + (param74 === "gptNoteTag" ? "robot" : param74) + ".png");
+  document.getElementById('annotationTagType-image').setAttribute("src", 'chrome://ai4paper/content/icons/' + (param74 === "gptNoteTag" ? "robot" : param74) + ".png");
 };
 methodsBody.nestedView_updateButtonStatus = function (param75) {
   let var179 = ['annotationTag', 'imageAnnotationTag', "itemTag", "gptNoteTag"];
   for (let var180 of var179) {
     var180 === param75 ? document.getElementById(var180 + 'Button-NestedView')?.["setAttribute"]("default", true) : document.getElementById(var180 + "Button-NestedView")?.["setAttribute"]('default', false);
   }
-  document.getElementById("annotationTagType-image").setAttribute("src", "chrome://zoteroif/content/icons/" + (param75 === 'gptNoteTag' ? "robot" : param75) + ".png");
+  document.getElementById("annotationTagType-image").setAttribute("src", "chrome://ai4paper/content/icons/" + (param75 === 'gptNoteTag' ? "robot" : param75) + ".png");
 };
 methodsBody.generalView_updateFilterButtons = function (param76, param77) {
   let var181 = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'OT'];
   for (let var182 of var181) {
     let var183 = document.getElementById('tagFilter-' + var182),
-      var184 = "chrome://zoteroif/content/icons/" + var182 + '.png',
-      var185 = "chrome://zoteroif/content/icons/" + var182 + "-select.png";
+      var184 = "chrome://ai4paper/content/icons/" + var182 + '.png',
+      var185 = "chrome://ai4paper/content/icons/" + var182 + "-select.png";
     param76 ? (var183.setAttribute("src", var184), var183.onmouseover = () => var183.style.transform = 'scale(1.3)', var183.onmouseout = () => var183.style.transform = "scale(1)") : var182 === param77 ? (var183.setAttribute("src", var185), var183.style.transform = "scale(1)", var183.onmouseover = () => {}, var183.onmouseout = () => {}) : (var183.setAttribute("src", var184), var183.onmouseover = () => var183.style.transform = "scale(1.3)", var183.onmouseout = () => var183.style.transform = 'scale(1)');
   }
 };

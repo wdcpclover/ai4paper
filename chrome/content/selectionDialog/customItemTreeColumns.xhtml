@@ -5,7 +5,7 @@
 <?xml-stylesheet href="chrome://zotero-platform/content/zotero.css" type="text/css"?>
 <?xml-stylesheet href="chrome://zotero/skin/scaffold.css" type="text/css"?>
 
-<?xml-stylesheet href="chrome://zoteroif/content/assets/css/style.css" type="text/css"?>
+<?xml-stylesheet href="chrome://ai4paper/content/assets/css/style.css" type="text/css"?>
 
 <!DOCTYPE window SYSTEM "chrome://zotero/locale/zotero.dtd">
 <window xmlns:html="http://www.w3.org/1999/xhtml"
@@ -23,7 +23,7 @@
 
     <script>
         Services.scriptloader.loadSubScript("chrome://zotero/content/include.js", this);
-        Services.scriptloader.loadSubScript("chrome://zoteroif/content/selectionDialog/customItemTreeColumns.js", this);
+        Services.scriptloader.loadSubScript("chrome://ai4paper/content/selectionDialog/customItemTreeColumns.js", this);
         Services.scriptloader.loadSubScript("chrome://zotero/content/customElements.js", this);
     </script>
 
@@ -51,28 +51,28 @@
 
                 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 常规 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
                 <groupbox>
-                    <!-- <label><html:h2 data-l10n-id='zoteroif-customItemTreeColumns-title-label'></html:h2></label> -->
+                    <!-- <label><html:h2 data-l10n-id='ai4paper-customItemTreeColumns-title-label'></html:h2></label> -->
 
                     <!-- 短标题 -->
 
                    <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
 
-                        <checkbox id="zoteroif.enableCustomItemTreeColumnsshortTitle" 
-                                  preference="extensions.zotero.zoteroif.enableCustomItemTreeColumnsshortTitle" 
-                                  data-l10n-id="zoteroif-customItemTreeColumns-shortTitle" 
+                        <checkbox id="ai4paper.enableCustomItemTreeColumnsshortTitle" 
+                                  preference="extensions.zotero.ai4paper.enableCustomItemTreeColumnsshortTitle" 
+                                  data-l10n-id="ai4paper-customItemTreeColumns-shortTitle" 
                                   native="true"
-                                  oncommand="Zotero.Prefs.set('zoteroif.enableCustomItemTreeColumnsshortTitle', this.checked);Zotero.ZoteroIF.customItemTreeColumns();"/> 
+                                  oncommand="Zotero.Prefs.set('ai4paper.enableCustomItemTreeColumnsshortTitle', this.checked);Zotero.AI4Paper.customItemTreeColumns();"/> 
 
                         <html:input type="text" 
-                                    id="zoteroif.renameCustomItemTreeColumnsshortTitle"
-                                    preference="extensions.zotero.zoteroif.renameCustomItemTreeColumnsshortTitle"  
+                                    id="ai4paper.renameCustomItemTreeColumnsshortTitle"
+                                    preference="extensions.zotero.ai4paper.renameCustomItemTreeColumnsshortTitle"  
                                     style='margin-right: 100px;' 
                                     size="15"
-                                    oninput='Zotero.Prefs.set("zoteroif.renameCustomItemTreeColumnsshortTitle", this.value);'></html:input>
+                                    oninput='Zotero.Prefs.set("ai4paper.renameCustomItemTreeColumnsshortTitle", this.value);'></html:input>
 
                         <div class="buttonIcon svg-container-reset"
                             tooltiptext="恢复默认" 
-                            onclick='document.getElementById("zoteroif.renameCustomItemTreeColumnsshortTitle").value = "中文标题";Zotero.Prefs.set("zoteroif.renameCustomItemTreeColumnsshortTitle", "中文标题");'>
+                            onclick='document.getElementById("ai4paper.renameCustomItemTreeColumnsshortTitle").value = "中文标题";Zotero.Prefs.set("ai4paper.renameCustomItemTreeColumnsshortTitle", "中文标题");'>
                         </div>
                     </html:div>
 
@@ -80,23 +80,23 @@
 
                    <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
 
-                        <checkbox id="zoteroif.enableCustomItemTreeColumnsarchive" 
-                                  preference="extensions.zotero.zoteroif.enableCustomItemTreeColumnsarchive" 
-                                  data-l10n-id="zoteroif-customItemTreeColumns-archive" 
+                        <checkbox id="ai4paper.enableCustomItemTreeColumnsarchive" 
+                                  preference="extensions.zotero.ai4paper.enableCustomItemTreeColumnsarchive" 
+                                  data-l10n-id="ai4paper-customItemTreeColumns-archive" 
                                   native="true"
-                                  oncommand="Zotero.Prefs.set('zoteroif.enableCustomItemTreeColumnsarchive', this.checked);Zotero.ZoteroIF.customItemTreeColumns();"/> 
-                                  <!-- Zotero.ZoteroIF_Prefs.onChangeValue.customItemTreeColumns(this.checked, 'archive'); -->
+                                  oncommand="Zotero.Prefs.set('ai4paper.enableCustomItemTreeColumnsarchive', this.checked);Zotero.AI4Paper.customItemTreeColumns();"/> 
+                                  <!-- Zotero.AI4Paper_Prefs.onChangeValue.customItemTreeColumns(this.checked, 'archive'); -->
 
                         <html:input type="text" 
-                                    id="zoteroif.renameCustomItemTreeColumnsarchive"
-                                    preference="extensions.zotero.zoteroif.renameCustomItemTreeColumnsarchive"  
+                                    id="ai4paper.renameCustomItemTreeColumnsarchive"
+                                    preference="extensions.zotero.ai4paper.renameCustomItemTreeColumnsarchive"  
                                     style='margin-right: 100px;' 
                                     size="15"
-                                    oninput='Zotero.Prefs.set("zoteroif.renameCustomItemTreeColumnsarchive", this.value);'></html:input>
+                                    oninput='Zotero.Prefs.set("ai4paper.renameCustomItemTreeColumnsarchive", this.value);'></html:input>
 
                         <div class="buttonIcon svg-container-reset"
                             tooltiptext="恢复默认" 
-                            onclick='document.getElementById("zoteroif.renameCustomItemTreeColumnsarchive").value = "归档日期";Zotero.Prefs.set("zoteroif.renameCustomItemTreeColumnsarchive", "归档日期");'>
+                            onclick='document.getElementById("ai4paper.renameCustomItemTreeColumnsarchive").value = "归档日期";Zotero.Prefs.set("ai4paper.renameCustomItemTreeColumnsarchive", "归档日期");'>
                         </div>
                     </html:div>
 
@@ -104,22 +104,22 @@
 
                    <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
 
-                        <checkbox id="zoteroif.enableCustomItemTreeColumnsarchiveLocation" 
-                                  preference="extensions.zotero.zoteroif.enableCustomItemTreeColumnsarchiveLocation" 
-                                  data-l10n-id="zoteroif-customItemTreeColumns-archiveLocation" 
+                        <checkbox id="ai4paper.enableCustomItemTreeColumnsarchiveLocation" 
+                                  preference="extensions.zotero.ai4paper.enableCustomItemTreeColumnsarchiveLocation" 
+                                  data-l10n-id="ai4paper-customItemTreeColumns-archiveLocation" 
                                   native="true"
-                                  oncommand="Zotero.Prefs.set('zoteroif.enableCustomItemTreeColumnsarchiveLocation', this.checked);Zotero.ZoteroIF.customItemTreeColumns();"/> 
+                                  oncommand="Zotero.Prefs.set('ai4paper.enableCustomItemTreeColumnsarchiveLocation', this.checked);Zotero.AI4Paper.customItemTreeColumns();"/> 
 
                         <html:input type="text" 
-                                    id="zoteroif.renameCustomItemTreeColumnsarchiveLocation"
-                                    preference="extensions.zotero.zoteroif.renameCustomItemTreeColumnsarchiveLocation"  
+                                    id="ai4paper.renameCustomItemTreeColumnsarchiveLocation"
+                                    preference="extensions.zotero.ai4paper.renameCustomItemTreeColumnsarchiveLocation"  
                                     style='margin-right: 100px;' 
                                     size="15"
-                                    oninput='Zotero.Prefs.set("zoteroif.renameCustomItemTreeColumnsarchiveLocation", this.value);'></html:input>
+                                    oninput='Zotero.Prefs.set("ai4paper.renameCustomItemTreeColumnsarchiveLocation", this.value);'></html:input>
 
                         <div class="buttonIcon svg-container-reset"
                             tooltiptext="恢复默认" 
-                            onclick='document.getElementById("zoteroif.renameCustomItemTreeColumnsarchiveLocation").value = "引用量";Zotero.Prefs.set("zoteroif.renameCustomItemTreeColumnsarchiveLocation", "引用量");'>
+                            onclick='document.getElementById("ai4paper.renameCustomItemTreeColumnsarchiveLocation").value = "引用量";Zotero.Prefs.set("ai4paper.renameCustomItemTreeColumnsarchiveLocation", "引用量");'>
                         </div>
                     </html:div>
 
@@ -127,22 +127,22 @@
 
                    <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
 
-                        <checkbox id="zoteroif.enableCustomItemTreeColumnslibraryCatalog" 
-                                  preference="extensions.zotero.zoteroif.enableCustomItemTreeColumnslibraryCatalog" 
-                                  data-l10n-id="zoteroif-customItemTreeColumns-libraryCatalog" 
+                        <checkbox id="ai4paper.enableCustomItemTreeColumnslibraryCatalog" 
+                                  preference="extensions.zotero.ai4paper.enableCustomItemTreeColumnslibraryCatalog" 
+                                  data-l10n-id="ai4paper-customItemTreeColumns-libraryCatalog" 
                                   native="true"
-                                  oncommand="Zotero.Prefs.set('zoteroif.enableCustomItemTreeColumnslibraryCatalog', this.checked);Zotero.ZoteroIF.customItemTreeColumns();"/> 
+                                  oncommand="Zotero.Prefs.set('ai4paper.enableCustomItemTreeColumnslibraryCatalog', this.checked);Zotero.AI4Paper.customItemTreeColumns();"/> 
 
                         <html:input type="text" 
-                                    id="zoteroif.renameCustomItemTreeColumnslibraryCatalog"
-                                    preference="extensions.zotero.zoteroif.renameCustomItemTreeColumnslibraryCatalog"  
+                                    id="ai4paper.renameCustomItemTreeColumnslibraryCatalog"
+                                    preference="extensions.zotero.ai4paper.renameCustomItemTreeColumnslibraryCatalog"  
                                     style='margin-right: 100px;' 
                                     size="15"
-                                    oninput='Zotero.Prefs.set("zoteroif.renameCustomItemTreeColumnslibraryCatalog", this.value);'></html:input>
+                                    oninput='Zotero.Prefs.set("ai4paper.renameCustomItemTreeColumnslibraryCatalog", this.value);'></html:input>
 
                         <div class="buttonIcon svg-container-reset"
                             tooltiptext="恢复默认" 
-                            onclick='document.getElementById("zoteroif.renameCustomItemTreeColumnslibraryCatalog").value = "影响因子";Zotero.Prefs.set("zoteroif.renameCustomItemTreeColumnslibraryCatalog", "影响因子");'>
+                            onclick='document.getElementById("ai4paper.renameCustomItemTreeColumnslibraryCatalog").value = "影响因子";Zotero.Prefs.set("ai4paper.renameCustomItemTreeColumnslibraryCatalog", "影响因子");'>
                         </div>
                     </html:div>
 
@@ -150,22 +150,22 @@
 
                    <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
 
-                        <checkbox id="zoteroif.enableCustomItemTreeColumnscallNumber" 
-                                  preference="extensions.zotero.zoteroif.enableCustomItemTreeColumnscallNumber" 
-                                  data-l10n-id="zoteroif-customItemTreeColumns-callNumber" 
+                        <checkbox id="ai4paper.enableCustomItemTreeColumnscallNumber" 
+                                  preference="extensions.zotero.ai4paper.enableCustomItemTreeColumnscallNumber" 
+                                  data-l10n-id="ai4paper-customItemTreeColumns-callNumber" 
                                   native="true"
-                                  oncommand="Zotero.Prefs.set('zoteroif.enableCustomItemTreeColumnscallNumber', this.checked);Zotero.ZoteroIF.customItemTreeColumns();"/> 
+                                  oncommand="Zotero.Prefs.set('ai4paper.enableCustomItemTreeColumnscallNumber', this.checked);Zotero.AI4Paper.customItemTreeColumns();"/> 
 
                         <html:input type="text" 
-                                    id="zoteroif.renameCustomItemTreeColumnscallNumber"
-                                    preference="extensions.zotero.zoteroif.renameCustomItemTreeColumnscallNumber"  
+                                    id="ai4paper.renameCustomItemTreeColumnscallNumber"
+                                    preference="extensions.zotero.ai4paper.renameCustomItemTreeColumnscallNumber"  
                                     style='margin-right: 100px;' 
                                     size="15"
-                                    oninput='Zotero.Prefs.set("zoteroif.renameCustomItemTreeColumnscallNumber", this.value);'></html:input>
+                                    oninput='Zotero.Prefs.set("ai4paper.renameCustomItemTreeColumnscallNumber", this.value);'></html:input>
 
                         <div class="buttonIcon svg-container-reset"
                             tooltiptext="恢复默认" 
-                            onclick='document.getElementById("zoteroif.renameCustomItemTreeColumnscallNumber").value = "中科院分区";Zotero.Prefs.set("zoteroif.renameCustomItemTreeColumnscallNumber", "中科院分区");'>
+                            onclick='document.getElementById("ai4paper.renameCustomItemTreeColumnscallNumber").value = "中科院分区";Zotero.Prefs.set("ai4paper.renameCustomItemTreeColumnscallNumber", "中科院分区");'>
                         </div>
                     </html:div>
 
@@ -173,22 +173,22 @@
 
                    <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
 
-                        <checkbox id="zoteroif.enableCustomItemTreeColumnsrights" 
-                                  preference="extensions.zotero.zoteroif.enableCustomItemTreeColumnsrights" 
-                                  data-l10n-id="zoteroif-customItemTreeColumns-rights" 
+                        <checkbox id="ai4paper.enableCustomItemTreeColumnsrights" 
+                                  preference="extensions.zotero.ai4paper.enableCustomItemTreeColumnsrights" 
+                                  data-l10n-id="ai4paper-customItemTreeColumns-rights" 
                                   native="true"
-                                  oncommand="Zotero.Prefs.set('zoteroif.enableCustomItemTreeColumnsrights', this.checked);Zotero.ZoteroIF.customItemTreeColumns();"/> 
+                                  oncommand="Zotero.Prefs.set('ai4paper.enableCustomItemTreeColumnsrights', this.checked);Zotero.AI4Paper.customItemTreeColumns();"/> 
 
                         <html:input type="text" 
-                                    id="zoteroif.renameCustomItemTreeColumnsrights"
-                                    preference="extensions.zotero.zoteroif.renameCustomItemTreeColumnsrights"  
+                                    id="ai4paper.renameCustomItemTreeColumnsrights"
+                                    preference="extensions.zotero.ai4paper.renameCustomItemTreeColumnsrights"  
                                     style='margin-right: 100px;' 
                                     size="15"
-                                    oninput='Zotero.Prefs.set("zoteroif.renameCustomItemTreeColumnsrights", this.value);'></html:input>
+                                    oninput='Zotero.Prefs.set("ai4paper.renameCustomItemTreeColumnsrights", this.value);'></html:input>
 
                         <div class="buttonIcon svg-container-reset"
                             tooltiptext="恢复默认" 
-                            onclick='document.getElementById("zoteroif.renameCustomItemTreeColumnsrights").value = "星标";Zotero.Prefs.set("zoteroif.renameCustomItemTreeColumnsrights", "星标");'>
+                            onclick='document.getElementById("ai4paper.renameCustomItemTreeColumnsrights").value = "星标";Zotero.Prefs.set("ai4paper.renameCustomItemTreeColumnsrights", "星标");'>
                         </div>
                     </html:div>
                 </groupbox>

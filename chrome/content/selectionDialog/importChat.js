@@ -1,9 +1,9 @@
 var methodsBody = function () {};
 methodsBody.init = function () {
-  Zotero.ZoteroIF.update_svg_icons(document);
+  Zotero.AI4Paper.update_svg_icons(document);
 
   // 根据 Zotero 版本调整样式
-  Zotero.ZoteroIF.updateTextAreaBox4ZoteroScheme(window);
+  Zotero.AI4Paper.updateTextAreaBox4ZoteroScheme(window);
   document.addEventListener('dialogaccept', () => methodsBody.acceptSelection());
   this.io = window.arguments[0];
   document.title = this.io.dataIn ? "导入外部 AI 对话" : "向对话添加新消息";
@@ -21,7 +21,7 @@ methodsBody.acceptSelection = function () {
   let serviceName = document.getElementById("inputBox-serviceName").value.trim();
   let model = document.getElementById("inputBox-modelName").value.trim();
   if (!question || !response_content) {
-    Zotero.ZoteroIF.showProgressWindow(2000, "❌ 填写不规范【AI4paper】", "【用户问题】和【AI 回复】均不可为空，请重新填写！");
+    Zotero.AI4Paper.showProgressWindow(2000, "❌ 填写不规范【AI4paper】", "【用户问题】和【AI 回复】均不可为空，请重新填写！");
     return;
   }
   let msgArr = [];
@@ -109,7 +109,7 @@ methodsBody.buildContextMenu_service = function (isInit) {
     first.remove();
     first = popup.firstElementChild;
   }
-  let serviceList = Object.keys(Zotero.ZoteroIF.gptServiceList()).filter(e => !e.includes("自定"));
+  let serviceList = Object.keys(Zotero.AI4Paper.gptServiceList()).filter(e => !e.includes("自定"));
   serviceList = [...serviceList, "Grok"];
   for (let e of serviceList) {
     let menuitem = document.createXULElement('menuitem');
@@ -146,7 +146,7 @@ methodsBody.buildContextMenu_model = function (isInit) {
     first.remove();
     first = popup.firstElementChild;
   }
-  let modelList = Zotero.ZoteroIF.gptModelList;
+  let modelList = Zotero.AI4Paper.gptModelList;
   for (let e of modelList) {
     let menuitem = document.createXULElement('menuitem');
     menuitem.label = e;

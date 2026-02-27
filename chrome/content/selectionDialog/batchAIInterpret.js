@@ -42,7 +42,7 @@ const TaskManager = {
       return this.tasks.push(_0x5b9d1d), this.renderTask(_0x5b9d1d), this.updateCounts(), this.tryProcessNext(), true;
     },
     'tryProcessNext'() {
-      const var2 = parseInt(Zotero.Prefs.get("zoteroif.concurrency4BatchAIInterpret") || 0x4);
+      const var2 = parseInt(Zotero.Prefs.get("ai4paper.concurrency4BatchAIInterpret") || 0x4);
       while (this.activeCount < var2) {
         const var3 = this.tasks.find(_0x3e3b55 => _0x3e3b55.status === STATUS.QUEUED);
         if (!var3) break;
@@ -101,18 +101,18 @@ const TaskManager = {
           'role': "assistant",
           'content': _0x23abf3.output
         });
-        let var8 = " ⌚️ " + Zotero.ZoteroIF.getDateTime().replace(/:/g, '-'),
+        let var8 = " ⌚️ " + Zotero.AI4Paper.getDateTime().replace(/:/g, '-'),
           var9 = "PDF 全文",
-          var10 = Zotero.ZoteroIF.findItemByIDORKey(Zotero.Items.get(_0x23abf3.pdfAttachmentId)?.["key"]);
+          var10 = Zotero.AI4Paper.findItemByIDORKey(Zotero.Items.get(_0x23abf3.pdfAttachmentId)?.["key"]);
         if (var10) {
           let var11 = var10.attachmentFilename;
-          var9 = "🤖 " + Zotero.ZoteroIF.sanitizeFilename(var11.substring(0x0, 0x5a));
+          var9 = "🤖 " + Zotero.AI4Paper.sanitizeFilename(var11.substring(0x0, 0x5a));
         }
         let var12 = '' + var9 + var8 + ".json";
         try {
-          if (Zotero.Prefs.get("zoteroif.gptChatHistoryEnable") && Zotero.Prefs.get("zoteroif.syncChatHistory4BatchAIInterpret")) {
-            let var13 = Zotero.Prefs.get("zoteroif.gptChatHistoryLocalPath");
-            if (var13 && (await Zotero.ZoteroIF.isPathExists(var13))) {
+          if (Zotero.Prefs.get("ai4paper.gptChatHistoryEnable") && Zotero.Prefs.get("ai4paper.syncChatHistory4BatchAIInterpret")) {
+            let var13 = Zotero.Prefs.get("ai4paper.gptChatHistoryLocalPath");
+            if (var13 && (await Zotero.AI4Paper.isPathExists(var13))) {
               let var14 = JSON.stringify(_0x23abf3.chatHistory, null, 0x2),
                 var15 = PathUtils.join(var13, var12);
               await Zotero.File.putContentsAsync(var15, var14);
@@ -146,12 +146,12 @@ const TaskManager = {
           serviceName: _0x439538,
           model: _0x22e6d2
         } = getServiceNameAndModel(),
-        var19 = Zotero.ZoteroIF.getURL4GPTCustom(_0x439538),
-        var20 = Zotero.ZoteroIF.gptServiceList()[_0x439538].api_key,
-        var21 = Zotero.ZoteroIF.resolvePrompt(Zotero.Prefs.get("zoteroif.prompt4BatchAIInterpret")),
+        var19 = Zotero.AI4Paper.getURL4GPTCustom(_0x439538),
+        var20 = Zotero.AI4Paper.gptServiceList()[_0x439538].api_key,
+        var21 = Zotero.AI4Paper.resolvePrompt(Zotero.Prefs.get("ai4paper.prompt4BatchAIInterpret")),
         var22 = var21 + "：\n\n" + _0x2cce3f;
       try {
-        Zotero.ZoteroIF.gptService_isTokenEmpty_APIVerified(var20, _0x439538, false, false, true);
+        Zotero.AI4Paper.gptService_isTokenEmpty_APIVerified(var20, _0x439538, false, false, true);
       } catch (_0x4e0174) {
         throw new Error(_0x4e0174.message);
       }
@@ -164,7 +164,7 @@ const TaskManager = {
         'stream': true
       };
       let var24 = this.getIdxFromServiceName(_0x439538);
-      Zotero.ZoteroIF.gptReaderSidePane_addRequestArguments(var23, var24);
+      Zotero.AI4Paper.gptReaderSidePane_addRequestArguments(var23, var24);
       _0x3cf01a.chatHistory.push({
         'role': "user",
         'content': var22,
@@ -263,7 +263,7 @@ const TaskManager = {
       try {
         let var41 = _0x2f5ab8?.["content"],
           var42 = _0x2f5ab8?.["reasoning_content"];
-        if (Zotero.Prefs.get("zoteroif.includeReasoning4BatchAIInterpret")) {
+        if (Zotero.Prefs.get("ai4paper.includeReasoning4BatchAIInterpret")) {
           if (var41 || var42) {
             if (!var41 && var42) {
               !_0xa81c05.hasReasoning_content && (_0xa81c05.hasReasoning_content = true, _0xa81c05.reasoning_contentStart = true);
@@ -276,8 +276,8 @@ const TaskManager = {
       }
     },
     'getIdxFromServiceName'(_0x783fdd) {
-      if (_0x783fdd.includes("GPT 自定")) for (let var43 of Object.keys(Zotero.ZoteroIF.gptCustom_numEmoji)) {
-        if (_0x783fdd === 'GPT\x20自定\x20' + Zotero.ZoteroIF.gptCustom_numEmoji[var43]) return var43;
+      if (_0x783fdd.includes("GPT 自定")) for (let var43 of Object.keys(Zotero.AI4Paper.gptCustom_numEmoji)) {
+        if (_0x783fdd === 'GPT\x20自定\x20' + Zotero.AI4Paper.gptCustom_numEmoji[var43]) return var43;
       }
       return '1';
     },
@@ -288,7 +288,7 @@ const TaskManager = {
         if (!_0x18b8bb.output || _0x18b8bb.output.trim().length === 0x0) throw new Error("AI 输出内容为空，无法保存笔记");
         let var45;
         try {
-          var45 = Zotero.ZoteroIF.gptReaderSidePane_ChatMode_renderMessageContent(null, _0x18b8bb.output);
+          var45 = Zotero.AI4Paper.gptReaderSidePane_ChatMode_renderMessageContent(null, _0x18b8bb.output);
         } catch (_0x5722cb) {
           throw new Error("AI 解读 - Markdown 渲染失败: " + _0x5722cb.message);
         }
@@ -296,27 +296,27 @@ const TaskManager = {
           var47 = document.getElementById("footer-service")?.["textContent"] || '',
           var48 = document.getElementById('footer-model')?.["textContent"] || '',
           var49 = "<hr/><p style=\"color: gray;\">\n                <code>" + var47 + "</code>&#160;\n                <code>" + var48 + "</code>&#160;\n                <em>\n                    由批量 AI 解读自动生成于 " + new Date().toLocaleString() + "\n                </em>\n            </p>",
-          var50 = await Zotero.ZoteroIF.createNoteItem_basedOnTag(var44, Zotero.ZoteroIF._aiReadingNoteTag, true);
+          var50 = await Zotero.AI4Paper.createNoteItem_basedOnTag(var44, Zotero.AI4Paper._aiReadingNoteTag, true);
         if (!var50) throw new Error('无法创建笔记条目');
         _0x18b8bb.noteId = var50.id;
-        const var51 = "<a href=\"" + Zotero.ZoteroIF.getItemLink(var50) + "\">笔记回链</a>",
+        const var51 = "<a href=\"" + Zotero.AI4Paper.getItemLink(var50) + "\">笔记回链</a>",
           var52 = var46 + "<blockquote><span class=\"AIReading\">🤖 AI 解读，快人一步</span>" + var45 + "<p>🚀 " + var51 + var49 + "<p>🏷️ #🤖️/AI文献阅读</blockquote>";
         var50.setNote(var52);
         await var50.saveTx();
-        await Zotero.ZoteroIF.retryContent2NoteItem(var50, var52);
+        await Zotero.AI4Paper.retryContent2NoteItem(var50, var52);
         showToast('「' + _0x18b8bb.title + "」解读完成，笔记已保存", "success");
         try {
-          await Zotero.ZoteroIF.addEmojiTag2ParentItemOnPaperAI(var44);
+          await Zotero.AI4Paper.addEmojiTag2ParentItemOnPaperAI(var44);
         } catch (_0x8388fd) {
           Zotero.debug("AI 解读 - 为父条目添加标签失败: " + _0x8388fd.message);
         }
         try {
-          Zotero.Prefs.get("zoteroif.updateModifiedDate4PapersMatrix") && (await Zotero.ZoteroIF.updateModifiedDate4PapersMatrix(var44));
+          Zotero.Prefs.get("ai4paper.updateModifiedDate4PapersMatrix") && (await Zotero.AI4Paper.updateModifiedDate4PapersMatrix(var44));
         } catch (_0x521336) {
           Zotero.debug("AI 解读 - 强制刷新条目修改时间失败: " + _0x521336.message);
         }
         try {
-          await Zotero.ZoteroIF.refreshObsidianNoteChatGPT(var44);
+          await Zotero.AI4Paper.refreshObsidianNoteChatGPT(var44);
         } catch (_0x867cb) {
           Zotero.debug('AI\x20解读\x20-\x20自动同步至\x20Obsidian\x20Note\x20失败:\x20' + _0x867cb.message);
         }
@@ -527,7 +527,7 @@ const TaskManager = {
           if (var95) var95.remove();
           TaskManager._writeToPreviewIframe(var94, _0xe9e4ff);
         });
-        var94.src = "chrome://zoteroif/content/selectionDialog/preview.html";
+        var94.src = "chrome://ai4paper/content/selectionDialog/preview.html";
         var91.textContent = '';
         const var96 = document.createElementNS('http://www.w3.org/1999/xhtml', "span");
         var96.className = "task-preview-loading";
@@ -558,7 +558,7 @@ const TaskManager = {
           if (!_0x4f209e.output) var99.showEmpty();else {
             let var100;
             try {
-              var100 = Zotero.ZoteroIF.renderMarkdownLaTeX(this.formatTaskOut(_0x4f209e.output));
+              var100 = Zotero.AI4Paper.renderMarkdownLaTeX(this.formatTaskOut(_0x4f209e.output));
             } catch (_0x3a40f9) {
               var100 = "<pre>" + escapeHtml(_0x4f209e.output.slice(-0x1f4)) + "</pre>";
             }
@@ -652,7 +652,7 @@ const TaskManager = {
         return;
       }
       let var121 = var120.output;
-      Zotero.ZoteroIF.copy2Clipboard(var121);
+      Zotero.AI4Paper.copy2Clipboard(var121);
       showToast("已拷贝「" + var120.title + "」的预览内容：" + var121.substring(0x0, 0x19) + (var121.length > 0x1a ? "..." : ''), 'success');
     },
     'collapseAll'() {
@@ -739,7 +739,7 @@ const TaskManager = {
           showToast("找不到该文献条目", "error");
           return;
         }
-        await Zotero.ZoteroIF.showItemInCollection(var134);
+        await Zotero.AI4Paper.showItemInCollection(var134);
         showToast('已在文库中定位', "success");
       } catch (_0x16b4cb) {
         Zotero.debug("AI 解读 - 定位错误: " + _0x16b4cb.message);
@@ -766,8 +766,8 @@ const TaskManager = {
           showToast("找不到笔记", "error");
           return;
         }
-        await Zotero.ZoteroIF.showItemInCollection(var137);
-        Zotero.ZoteroIF.togglePaneDisplay('zotero-item', "show");
+        await Zotero.AI4Paper.showItemInCollection(var137);
+        Zotero.AI4Paper.togglePaneDisplay('zotero-item', "show");
         showToast('已定位解读笔记', 'success');
       } catch (_0x4ee2d8) {
         showToast("打开笔记失败: " + _0x4ee2d8.message, 'error');
@@ -779,7 +779,7 @@ const TaskManager = {
         showToast("找不到该文献条目", "error");
         return;
       }
-      Zotero.ZoteroIF.gptReaderSidePane_ChatMode_locateAIReadingNotes(var138);
+      Zotero.AI4Paper.gptReaderSidePane_ChatMode_locateAIReadingNotes(var138);
     },
     async 'addItems'(_0x344845) {
       let var139 = 0x0,
@@ -789,7 +789,7 @@ const TaskManager = {
       for (const var143 of _0x344845) {
         if (var143.isNote() || var143.isAttachment()) continue;
         const var144 = var143.getField("title") || "未知标题";
-        if (Zotero.ZoteroIF.findNoteItem_basedOnTag(var143, Zotero.ZoteroIF._aiReadingNoteTag)) {
+        if (Zotero.AI4Paper.findNoteItem_basedOnTag(var143, Zotero.AI4Paper._aiReadingNoteTag)) {
           var142++;
           Zotero.debug("AI 解读 - \"" + var144 + "\" 已有解读笔记，跳过");
           continue;
@@ -875,7 +875,7 @@ async function runLibraryStats() {
   const var156 = Date.now();
   try {
     const var157 = Zotero.Libraries.userLibraryID,
-      var158 = Zotero.ZoteroIF._aiReadingNoteTag,
+      var158 = Zotero.AI4Paper._aiReadingNoteTag,
       var159 = new Zotero.Search();
     var159.libraryID = var157;
     var159.addCondition('tag', 'is', var158);
@@ -973,7 +973,7 @@ function updateFooterUI() {
   } = getServiceNameAndModel();
   $("#footer-service").textContent = _0x55a976;
   $('#footer-model').textContent = _0x59c993;
-  $("#footer-concurrency").textContent = "并发：" + (Zotero.Prefs.get("zoteroif.concurrency4BatchAIInterpret") || '4');
+  $("#footer-concurrency").textContent = "并发：" + (Zotero.Prefs.get("ai4paper.concurrency4BatchAIInterpret") || '4');
 }
 function initEventListeners() {
   document.addEventListener("dialogaccept", _0x5344ab => {
@@ -991,7 +991,7 @@ function initEventListeners() {
   $("#btn-clear-done").addEventListener("click", () => {
     TaskManager.clearDone();
   });
-  $("#btn-settings").addEventListener("click", () => Zotero.ZoteroIF.openDialogByType("batchAIInterpretSettings"));
+  $("#btn-settings").addEventListener("click", () => Zotero.AI4Paper.openDialogByType("batchAIInterpretSettings"));
   $$(".filter-btn").forEach(_0x594655 => {
     _0x594655.addEventListener("click", () => {
       $$(".filter-btn").forEach(_0x2b0369 => _0x2b0369.classList.remove("active"));
@@ -1146,9 +1146,9 @@ function safeSetInnerHTML(param10, param11) {
   }
 }
 function getServiceNameAndModel() {
-  const var212 = Zotero.Prefs.get("zoteroif.service4BatchAIInterpret") || "GPT 自定 ①",
-    var213 = Zotero.Prefs.get("zoteroif.model4BatchAIInterpret") || "gemini-2.5-pro",
-    var214 = Zotero.ZoteroIF.gptServiceList()[var212].custom_model_enable && Zotero.ZoteroIF.gptServiceList()[var212].custom_model != '' ? Zotero.ZoteroIF.gptServiceList()[var212].custom_model : var213;
+  const var212 = Zotero.Prefs.get("ai4paper.service4BatchAIInterpret") || "GPT 自定 ①",
+    var213 = Zotero.Prefs.get("ai4paper.model4BatchAIInterpret") || "gemini-2.5-pro",
+    var214 = Zotero.AI4Paper.gptServiceList()[var212].custom_model_enable && Zotero.AI4Paper.gptServiceList()[var212].custom_model != '' ? Zotero.AI4Paper.gptServiceList()[var212].custom_model : var213;
   return {
     'serviceName': var212,
     'model': var214

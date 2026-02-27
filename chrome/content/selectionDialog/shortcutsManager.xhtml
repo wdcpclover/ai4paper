@@ -5,7 +5,7 @@
 <?xml-stylesheet href="chrome://zotero-platform/content/zotero.css" type="text/css"?>
 <?xml-stylesheet href="chrome://zotero/skin/scaffold.css" type="text/css"?>
 
-<?xml-stylesheet href="chrome://zoteroif/content/assets/css/style.css" type="text/css"?>
+<?xml-stylesheet href="chrome://ai4paper/content/assets/css/style.css" type="text/css"?>
 
 <!DOCTYPE window SYSTEM "chrome://zotero/locale/zotero.dtd">
 <window xmlns:html="http://www.w3.org/1999/xhtml"
@@ -24,7 +24,7 @@
         Services.scriptloader.loadSubScript("chrome://zotero/content/include.js", this);
         Services.scriptloader.loadSubScript("chrome://zotero/content/customElements.js", this);
 
-        Services.scriptloader.loadSubScript("chrome://zoteroif/content/selectionDialog/shortcutsManager.js", this);
+        Services.scriptloader.loadSubScript("chrome://ai4paper/content/selectionDialog/shortcutsManager.js", this);
     </script>
 
     <html:style>
@@ -44,7 +44,7 @@
     </html:style>
 
     <linkset>
-        <html:link rel="localization" href="zoteroif_preferences.ftl"/>
+        <html:link rel="localization" href="ai4paper_preferences.ftl"/>
     </linkset>  
 
     <vbox id="vboxContainer-elem">
@@ -71,13 +71,13 @@
                     <!-- 星标 1 星 -->
 
                    <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
-                        <checkbox id="zoteroif.enableShortcutsStarOne" 
+                        <checkbox id="ai4paper.enableShortcutsStarOne" 
                                   label="星标 ⭐" 
                                   native="true"
                                   oncommand='methodsBody.enableShortcuts("StarOne", this.checked);'/>
 
                         <html:input type="text" 
-                                    id="zoteroif.shortcutsInputBox.StarOne" 
+                                    id="ai4paper.shortcutsInputBox.StarOne" 
                                     style='margin-right: 80px;' 
                                     size="15" 
                                     readonly="true" 
@@ -94,13 +94,13 @@
                     <!-- 星标 2 星 -->
 
                    <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
-                        <checkbox id="zoteroif.enableShortcutsStarTwo" 
+                        <checkbox id="ai4paper.enableShortcutsStarTwo" 
                                   label="星标 ⭐⭐" 
                                   native="true"
                                   oncommand='methodsBody.enableShortcuts("StarTwo", this.checked);'/>
 
                         <html:input type="text" 
-                                    id="zoteroif.shortcutsInputBox.StarTwo" 
+                                    id="ai4paper.shortcutsInputBox.StarTwo" 
                                     style='margin-right: 80px;' 
                                     size="15" 
                                     readonly="true" 
@@ -117,13 +117,13 @@
                     <!-- 星标 3 星 -->
 
                    <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
-                        <checkbox id="zoteroif.enableShortcutsStarThree" 
+                        <checkbox id="ai4paper.enableShortcutsStarThree" 
                                   label="星标 ⭐⭐⭐" 
                                   native="true"
                                   oncommand='methodsBody.enableShortcuts("StarThree", this.checked);'/>
 
                         <html:input type="text" 
-                                    id="zoteroif.shortcutsInputBox.StarThree" 
+                                    id="ai4paper.shortcutsInputBox.StarThree" 
                                     style='margin-right: 80px;' 
                                     size="15" 
                                     readonly="true" 
@@ -140,13 +140,13 @@
                     <!-- 星标 4 星 -->
 
                    <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
-                        <checkbox id="zoteroif.enableShortcutsStarFour" 
+                        <checkbox id="ai4paper.enableShortcutsStarFour" 
                                   label="星标 ⭐⭐⭐⭐" 
                                   native="true"
                                   oncommand='methodsBody.enableShortcuts("StarFour", this.checked);'/>
 
                         <html:input type="text" 
-                                    id="zoteroif.shortcutsInputBox.StarFour" 
+                                    id="ai4paper.shortcutsInputBox.StarFour" 
                                     style='margin-right: 80px;' 
                                     size="15" 
                                     readonly="true" 
@@ -163,13 +163,13 @@
                     <!-- 星标 5 星 -->
 
                    <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
-                        <checkbox id="zoteroif.enableShortcutsStarFive" 
+                        <checkbox id="ai4paper.enableShortcutsStarFive" 
                                   label="星标 ⭐⭐⭐⭐⭐" 
                                   native="true"
                                   oncommand='methodsBody.enableShortcuts("StarFive", this.checked);'/>
 
                         <html:input type="text" 
-                                    id="zoteroif.shortcutsInputBox.StarFive" 
+                                    id="ai4paper.shortcutsInputBox.StarFive" 
                                     style='margin-right: 80px;' 
                                     size="15" 
                                     readonly="true" 
@@ -186,13 +186,13 @@
                     <!-- 清除星标 -->
 
                    <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
-                        <checkbox id="zoteroif.enableShortcutsStarClear" 
+                        <checkbox id="ai4paper.enableShortcutsStarClear" 
                                   label="清除星标" 
                                   native="true"
                                   oncommand='methodsBody.enableShortcuts("StarClear", this.checked);'/>
 
                         <html:input type="text" 
-                                    id="zoteroif.shortcutsInputBox.StarClear" 
+                                    id="ai4paper.shortcutsInputBox.StarClear" 
                                     style='margin-right: 80px;' 
                                     size="15" 
                                     readonly="true" 
@@ -209,13 +209,13 @@
                     <!-- 归档 -->
 
                    <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
-                        <checkbox id="zoteroif.enableShortcutsArchive" 
+                        <checkbox id="ai4paper.enableShortcutsArchive" 
                                   label="归档" 
                                   native="true"
                                   oncommand='methodsBody.enableShortcuts("Archive", this.checked);'/>
 
                         <html:input type="text" 
-                                    id="zoteroif.shortcutsInputBox.Archive" 
+                                    id="ai4paper.shortcutsInputBox.Archive" 
                                     style='margin-right: 80px;' 
                                     size="15" 
                                     readonly="true" 
@@ -232,13 +232,13 @@
                     <!-- 添加关联文献 -->
 
                    <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
-                        <checkbox id="zoteroif.enableShortcutsAddRelatedRefs" 
+                        <checkbox id="ai4paper.enableShortcutsAddRelatedRefs" 
                                   label="添加关联文献" 
                                   native="true"
                                   oncommand='methodsBody.enableShortcuts("AddRelatedRefs", this.checked);'/>
 
                         <html:input type="text" 
-                                    id="zoteroif.shortcutsInputBox.AddRelatedRefs" 
+                                    id="ai4paper.shortcutsInputBox.AddRelatedRefs" 
                                     style='margin-right: 80px;' 
                                     size="15" 
                                     readonly="true" 
@@ -255,13 +255,13 @@
                     <!-- Zotero 高级搜索 -->
 
                    <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
-                        <checkbox id="zoteroif.enableShortcutsZoteroAdvancedSearch" 
+                        <checkbox id="ai4paper.enableShortcutsZoteroAdvancedSearch" 
                                   label="Zotero 高级搜索" 
                                   native="true"
                                   oncommand='methodsBody.enableShortcuts("ZoteroAdvancedSearch", this.checked);'/>
 
                         <html:input type="text" 
-                                    id="zoteroif.shortcutsInputBox.ZoteroAdvancedSearch" 
+                                    id="ai4paper.shortcutsInputBox.ZoteroAdvancedSearch" 
                                     style='margin-right: 80px;' 
                                     size="15" 
                                     readonly="true" 
@@ -287,13 +287,13 @@
                     <!-- 展开/折叠左侧边栏（全局）  -->
 
                    <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
-                        <checkbox id="zoteroif.enableShortcutsCollapseLeftSidePane" 
+                        <checkbox id="ai4paper.enableShortcutsCollapseLeftSidePane" 
                                   label="展开/折叠左侧边栏（全局）" 
                                   native="true"
                                   oncommand='methodsBody.enableShortcuts("CollapseLeftSidePane", this.checked);'/>
 
                         <html:input type="text" 
-                                    id="zoteroif.shortcutsInputBox.CollapseLeftSidePane" 
+                                    id="ai4paper.shortcutsInputBox.CollapseLeftSidePane" 
                                     style='margin-right: 80px;' 
                                     size="15" 
                                     readonly="true" 
@@ -310,13 +310,13 @@
                     <!-- 展开/折叠右侧边栏（全局）  -->
 
                    <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
-                        <checkbox id="zoteroif.enableShortcutsCollapseRightSidePane" 
+                        <checkbox id="ai4paper.enableShortcutsCollapseRightSidePane" 
                                   label="展开/折叠右侧边栏（全局）" 
                                   native="true"
                                   oncommand='methodsBody.enableShortcuts("CollapseRightSidePane", this.checked);'/>
 
                         <html:input type="text" 
-                                    id="zoteroif.shortcutsInputBox.CollapseRightSidePane" 
+                                    id="ai4paper.shortcutsInputBox.CollapseRightSidePane" 
                                     style='margin-right: 80px;' 
                                     size="15" 
                                     readonly="true" 
@@ -333,13 +333,13 @@
                     <!-- 水平分栏  -->
 
                    <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
-                        <checkbox id="zoteroif.enableShortcutsSplitHorizontally" 
+                        <checkbox id="ai4paper.enableShortcutsSplitHorizontally" 
                                   label="水平分栏" 
                                   native="true"
                                   oncommand='methodsBody.enableShortcuts("SplitHorizontally", this.checked);'/>
 
                         <html:input type="text" 
-                                    id="zoteroif.shortcutsInputBox.SplitHorizontally" 
+                                    id="ai4paper.shortcutsInputBox.SplitHorizontally" 
                                     style='margin-right: 80px;' 
                                     size="15" 
                                     readonly="true" 
@@ -356,13 +356,13 @@
                     <!-- 垂直分栏  -->
 
                    <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
-                        <checkbox id="zoteroif.enableShortcutsSplitVertically" 
+                        <checkbox id="ai4paper.enableShortcutsSplitVertically" 
                                   label="垂直分栏" 
                                   native="true"
                                   oncommand='methodsBody.enableShortcuts("SplitVertically", this.checked);'/>
 
                         <html:input type="text" 
-                                    id="zoteroif.shortcutsInputBox.SplitVertically" 
+                                    id="ai4paper.shortcutsInputBox.SplitVertically" 
                                     style='margin-right: 80px;' 
                                     size="15" 
                                     readonly="true" 
@@ -379,13 +379,13 @@
                     <!-- 奇数分布  -->
 
                    <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
-                        <checkbox id="zoteroif.enableShortcutsOddSpreads" 
+                        <checkbox id="ai4paper.enableShortcutsOddSpreads" 
                                   label="奇数分布" 
                                   native="true"
                                   oncommand='methodsBody.enableShortcuts("OddSpreads", this.checked);'/>
 
                         <html:input type="text" 
-                                    id="zoteroif.shortcutsInputBox.OddSpreads" 
+                                    id="ai4paper.shortcutsInputBox.OddSpreads" 
                                     style='margin-right: 80px;' 
                                     size="15" 
                                     readonly="true" 
@@ -411,13 +411,13 @@
                     <!-- AI 解读论文  -->
 
                     <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
-                     <checkbox id="zoteroif.enableShortcutsPaperAI" 
+                     <checkbox id="ai4paper.enableShortcutsPaperAI" 
                                    label="AI 解读论文" 
                                    native="true"
                                    oncommand='methodsBody.enableShortcuts("PaperAI", this.checked);'/>
 
                      <html:input type="text" 
-                                   id="zoteroif.shortcutsInputBox.PaperAI" 
+                                   id="ai4paper.shortcutsInputBox.PaperAI" 
                                    style='margin-right: 80px;' 
                                    size="15" 
                                    readonly="true" 
@@ -434,13 +434,13 @@
                     <!-- 定位 Obsidian【AI 文献解读】笔记  -->
 
                     <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
-                     <checkbox id="zoteroif.enableShortcutsLocateAIReadingNotes" 
+                     <checkbox id="ai4paper.enableShortcutsLocateAIReadingNotes" 
                                    label="定位 Obsidian【AI 文献解读】笔记" 
                                    native="true"
                                    oncommand='methodsBody.enableShortcuts("LocateAIReadingNotes", this.checked);'/>
 
                      <html:input type="text" 
-                                   id="zoteroif.shortcutsInputBox.LocateAIReadingNotes" 
+                                   id="ai4paper.shortcutsInputBox.LocateAIReadingNotes" 
                                    style='margin-right: 80px;' 
                                    size="15" 
                                    readonly="true" 
@@ -457,13 +457,13 @@
                     <!-- 导入 PDF 全文  -->
 
                    <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
-                        <checkbox id="zoteroif.enableShortcutsGetFullText" 
+                        <checkbox id="ai4paper.enableShortcutsGetFullText" 
                                   label="导入 PDF 全文" 
                                   native="true"
                                   oncommand='methodsBody.enableShortcuts("GetFullText", this.checked);'/>
 
                         <html:input type="text" 
-                                    id="zoteroif.shortcutsInputBox.GetFullText" 
+                                    id="ai4paper.shortcutsInputBox.GetFullText" 
                                     style='margin-right: 80px;' 
                                     size="15" 
                                     readonly="true" 
@@ -480,13 +480,13 @@
                     <!-- 切换对话模式  -->
 
                    <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
-                        <checkbox id="zoteroif.enableShortcutsChangeGPTChatMode" 
+                        <checkbox id="ai4paper.enableShortcutsChangeGPTChatMode" 
                                   label="切换对话模式" 
                                   native="true"
                                   oncommand='methodsBody.enableShortcuts("ChangeGPTChatMode", this.checked);'/>
 
                         <html:input type="text" 
-                                    id="zoteroif.shortcutsInputBox.ChangeGPTChatMode" 
+                                    id="ai4paper.shortcutsInputBox.ChangeGPTChatMode" 
                                     style='margin-right: 80px;' 
                                     size="15" 
                                     readonly="true" 
@@ -512,13 +512,13 @@
                     <!-- 最近打开  -->
 
                    <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
-                        <checkbox id="zoteroif.enableShortcutsFilesHistory" 
+                        <checkbox id="ai4paper.enableShortcutsFilesHistory" 
                                   label="最近打开" 
                                   native="true"
                                   oncommand='methodsBody.enableShortcuts("FilesHistory", this.checked);'/>
 
                         <html:input type="text" 
-                                    id="zoteroif.shortcutsInputBox.FilesHistory" 
+                                    id="ai4paper.shortcutsInputBox.FilesHistory" 
                                     style='margin-right: 80px;' 
                                     size="15" 
                                     readonly="true" 
@@ -535,13 +535,13 @@
                     <!-- 工作区  -->
 
                    <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
-                        <checkbox id="zoteroif.enableShortcutsWorkSpace" 
+                        <checkbox id="ai4paper.enableShortcutsWorkSpace" 
                                   label="工作区" 
                                   native="true"
                                   oncommand='methodsBody.enableShortcuts("WorkSpace", this.checked);'/>
 
                         <html:input type="text" 
-                                    id="zoteroif.shortcutsInputBox.WorkSpace" 
+                                    id="ai4paper.shortcutsInputBox.WorkSpace" 
                                     style='margin-right: 80px;' 
                                     size="15" 
                                     readonly="true" 
@@ -558,13 +558,13 @@
                     <!-- Attach New File  -->
 
                    <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
-                        <checkbox id="zoteroif.enableShortcutsAttachNewFile" 
+                        <checkbox id="ai4paper.enableShortcutsAttachNewFile" 
                                   label="绑定新文件" 
                                   native="true"
                                   oncommand='methodsBody.enableShortcuts("AttachNewFile", this.checked);'/>
 
                         <html:input type="text" 
-                                    id="zoteroif.shortcutsInputBox.AttachNewFile" 
+                                    id="ai4paper.shortcutsInputBox.AttachNewFile" 
                                     style='margin-right: 80px;' 
                                     size="15" 
                                     readonly="true" 
@@ -581,13 +581,13 @@
                     <!-- 重命名附件  -->
 
                    <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
-                        <checkbox id="zoteroif.enableShortcutsRenameAttachments" 
+                        <checkbox id="ai4paper.enableShortcutsRenameAttachments" 
                                   label="重命名附件" 
                                   native="true"
                                   oncommand='methodsBody.enableShortcuts("RenameAttachments", this.checked);'/>
 
                         <html:input type="text" 
-                                    id="zoteroif.shortcutsInputBox.RenameAttachments" 
+                                    id="ai4paper.shortcutsInputBox.RenameAttachments" 
                                     style='margin-right: 80px;' 
                                     size="15" 
                                     readonly="true" 
@@ -604,13 +604,13 @@
                     <!-- 拷贝 PDF  -->
 
                     <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
-                     <checkbox id="zoteroif.enableShortcutsCopyPDF" 
+                     <checkbox id="ai4paper.enableShortcutsCopyPDF" 
                                label="拷贝 PDF" 
                                native="true"
                                oncommand='methodsBody.enableShortcuts("CopyPDF", this.checked);'/>
 
                      <html:input type="text" 
-                                 id="zoteroif.shortcutsInputBox.CopyPDF" 
+                                 id="ai4paper.shortcutsInputBox.CopyPDF" 
                                  style='margin-right: 80px;' 
                                  size="15" 
                                  readonly="true" 
@@ -627,13 +627,13 @@
                     <!-- Open With  -->
 
                    <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
-                        <checkbox id="zoteroif.enableShortcutsOpenWith" 
+                        <checkbox id="ai4paper.enableShortcutsOpenWith" 
                                   label="Open With" 
                                   native="true"
                                   oncommand='methodsBody.enableShortcuts("OpenWith", this.checked);'/>
 
                         <html:input type="text" 
-                                    id="zoteroif.shortcutsInputBox.OpenWith" 
+                                    id="ai4paper.shortcutsInputBox.OpenWith" 
                                     style='margin-right: 80px;' 
                                     size="15" 
                                     readonly="true" 
@@ -650,13 +650,13 @@
                     <!-- Chat with NewBing  -->
 
                    <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
-                        <checkbox id="zoteroif.enableShortcutsChatwithNewbing" 
+                        <checkbox id="ai4paper.enableShortcutsChatwithNewbing" 
                                   label="Chat with NewBing" 
                                   native="true"
                                   oncommand='methodsBody.enableShortcuts("ChatwithNewbing", this.checked);'/>
 
                         <html:input type="text" 
-                                    id="zoteroif.shortcutsInputBox.ChatwithNewbing" 
+                                    id="ai4paper.shortcutsInputBox.ChatwithNewbing" 
                                     style='margin-right: 80px;' 
                                     size="15" 
                                     readonly="true" 
@@ -673,13 +673,13 @@
                     <!-- 打开 Edge 沉浸式翻译  -->
 
                    <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
-                        <checkbox id="zoteroif.enableShortcutsImmersiveTranslate" 
+                        <checkbox id="ai4paper.enableShortcutsImmersiveTranslate" 
                                   label="打开 Edge 沉浸式翻译" 
                                   native="true"
                                   oncommand='methodsBody.enableShortcuts("ImmersiveTranslate", this.checked);'/>
 
                         <html:input type="text" 
-                                    id="zoteroif.shortcutsInputBox.ImmersiveTranslate" 
+                                    id="ai4paper.shortcutsInputBox.ImmersiveTranslate" 
                                     style='margin-right: 80px;' 
                                     size="15" 
                                     readonly="true" 
@@ -696,13 +696,13 @@
                     <!-- 打开通用沉浸式翻译  -->
 
                    <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
-                        <checkbox id="zoteroif.enableShortcutsUniversalImmersiveTranslate" 
+                        <checkbox id="ai4paper.enableShortcutsUniversalImmersiveTranslate" 
                                   label="打开通用沉浸式翻译" 
                                   native="true"
                                   oncommand='methodsBody.enableShortcuts("UniversalImmersiveTranslate", this.checked);'/>
 
                         <html:input type="text" 
-                                    id="zoteroif.shortcutsInputBox.UniversalImmersiveTranslate" 
+                                    id="ai4paper.shortcutsInputBox.UniversalImmersiveTranslate" 
                                     style='margin-right: 80px;' 
                                     size="15" 
                                     readonly="true" 
@@ -719,13 +719,13 @@
                     <!-- 拷贝 PDF 附件链接  -->
 
                    <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
-                        <checkbox id="zoteroif.enableShortcutsCopyPDFAttachmentsLink" 
+                        <checkbox id="ai4paper.enableShortcutsCopyPDFAttachmentsLink" 
                                   label="拷贝 PDF 附件链接" 
                                   native="true"
                                   oncommand='methodsBody.enableShortcuts("CopyPDFAttachmentsLink", this.checked);'/>
 
                         <html:input type="text" 
-                                    id="zoteroif.shortcutsInputBox.CopyPDFAttachmentsLink" 
+                                    id="ai4paper.shortcutsInputBox.CopyPDFAttachmentsLink" 
                                     style='margin-right: 80px;' 
                                     size="15" 
                                     readonly="true" 
@@ -752,13 +752,13 @@
                     <!-- 添加标签 -->
 
                     <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
-                        <checkbox id="zoteroif.enableShortcutsAddAnnotationTag" 
+                        <checkbox id="ai4paper.enableShortcutsAddAnnotationTag" 
                                   label="添加标签" 
                                   native="true" 
                                   oncommand='methodsBody.enableShortcuts("AddAnnotationTag", this.checked);'/>
 
                         <html:input type="text" 
-                                    id="zoteroif.shortcutsInputBox.AddAnnotationTag" 
+                                    id="ai4paper.shortcutsInputBox.AddAnnotationTag" 
                                     style='margin-right: 80px;' 
                                     size="15" 
                                     readonly="true" 
@@ -775,13 +775,13 @@
                     <!-- 标签管理器 -->
 
                    <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
-                        <checkbox id="zoteroif.enableShortcutsTagCardNotes" 
+                        <checkbox id="ai4paper.enableShortcutsTagCardNotes" 
                                   label="标签管理器" 
                                   native="true"
                                   oncommand='methodsBody.enableShortcuts("TagCardNotes", this.checked);'/>
 
                         <html:input type="text" 
-                                    id="zoteroif.shortcutsInputBox.TagCardNotes" 
+                                    id="ai4paper.shortcutsInputBox.TagCardNotes" 
                                     style='margin-right: 80px;' 
                                     size="15" 
                                     readonly="true" 
@@ -798,13 +798,13 @@
                     <!-- 注释评论模板 -->
 
                    <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
-                        <checkbox id="zoteroif.enableShortcutsSetCommentTemplate" 
+                        <checkbox id="ai4paper.enableShortcutsSetCommentTemplate" 
                                   label="注释评论模板" 
                                   native="true"
                                   oncommand='methodsBody.enableShortcuts("SetCommentTemplate", this.checked);'/>
 
                         <html:input type="text" 
-                                    id="zoteroif.shortcutsInputBox.SetCommentTemplate" 
+                                    id="ai4paper.shortcutsInputBox.SetCommentTemplate" 
                                     style='margin-right: 80px;' 
                                     size="15" 
                                     readonly="true" 
@@ -821,13 +821,13 @@
                     <!-- Obsidian Note -->
 
                    <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
-                        <checkbox id="zoteroif.enableShortcutsObsidianNote" 
+                        <checkbox id="ai4paper.enableShortcutsObsidianNote" 
                                   label="Obsidian Note" 
                                   native="true"
                                   oncommand='methodsBody.enableShortcuts("ObsidianNote", this.checked);'/>
 
                         <html:input type="text" 
-                                    id="zoteroif.shortcutsInputBox.ObsidianNote" 
+                                    id="ai4paper.shortcutsInputBox.ObsidianNote" 
                                     style='margin-right: 80px;' 
                                     size="15" 
                                     readonly="true" 
@@ -844,13 +844,13 @@
                     <!-- 跳转 Obsidian 卡片 -->
 
                    <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
-                        <checkbox id="zoteroif.enableShortcutsObsidianBlock" 
+                        <checkbox id="ai4paper.enableShortcutsObsidianBlock" 
                                   label="跳转 Obsidian 卡片" 
                                   native="true"
                                   oncommand='methodsBody.enableShortcuts("ObsidianBlock", this.checked);'/>
 
                         <html:input type="text" 
-                                    id="zoteroif.shortcutsInputBox.ObsidianBlock" 
+                                    id="ai4paper.shortcutsInputBox.ObsidianBlock" 
                                     style='margin-right: 80px;' 
                                     size="15" 
                                     readonly="true" 
@@ -867,13 +867,13 @@
                     <!-- 在智能文献矩阵中定位本条目 -->
 
                    <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
-                        <checkbox id="zoteroif.enableShortcutsLocateItemInPapersMatrix" 
+                        <checkbox id="ai4paper.enableShortcutsLocateItemInPapersMatrix" 
                                   label="在智能文献矩阵中定位本条目" 
                                   native="true"
                                   oncommand='methodsBody.enableShortcuts("LocateItemInPapersMatrix", this.checked);'/>
 
                         <html:input type="text" 
-                                    id="zoteroif.shortcutsInputBox.LocateItemInPapersMatrix" 
+                                    id="ai4paper.shortcutsInputBox.LocateItemInPapersMatrix" 
                                     style='margin-right: 80px;' 
                                     size="15" 
                                     readonly="true" 
@@ -890,13 +890,13 @@
                     <!-- 在智能文献矩阵中查询本条目分类 -->
 
                    <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
-                        <checkbox id="zoteroif.enableShortcutsSearchCollectionInPapersMatrix" 
+                        <checkbox id="ai4paper.enableShortcutsSearchCollectionInPapersMatrix" 
                                   label="在智能文献矩阵中查询本条目分类" 
                                   native="true"
                                   oncommand='methodsBody.enableShortcuts("SearchCollectionInPapersMatrix", this.checked);'/>
 
                         <html:input type="text" 
-                                    id="zoteroif.shortcutsInputBox.SearchCollectionInPapersMatrix" 
+                                    id="ai4paper.shortcutsInputBox.SearchCollectionInPapersMatrix" 
                                     style='margin-right: 80px;' 
                                     size="15" 
                                     readonly="true" 
@@ -913,13 +913,13 @@
                     <!-- 拷贝块引用链接 -->
 
                  <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
-                        <checkbox id="zoteroif.enableShortcutsCopyBlockQuoteLink" 
+                        <checkbox id="ai4paper.enableShortcutsCopyBlockQuoteLink" 
                                   label="拷贝块引用链接" 
                                   native="true"
                                   oncommand='methodsBody.enableShortcuts("CopyBlockQuoteLink", this.checked);'/>
 
                         <html:input type="text" 
-                                    id="zoteroif.shortcutsInputBox.CopyBlockQuoteLink" 
+                                    id="ai4paper.shortcutsInputBox.CopyBlockQuoteLink" 
                                     style='margin-right: 80px;' 
                                     size="15" 
                                     readonly="true" 
@@ -936,13 +936,13 @@
                     <!-- 大纲标题 -->
 
                   <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
-                        <checkbox id="zoteroif.enableShortcutsSetAnnotationHead" 
+                        <checkbox id="ai4paper.enableShortcutsSetAnnotationHead" 
                                   label="大纲标题" 
                                   native="true"
                                   oncommand='methodsBody.enableShortcuts("SetAnnotationHead", this.checked);'/>
 
                         <html:input type="text" 
-                                    id="zoteroif.shortcutsInputBox.SetAnnotationHead" 
+                                    id="ai4paper.shortcutsInputBox.SetAnnotationHead" 
                                     style='margin-right: 80px;' 
                                     size="15" 
                                     readonly="true" 
@@ -959,13 +959,13 @@
                     <!-- 卡片笔记搜索 -->
 
                    <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
-                        <checkbox id="zoteroif.enableShortcutsCardNotesSearch" 
+                        <checkbox id="ai4paper.enableShortcutsCardNotesSearch" 
                                   label="卡片笔记搜索" 
                                   native="true"
                                   oncommand='methodsBody.enableShortcuts("CardNotesSearch", this.checked);'/>
 
                         <html:input type="text" 
-                                    id="zoteroif.shortcutsInputBox.CardNotesSearch" 
+                                    id="ai4paper.shortcutsInputBox.CardNotesSearch" 
                                     style='margin-right: 80px;' 
                                     size="15" 
                                     readonly="true" 
@@ -982,13 +982,13 @@
                     <!-- 拷贝注释 -->
 
                    <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
-                        <checkbox id="zoteroif.enableShortcutsCopyAnnotationLink" 
+                        <checkbox id="ai4paper.enableShortcutsCopyAnnotationLink" 
                                   label="拷贝注释" 
                                   native="true"
                                   oncommand='methodsBody.enableShortcuts("CopyAnnotationLink", this.checked);'/>
 
                         <html:input type="text" 
-                                    id="zoteroif.shortcutsInputBox.CopyAnnotationLink" 
+                                    id="ai4paper.shortcutsInputBox.CopyAnnotationLink" 
                                     style='margin-right: 80px;' 
                                     size="15" 
                                     readonly="true" 
@@ -1005,13 +1005,13 @@
                     <!-- 拷贝注释回链 -->
 
                    <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
-                        <checkbox id="zoteroif.enableShortcutsCopyAnnotationLinkOnly" 
+                        <checkbox id="ai4paper.enableShortcutsCopyAnnotationLinkOnly" 
                                   label="拷贝注释回链" 
                                   native="true"
                                   oncommand='methodsBody.enableShortcuts("CopyAnnotationLinkOnly", this.checked);'/>
 
                         <html:input type="text" 
-                                    id="zoteroif.shortcutsInputBox.CopyAnnotationLinkOnly" 
+                                    id="ai4paper.shortcutsInputBox.CopyAnnotationLinkOnly" 
                                     style='margin-right: 80px;' 
                                     size="15" 
                                     readonly="true" 
@@ -1028,13 +1028,13 @@
                     <!-- 拷贝注释回链（MD） -->
 
                    <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
-                        <checkbox id="zoteroif.enableShortcutsCopyAnnotationLinkMD" 
+                        <checkbox id="ai4paper.enableShortcutsCopyAnnotationLinkMD" 
                                   label="拷贝注释回链（MD）" 
                                   native="true"
                                   oncommand='methodsBody.enableShortcuts("CopyAnnotationLinkMD", this.checked);'/>
 
                         <html:input type="text" 
-                                    id="zoteroif.shortcutsInputBox.CopyAnnotationLinkMD" 
+                                    id="ai4paper.shortcutsInputBox.CopyAnnotationLinkMD" 
                                     style='margin-right: 80px;' 
                                     size="15" 
                                     readonly="true" 
@@ -1051,13 +1051,13 @@
                     <!-- 拷贝注释文本 -->
 
                    <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
-                        <checkbox id="zoteroif.enableShortcutsCopyAnnotationText" 
+                        <checkbox id="ai4paper.enableShortcutsCopyAnnotationText" 
                                   label="拷贝注释文本" 
                                   native="true"
                                   oncommand='methodsBody.enableShortcuts("CopyAnnotationText", this.checked);'/>
 
                         <html:input type="text" 
-                                    id="zoteroif.shortcutsInputBox.CopyAnnotationText" 
+                                    id="ai4paper.shortcutsInputBox.CopyAnnotationText" 
                                     style='margin-right: 80px;' 
                                     size="15" 
                                     readonly="true" 

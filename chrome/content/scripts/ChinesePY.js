@@ -1,4 +1,4 @@
-Zotero.ZoteroIF.Pinyin = new function () {
+Zotero.AI4Paper.Pinyin = new function () {
   this._JMcode = {
     "-": "",
     "—": "",

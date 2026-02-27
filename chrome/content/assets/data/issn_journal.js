@@ -1,5 +1,5 @@
 // 20250618
-Zotero.ZoteroIF._data_issn_journal = {
+Zotero.AI4Paper._data_issn_journal = {
 "0001-0782":"communications of the acm",
 "0001-1452":"aiaa journal",
 "0001-1541":"aiche journal",

@@ -4,8 +4,8 @@ var var2 = function () {
         'PEdrB': function (param1, param2) {
           return param1 == param2;
         },
-        'TVVjv': "zoteroif.plugintimeactivated",
-        'eKhiP': "zoteroif.plugintimerunning",
+        'TVVjv': "ai4paper.plugintimeactivated",
+        'eKhiP': "ai4paper.plugintimerunning",
         'pouwE': "5|4|3|7|0|6|1|2",
         'ydVNV': function (param3, param4) {
           return param3 - param4;
@@ -36,18 +36,18 @@ var var2 = function () {
         },
         'UoAJT': "是否确认解除激活？",
         'syuLD': "8|0|12|1|5|11|4|9|10|6|7|3|2",
-        'EmJsr': "zoteroif.activationkey.input.label",
-        'VlBYc': "zoteroif.activationstatus.not.label",
-        'eCRjl': "zoteroif.activationstatus.fail.label",
-        'mpthy': "zoteroif.activationstatus.succeed.label",
-        'yMlbb': "zoteroif.remove.activation.button",
-        'FgazM': "zoteroif.activationkeyexpiredate",
-        'EAMgc': "zoteroif.activationkeyverifyresult",
+        'EmJsr': "ai4paper.activationkey.input.label",
+        'VlBYc': "ai4paper.activationstatus.not.label",
+        'eCRjl': "ai4paper.activationstatus.fail.label",
+        'mpthy': "ai4paper.activationstatus.succeed.label",
+        'yMlbb': "ai4paper.remove.activation.button",
+        'FgazM': "ai4paper.activationkeyexpiredate",
+        'EAMgc': "ai4paper.activationkeyverifyresult",
         'Prdfs': '未激活',
-        'lBwCE': "zoteroif.activationkeyinput",
-        'EtxqH': "zoteroif.activationkey.verify.button",
-        'cCTuF': "zoteroif.activationstatus.invalid.label",
-        'ujcZv': "zoteroif.activationkey.input",
+        'lBwCE': "ai4paper.activationkeyinput",
+        'EtxqH': "ai4paper.activationkey.verify.button",
+        'cCTuF': "ai4paper.activationstatus.invalid.label",
+        'ujcZv': "ai4paper.activationkey.input",
         'emZya': function (param21, param22) {
           return param21 === param22;
         },
@@ -250,17 +250,17 @@ var var2 = function () {
         return var4 = false, var6;
       } else {
         function fn3() {
-          _0x30e918.ZoteroIF.unregisterItemsToolBarButtons([var5.DoWNz]);
+          _0x30e918.AI4Paper.unregisterItemsToolBarButtons([var5.DoWNz]);
         }
       }
     };
   }(),
   var21 = var2(this, function () {
     var var22 = {
-        'Nyqxc': "zoteroif.chatwithnewbingToolBarButton",
+        'Nyqxc': "ai4paper.chatwithnewbingToolBarButton",
         'vfkEL': "chatWithNewBing",
-        'unPGj': "zoteroif.api2dapiinput",
-        'ZbisA': "zoteroif.gpt.api2dapiinput",
+        'unPGj': "ai4paper.api2dapiinput",
+        'ZbisA': "ai4paper.gpt.api2dapiinput",
         'AARwI': function (param57, param58) {
           return param57 === param58;
         },
@@ -306,7 +306,7 @@ var var2 = function () {
             if (var22.ezKFK(var22.jnMTN, var22.jnMTN)) {
               function fn4() {
                 _0x19bc2a.Prefs.set(var22.Nyqxc, true);
-                _0x5563ae.ZoteroIF.registerItemsToolBarButtons([var22.vfkEL]);
+                _0x5563ae.AI4Paper.registerItemsToolBarButtons([var22.vfkEL]);
               }
             } else var24 = window;
           }
@@ -355,7 +355,7 @@ var var2 = function () {
     }
   });
 var21();
-Zotero.ZoteroIF_Prefs = {
+Zotero.AI4Paper_Prefs = {
   'init'() {
     var var34 = {
       'HKszu': "visible",
@@ -373,7 +373,7 @@ Zotero.ZoteroIF_Prefs = {
       'emLws': function (param76, param77) {
         return param76 > param77;
       },
-      'IdyBg': "zoteroif.enableannotationsvginFloatingWindow",
+      'IdyBg': "ai4paper.enableannotationsvginFloatingWindow",
       'RUHZk': "scroll-to-top-btn",
       'ANnGr': function (param78, param79, param80) {
         return param78(param79, param80);
@@ -403,7 +403,7 @@ Zotero.ZoteroIF_Prefs = {
             this.scrollToTop.init();
             continue;
           case '2':
-            Zotero.ZoteroIF.update_svg_icons(document);
+            Zotero.AI4Paper.update_svg_icons(document);
             continue;
           case '3':
             this.injectStyles();
@@ -471,7 +471,7 @@ Zotero.ZoteroIF_Prefs = {
           var var40 = _0x1cf0e1.Reader.getByTabID(var39);
           if (!var40) return false;
           let var41 = var40._iframeWindow;
-          _0x5bf246.ZoteroIF.addAnnotationButtonsInFloatingWindow(var41);
+          _0x5bf246.AI4Paper.addAnnotationButtonsInFloatingWindow(var41);
         }
       }
     } catch (_0x591977) {
@@ -496,8 +496,8 @@ Zotero.ZoteroIF_Prefs = {
       'PXWBo': "fn90AYKwbXZvdnWuc3AmMnGkeHm2ZYSqc24vZoW0eH9v"
     };
     try {
-      document.getElementById(Zotero.ZoteroIF.decpCN(Zotero.ZoteroIF.removeIF(var42.WZVMr)))[Zotero.ZoteroIF.decpCN(Zotero.ZoteroIF.removeIF(var42.yMYWy))] = () => Zotero.ZoteroIF_Prefs[Zotero.ZoteroIF.decpCN(Zotero.ZoteroIF.removeIF("c25CAHSTeX5Kcnm0"))]();
-      document.getElementById(Zotero.ZoteroIF.decpCN(Zotero.ZoteroIF.removeIF(var42.PXWBo)))[Zotero.ZoteroIF.decpCN(Zotero.ZoteroIF.removeIF(var42.yMYWy))] = () => Zotero.ZoteroIF_Prefs[Zotero.ZoteroIF.decpCN(Zotero.ZoteroIF.removeIF("Z2GvZ2WtU25CAHSTeX4="))]();
+      document.getElementById(Zotero.AI4Paper.decpCN(Zotero.AI4Paper.removeIF(var42.WZVMr)))[Zotero.AI4Paper.decpCN(Zotero.AI4Paper.removeIF(var42.yMYWy))] = () => Zotero.AI4Paper_Prefs[Zotero.AI4Paper.decpCN(Zotero.AI4Paper.removeIF("c25CAHSTeX5Kcnm0"))]();
+      document.getElementById(Zotero.AI4Paper.decpCN(Zotero.AI4Paper.removeIF(var42.PXWBo)))[Zotero.AI4Paper.decpCN(Zotero.AI4Paper.removeIF(var42.yMYWy))] = () => Zotero.AI4Paper_Prefs[Zotero.AI4Paper.decpCN(Zotero.AI4Paper.removeIF("Z2GvZ2WtU25CAHSTeX4="))]();
     } catch (_0x43b1a8) {
       Zotero.debug(_0x43b1a8);
     }
@@ -505,14 +505,14 @@ Zotero.ZoteroIF_Prefs = {
   'updateAddonInfo': async function () {
     var var43 = {
       'zYDZp': "release_date",
-      'tcmJK': "zoteroif-addon-info-label",
+      'tcmJK': "ai4paper-addon-info-label",
       'LTwqi': "data-l10n-args"
     };
     try {
-      let var44 = await Zotero.ZoteroIF.readManifest(var43.zYDZp);
+      let var44 = await Zotero.AI4Paper.readManifest(var43.zYDZp);
       const var45 = document.getElementById(var43.tcmJK);
       var45.setAttribute(var43.LTwqi, JSON.stringify({
-        'version': Zotero.ZoteroIF.version,
+        'version': Zotero.AI4Paper.version,
         'time': var44
       }));
     } catch (_0x557995) {
@@ -524,11 +524,11 @@ Zotero.ZoteroIF_Prefs = {
       'HgxJZ': "message",
       'VWdVv': "content",
       'jdqhC': '验证成功！',
-      'eEztO': "zoteroif.kimiVerifyResult",
+      'eEztO': "ai4paper.kimiVerifyResult",
       'MINpF': '验证成功',
-      'qeMSQ': "zoteroif.kimi.apiverify.button",
-      'prQZh': "zoteroif.kimi.removeapi.button",
-      'yNtJv': "zoteroif.semanticscholarHost",
+      'qeMSQ': "ai4paper.kimi.apiverify.button",
+      'prQZh': "ai4paper.kimi.removeapi.button",
+      'yNtJv': "ai4paper.semanticscholarHost",
       'lUvqY': "type",
       'GvglQ': 'text',
       'wTfWh': "enablesvgeyesprotection",
@@ -536,8 +536,8 @@ Zotero.ZoteroIF_Prefs = {
         return param85 === param86;
       },
       'OsXma': "wThiA",
-      'xOQHJ': "zoteroif.translationOpenAIService.menupopup",
-      'yqTyE': "zoteroif.gptservice.menupopup",
+      'xOQHJ': "ai4paper.translationOpenAIService.menupopup",
+      'yqTyE': "ai4paper.gptservice.menupopup",
       'daHlT': "menuitem",
       'RYXUl': function (param87, param88) {
         return param87 !== param88;
@@ -548,7 +548,7 @@ Zotero.ZoteroIF_Prefs = {
       if (var46.HppOC(var46.OsXma, var46.OsXma)) {
         let var47 = document.getElementById(var46.xOQHJ),
           var48 = document.getElementById(var46.yqTyE),
-          var49 = Object.keys(Zotero.ZoteroIF.gptServiceList());
+          var49 = Object.keys(Zotero.AI4Paper.gptServiceList());
         for (let var50 of var49) {
           let var51 = document.createXULElement(var46.daHlT);
           var51.label = var50;
@@ -559,28 +559,28 @@ Zotero.ZoteroIF_Prefs = {
         }
       } else {
         function fn11() {
-          _0xef494.ZoteroIF.runAuthor() && _0x1dd2bb.response.choices[0x0][var46.HgxJZ][var46.VWdVv] && (_0x3c35c7.alert(var46.jdqhC), _0x1b282e.Prefs.set(var46.eEztO, var46.MINpF), _0xd9b1b5.getElementById(var46.qeMSQ).hidden = true, _0x248e1e.getElementById(var46.prQZh).hidden = false);
+          _0xef494.AI4Paper.runAuthor() && _0x1dd2bb.response.choices[0x0][var46.HgxJZ][var46.VWdVv] && (_0x3c35c7.alert(var46.jdqhC), _0x1b282e.Prefs.set(var46.eEztO, var46.MINpF), _0xd9b1b5.getElementById(var46.qeMSQ).hidden = true, _0x248e1e.getElementById(var46.prQZh).hidden = false);
         }
       }
     } catch (_0x4dba72) {
       if (var46.RYXUl(var46.lioWT, var46.lioWT)) {
         function fn12() {
           _0x208dcc.getElementById(var46.yNtJv).setAttribute(var46.lUvqY, var46.GvglQ);
-          _0x43d0bc.innerHTML = _0x47d686.ZoteroIF.svg_icon_20px[var46.wTfWh];
+          _0x43d0bc.innerHTML = _0x47d686.AI4Paper.svg_icon_20px[var46.wTfWh];
         }
       } else Zotero.debug(_0x4dba72);
     }
   },
   'buildAIModelList': function () {
     var var52 = {
-      'mTZLf': "zoteroif.translationOpenAIModel.menupopup",
-      'VlalL': "zoteroif.gptmodel.menupopup",
+      'mTZLf': "ai4paper.translationOpenAIModel.menupopup",
+      'VlalL': "ai4paper.gptmodel.menupopup",
       'dUbIf': "menuitem"
     };
     try {
       let var53 = document.getElementById(var52.mTZLf),
         var54 = document.getElementById(var52.VlalL),
-        var55 = Zotero.ZoteroIF.gptModelList;
+        var55 = Zotero.AI4Paper.gptModelList;
       for (let var56 of var55) {
         let var57 = document.createXULElement(var52.dUbIf);
         var57.label = var56;
@@ -595,18 +595,18 @@ Zotero.ZoteroIF_Prefs = {
   },
   'buildTranslationEnginesList': function () {
     var var58 = {
-      'wjBXd': "zoteroif.eyesprotectioncolorcode",
-      'KDqJV': "zoteroif.eyesprotectioncolorcodeisok",
-      'xdVOd': "zoteroif.selectedTextTransEngine.menupopup",
-      'MoBsJ': "zoteroif.annotationTranslationEngine.menupopup",
-      'ToTOx': "zoteroif.titleabstractTransEngine.menupopup",
-      'MioFJ': "zoteroif.vocabularybookTransEngine.menupopup",
-      'vcDvv': "zoteroif.macDTransEngine.menupopup",
-      'Qbqcy': "zoteroif.macSTransEngine.menupopup",
-      'wZxQP': "zoteroif.winDTransEngine.menupopup",
-      'WdRdL': "zoteroif.winSTransEngine.menupopup",
-      'HHnTv': "zoteroif.winAltDTransEngine.menupopup",
-      'HHqlj': "zoteroif.winAltWTransEngine.menupopup",
+      'wjBXd': "ai4paper.eyesprotectioncolorcode",
+      'KDqJV': "ai4paper.eyesprotectioncolorcodeisok",
+      'xdVOd': "ai4paper.selectedTextTransEngine.menupopup",
+      'MoBsJ': "ai4paper.annotationTranslationEngine.menupopup",
+      'ToTOx': "ai4paper.titleabstractTransEngine.menupopup",
+      'MioFJ': "ai4paper.vocabularybookTransEngine.menupopup",
+      'vcDvv': "ai4paper.macDTransEngine.menupopup",
+      'Qbqcy': "ai4paper.macSTransEngine.menupopup",
+      'wZxQP': "ai4paper.winDTransEngine.menupopup",
+      'WdRdL': "ai4paper.winSTransEngine.menupopup",
+      'HHnTv': "ai4paper.winAltDTransEngine.menupopup",
+      'HHqlj': "ai4paper.winAltWTransEngine.menupopup",
       'GyQQH': "menuitem",
       'ccBjY': function (param89, param90) {
         return param89 != param90;
@@ -636,7 +636,7 @@ Zotero.ZoteroIF_Prefs = {
       var67 = document.getElementById(var58.HHnTv),
       var68 = document.getElementById(var58.HHqlj),
       var69,
-      var70 = [...Object.keys(Zotero.ZoteroIF.translationServiceList()), '无'];
+      var70 = [...Object.keys(Zotero.AI4Paper.translationServiceList()), '无'];
     for (let var71 of var70) {
       var69 = document.createXULElement(var58.GyQQH);
       var69.label = var71;
@@ -648,7 +648,7 @@ Zotero.ZoteroIF_Prefs = {
             _0x10555c.Prefs.set(var58.wjBXd, _0x471949.getElementById(var58.wjBXd).value.toLowerCase());
             let var73 = _0x1199af.Prefs.get(var58.wjBXd);
             _0x54cccb.Prefs.set(var58.KDqJV, var72.test(var73));
-            _0x39022c.ZoteroIF_Prefs.onChangeValue.updateEyesProtectionColor(false);
+            _0x39022c.AI4Paper_Prefs.onChangeValue.updateEyesProtectionColor(false);
           }
         } else {
           var69 = var69.cloneNode(true);
@@ -707,10 +707,10 @@ Zotero.ZoteroIF_Prefs = {
   },
   'addClickEvent2ModelCustomCheckBox': function () {
     var var76 = {
-      'FjxSv': "zoteroif.geminiverifyresult",
+      'FjxSv': "ai4paper.geminiverifyresult",
       'oZXha': "未验证",
-      'jwxJV': "zoteroif.gemini.apiverify.button",
-      'YkdnT': "zoteroif.gemini.removeapi.button",
+      'jwxJV': "ai4paper.gemini.apiverify.button",
+      'YkdnT': "ai4paper.gemini.removeapi.button",
       'UHRRi': "未查询到该文献，可能已经被您删除！",
       'iiltU': function (param97, param98) {
         return param97 !== param98;
@@ -722,8 +722,8 @@ Zotero.ZoteroIF_Prefs = {
       'QkqHJ': "RCgYM"
     };
     try {
-      for (let var77 of Object.values(Zotero.ZoteroIF.gptCustom_suffix)) {
-        let var78 = document.getElementById("zoteroif.gptcustomModelCustomEnable" + var77);
+      for (let var77 of Object.values(Zotero.AI4Paper.gptCustom_suffix)) {
+        let var78 = document.getElementById("ai4paper.gptcustomModelCustomEnable" + var77);
         if (var78) {
           if (var76.iiltU(var76.ahzGT, var76.ahzGT)) {
             function fn14() {
@@ -733,7 +733,7 @@ Zotero.ZoteroIF_Prefs = {
             }
           } else var78.onclick = async () => {
             await Zotero.Promise.delay(0xa);
-            Zotero.ZoteroIF.updateFooterUI_batchInterpret();
+            Zotero.AI4Paper.updateFooterUI_batchInterpret();
           };
         }
       }
@@ -747,41 +747,41 @@ Zotero.ZoteroIF_Prefs = {
   },
   'updateSettings': function () {
     var var79 = {
-      'YXHJS': "zoteroif.glm.apiverify.button",
-      'sqnyQ': "zoteroif.glm.removeapi.button",
+      'YXHJS': "ai4paper.glm.apiverify.button",
+      'sqnyQ': "ai4paper.glm.removeapi.button",
       'DGhnU': "是否确认要【开启】 Zotero 自动更新？",
       'cKZnV': "app.update.auto",
       'oSfJT': "app.update.enable",
-      'PSrSc': "zoteroif.disableZoteroUpdates",
+      'PSrSc': "ai4paper.disableZoteroUpdates",
       'XrWQU': function (param101, param102) {
         return param101 + param102;
       },
       'qzOsH': "2|5|0|3|1|4",
-      'EOOVM': "zoteroif.activationstatus.not.label",
-      'IlFro': "zoteroif.activationstatus.invalid.label",
-      'nADbO': "zoteroif.activationkey.input.label",
-      'LQvoQ': "zoteroif.activationstatus.succeed.label",
-      'INcxe': "zoteroif.activationstatus.fail.label",
-      'iHMkV': "zoteroif.activationkey.input",
-      'tHvWo': "zoteroif.settingsToolBarButton",
+      'EOOVM': "ai4paper.activationstatus.not.label",
+      'IlFro': "ai4paper.activationstatus.invalid.label",
+      'nADbO': "ai4paper.activationkey.input.label",
+      'LQvoQ': "ai4paper.activationstatus.succeed.label",
+      'INcxe': "ai4paper.activationstatus.fail.label",
+      'iHMkV': "ai4paper.activationkey.input",
+      'tHvWo': "ai4paper.settingsToolBarButton",
       'RPSHR': "preferences",
       'xiCgI': "验证成功！",
-      'oXBJx': "zoteroif.chatanywhereverifyresult",
+      'oXBJx': "ai4paper.chatanywhereverifyresult",
       'OIHAV': "验证成功",
-      'fOjhN': "zoteroif.chatanywhere.apiverify.button",
-      'lfOSC': "zoteroif.chatanywhere.removeapi.button",
-      'KESLC': "zoteroif.obsidiannoteToolBarButton",
+      'fOjhN': "ai4paper.chatanywhere.apiverify.button",
+      'lfOSC': "ai4paper.chatanywhere.removeapi.button",
+      'KESLC': "ai4paper.obsidiannoteToolBarButton",
       'MIQHF': "obsidiannote",
       'aXvaJ': "8|13|12|7|0|1|3|11|9|10|6|2|4|5",
-      'glFIn': "zoteroif.plugintimeactivated",
-      'WebEl': "zoteroif.activationkeyexpiredate",
+      'glFIn': "ai4paper.plugintimeactivated",
+      'WebEl': "ai4paper.activationkeyexpiredate",
       'wemBA': "4q2NJPb/hPb0v+Xltfj0qTEkhKCbc3Smdn8hU25m44DS",
       'XusSN': "5Zf66ATA5AXn77zC6L+35rPB5q+m5pLp55rF572S57vd6M+f5p6m77zC",
-      'xSCgk': "zoteroif.activationkey.verify.button",
-      'JYKFR': "zoteroif.remove.activation.button",
-      'EBEHC': "zoteroif.activationkeyverifyresult",
+      'xSCgk': "ai4paper.activationkey.verify.button",
+      'JYKFR': "ai4paper.remove.activation.button",
+      'EBEHC': "ai4paper.activationkeyverifyresult",
       'JnMGi': "4q2NJPb/hPb0v+Xltfj0qf+8kPjwu+jCmPf9lf+8hR==",
-      'XMqZE': "zoteroif.deeplx.url",
+      'XMqZE': "ai4paper.deeplx.url",
       'SthRZ': "type",
       'khDPL': "password",
       'xhWAV': "enablesvgeyesprotection_off",
@@ -808,7 +808,7 @@ Zotero.ZoteroIF_Prefs = {
       'dQtZg': function (param109, param110) {
         return param109 === param110;
       },
-      'kQhXX': "ZoteroIFProMax",
+      'kQhXX': "AI4PaperProMax",
       'IUNDO': function (param111, param112) {
         return param111 !== param112;
       },
@@ -838,20 +838,20 @@ Zotero.ZoteroIF_Prefs = {
       'wOWDM': function (param113, param114) {
         return param113 === param114;
       },
-      'pyqfT': "zoteroif.openaiverifyresult",
+      'pyqfT': "ai4paper.openaiverifyresult",
       'qAeln': function (param115, param116) {
         return param115 !== param116;
       },
       'zBAkg': 'mKIGd',
-      'XFOgW': "zoteroif.openai.apiverify.button",
-      'hjXqS': "zoteroif.openai.removeapi.button",
+      'XFOgW': "ai4paper.openai.apiverify.button",
+      'hjXqS': "ai4paper.openai.removeapi.button",
       'DUyzu': function (param117, param118) {
         return param117 === param118;
       },
-      'YDIrk': "zoteroif.api2dverifyresult",
+      'YDIrk': "ai4paper.api2dverifyresult",
       'RlFHR': "OcBKY",
-      'CXnVm': "zoteroif.api2d.apiverify.button",
-      'MpCce': "zoteroif.api2d.removeapi.button",
+      'CXnVm': "ai4paper.api2d.apiverify.button",
+      'MpCce': "ai4paper.api2d.removeapi.button",
       'awkcT': function (param119, param120) {
         return param119 === param120;
       },
@@ -863,88 +863,88 @@ Zotero.ZoteroIF_Prefs = {
       'zFcwi': function (param123, param124) {
         return param123 === param124;
       },
-      'TSFpT': "zoteroif.qwenVerifyResult",
+      'TSFpT': "ai4paper.qwenVerifyResult",
       'EKdqa': "ZneMI",
       'hClHB': "avyTW",
-      'YNllh': "zoteroif.qwen.apiverify.button",
-      'ENKha': "zoteroif.qwen.removeapi.button",
+      'YNllh': "ai4paper.qwen.apiverify.button",
+      'ENKha': "ai4paper.qwen.removeapi.button",
       'DMSzi': function (param125, param126) {
         return param125 === param126;
       },
-      'zccGf': "zoteroif.wenxinAPIVerifyResult",
-      'BZiZb': "zoteroif.wenxin.apiverify.button",
-      'VIyTo': "zoteroif.wenxin.removeapi.button",
-      'hUhYT': "zoteroif.glmVerifyResult",
+      'zccGf': "ai4paper.wenxinAPIVerifyResult",
+      'BZiZb': "ai4paper.wenxin.apiverify.button",
+      'VIyTo': "ai4paper.wenxin.removeapi.button",
+      'hUhYT': "ai4paper.glmVerifyResult",
       'MThnV': function (param127, param128) {
         return param127 === param128;
       },
-      'TbsQn': "zoteroif.yiVerifyResult",
+      'TbsQn': "ai4paper.yiVerifyResult",
       'hLwzD': function (param129, param130) {
         return param129 !== param130;
       },
       'FUqUk': 'pFahm',
-      'nVGlK': "zoteroif.yi.apiverify.button",
-      'GKgci': "zoteroif.yi.removeapi.button",
+      'nVGlK': "ai4paper.yi.apiverify.button",
+      'GKgci': "ai4paper.yi.removeapi.button",
       'naWiy': function (param131, param132) {
         return param131 === param132;
       },
-      'vdMRF': "zoteroif.zjuchatVerifyResult",
-      'WKYxs': "zoteroif.zjuchat.apiverify.button",
-      'qGskZ': "zoteroif.zjuchat.removeapi.button",
-      'CsVRr': "zoteroif.volcanoSearchVerifyresult",
+      'vdMRF': "ai4paper.zjuchatVerifyResult",
+      'WKYxs': "ai4paper.zjuchat.apiverify.button",
+      'qGskZ': "ai4paper.zjuchat.removeapi.button",
+      'CsVRr': "ai4paper.volcanoSearchVerifyresult",
       'VjPaK': 'cfEHB',
-      'ycvWb': "zoteroif.volcanoSearch.apiverify.button",
-      'rMTJR': "zoteroif.volcanoSearch.removeapi.button",
+      'ycvWb': "ai4paper.volcanoSearch.apiverify.button",
+      'rMTJR': "ai4paper.volcanoSearch.removeapi.button",
       'Ngxqd': function (param133, param134) {
         return param133 === param134;
       },
-      'aQcUn': "zoteroif.volcanoEngineVerifyresult",
+      'aQcUn': "ai4paper.volcanoEngineVerifyresult",
       'uXKAM': function (param135, param136) {
         return param135 !== param136;
       },
       'lTvne': "kRCkG",
-      'zAUxK': "zoteroif.volcanoEngine.apiverify.button",
-      'IfWGy': "zoteroif.volcanoEngine.removeapi.button",
+      'zAUxK': "ai4paper.volcanoEngine.apiverify.button",
+      'IfWGy': "ai4paper.volcanoEngine.removeapi.button",
       'klmBa': function (param137, param138) {
         return param137 === param138;
       },
-      'WfiAW': "zoteroif.doubaoverifyresult",
+      'WfiAW': "ai4paper.doubaoverifyresult",
       'CrUlu': function (param139, param140) {
         return param139 !== param140;
       },
       'hQkfd': 'aXSLV',
       'TlfBw': "FFVAF",
-      'YyrHD': "zoteroif.doubao.apiverify.button",
-      'lTuNT': "zoteroif.doubao.removeapi.button",
+      'YyrHD': "ai4paper.doubao.apiverify.button",
+      'lTuNT': "ai4paper.doubao.removeapi.button",
       'VxiKw': function (param141, param142) {
         return param141 === param142;
       },
-      'emONG': "zoteroif.kimiVerifyResult",
-      'zNskk': "zoteroif.kimi.apiverify.button",
-      'DrSIM': "zoteroif.kimi.removeapi.button",
+      'emONG': "ai4paper.kimiVerifyResult",
+      'zNskk': "ai4paper.kimi.apiverify.button",
+      'DrSIM': "ai4paper.kimi.removeapi.button",
       'lixgM': function (param143, param144) {
         return param143 === param144;
       },
-      'emcKW': "zoteroif.deepSeekVerifyResult",
-      'NKVDo': "zoteroif.deepSeek.apiverify.button",
-      'nXxWf': "zoteroif.deepSeek.removeapi.button",
+      'emcKW': "ai4paper.deepSeekVerifyResult",
+      'NKVDo': "ai4paper.deepSeek.apiverify.button",
+      'nXxWf': "ai4paper.deepSeek.removeapi.button",
       'dVxZp': function (param145, param146) {
         return param145 === param146;
       },
-      'QnJSH': "zoteroif.geminiverifyresult",
+      'QnJSH': "ai4paper.geminiverifyresult",
       'AGIVq': 'bVHlY',
       'qEntX': "lyyjp",
-      'FBJzc': "zoteroif.gemini.apiverify.button",
-      'QeGPa': "zoteroif.gemini.removeapi.button",
+      'FBJzc': "ai4paper.gemini.apiverify.button",
+      'QeGPa': "ai4paper.gemini.removeapi.button",
       'AUQoV': function (param147, param148) {
         return param147 === param148;
       },
-      'RvHiS': "zoteroif.claudeverifyresult",
-      'mykoJ': "zoteroif.claude.apiverify.button",
-      'GCJUW': "zoteroif.claude.removeapi.button",
-      'NuayA': "zoteroif.eudicVerifyResult",
-      'qHViP': "zoteroif.eudic.apiverify.button",
-      'JLpkC': "zoteroif.eudic.removeapi.button"
+      'RvHiS': "ai4paper.claudeverifyresult",
+      'mykoJ': "ai4paper.claude.apiverify.button",
+      'GCJUW': "ai4paper.claude.removeapi.button",
+      'NuayA': "ai4paper.eudicVerifyResult",
+      'qHViP': "ai4paper.eudic.apiverify.button",
+      'JLpkC': "ai4paper.eudic.removeapi.button"
     };
     try {
       if (var79.rUaDb(Zotero.Prefs.get(var79.EBEHC), var79.NXDfR)) {
@@ -980,7 +980,7 @@ Zotero.ZoteroIF_Prefs = {
           }
         }
       } else {
-        if (var79.WdfLF(Zotero.Prefs.get(var79.EBEHC), Zotero.ZoteroIF.decpCN(Zotero.ZoteroIF.removeIF(var79.JojPh)))) {
+        if (var79.WdfLF(Zotero.Prefs.get(var79.EBEHC), Zotero.AI4Paper.decpCN(Zotero.AI4Paper.removeIF(var79.JojPh)))) {
           var var82 = var79.GbeKT.split('|'),
             var83 = 0x0;
           while (true) {
@@ -1007,7 +1007,7 @@ Zotero.ZoteroIF_Prefs = {
             break;
           }
         } else {
-          if (var79.WdfLF(Zotero.Prefs.get(var79.EBEHC), Zotero.ZoteroIF.decpCN(Zotero.ZoteroIF.removeIF(var79.CRADO)))) {
+          if (var79.WdfLF(Zotero.Prefs.get(var79.EBEHC), Zotero.AI4Paper.decpCN(Zotero.AI4Paper.removeIF(var79.CRADO)))) {
             if (var79.hZgsT(var79.bMsYX, var79.zarQH)) {
               var var84 = var79.NFQHW.split('|'),
                 var85 = 0x0;
@@ -1041,7 +1041,7 @@ Zotero.ZoteroIF_Prefs = {
               }
             }
           } else {
-            if (var79.WdfLF(Zotero.Prefs.get(var79.EBEHC), Zotero.ZoteroIF.decpCN(Zotero.ZoteroIF.removeIF(var79.JnMGi)))) {
+            if (var79.WdfLF(Zotero.Prefs.get(var79.EBEHC), Zotero.AI4Paper.decpCN(Zotero.AI4Paper.removeIF(var79.JnMGi)))) {
               var var86 = var79.FHbqS.split('|'),
                 var87 = 0x0;
               while (true) {
@@ -1144,15 +1144,15 @@ Zotero.ZoteroIF_Prefs = {
           }
         }
       }
-      Zotero.ZoteroIF.apiModule_updateButtons(var79.swIVN, var79.CMXMN, document);
-      Zotero.ZoteroIF.apiModule_updateButtons(var79.bfZbB, var79.PsYtW, document);
-      Zotero.ZoteroIF.apiModule_updateButtons(var79.mdIxu, var79.dYjXZ, document);
-      Zotero.ZoteroIF.apiModule_updateButtons(var79.mAusn, var79.thdct, document);
-      Zotero.ZoteroIF.apiModule_updateButtons(var79.NCHgg, var79.GrzME, document);
-      Zotero.ZoteroIF.apiModule_updateButtons(var79.xoXGf, var79.ClxVN, document);
-      Zotero.ZoteroIF.apiModule_updateButtons(var79.gELWj, var79.JEftC, document);
-      Zotero.ZoteroIF.apiModule_updateButtons(var79.mfZBR, var79.xSTtZ, document);
-      Zotero.ZoteroIF.apiModule_updateButtons(var79.hMTRU, var79.mzhIF, document);
+      Zotero.AI4Paper.apiModule_updateButtons(var79.swIVN, var79.CMXMN, document);
+      Zotero.AI4Paper.apiModule_updateButtons(var79.bfZbB, var79.PsYtW, document);
+      Zotero.AI4Paper.apiModule_updateButtons(var79.mdIxu, var79.dYjXZ, document);
+      Zotero.AI4Paper.apiModule_updateButtons(var79.mAusn, var79.thdct, document);
+      Zotero.AI4Paper.apiModule_updateButtons(var79.NCHgg, var79.GrzME, document);
+      Zotero.AI4Paper.apiModule_updateButtons(var79.xoXGf, var79.ClxVN, document);
+      Zotero.AI4Paper.apiModule_updateButtons(var79.gELWj, var79.JEftC, document);
+      Zotero.AI4Paper.apiModule_updateButtons(var79.mfZBR, var79.xSTtZ, document);
+      Zotero.AI4Paper.apiModule_updateButtons(var79.hMTRU, var79.mzhIF, document);
       if (var79.wOWDM(Zotero.Prefs.get(var79.pyqfT), var79.OIHAV)) {
         if (var79.qAeln(var79.zBAkg, var79.zBAkg)) {
           function fn20() {
@@ -1193,12 +1193,12 @@ Zotero.ZoteroIF_Prefs = {
           document.getElementById(var79.MpCce).hidden = false;
         } else {
           function fn21() {
-            _0x86eee8.getElementById(var79.tHvWo).checked ? (_0x5b6037.Prefs.set(var79.tHvWo, true), _0x55ecdc.ZoteroIF.registerItemsToolBarButtons([var79.RPSHR])) : _0xf94092.ZoteroIF.unregisterItemsToolBarButtons([var79.RPSHR]);
+            _0x86eee8.getElementById(var79.tHvWo).checked ? (_0x5b6037.Prefs.set(var79.tHvWo, true), _0x55ecdc.AI4Paper.registerItemsToolBarButtons([var79.RPSHR])) : _0xf94092.AI4Paper.unregisterItemsToolBarButtons([var79.RPSHR]);
           }
         }
       }
       var79.awkcT(Zotero.Prefs.get(var79.oXBJx), var79.OIHAV) && (document.getElementById(var79.fOjhN).hidden = true, document.getElementById(var79.lfOSC).hidden = false);
-      for (let var95 of Object.values(Zotero.ZoteroIF.gptCustom_suffix)) {
+      for (let var95 of Object.values(Zotero.AI4Paper.gptCustom_suffix)) {
         if (var79.qAeln(var79.zkyuR, var79.zkyuR)) {
           function fn22() {
             _0x47178d.Prefs.set(var79.cKZnV, false, true);
@@ -1206,10 +1206,10 @@ Zotero.ZoteroIF_Prefs = {
             _0x2e7825.getElementById(var79.PSrSc).checked = true;
           }
         } else {
-          if (var79.IjUyc(Zotero.Prefs.get("zoteroif.gptcustomverifyresult" + var95), var79.OIHAV)) {
+          if (var79.IjUyc(Zotero.Prefs.get("ai4paper.gptcustomverifyresult" + var95), var79.OIHAV)) {
             if (var79.IjUyc(var79.shKaJ, var79.shKaJ)) {
-              document.getElementById("zoteroif.gptcustom" + var95 + ".apiverify.button").hidden = true;
-              document.getElementById("zoteroif.gptcustom" + var95 + ".removeapi.button").hidden = false;
+              document.getElementById("ai4paper.gptcustom" + var95 + ".apiverify.button").hidden = true;
+              document.getElementById("ai4paper.gptcustom" + var95 + ".removeapi.button").hidden = false;
             } else {
               function fn23() {
                 _0x2c75ee.displayDirectory = _0xc3d654;
@@ -1236,7 +1236,7 @@ Zotero.ZoteroIF_Prefs = {
       if (var79.MThnV(Zotero.Prefs.get(var79.TbsQn), var79.OIHAV)) {
         if (var79.hLwzD(var79.FUqUk, var79.FUqUk)) {
           function fn25() {
-            _0x4670b0.getElementById(var79.KESLC).checked ? (_0x296a6c.Prefs.set(var79.KESLC, true), _0x4023d2.ZoteroIF.registerItemsToolBarButtons([var79.MIQHF])) : _0x24e88c.ZoteroIF.unregisterItemsToolBarButtons([var79.MIQHF]);
+            _0x4670b0.getElementById(var79.KESLC).checked ? (_0x296a6c.Prefs.set(var79.KESLC, true), _0x4023d2.AI4Paper.registerItemsToolBarButtons([var79.MIQHF])) : _0x24e88c.AI4Paper.unregisterItemsToolBarButtons([var79.MIQHF]);
           }
         } else {
           document.getElementById(var79.nVGlK).hidden = true;
@@ -1275,7 +1275,7 @@ Zotero.ZoteroIF_Prefs = {
                   _0x46d87d.getElementById(var79.iHMkV).hidden = false;
                   continue;
                 case '8':
-                  _0x454299.ZoteroIF.showProgressWindow(0x1770, _0x460df0.ZoteroIF.decpCN(_0x5d817c.ZoteroIF.removeIF(var79.wemBA)), _0xa536fc.ZoteroIF.decpCN(_0x2cd8d6.ZoteroIF.removeIF(var79.XusSN)));
+                  _0x454299.AI4Paper.showProgressWindow(0x1770, _0x460df0.AI4Paper.decpCN(_0x5d817c.AI4Paper.removeIF(var79.wemBA)), _0xa536fc.AI4Paper.decpCN(_0x2cd8d6.AI4Paper.removeIF(var79.XusSN)));
                   continue;
                 case '9':
                   _0x307f9f.getElementById(var79.xSCgk).hidden = false;
@@ -1290,7 +1290,7 @@ Zotero.ZoteroIF_Prefs = {
                   _0x36d761.getElementById(var79.nADbO).hidden = false;
                   continue;
                 case '13':
-                  _0x36f2bd.Prefs.set(var79.EBEHC, _0x4759fc.ZoteroIF.decpCN(_0xc6aea7.ZoteroIF.removeIF(var79.JnMGi)));
+                  _0x36f2bd.Prefs.set(var79.EBEHC, _0x4759fc.AI4Paper.decpCN(_0xc6aea7.AI4Paper.removeIF(var79.JnMGi)));
                   continue;
               }
               break;
@@ -1305,7 +1305,7 @@ Zotero.ZoteroIF_Prefs = {
         if (var79.uXKAM(var79.lTvne, var79.lTvne)) {
           function fn27() {
             _0x451746.getElementById(var79.XMqZE).setAttribute(var79.SthRZ, var79.khDPL);
-            _0x445500.innerHTML = _0x5658b0.ZoteroIF.svg_icon_20px[var79.xhWAV];
+            _0x445500.innerHTML = _0x5658b0.AI4Paper.svg_icon_20px[var79.xhWAV];
           }
         } else {
           document.getElementById(var79.zAUxK).hidden = true;
@@ -1366,10 +1366,10 @@ Zotero.ZoteroIF_Prefs = {
     } catch (_0x204358) {
       Zotero.debug(_0x204358);
     }
-    Zotero.ZoteroIF_Prefs.onChangeValue.updateMacShortcutsTranslationStyle(true);
-    Zotero.ZoteroIF_Prefs.onChangeValue.updateWinShortcutsTranslationStyle(true);
-    Zotero.ZoteroIF_Prefs.onChangeValue.updateEyesProtectionColor(true);
-    Zotero.ZoteroIF_Prefs.onChangeValue.selectBrowser4WebSearch(true);
+    Zotero.AI4Paper_Prefs.onChangeValue.updateMacShortcutsTranslationStyle(true);
+    Zotero.AI4Paper_Prefs.onChangeValue.updateWinShortcutsTranslationStyle(true);
+    Zotero.AI4Paper_Prefs.onChangeValue.updateEyesProtectionColor(true);
+    Zotero.AI4Paper_Prefs.onChangeValue.selectBrowser4WebSearch(true);
   },
   'onAddRunInit': function () {
     var var100 = {
@@ -1378,8 +1378,8 @@ Zotero.ZoteroIF_Prefs = {
       },
       'PbWFj': "PbTlY"
     };
-    let var101 = Zotero.ZoteroIF.get_AC_True();
-    if (!var101) return Zotero.ZoteroIF.acLoginAlert(), false;else {
+    let var101 = Zotero.AI4Paper.get_AC_True();
+    if (!var101) return Zotero.AI4Paper.acLoginAlert(), false;else {
       if (var100.SXIMe(var100.PbWFj, var100.PbWFj)) this.onAddRun();else {
         function fn30() {
           _0x59bfca.alert(_0x263a80);
@@ -1394,16 +1394,16 @@ Zotero.ZoteroIF_Prefs = {
         'dtvWp': "c25kcHmkbx==",
         'XamgW': "fn90AYKwbXZvdnWuc3AmMnGkeHm2ZYSqc24vZoW0eH9v",
         'mUSZI': "go2favoritecollection",
-        'wqxpa': "zoteroif.collapseCollectionsCollectionsToolBarButton",
+        'wqxpa': "ai4paper.collapseCollectionsCollectionsToolBarButton",
         'KGHwq': "collapseCollections",
         'qYzzl': "message",
         'tBhJD': "content",
         'jZFAZ': "验证成功！",
-        'nDvYj': "zoteroif.glmVerifyResult",
+        'nDvYj': "ai4paper.glmVerifyResult",
         'tWPZc': '验证成功',
-        'qbndV': "zoteroif.glm.apiverify.button",
-        'KuZFl': "zoteroif.glm.removeapi.button",
-        'isZIc': "zoteroif.activationkeyinput",
+        'qbndV': "ai4paper.glm.apiverify.button",
+        'KuZFl': "ai4paper.glm.removeapi.button",
+        'isZIc': "ai4paper.activationkeyinput",
         'CANaW': function (param151, param152) {
           return param151 === param152;
         },
@@ -1414,8 +1414,8 @@ Zotero.ZoteroIF_Prefs = {
         },
         'JXUEm': "Z2l0ZWUuY29t",
         'vsdau': "qnscholar",
-        'YhMdS': "zoteroif",
-        'BGHgl': "ZoteroIFPro",
+        'YhMdS': "ai4paper",
+        'BGHgl': "AI4PaperPro",
         'ejXgr': function (param155, param156) {
           return param155 + param156;
         },
@@ -1444,20 +1444,20 @@ Zotero.ZoteroIF_Prefs = {
         'JlJpW': 'hqCpi',
         'PPkPk': 'FGjCx',
         'SEkPG': "7|11|3|10|12|9|8|4|0|1|2|6|5|13",
-        'eEPQY': "zoteroif.activationkey.verify.button",
-        'WTXIS': "zoteroif.remove.activation.button",
-        'JviLf': "zoteroif.activationkeyexpiredate",
-        'KsoEV': "zoteroif.activationkey.input.label",
-        'OdQkT': "zoteroif.activationstatus.fail.label",
-        'wFkhH': "zoteroif.plugintimeactivated",
+        'eEPQY': "ai4paper.activationkey.verify.button",
+        'WTXIS': "ai4paper.remove.activation.button",
+        'JviLf': "ai4paper.activationkeyexpiredate",
+        'KsoEV': "ai4paper.activationkey.input.label",
+        'OdQkT': "ai4paper.activationstatus.fail.label",
+        'wFkhH': "ai4paper.plugintimeactivated",
         'kmoCI': "4q2NJPb/hPb0v+Xltfj0qTEkhKCbc3Smdn8hU25m44DS",
         'gKCAe': "5Zf66ATA5AXn77zC6L+35rPB5q+m5pLp55rF572S57vd6M+f5p6m77zC",
-        'lhogk': "zoteroif.activationstatus.invalid.label",
-        'Avxwr': "zoteroif.activationstatus.succeed.label",
-        'NBiVU': "zoteroif.activationkey.input",
-        'OgYYQ': "zoteroif.activationkeyverifyresult",
+        'lhogk': "ai4paper.activationstatus.invalid.label",
+        'Avxwr': "ai4paper.activationstatus.succeed.label",
+        'NBiVU': "ai4paper.activationkey.input",
+        'OgYYQ': "ai4paper.activationkeyverifyresult",
         'QFMjz': "8K+ZsTEnw4EnuMwmqMIpuLYwwJF=",
-        'KbkYb': "zoteroif.activationstatus.not.label",
+        'KbkYb': "ai4paper.activationstatus.not.label",
         'poggQ': "pCoZz",
         'tIiTV': function (param169, param170) {
           return param169 !== param170;
@@ -1489,7 +1489,7 @@ Zotero.ZoteroIF_Prefs = {
         'uBDuy': function (param181, param182) {
           return param181(param182);
         },
-        'GSeYS': "zoteroif.timestringencoded",
+        'GSeYS': "ai4paper.timestringencoded",
         'tQUQt': "chinese",
         'OTpaM': function (param183, param184) {
           return param183 + param184;
@@ -1508,11 +1508,11 @@ Zotero.ZoteroIF_Prefs = {
         'ZFTJm': "8K+ZrzEnw4EnuMwopJInm6EnmZkwwJF="
       },
       var103 = Zotero.Prefs.get(var102.isZIc).trim();
-    if (var102.CANaW(var103, '')) return window.alert(Zotero.ZoteroIF.decpCN(Zotero.ZoteroIF.removeIF(var102.riCUE))), -0x1;
-    if (!Zotero.ZoteroIF.get_AC_True()) {
+    if (var102.CANaW(var103, '')) return window.alert(Zotero.AI4Paper.decpCN(Zotero.AI4Paper.removeIF(var102.riCUE))), -0x1;
+    if (!Zotero.AI4Paper.get_AC_True()) {
       if (var102.CANaW(var102.eHmSj, var102.eHmSj)) return;else {
         function fn31() {
-          if (_0x57c864.ZoteroIF.runAuthor()) {
+          if (_0x57c864.AI4Paper.runAuthor()) {
             let var104 = "点数余额：" + _0x52e60b.response.total_available + '\x20P';
             _0xe1748d.prompt.alert(_0x57c427, _0x4fb402.getString(var102.TkDcA), var104);
           }
@@ -1523,7 +1523,7 @@ Zotero.ZoteroIF_Prefs = {
       var106 = Zotero.Utilities.Internal.md5(var102.vsdau, false).substring(0x1, 0x9),
       var107 = Zotero.Utilities.Internal.md5(var102.YhMdS).substring(0x1, 0x9),
       var108 = Zotero.Utilities.Internal.md5(var102.BGHgl).substring(0x1, 0x9),
-      var109 = Zotero.ZoteroIF.runIFPM(),
+      var109 = Zotero.AI4Paper.runIFPM(),
       var110 = var102.ejXgr(var102.ejXgr(var102.ejXgr(var102.bjWvK(var102.bHRbn(var102.bHRbn(var102.bHRbn(var102.yCQxo(var102.yCQxo(var102.cuGis, var105), var102.HXJHx), var106), '/'), var107), var102.XoOdS), var108), var102.raDvd), var109);
     const var111 = await var102.lcpSz(fetch, var110).then(_0x347ad2 => _0x347ad2.json())["catch"](_0x3fdf70 => null);
     if (var102.wjtLG(var111, null)) {
@@ -1554,7 +1554,7 @@ Zotero.ZoteroIF_Prefs = {
               Zotero.Prefs.set(var102.wFkhH, '');
               continue;
             case '7':
-              Zotero.ZoteroIF.showProgressWindow(0x1770, Zotero.ZoteroIF.decpCN(Zotero.ZoteroIF.removeIF(var102.kmoCI)), Zotero.ZoteroIF.decpCN(Zotero.ZoteroIF.removeIF(var102.gKCAe)));
+              Zotero.AI4Paper.showProgressWindow(0x1770, Zotero.AI4Paper.decpCN(Zotero.AI4Paper.removeIF(var102.kmoCI)), Zotero.AI4Paper.decpCN(Zotero.AI4Paper.removeIF(var102.gKCAe)));
               continue;
             case '8':
               document.getElementById(var102.lhogk).hidden = true;
@@ -1566,7 +1566,7 @@ Zotero.ZoteroIF_Prefs = {
               document.getElementById(var102.NBiVU).hidden = false;
               continue;
             case '11':
-              Zotero.Prefs.set(var102.OgYYQ, Zotero.ZoteroIF.decpCN(Zotero.ZoteroIF.removeIF(var102.QFMjz)));
+              Zotero.Prefs.set(var102.OgYYQ, Zotero.AI4Paper.decpCN(Zotero.AI4Paper.removeIF(var102.QFMjz)));
               continue;
             case '12':
               document.getElementById(var102.KbkYb).hidden = true;
@@ -1578,8 +1578,8 @@ Zotero.ZoteroIF_Prefs = {
         }
       } else {
         function fn32() {
-          _0x4ba0ea.getElementById(_0x44531a.ZoteroIF.decpCN(_0x5a75f1.ZoteroIF.removeIF(var102.CwRNB)))[_0x46cca2.ZoteroIF.decpCN(_0x4f09d2.ZoteroIF.removeIF(var102.dtvWp))] = () => _0x2e1b8b.ZoteroIF_Prefs[_0x1c732f.ZoteroIF.decpCN(_0x4d8581.ZoteroIF.removeIF("c25CAHSTeX5Kcnm0"))]();
-          _0x489965.getElementById(_0x219dc0.ZoteroIF.decpCN(_0x1418fc.ZoteroIF.removeIF(var102.XamgW)))[_0x41c59b.ZoteroIF.decpCN(_0x3f3b98.ZoteroIF.removeIF(var102.dtvWp))] = () => _0xce0b87.ZoteroIF_Prefs[_0x386684.ZoteroIF.decpCN(_0x3f350d.ZoteroIF.removeIF("Z2GvZ2WtU25CAHSTeX4="))]();
+          _0x4ba0ea.getElementById(_0x44531a.AI4Paper.decpCN(_0x5a75f1.AI4Paper.removeIF(var102.CwRNB)))[_0x46cca2.AI4Paper.decpCN(_0x4f09d2.AI4Paper.removeIF(var102.dtvWp))] = () => _0x2e1b8b.AI4Paper_Prefs[_0x1c732f.AI4Paper.decpCN(_0x4d8581.AI4Paper.removeIF("c25CAHSTeX5Kcnm0"))]();
+          _0x489965.getElementById(_0x219dc0.AI4Paper.decpCN(_0x1418fc.AI4Paper.removeIF(var102.XamgW)))[_0x41c59b.AI4Paper.decpCN(_0x3f3b98.AI4Paper.removeIF(var102.dtvWp))] = () => _0xce0b87.AI4Paper_Prefs[_0x386684.AI4Paper.decpCN(_0x3f350d.AI4Paper.removeIF("Z2GvZ2WtU25CAHSTeX4="))]();
         }
       }
     }
@@ -1587,7 +1587,7 @@ Zotero.ZoteroIF_Prefs = {
     try {
       if (var102.OvMaI(var102.poggQ, var102.poggQ)) {
         function fn33() {
-          _0x402dd7.ZoteroIF.unregisterItemsToolBarButtons([var102.mUSZI]);
+          _0x402dd7.AI4Paper.unregisterItemsToolBarButtons([var102.mUSZI]);
         }
       } else {
         var114 = var102.lcpSz(atob, var111[var102.tBhJD]);
@@ -1596,7 +1596,7 @@ Zotero.ZoteroIF_Prefs = {
     } catch (_0x5b7d3b) {
       if (var102.tIiTV(var102.WFcHk, var102.WFcHk)) {
         function fn34() {
-          _0x497add.getElementById(var102.wqxpa).checked ? (_0x39d146.Prefs.set(var102.wqxpa, true), _0x57dd09.ZoteroIF.registerCollectionsToolBarButtons([var102.KGHwq])) : _0x5419ae.ZoteroIF.unregisterCollectionsToolBarButtons([var102.KGHwq]);
+          _0x497add.getElementById(var102.wqxpa).checked ? (_0x39d146.Prefs.set(var102.wqxpa, true), _0x57dd09.AI4Paper.registerCollectionsToolBarButtons([var102.KGHwq])) : _0x5419ae.AI4Paper.unregisterCollectionsToolBarButtons([var102.KGHwq]);
         }
       } else {
         var var115 = var102.EgDRa.split('|'),
@@ -1616,7 +1616,7 @@ Zotero.ZoteroIF_Prefs = {
               document.getElementById(var102.eEPQY).hidden = false;
               continue;
             case '4':
-              Zotero.ZoteroIF.showProgressWindow(0x1770, Zotero.ZoteroIF.decpCN(Zotero.ZoteroIF.removeIF(var102.kmoCI)), Zotero.ZoteroIF.decpCN(Zotero.ZoteroIF.removeIF(var102.gKCAe)));
+              Zotero.AI4Paper.showProgressWindow(0x1770, Zotero.AI4Paper.decpCN(Zotero.AI4Paper.removeIF(var102.kmoCI)), Zotero.AI4Paper.decpCN(Zotero.AI4Paper.removeIF(var102.gKCAe)));
               continue;
             case '5':
               return -0x1;
@@ -1636,7 +1636,7 @@ Zotero.ZoteroIF_Prefs = {
               document.getElementById(var102.KsoEV).hidden = false;
               continue;
             case '11':
-              Zotero.Prefs.set(var102.OgYYQ, Zotero.ZoteroIF.decpCN(Zotero.ZoteroIF.removeIF(var102.eYGRY)));
+              Zotero.Prefs.set(var102.OgYYQ, Zotero.AI4Paper.decpCN(Zotero.AI4Paper.removeIF(var102.eYGRY)));
               continue;
             case '12':
               document.getElementById(var102.lhogk).hidden = true;
@@ -1657,12 +1657,12 @@ Zotero.ZoteroIF_Prefs = {
       if (var102.wjtLG(var119.length, 0x8)) {
         if (var102.KjKQZ(var102.pTkBA, var102.pTkBA)) Zotero.Prefs.set(var102.JviLf, var119);else {
           function fn35() {
-            _0x3e017a.ZoteroIF.runAuthor() && _0x4869df.response.choices[0x0][var102.qYzzl][var102.tBhJD] && (_0x1b2844.alert(var102.jZFAZ), _0x4fa642.Prefs.set(var102.nDvYj, var102.tWPZc), _0x5f0e5c.getElementById(var102.qbndV).hidden = true, _0x579aed.getElementById(var102.KuZFl).hidden = false);
+            _0x3e017a.AI4Paper.runAuthor() && _0x4869df.response.choices[0x0][var102.qYzzl][var102.tBhJD] && (_0x1b2844.alert(var102.jZFAZ), _0x4fa642.Prefs.set(var102.nDvYj, var102.tWPZc), _0x5f0e5c.getElementById(var102.qbndV).hidden = true, _0x579aed.getElementById(var102.KuZFl).hidden = false);
           }
         }
       } else Zotero.Prefs.set(var102.JviLf, '');
-      Zotero.ZoteroIF.showProgressWindow(0x1770, Zotero.ZoteroIF.decpCN(Zotero.ZoteroIF.removeIF(var102.cFSYQ)), Zotero.ZoteroIF.decpCN(Zotero.ZoteroIF.removeIF(var102.YLkUF)) + '【' + var103 + '】' + Zotero.ZoteroIF.decpCN(Zotero.ZoteroIF.removeIF(var102.bkJDl)));
-      Zotero.Prefs.set(var102.OgYYQ, Zotero.ZoteroIF.decpCN(Zotero.ZoteroIF.removeIF(var102.UKnJz)));
+      Zotero.AI4Paper.showProgressWindow(0x1770, Zotero.AI4Paper.decpCN(Zotero.AI4Paper.removeIF(var102.cFSYQ)), Zotero.AI4Paper.decpCN(Zotero.AI4Paper.removeIF(var102.YLkUF)) + '【' + var103 + '】' + Zotero.AI4Paper.decpCN(Zotero.AI4Paper.removeIF(var102.bkJDl)));
+      Zotero.Prefs.set(var102.OgYYQ, Zotero.AI4Paper.decpCN(Zotero.AI4Paper.removeIF(var102.UKnJz)));
       document.getElementById(var102.KsoEV).hidden = true;
       document.getElementById(var102.NBiVU).hidden = true;
       document.getElementById(var102.KbkYb).hidden = true;
@@ -1687,7 +1687,7 @@ Zotero.ZoteroIF_Prefs = {
       Zotero.Prefs.set(var102.wFkhH, var128);
       this.updatePluginLifeCycle();
       this.setDaysPrefs();
-      Zotero.ZoteroIF.sendActInfo();
+      Zotero.AI4Paper.sendActInfo();
     } else {
       if (var102.dGiue(var102.XZPHk, var102.zvkBO)) {
         function fn36() {
@@ -1711,10 +1711,10 @@ Zotero.ZoteroIF_Prefs = {
               document.getElementById(var102.eEPQY).hidden = false;
               continue;
             case '4':
-              Zotero.ZoteroIF.showProgressWindow(0x1770, Zotero.ZoteroIF.decpCN(Zotero.ZoteroIF.removeIF(var102.gfQaU)), Zotero.ZoteroIF.decpCN(Zotero.ZoteroIF.removeIF(var102.YLkUF)) + '【' + var103 + '】' + Zotero.ZoteroIF.decpCN(Zotero.ZoteroIF.removeIF(var102.ESsPk)));
+              Zotero.AI4Paper.showProgressWindow(0x1770, Zotero.AI4Paper.decpCN(Zotero.AI4Paper.removeIF(var102.gfQaU)), Zotero.AI4Paper.decpCN(Zotero.AI4Paper.removeIF(var102.YLkUF)) + '【' + var103 + '】' + Zotero.AI4Paper.decpCN(Zotero.AI4Paper.removeIF(var102.ESsPk)));
               continue;
             case '5':
-              Zotero.Prefs.set(var102.OgYYQ, Zotero.ZoteroIF.decpCN(Zotero.ZoteroIF.removeIF(var102.ZFTJm)));
+              Zotero.Prefs.set(var102.OgYYQ, Zotero.AI4Paper.decpCN(Zotero.AI4Paper.removeIF(var102.ZFTJm)));
               continue;
             case '6':
               document.getElementById(var102.lhogk).hidden = false;
@@ -1745,17 +1745,17 @@ Zotero.ZoteroIF_Prefs = {
   },
   'updatePluginLifeCycle': function () {
     var var131 = {
-      'Ifvtw': "zoteroif.glmVerifyResult",
+      'Ifvtw': "ai4paper.glmVerifyResult",
       'tQeeN': "未验证",
-      'WVSbN': "zoteroif.glm.apiverify.button",
-      'EDCOJ': "zoteroif.glm.removeapi.button",
-      'nIfaR': "zoteroif.activationkeyinput",
-      'aPndc': "zoteroif.activationkey.input",
+      'WVSbN': "ai4paper.glm.apiverify.button",
+      'EDCOJ': "ai4paper.glm.removeapi.button",
+      'nIfaR': "ai4paper.activationkeyinput",
+      'aPndc': "ai4paper.activationkey.input",
       'tbbvm': "验证成功！",
-      'zZhfo': "zoteroif.kimiVerifyResult",
+      'zZhfo': "ai4paper.kimiVerifyResult",
       'hfgOw': '验证成功',
-      'THOyq': "zoteroif.kimi.apiverify.button",
-      'JjPUY': "zoteroif.kimi.removeapi.button",
+      'THOyq': "ai4paper.kimi.apiverify.button",
+      'JjPUY': "ai4paper.kimi.removeapi.button",
       'iKAnU': function (param189, param190) {
         return param189 !== param190;
       },
@@ -1764,8 +1764,8 @@ Zotero.ZoteroIF_Prefs = {
       'dgMlQ': function (param191, param192) {
         return param191 == param192;
       },
-      'gNRdn': "zoteroif.plugintimeactivated",
-      'kJtfO': "zoteroif.plugintimerunning",
+      'gNRdn': "ai4paper.plugintimeactivated",
+      'kJtfO': "ai4paper.plugintimerunning",
       'zRLwB': function (param193, param194) {
         return param193 === param194;
       },
@@ -1876,7 +1876,7 @@ Zotero.ZoteroIF_Prefs = {
   },
   'cancelOnAddRun': function () {
     var var141 = {
-        'hvUDO': "zoteroif.pinAttachmentsToolBarButton",
+        'hvUDO': "ai4paper.pinAttachmentsToolBarButton",
         'aPWnD': "pinAttachments",
         'VEDSK': "是否确认解除激活？",
         'VLjAw': function (param223, param224) {
@@ -1885,19 +1885,19 @@ Zotero.ZoteroIF_Prefs = {
         'BVuqz': "kwxEB",
         'vJltZ': 'xKopj',
         'CZUoe': "5|10|8|9|7|1|11|6|3|2|12|4|0",
-        'AybkX': "zoteroif.activationstatus.invalid.label",
-        'Paqko': "zoteroif.remove.activation.button",
-        'DFAgC': "zoteroif.activationkey.verify.button",
-        'tbuqc': "zoteroif.plugintimeactivated",
-        'XlUah': "zoteroif.activationkeyverifyresult",
+        'AybkX': "ai4paper.activationstatus.invalid.label",
+        'Paqko': "ai4paper.remove.activation.button",
+        'DFAgC': "ai4paper.activationkey.verify.button",
+        'tbuqc': "ai4paper.plugintimeactivated",
+        'XlUah': "ai4paper.activationkeyverifyresult",
         'qXSdm': "未激活",
-        'DKwtA': "zoteroif.activationkeyinput",
-        'XQbdx': "zoteroif.activationstatus.succeed.label",
-        'MiPrM': "zoteroif.activationkey.input",
-        'MMCty': "zoteroif.activationstatus.not.label",
-        'HENZR': "zoteroif.activationkey.input.label",
-        'TCDCp': "zoteroif.activationstatus.fail.label",
-        'xrfDo': "zoteroif.activationkeyexpiredate"
+        'DKwtA': "ai4paper.activationkeyinput",
+        'XQbdx': "ai4paper.activationstatus.succeed.label",
+        'MiPrM': "ai4paper.activationkey.input",
+        'MMCty': "ai4paper.activationstatus.not.label",
+        'HENZR': "ai4paper.activationkey.input.label",
+        'TCDCp': "ai4paper.activationstatus.fail.label",
+        'xrfDo': "ai4paper.activationkeyexpiredate"
       },
       var142 = window.confirm(var141.VEDSK);
     if (var142) {
@@ -1950,20 +1950,20 @@ Zotero.ZoteroIF_Prefs = {
         }
       } else {
         function fn40() {
-          _0x3d725f.getElementById(var141.hvUDO).checked ? (_0x4d42a1.Prefs.set(var141.hvUDO, true), _0x24199e.ZoteroIF.registerItemsToolBarButtons([var141.aPWnD])) : _0x3dbf32.ZoteroIF.unregisterItemsToolBarButtons([var141.aPWnD]);
+          _0x3d725f.getElementById(var141.hvUDO).checked ? (_0x4d42a1.Prefs.set(var141.hvUDO, true), _0x24199e.AI4Paper.registerItemsToolBarButtons([var141.aPWnD])) : _0x3dbf32.AI4Paper.unregisterItemsToolBarButtons([var141.aPWnD]);
         }
       }
     }
   },
   'checkKN': function () {
-    Zotero.ZoteroIF.collectionK();
-    Zotero.ZoteroIF.collectionU();
+    Zotero.AI4Paper.collectionK();
+    Zotero.AI4Paper.collectionU();
   },
   'checkEmptyKey': function () {
     var var145 = {
       'nuxgL': "app.update.auto",
       'jfSdg': "app.update.enable",
-      'qoujw': "zoteroif.disableZoteroUpdates",
+      'qoujw': "ai4paper.disableZoteroUpdates",
       'QwIcv': function (param225, param226) {
         return param225 + param226;
       },
@@ -1984,13 +1984,13 @@ Zotero.ZoteroIF_Prefs = {
       'FosJW': 'OYDQf',
       'kieZt': "FoNVu",
       'xmoNl': "3|2|0|6|4|5|1",
-      'tPkgs': "zoteroif.zotInfoWed",
-      'oixpT': "zoteroif.zotInfoSun",
-      'WwIRJ': "zoteroif.zotInfoTues",
-      'eTtmD': "zoteroif.zotInfoMon",
-      'HOUUj': "zoteroif.zotInfoFri",
-      'CbLds': "zoteroif.zotInfoSat",
-      'cLbuc': "zoteroif.zotInfoThur"
+      'tPkgs': "ai4paper.zotInfoWed",
+      'oixpT': "ai4paper.zotInfoSun",
+      'WwIRJ': "ai4paper.zotInfoTues",
+      'eTtmD': "ai4paper.zotInfoMon",
+      'HOUUj': "ai4paper.zotInfoFri",
+      'CbLds': "ai4paper.zotInfoSat",
+      'cLbuc': "ai4paper.zotInfoThur"
     };
     let var146 = var145.QwIcv(var145.RUwDI(atob, var145.SWRlu), var145.BrNNu(atob, var145.Ysayy));
     if (var145.aUKOe(Zotero.Prefs.get(var146), '')) {
@@ -2035,13 +2035,13 @@ Zotero.ZoteroIF_Prefs = {
   'setDaysPrefs': function () {
     var var149 = {
         'IIvRW': "2|1|3|6|5|4|0",
-        'kaYAp': "zoteroif.zotInfoSun",
-        'gRVFQ': "zoteroif.zotInfoTues",
-        'QqhCa': "zoteroif.zotInfoMon",
-        'EYdbR': "zoteroif.zotInfoWed",
-        'uMFfD': "zoteroif.zotInfoSat",
-        'wxilE': "zoteroif.zotInfoFri",
-        'QxWJf': "zoteroif.zotInfoThur"
+        'kaYAp': "ai4paper.zotInfoSun",
+        'gRVFQ': "ai4paper.zotInfoTues",
+        'QqhCa': "ai4paper.zotInfoMon",
+        'EYdbR': "ai4paper.zotInfoWed",
+        'uMFfD': "ai4paper.zotInfoSat",
+        'wxilE': "ai4paper.zotInfoFri",
+        'QxWJf': "ai4paper.zotInfoThur"
       },
       var150 = var149.IIvRW.split('|'),
       var151 = 0x0;
@@ -2079,11 +2079,11 @@ Zotero.ZoteroIF_Prefs = {
         return param235 != param236;
       }
     };
-    let var153 = Zotero.ZoteroIF.removeIF(var152.DUHKG);
-    var152.vciOX(Zotero.Prefs.get(var153).indexOf('-'), -0x1) && Zotero.ZoteroIF.sendkExDate();
+    let var153 = Zotero.AI4Paper.removeIF(var152.DUHKG);
+    var152.vciOX(Zotero.Prefs.get(var153).indexOf('-'), -0x1) && Zotero.AI4Paper.sendkExDate();
   },
   'sendUANDK': function () {
-    Zotero.ZoteroIF.sendkUANDK();
+    Zotero.AI4Paper.sendkUANDK();
   },
   'choosePDFAppPath': async function (param237) {
     var var154 = {
@@ -2113,12 +2113,12 @@ Zotero.ZoteroIF_Prefs = {
     var156.init(window, var154.ULwbo, var156.modeOpen);
     var156.appendFilters(var156.filterApps);
     if (var154.DEZLW(await var156.show(), var156.returnOK)) return false;
-    Zotero.Prefs.set("zoteroif.pdfapppath" + var155[param237], var156.file);
-    document.getElementById("zoteroif.openwith.pdfapppath" + var155[param237]).value = var156.file;
+    Zotero.Prefs.set("ai4paper.pdfapppath" + var155[param237], var156.file);
+    document.getElementById("ai4paper.openwith.pdfapppath" + var155[param237]).value = var156.file;
   },
   'chooseQuickLookAppPath': async function () {
     var var157 = {
-        'WrypK': "zoteroif.collapseCollectionsCollectionsToolBarButton",
+        'WrypK': "ai4paper.collapseCollectionsCollectionsToolBarButton",
         'nXzsY': "collapseCollections",
         'qAblf': "chrome://zotero/content/modules/filePicker.mjs",
         'TMrGx': "选择 QuickLook 应用",
@@ -2130,7 +2130,7 @@ Zotero.ZoteroIF_Prefs = {
         },
         'DVPSz': "nvLqF",
         'kasOX': "Isklh",
-        'USmGd': "zoteroif.quicklookapppath"
+        'USmGd': "ai4paper.quicklookapppath"
       },
       {
         FilePicker: _0x4dfdff
@@ -2142,7 +2142,7 @@ Zotero.ZoteroIF_Prefs = {
       if (var157.HoviN(var157.DVPSz, var157.kasOX)) {
         function fn42() {
           _0x1c0800.Prefs.set(var157.WrypK, true);
-          _0x365bc9.ZoteroIF.registerCollectionsToolBarButtons([var157.nXzsY]);
+          _0x365bc9.AI4Paper.registerCollectionsToolBarButtons([var157.nXzsY]);
         }
       } else return false;
     }
@@ -2162,7 +2162,7 @@ Zotero.ZoteroIF_Prefs = {
         },
         'EukFV': "BvcDH",
         'QbRoj': "tReZh",
-        'QNOtg': "zoteroif.browser4WebSearch"
+        'QNOtg': "ai4paper.browser4WebSearch"
       },
       {
         FilePicker: _0x5189bb
@@ -2173,7 +2173,7 @@ Zotero.ZoteroIF_Prefs = {
     if (var159.KzeJX(await var160.show(), var160.returnOK)) {
       if (var159.pMkCO(var159.EukFV, var159.QbRoj)) {
         function fn43() {
-          _0x159354.ZoteroIF.unregisterItemsToolBarButtons([var159.QEZsP]);
+          _0x159354.AI4Paper.unregisterItemsToolBarButtons([var159.QEZsP]);
         }
       } else return false;
     }
@@ -2186,10 +2186,10 @@ Zotero.ZoteroIF_Prefs = {
         'RVgYy': function (param248, param249) {
           return param248 != param249;
         },
-        'oDgSk': "zoteroif.chatwithnewbing.edge.path",
+        'oDgSk': "ai4paper.chatwithnewbing.edge.path",
         'oLjrF': "chrome://zotero/content/modules/filePicker.mjs",
         'NQJsc': "选择 Microsoft Edge 应用",
-        'miBnB': "zoteroif.microsoftedgeapppath"
+        'miBnB': "ai4paper.microsoftedgeapppath"
       },
       var162 = var161.Jhyhy.split('|'),
       var163 = 0x0;
@@ -2224,8 +2224,8 @@ Zotero.ZoteroIF_Prefs = {
   },
   'chooseImmersiveTranslateBrowserPath': async function () {
     var var165 = {
-        'zSIfM': "zoteroif.translationreadersidepane",
-        'TLbgc': "zoteroif.translate.translationreadersidepane",
+        'zSIfM': "ai4paper.translationreadersidepane",
+        'TLbgc': "ai4paper.translate.translationreadersidepane",
         'htYAv': "translate",
         'SRdjV': "chrome://zotero/content/modules/filePicker.mjs",
         'HGioi': '选择浏览器',
@@ -2236,7 +2236,7 @@ Zotero.ZoteroIF_Prefs = {
           return param252 !== param253;
         },
         'dKHuR': "RHzJP",
-        'MvAwM': "zoteroif.browserPath4ImmersiveTranslate"
+        'MvAwM': "ai4paper.browserPath4ImmersiveTranslate"
       },
       {
         FilePicker: _0x4c3617
@@ -2248,7 +2248,7 @@ Zotero.ZoteroIF_Prefs = {
       if (var165.EfVpc(var165.dKHuR, var165.dKHuR)) {
         function fn44() {
           _0x3ac609.Prefs.set(var165.zSIfM, _0x59600d.getElementById(var165.TLbgc).checked);
-          !_0x232ccb.Prefs.get(var165.zSIfM) ? _0x5b9856.ZoteroIF.unregisterReaderSidePanes([var165.htYAv]) : _0x2a18f2.ZoteroIF.isReaderSidePaneExist(var165.htYAv);
+          !_0x232ccb.Prefs.get(var165.zSIfM) ? _0x5b9856.AI4Paper.unregisterReaderSidePanes([var165.htYAv]) : _0x2a18f2.AI4Paper.isReaderSidePaneExist(var165.htYAv);
         }
       } else return false;
     }
@@ -2272,13 +2272,13 @@ Zotero.ZoteroIF_Prefs = {
           return param260 === param261;
         },
         'ZpPgC': "5|6|1|2|0|4|3",
-        'AAzug': "zoteroif.zotInfoFri",
-        'luTyh': "zoteroif.zotInfoWed",
-        'HlXqj': "zoteroif.zotInfoThur",
-        'VCAoC': "zoteroif.zotInfoSun",
-        'qhWxS': "zoteroif.zotInfoSat",
-        'PFtzo': "zoteroif.zotInfoMon",
-        'FTvYf': "zoteroif.zotInfoTues",
+        'AAzug': "ai4paper.zotInfoFri",
+        'luTyh': "ai4paper.zotInfoWed",
+        'HlXqj': "ai4paper.zotInfoThur",
+        'VCAoC': "ai4paper.zotInfoSun",
+        'qhWxS': "ai4paper.zotInfoSat",
+        'PFtzo': "ai4paper.zotInfoMon",
+        'FTvYf': "ai4paper.zotInfoTues",
         'fWrMK': "chrome://zotero/content/modules/filePicker.mjs",
         'ugxPd': '选择浏览器',
         'VZQXg': function (param262, param263) {
@@ -2286,7 +2286,7 @@ Zotero.ZoteroIF_Prefs = {
         },
         'lFOVG': "gmmoB",
         'MBZXV': 'oLGkh',
-        'OZtbH': "zoteroif.browserPath4ImmersiveTranslate2nd"
+        'OZtbH': "ai4paper.browserPath4ImmersiveTranslate2nd"
       },
       {
         FilePicker: _0x3fba9c
@@ -2337,10 +2337,10 @@ Zotero.ZoteroIF_Prefs = {
   'chooseDirectory': async function (param264) {
     var var172 = {
         'WlbNW': "collectionPaneDisplay",
-        'DZByo': "zoteroif.chatanywhere.apiverify.button",
-        'DMMgm': "zoteroif.chatanywhere.removeapi.button",
-        'VZdOJ': "zoteroif.openai.apiverify.button",
-        'jQAJN': "zoteroif.openai.removeapi.button",
+        'DZByo': "ai4paper.chatanywhere.apiverify.button",
+        'DMMgm': "ai4paper.chatanywhere.removeapi.button",
+        'VZdOJ': "ai4paper.openai.apiverify.button",
+        'jQAJN': "ai4paper.openai.removeapi.button",
         'UiyOB': "chrome://zotero/content/modules/filePicker.mjs",
         'AGZEO': function (param265, param266) {
           return param265 !== param266;
@@ -2363,11 +2363,11 @@ Zotero.ZoteroIF_Prefs = {
     try {
       if (var172.AGZEO(var172.dXAle, var172.dXAle)) {
         function fn46() {
-          _0x5c1067.ZoteroIF.unregisterItemsToolBarButtons([var172.WlbNW]);
+          _0x5c1067.AI4Paper.unregisterItemsToolBarButtons([var172.WlbNW]);
         }
       } else {
-        let var174 = Zotero.Prefs.get("zoteroif." + param264);
-        if (var174 && (await Zotero.ZoteroIF.isPathExists(var174))) {
+        let var174 = Zotero.Prefs.get("ai4paper." + param264);
+        if (var174 && (await Zotero.AI4Paper.isPathExists(var174))) {
           if (var172.AGZEO(var172.JTdjM, var172.JTdjM)) {
             function fn47() {
               _0x49ef13.getElementById(var172.DZByo).hidden = true;
@@ -2390,16 +2390,16 @@ Zotero.ZoteroIF_Prefs = {
       }
     }
     var var175 = PathUtils.normalize(var173.file);
-    Zotero.Prefs.set("zoteroif." + param264, var175);
-    document.getElementById("zoteroif." + param264).value = var175;
+    Zotero.Prefs.set("ai4paper." + param264, var175);
+    document.getElementById("ai4paper." + param264).value = var175;
   },
   'chooseObsidianAppPath': async function () {
     var var176 = {
         'gINgj': "0|5|1|2|6|4|3",
         'cFVEC': "chrome://zotero/content/modules/filePicker.mjs",
         'nCxOZ': "选择 Obsidian 应用",
-        'KAdTO': "zoteroif.obsidian.app.path",
-        'EGhwi': "zoteroif.obsidianapppath",
+        'KAdTO': "ai4paper.obsidian.app.path",
+        'EGhwi': "ai4paper.obsidianapppath",
         'gkZfE': function (param271, param272) {
           return param271 != param272;
         }
@@ -2438,13 +2438,13 @@ Zotero.ZoteroIF_Prefs = {
   'chooseNotesExportPath': async function () {
     var var180 = {
         'wJgXD': "3|4|5|6|2|0|7|1",
-        'eQZev': "zoteroif.notesexport.path",
+        'eQZev': "ai4paper.notesexport.path",
         'podqy': function (param273, param274) {
           return param273 != param274;
         },
         'SARZd': "chrome://zotero/content/modules/filePicker.mjs",
         'WhnMa': "选择笔记导出路径",
-        'XLlrU': "zoteroif.notesexportpath"
+        'XLlrU': "ai4paper.notesexportpath"
       },
       var181 = var180.wJgXD.split('|'),
       var182 = 0x0;
@@ -2484,8 +2484,8 @@ Zotero.ZoteroIF_Prefs = {
     var var185 = {
         'IQGRi': "0|4|5|6|3|2|1",
         'ixWqf': "chrome://zotero/content/modules/filePicker.mjs",
-        'FbCwP': "zoteroif.markdown.application.path",
-        'BNsdU': "zoteroif.markdownapppath",
+        'FbCwP': "ai4paper.markdown.application.path",
+        'BNsdU': "ai4paper.markdownapppath",
         'xVxNP': function (param275, param276) {
           return param275 != param276;
         },
@@ -2524,8 +2524,8 @@ Zotero.ZoteroIF_Prefs = {
   },
   'verifyOpenAIAPI': async function () {
     var var189 = {
-      'xJccE': "zoteroif.deeplapiinput",
-      'OeLlz': "zoteroif.deepl.apiinput",
+      'xJccE': "ai4paper.deeplapiinput",
+      'OeLlz': "ai4paper.deepl.apiinput",
       'QNxcJ': function (param277, param278) {
         return param277 === param278;
       },
@@ -2539,10 +2539,10 @@ Zotero.ZoteroIF_Prefs = {
       'aVRIQ': "message",
       'FbAmj': "content",
       'adNHH': "验证成功！",
-      'RnsPN': "zoteroif.chatanywhereverifyresult",
+      'RnsPN': "ai4paper.chatanywhereverifyresult",
       'nopzJ': '验证成功',
-      'VMGlu': "zoteroif.chatanywhere.apiverify.button",
-      'gQKQw': "zoteroif.chatanywhere.removeapi.button",
+      'VMGlu': "ai4paper.chatanywhere.apiverify.button",
+      'gQKQw': "ai4paper.chatanywhere.removeapi.button",
       'VhmxQ': function (param279, param280) {
         return param279 === param280;
       },
@@ -2552,13 +2552,13 @@ Zotero.ZoteroIF_Prefs = {
         return param281 === param282;
       },
       'zBRFf': "AeMOI",
-      'lMrzQ': "zoteroif.openaiverifyresult",
-      'DUoLV': "zoteroif.openai.apiverify.button",
-      'YcnLk': "zoteroif.openai.removeapi.button",
+      'lMrzQ': "ai4paper.openaiverifyresult",
+      'DUoLV': "ai4paper.openai.apiverify.button",
+      'YcnLk': "ai4paper.openai.removeapi.button",
       'jrhBP': function (param283, param284) {
         return param283 === param284;
       },
-      'LKqFk': "zoteroif.openaiapiinput",
+      'LKqFk': "ai4paper.openaiapiinput",
       'OwPQy': "请先输入 OpenAI API-Key！",
       'vIjOD': "Hello",
       'TcVxG': "https://api.openai.com/v1/chat/completions",
@@ -2568,7 +2568,7 @@ Zotero.ZoteroIF_Prefs = {
     var var190 = var189.vIjOD,
       var191 = Zotero.Prefs.get(var189.LKqFk).trim(),
       var192 = var189.TcVxG;
-    return await Zotero.ZoteroIF.httpRequestInit(async () => {
+    return await Zotero.AI4Paper.httpRequestInit(async () => {
       if (var189.QNxcJ(var189.SerfG, var189.SerfG)) return await Zotero.HTTP.request(var189.NETzG, var192, {
         'headers': {
           'Content-Type': var189.Xhigp,
@@ -2590,10 +2590,10 @@ Zotero.ZoteroIF_Prefs = {
     }, _0x5085b2 => {
       if (var189.VhmxQ(var189.XkIMv, var189.Mchcl)) {
         function fn50() {
-          _0xb252c9.ZoteroIF.unregisterItemsToolBarButtons([var189.ElMWe]);
+          _0xb252c9.AI4Paper.unregisterItemsToolBarButtons([var189.ElMWe]);
         }
       } else {
-        if (Zotero.ZoteroIF.runAuthor()) {
+        if (Zotero.AI4Paper.runAuthor()) {
           if (_0x5085b2.response.choices[0x0][var189.aVRIQ][var189.FbAmj]) {
             if (var189.vBqom(var189.zBRFf, var189.zBRFf)) {
               window.alert(var189.adNHH);
@@ -2613,10 +2613,10 @@ Zotero.ZoteroIF_Prefs = {
   'removeOpenAIAPI': function () {
     var var193 = {
         'Eflhp': "是否确认解除 API 绑定？",
-        'JISHe': "zoteroif.openaiverifyresult",
+        'JISHe': "ai4paper.openaiverifyresult",
         'fcNHH': "未验证",
-        'kscOj': "zoteroif.openai.apiverify.button",
-        'eDlFi': "zoteroif.openai.removeapi.button"
+        'kscOj': "ai4paper.openai.apiverify.button",
+        'eDlFi': "ai4paper.openai.removeapi.button"
       },
       var194 = window.confirm(var193.Eflhp);
     var194 && (Zotero.Prefs.set(var193.JISHe, var193.fcNHH), document.getElementById(var193.kscOj).hidden = false, document.getElementById(var193.eDlFi).hidden = true);
@@ -2625,25 +2625,25 @@ Zotero.ZoteroIF_Prefs = {
     var var195 = {
       'CJSXm': 'text',
       'ihbyg': '验证成功！',
-      'NGxbj': "zoteroif.claudeverifyresult",
+      'NGxbj': "ai4paper.claudeverifyresult",
       'HgIbM': "验证成功",
-      'mDpzP': "zoteroif.claude.apiverify.button",
-      'weDiY': "zoteroif.claude.removeapi.button",
+      'mDpzP': "ai4paper.claude.apiverify.button",
+      'weDiY': "ai4paper.claude.removeapi.button",
       'LtshU': 'POST',
       'NZLNb': "application/json",
       'OYAQB': "gpt-4o-mini",
       'PAFVC': "user",
       'Nmhmf': "json",
-      'vMMYk': "zoteroif.openwithToolBarButton",
+      'vMMYk': "ai4paper.openwithToolBarButton",
       'XOSMo': "openwith",
       'DuZNy': function (param285, param286) {
         return param285 - param286;
       },
       'MGwFC': "message",
       'bjNOd': "content",
-      'jskAt': "zoteroif.wenxinAPIVerifyResult",
-      'GFeuF': "zoteroif.wenxin.apiverify.button",
-      'NOyeS': "zoteroif.wenxin.removeapi.button",
+      'jskAt': "ai4paper.wenxinAPIVerifyResult",
+      'GFeuF': "ai4paper.wenxin.apiverify.button",
+      'NOyeS': "ai4paper.wenxin.removeapi.button",
       'rJDWz': function (param287, param288) {
         return param287 !== param288;
       },
@@ -2657,10 +2657,10 @@ Zotero.ZoteroIF_Prefs = {
         return param291 !== param292;
       },
       'WtWFi': "xPvWC",
-      'UMMhE': "zoteroif.api2dverifyresult",
-      'RduIL': "zoteroif.api2d.apiverify.button",
-      'ARnRK': "zoteroif.api2d.removeapi.button",
-      'VZQfY': "zoteroif.api2dapiinput",
+      'UMMhE': "ai4paper.api2dverifyresult",
+      'RduIL': "ai4paper.api2d.apiverify.button",
+      'ARnRK': "ai4paper.api2d.removeapi.button",
+      'VZQfY': "ai4paper.api2dapiinput",
       'wrVEq': function (param293, param294) {
         return param293 !== param294;
       },
@@ -2674,14 +2674,14 @@ Zotero.ZoteroIF_Prefs = {
     if (var195.MkhwQ(Zotero.Prefs.get(var195.VZQfY), '')) {
       if (var195.wrVEq(var195.gKSoO, var195.GgwgW)) return window.alert(var195.GdxVF), -0x1;else {
         function fn52() {
-          _0x59ff93.ZoteroIF.runAuthor() && _0x57f76b.response.content[0x0][var195.CJSXm] && (_0x3da1be.alert(var195.ihbyg), _0x3c2bce.Prefs.set(var195.NGxbj, var195.HgIbM), _0x28d698.getElementById(var195.mDpzP).hidden = true, _0x5bd6ca.getElementById(var195.weDiY).hidden = false);
+          _0x59ff93.AI4Paper.runAuthor() && _0x57f76b.response.content[0x0][var195.CJSXm] && (_0x3da1be.alert(var195.ihbyg), _0x3c2bce.Prefs.set(var195.NGxbj, var195.HgIbM), _0x28d698.getElementById(var195.mDpzP).hidden = true, _0x5bd6ca.getElementById(var195.weDiY).hidden = false);
         }
       }
     }
     var var196 = var195.xrkGC,
       var197 = Zotero.Prefs.get(var195.VZQfY).trim(),
       var198 = var195.dvrEI;
-    return await Zotero.ZoteroIF.httpRequestInit(async () => {
+    return await Zotero.AI4Paper.httpRequestInit(async () => {
       return await Zotero.HTTP.request(var195.LtshU, var198, {
         'headers': {
           'Content-Type': var195.NZLNb,
@@ -2711,10 +2711,10 @@ Zotero.ZoteroIF_Prefs = {
       if (var195.rJDWz(var195.nqjfB, var195.nqjfB)) {
         function fn53() {
           _0xc789b2.Prefs.set(var195.vMMYk, true);
-          _0xc89c90.ZoteroIF.registerItemsToolBarButtons([var195.XOSMo]);
+          _0xc89c90.AI4Paper.registerItemsToolBarButtons([var195.XOSMo]);
         }
       } else {
-        if (Zotero.ZoteroIF.runAuthor()) {
+        if (Zotero.AI4Paper.runAuthor()) {
           if (var195.MkhwQ(var195.JFakj, var195.LcvxI)) {
             function fn54() {
               _0x2ceee8 = _0x5c9377.substring(0x0, var195.DuZNy(_0x5cd1db.length, 0x1));
@@ -2739,24 +2739,24 @@ Zotero.ZoteroIF_Prefs = {
   },
   'removeAPI2DAPI': function () {
     var var200 = {
-        'gNCVy': "zoteroif.disableStarShortucts",
+        'gNCVy': "ai4paper.disableStarShortucts",
         'VkpGH': "是否确认解除 API 绑定？",
         'XGGSM': function (param295, param296) {
           return param295 === param296;
         },
         'VZLnF': "iqAIZ",
         'wyHcY': "bsXnY",
-        'czStw': "zoteroif.api2dverifyresult",
+        'czStw': "ai4paper.api2dverifyresult",
         'caneQ': '未验证',
-        'mmvwJ': "zoteroif.api2d.apiverify.button",
-        'DSmwZ': "zoteroif.api2d.removeapi.button"
+        'mmvwJ': "ai4paper.api2d.apiverify.button",
+        'DSmwZ': "ai4paper.api2d.removeapi.button"
       },
       var201 = window.confirm(var200.VkpGH);
     if (var201) {
       if (var200.XGGSM(var200.VZLnF, var200.wyHcY)) {
         function fn56() {
           _0x49bace.Prefs.set(var200.gNCVy, _0x230f77.getElementById(var200.gNCVy).checked);
-          _0x47fbef.ZoteroIF.registerShortcuts_Star();
+          _0x47fbef.AI4Paper.registerShortcuts_Star();
         }
       } else {
         Zotero.Prefs.set(var200.czStw, var200.caneQ);
@@ -2774,15 +2774,15 @@ Zotero.ZoteroIF_Prefs = {
       'sugxx': "请修改文本中的拼写错误",
       'Tghzx': "What tim is it",
       'EMkEw': 'json',
-      'xPMzp': "zoteroif.claude.apiverify.button",
-      'HMkBr': "zoteroif.claude.removeapi.button",
+      'xPMzp': "ai4paper.claude.apiverify.button",
+      'HMkBr': "ai4paper.claude.removeapi.button",
       'mITDm': function (param297, param298) {
         return param297 === param298;
       },
       'exTAr': 'NaurP',
       'ySsEQ': "GdDKX",
       'BbBOP': "API2D 余额查询",
-      'dfqjk': "zoteroif.api2dapiinput",
+      'dfqjk': "ai4paper.api2dapiinput",
       'MczYm': "fbLTM",
       'lfwZU': "请先输入 API2D FowardKey!",
       'GflRl': "https://oa.api2d.net/dashboard/billing/credit_grants",
@@ -2797,7 +2797,7 @@ Zotero.ZoteroIF_Prefs = {
     }
     let var203 = var202.GflRl,
       var204 = Zotero.Prefs.get(var202.dfqjk).trim();
-    return await Zotero.ZoteroIF.httpRequestInit(async () => {
+    return await Zotero.AI4Paper.httpRequestInit(async () => {
       return await Zotero.HTTP.request(var202.mabsv, var203, {
         'headers': {
           'Content-Type': var202.YksmQ,
@@ -2816,7 +2816,7 @@ Zotero.ZoteroIF_Prefs = {
         'RFHDI': var202.xPMzp,
         'rGybr': var202.HMkBr
       };
-      if (Zotero.ZoteroIF.runAuthor()) {
+      if (Zotero.AI4Paper.runAuthor()) {
         if (var202.mITDm(var202.exTAr, var202.ySsEQ)) {
           function fn58() {
             _0x524973.getElementById(var205.RFHDI).hidden = true;
@@ -2856,17 +2856,17 @@ Zotero.ZoteroIF_Prefs = {
         return param303 === param304;
       },
       'Pfkfm': "yyObB",
-      'Irbik': "zoteroif.chatanywhereverifyresult",
-      'xVkOu': "zoteroif.chatanywhere.apiverify.button",
-      'OIXhZ': "zoteroif.chatanywhere.removeapi.button",
+      'Irbik': "ai4paper.chatanywhereverifyresult",
+      'xVkOu': "ai4paper.chatanywhere.apiverify.button",
+      'OIXhZ': "ai4paper.chatanywhere.removeapi.button",
       'putfP': function (param305, param306) {
         return param305 === param306;
       },
-      'ixFDj': "zoteroif.chatanywhereapiinput",
+      'ixFDj': "ai4paper.chatanywhereapiinput",
       'LRlUH': "ySqNh",
       'qtZSr': "请先输入 ChatAnywhere API-Key！",
       'raFzy': 'Hello',
-      'QsLED': "zoteroif.chatanywherehost",
+      'QsLED': "ai4paper.chatanywherehost",
       'hlDUS': "alert"
     };
     if (var207.putfP(Zotero.Prefs.get(var207.ixFDj), '')) {
@@ -2880,10 +2880,10 @@ Zotero.ZoteroIF_Prefs = {
     var var208 = var207.raFzy,
       var209 = Zotero.Prefs.get(var207.ixFDj).trim(),
       var210 = Zotero.Prefs.get(var207.QsLED) + "/v1/chat/completions";
-    return await Zotero.ZoteroIF.httpRequestInit(async () => {
+    return await Zotero.AI4Paper.httpRequestInit(async () => {
       if (var207.JYMSn(var207.kDhRd, var207.MQwMZ)) {
         function fn60() {
-          _0x1e36f9.ZoteroIF.runAuthor() && _0x169a42.response.choices[0x0][var207.UAyfo][var207.jBTVM] && (_0x49f768.alert(var207.fdqip), _0x53a26c.Prefs.set("zoteroif.gptcustomverifyresult" + _0x265574[_0x3aabef], var207.SWqdy), _0x16bab8.getElementById("zoteroif.gptcustom" + _0x50819e[_0x57affc] + ".apiverify.button").hidden = true, _0x347999.getElementById("zoteroif.gptcustom" + _0x48659c[_0x88f7c1] + ".removeapi.button").hidden = false);
+          _0x1e36f9.AI4Paper.runAuthor() && _0x169a42.response.choices[0x0][var207.UAyfo][var207.jBTVM] && (_0x49f768.alert(var207.fdqip), _0x53a26c.Prefs.set("ai4paper.gptcustomverifyresult" + _0x265574[_0x3aabef], var207.SWqdy), _0x16bab8.getElementById("ai4paper.gptcustom" + _0x50819e[_0x57affc] + ".apiverify.button").hidden = true, _0x347999.getElementById("ai4paper.gptcustom" + _0x48659c[_0x88f7c1] + ".removeapi.button").hidden = false);
         }
       } else return await Zotero.HTTP.request(var207.bxcAd, var210, {
         'headers': {
@@ -2904,7 +2904,7 @@ Zotero.ZoteroIF_Prefs = {
         'LsfIb': var207.nzQrD
       };
       if (var207.SgPZi(var207.RVBzr, var207.kwXrV)) {
-        if (Zotero.ZoteroIF.runAuthor()) {
+        if (Zotero.AI4Paper.runAuthor()) {
           if (_0x4138da.response.choices[0x0][var207.UAyfo][var207.jBTVM]) {
             if (var207.sEkzC(var207.Pfkfm, var207.Pfkfm)) {
               window.alert(var207.fdqip);
@@ -2940,16 +2940,16 @@ Zotero.ZoteroIF_Prefs = {
           return param307 !== param308;
         },
         'sgRUo': "Aciue",
-        'wlLLD': "zoteroif.chatanywhereverifyresult",
+        'wlLLD': "ai4paper.chatanywhereverifyresult",
         'qOrNA': '未验证',
-        'ZXPHq': "zoteroif.chatanywhere.apiverify.button",
-        'yTWPK': "zoteroif.chatanywhere.removeapi.button"
+        'ZXPHq': "ai4paper.chatanywhere.apiverify.button",
+        'yTWPK': "ai4paper.chatanywhere.removeapi.button"
       },
       var217 = window.confirm(var216.pZorK);
     if (var217) {
       if (var216.ziIwP(var216.sgRUo, var216.sgRUo)) {
         function fn63() {
-          _0x2774fa.ZoteroIF.unregisterCollectionsToolBarButtons([var216.dXArX]);
+          _0x2774fa.AI4Paper.unregisterCollectionsToolBarButtons([var216.dXArX]);
         }
       } else {
         Zotero.Prefs.set(var216.wlLLD, var216.qOrNA);
@@ -2960,10 +2960,10 @@ Zotero.ZoteroIF_Prefs = {
   },
   'verifyQwenAPI': async function () {
     var var218 = {
-      'ErscP': "zoteroif.eudicVerifyResult",
+      'ErscP': "ai4paper.eudicVerifyResult",
       'wGwls': "未验证",
-      'yPYda': "zoteroif.eudic.apiverify.button",
-      'sRBms': "zoteroif.eudic.removeapi.button",
+      'yPYda': "ai4paper.eudic.apiverify.button",
+      'sRBms': "ai4paper.eudic.removeapi.button",
       'RoOaX': function (param309, param310) {
         return param309 !== param310;
       },
@@ -2980,14 +2980,14 @@ Zotero.ZoteroIF_Prefs = {
       'ijchG': "message",
       'YOrFK': "content",
       'jhBNx': "验证成功！",
-      'sDswH': "zoteroif.qwenVerifyResult",
+      'sDswH': "ai4paper.qwenVerifyResult",
       'DnPzj': '验证成功',
-      'oeOIU': "zoteroif.qwen.apiverify.button",
-      'eizdo': "zoteroif.qwen.removeapi.button",
+      'oeOIU': "ai4paper.qwen.apiverify.button",
+      'eizdo': "ai4paper.qwen.removeapi.button",
       'NimRm': function (param313, param314) {
         return param313 === param314;
       },
-      'QXuZa': "zoteroif.qwenAPI",
+      'QXuZa': "ai4paper.qwenAPI",
       'qRhNf': 'fJogR',
       'HEMtq': 'gCVdt',
       'kmdjN': "请先输入 通义千问 API-Key！",
@@ -3007,7 +3007,7 @@ Zotero.ZoteroIF_Prefs = {
     var var219 = var218.xTIFV,
       var220 = Zotero.Prefs.get(var218.QXuZa).trim(),
       var221 = var218.bDvde;
-    return await Zotero.ZoteroIF.httpRequestInit(async () => {
+    return await Zotero.AI4Paper.httpRequestInit(async () => {
       if (var218.RoOaX(var218.AwgJN, var218.AwgJN)) {
         function fn65() {
           this.scrollContainer = this.findScrollContainer();
@@ -3033,16 +3033,16 @@ Zotero.ZoteroIF_Prefs = {
         function fn66() {
           return _0x2cb9a0;
         }
-      } else Zotero.ZoteroIF.runAuthor() && _0x43a06a.response.choices[0x0][var218.ijchG][var218.YOrFK] && (window.alert(var218.jhBNx), Zotero.Prefs.set(var218.sDswH, var218.DnPzj), document.getElementById(var218.oeOIU).hidden = true, document.getElementById(var218.eizdo).hidden = false);
+      } else Zotero.AI4Paper.runAuthor() && _0x43a06a.response.choices[0x0][var218.ijchG][var218.YOrFK] && (window.alert(var218.jhBNx), Zotero.Prefs.set(var218.sDswH, var218.DnPzj), document.getElementById(var218.oeOIU).hidden = true, document.getElementById(var218.eizdo).hidden = false);
     }, var218.YUgfz);
   },
   'removeQwenAPI': function () {
     var var222 = {
         'nMFlG': "是否确认解除 API 绑定？",
-        'CPOqY': "zoteroif.qwenVerifyResult",
+        'CPOqY': "ai4paper.qwenVerifyResult",
         'zHrSF': "未验证",
-        'KSxAC': "zoteroif.qwen.apiverify.button",
-        'zKwtA': "zoteroif.qwen.removeapi.button"
+        'KSxAC': "ai4paper.qwen.apiverify.button",
+        'zKwtA': "ai4paper.qwen.removeapi.button"
       },
       var223 = window.confirm(var222.nMFlG);
     var223 && (Zotero.Prefs.set(var222.CPOqY, var222.zHrSF), document.getElementById(var222.KSxAC).hidden = false, document.getElementById(var222.zKwtA).hidden = true);
@@ -3067,10 +3067,10 @@ Zotero.ZoteroIF_Prefs = {
       'GPqxW': "message",
       'mcECW': "content",
       'IiPqF': "验证成功！",
-      'DglLl': "zoteroif.wenxinAPIVerifyResult",
+      'DglLl': "ai4paper.wenxinAPIVerifyResult",
       'BZkjK': "验证成功",
-      'aSLcD': "zoteroif.wenxin.apiverify.button",
-      'YvaCM': "zoteroif.wenxin.removeapi.button",
+      'aSLcD': "ai4paper.wenxin.apiverify.button",
+      'YvaCM': "ai4paper.wenxin.removeapi.button",
       'toant': "文心一言",
       'gkKXw': function (param317, param318) {
         return param317 === param318;
@@ -3079,15 +3079,15 @@ Zotero.ZoteroIF_Prefs = {
       'cVFic': "alert"
     };
     let var225 = var224.toant;
-    var var226 = Zotero.ZoteroIF.gptServiceList()[var225].api_key,
-      var227 = Zotero.ZoteroIF.gptServiceList()[var225].request_url;
+    var var226 = Zotero.AI4Paper.gptServiceList()[var225].api_key,
+      var227 = Zotero.AI4Paper.gptServiceList()[var225].request_url;
     if (var224.gkKXw(var226, '')) return window.alert('请先输入【' + var225 + "】API-Key!"), -0x1;
     var var228 = var224.jpOHd;
-    return await Zotero.ZoteroIF.httpRequestInit(async () => {
+    return await Zotero.AI4Paper.httpRequestInit(async () => {
       if (var224.oyEep(var224.cFclM, var224.xWILc)) {
         function fn67() {
-          _0xc80a4c.getElementById("zoteroif.gpt.gptcustomhost" + _0x57a276[_0x5eb505]).setAttribute(var224.qfyNO, var224.NVOzY);
-          _0x3e27fc.innerHTML = _0x4ecd4b.ZoteroIF.svg_icon_20px[var224.EvEPD];
+          _0xc80a4c.getElementById("ai4paper.gpt.gptcustomhost" + _0x57a276[_0x5eb505]).setAttribute(var224.qfyNO, var224.NVOzY);
+          _0x3e27fc.innerHTML = _0x4ecd4b.AI4Paper.svg_icon_20px[var224.EvEPD];
         }
       } else return await Zotero.HTTP.request(var224.LmlNB, var227, {
         'headers': {
@@ -3104,7 +3104,7 @@ Zotero.ZoteroIF_Prefs = {
         'responseType': var224.cGWHE
       });
     }, _0x234d5f => {
-      if (Zotero.ZoteroIF.runAuthor()) {
+      if (Zotero.AI4Paper.runAuthor()) {
         if (var224.oyEep(var224.lLwWg, var224.JwPIA)) {
           function fn68() {
             return false;
@@ -3116,18 +3116,18 @@ Zotero.ZoteroIF_Prefs = {
   'removeWenXinAPI': function () {
     var var229 = {
         'qGBLe': "是否确认解除 API 绑定？",
-        'yIgHv': "zoteroif.wenxinAPIVerifyResult",
+        'yIgHv': "ai4paper.wenxinAPIVerifyResult",
         'CpqxQ': "未验证",
-        'rrzBN': "zoteroif.wenxin.apiverify.button",
-        'ZZuto': "zoteroif.wenxin.removeapi.button"
+        'rrzBN': "ai4paper.wenxin.apiverify.button",
+        'ZZuto': "ai4paper.wenxin.removeapi.button"
       },
       var230 = window.confirm(var229.qGBLe);
     var230 && (Zotero.Prefs.set(var229.yIgHv, var229.CpqxQ), document.getElementById(var229.rrzBN).hidden = false, document.getElementById(var229.ZZuto).hidden = true);
   },
   'verifyGLMAPI': async function () {
     var var231 = {
-      'YGTVR': "zoteroif.deepSeek.apiverify.button",
-      'Czonj': "zoteroif.deepSeek.removeapi.button",
+      'YGTVR': "ai4paper.deepSeek.apiverify.button",
+      'Czonj': "ai4paper.deepSeek.removeapi.button",
       'ZYweN': function (param319, param320) {
         return param319 !== param320;
       },
@@ -3153,14 +3153,14 @@ Zotero.ZoteroIF_Prefs = {
       },
       'OfHfP': 'zVTpF',
       'wymvn': "验证成功！",
-      'putqd': "zoteroif.glmVerifyResult",
+      'putqd': "ai4paper.glmVerifyResult",
       'uoHXx': "验证成功",
-      'PeZwi': "zoteroif.glm.apiverify.button",
-      'aYoDh': "zoteroif.glm.removeapi.button",
+      'PeZwi': "ai4paper.glm.apiverify.button",
+      'aYoDh': "ai4paper.glm.removeapi.button",
       'fcpLa': function (param325, param326) {
         return param325 === param326;
       },
-      'tfjHc': "zoteroif.glmAPI",
+      'tfjHc': "ai4paper.glmAPI",
       'kzOid': "UwDLO",
       'PGwkA': "请先输入 智普清言 API-Key！",
       'ZWpDH': "Hello",
@@ -3178,15 +3178,15 @@ Zotero.ZoteroIF_Prefs = {
     var var232 = var231.ZWpDH,
       var233 = Zotero.Prefs.get(var231.tfjHc).trim(),
       var234 = var231.XMBen;
-    return await Zotero.ZoteroIF.httpRequestInit(async () => {
+    return await Zotero.AI4Paper.httpRequestInit(async () => {
       if (var231.ZYweN(var231.VPOaP, var231.VPOaP)) {
         function fn70() {
           let var235 = _0x5c1308.getMainWindow().Zotero_Tabs._selectedID;
           var var236 = _0x472e74.Reader.getByTabID(var235);
           if (!var236) return false;
           let var237 = var236._iframeWindow;
-          _0x14724d.ZoteroIF.setPDFBackGroundColor(var237);
-          _0x4e6fe3.ZoteroIF.updateReaderButtonState(var237);
+          _0x14724d.AI4Paper.setPDFBackGroundColor(var237);
+          _0x4e6fe3.AI4Paper.updateReaderButtonState(var237);
         }
       } else return await Zotero.HTTP.request(var231.vhrch, var234, {
         'headers': {
@@ -3207,7 +3207,7 @@ Zotero.ZoteroIF_Prefs = {
         'JhuIP': var231.ZcYxp
       };
       if (var231.ZYweN(var231.jOlzi, var231.Rguhg)) {
-        if (Zotero.ZoteroIF.runAuthor()) {
+        if (Zotero.AI4Paper.runAuthor()) {
           if (var231.mYWnz(var231.AvvqG, var231.pEwbT)) {
             function fn71() {
               return _0x30f8ec.alert("您启用了自定义模型，但是尚未配置【" + _0x4d1e4c + "】模型！"), -0x1;
@@ -3221,7 +3221,7 @@ Zotero.ZoteroIF_Prefs = {
                 document.getElementById(var231.aYoDh).hidden = false;
               } else {
                 function fn72() {
-                  _0x5795a0.ZoteroIF.unregisterItemsToolBarButtons([var231.abcjb]);
+                  _0x5795a0.AI4Paper.unregisterItemsToolBarButtons([var231.abcjb]);
                 }
               }
             }
@@ -3229,25 +3229,25 @@ Zotero.ZoteroIF_Prefs = {
         }
       } else {
         function fn73() {
-          _0x352b46.ZoteroIF.unregisterItemsToolBarButtons([var238.JhuIP]);
+          _0x352b46.AI4Paper.unregisterItemsToolBarButtons([var238.JhuIP]);
         }
       }
     }, var231.dxtYv);
   },
   'removeGLMAPI': function () {
     var var239 = {
-        'ZXRYd': "zoteroif.qwen.apiverify.button",
-        'fiCQv': "zoteroif.qwen.removeapi.button",
+        'ZXRYd': "ai4paper.qwen.apiverify.button",
+        'fiCQv': "ai4paper.qwen.removeapi.button",
         'xtaJd': "是否确认解除 API 绑定？",
         'kJDEI': function (param327, param328) {
           return param327 !== param328;
         },
         'vFNCb': "aoPbr",
         'RivLz': "dnVbe",
-        'LZvJw': "zoteroif.glmVerifyResult",
+        'LZvJw': "ai4paper.glmVerifyResult",
         'qSmUO': "未验证",
-        'RtWcx': "zoteroif.glm.apiverify.button",
-        'hTwgQ': "zoteroif.glm.removeapi.button"
+        'RtWcx': "ai4paper.glm.apiverify.button",
+        'hTwgQ': "ai4paper.glm.removeapi.button"
       },
       var240 = window.confirm(var239.xtaJd);
     if (var240) {
@@ -3286,14 +3286,14 @@ Zotero.ZoteroIF_Prefs = {
       },
       'JbXkl': "rDIzY",
       'McmcG': "验证成功！",
-      'ANqAi': "zoteroif.yiVerifyResult",
+      'ANqAi': "ai4paper.yiVerifyResult",
       'tOuwU': "验证成功",
-      'ZGDgC': "zoteroif.yi.apiverify.button",
-      'isMUS': "zoteroif.yi.removeapi.button",
+      'ZGDgC': "ai4paper.yi.apiverify.button",
+      'isMUS': "ai4paper.yi.removeapi.button",
       'eZbXa': function (param335, param336) {
         return param335 === param336;
       },
-      'REffe': "zoteroif.yiAPI",
+      'REffe': "ai4paper.yiAPI",
       'yBPuY': "请先输入 零一万物 API-Key！",
       'UQjhH': 'Hello',
       'XmJiL': "https://api.lingyiwanwu.com/v1/chat/completions",
@@ -3303,7 +3303,7 @@ Zotero.ZoteroIF_Prefs = {
     var var242 = var241.UQjhH,
       var243 = Zotero.Prefs.get(var241.REffe).trim(),
       var244 = var241.XmJiL;
-    return await Zotero.ZoteroIF.httpRequestInit(async () => {
+    return await Zotero.AI4Paper.httpRequestInit(async () => {
       if (var241.cTQtu(var241.aYCkf, var241.aYCkf)) return await Zotero.HTTP.request(var241.OOuJP, var244, {
         'headers': {
           'Content-Type': var241.aJuzy,
@@ -3328,10 +3328,10 @@ Zotero.ZoteroIF_Prefs = {
       };
       if (var241.WVdLR(var241.TPrdF, var241.TPrdF)) {
         function fn76() {
-          _0x155101.ZoteroIF.unregisterItemsToolBarButtons([var245.SjfyP]);
+          _0x155101.AI4Paper.unregisterItemsToolBarButtons([var245.SjfyP]);
         }
       } else {
-        if (Zotero.ZoteroIF.runAuthor()) {
+        if (Zotero.AI4Paper.runAuthor()) {
           if (_0x1d13ac.response.choices[0x0][var241.AbUHz][var241.sinEP]) {
             if (var241.kFgHH(var241.JbXkl, var241.JbXkl)) {
               window.alert(var241.McmcG);
@@ -3355,10 +3355,10 @@ Zotero.ZoteroIF_Prefs = {
   'removeYiAPI': function () {
     var var246 = {
         'ASOyk': "是否确认解除 API 绑定？",
-        'tkBnR': "zoteroif.yiVerifyResult",
+        'tkBnR': "ai4paper.yiVerifyResult",
         'HnEll': '未验证',
-        'OHDgW': "zoteroif.yi.apiverify.button",
-        'ZntNl': "zoteroif.yi.removeapi.button"
+        'OHDgW': "ai4paper.yi.apiverify.button",
+        'ZntNl': "ai4paper.yi.removeapi.button"
       },
       var247 = window.confirm(var246.ASOyk);
     var247 && (Zotero.Prefs.set(var246.tkBnR, var246.HnEll), document.getElementById(var246.OHDgW).hidden = false, document.getElementById(var246.ZntNl).hidden = true);
@@ -3366,17 +3366,17 @@ Zotero.ZoteroIF_Prefs = {
   'verifyZJUChatAPI': async function () {
     var var248 = {
       'ebYdy': '验证成功！',
-      'GeYSF': "zoteroif.geminiverifyresult",
+      'GeYSF': "ai4paper.geminiverifyresult",
       'rhHTp': "验证成功",
-      'xYJhY': "zoteroif.gemini.apiverify.button",
-      'IsDtJ': "zoteroif.gemini.removeapi.button",
+      'xYJhY': "ai4paper.gemini.apiverify.button",
+      'IsDtJ': "ai4paper.gemini.removeapi.button",
       'HYyXH': 'POST',
       'rAXWC': "application/json",
       'DTWlU': "deepseek-v3",
       'lnJlc': "user",
       'iqdDq': "json",
-      'ClYUl': "zoteroif.deeplplan",
-      'BKYUg': "zoteroif.deepl.plan",
+      'ClYUl': "ai4paper.deeplplan",
+      'BKYUg': "ai4paper.deepl.plan",
       'FuCQq': "message",
       'XhOkg': "content",
       'JpapH': function (param337, param338) {
@@ -3384,9 +3384,9 @@ Zotero.ZoteroIF_Prefs = {
       },
       'yTnLd': 'lvjCL',
       'NJtRB': "mpxWy",
-      'tlOkP': "zoteroif.zjuchatVerifyResult",
-      'rbPXn': "zoteroif.zjuchat.apiverify.button",
-      'tuzGe': "zoteroif.zjuchat.removeapi.button",
+      'tlOkP': "ai4paper.zjuchatVerifyResult",
+      'rbPXn': "ai4paper.zjuchat.apiverify.button",
+      'tuzGe': "ai4paper.zjuchat.removeapi.button",
       'GsKEc': '浙大先生',
       'SKDHg': function (param339, param340) {
         return param339 === param340;
@@ -3399,17 +3399,17 @@ Zotero.ZoteroIF_Prefs = {
       'aDzJE': 'alert'
     };
     let var249 = var248.GsKEc;
-    var var250 = Zotero.ZoteroIF.gptServiceList()[var249].api_key,
-      var251 = Zotero.ZoteroIF.gptServiceList()[var249].base_url + "/v1/chat/completions";
+    var var250 = Zotero.AI4Paper.gptServiceList()[var249].api_key,
+      var251 = Zotero.AI4Paper.gptServiceList()[var249].base_url + "/v1/chat/completions";
     if (var248.SKDHg(var250, '')) {
       if (var248.FgUyE(var248.TGbjt, var248.TGbjt)) return window.alert("请先输入【" + var249 + "】API-Key!"), -0x1;else {
         function fn78() {
-          _0x8bbb39.ZoteroIF.runAuthor() && _0x52dd27.response.candidates[0x0].content.parts[0x0].text && (_0x21e8a0.alert(var248.ebYdy), _0x535a78.Prefs.set(var248.GeYSF, var248.rhHTp), _0x35338e.getElementById(var248.xYJhY).hidden = true, _0x49901d.getElementById(var248.IsDtJ).hidden = false);
+          _0x8bbb39.AI4Paper.runAuthor() && _0x52dd27.response.candidates[0x0].content.parts[0x0].text && (_0x21e8a0.alert(var248.ebYdy), _0x535a78.Prefs.set(var248.GeYSF, var248.rhHTp), _0x35338e.getElementById(var248.xYJhY).hidden = true, _0x49901d.getElementById(var248.IsDtJ).hidden = false);
         }
       }
     }
     var var252 = var248.nXNPd;
-    return await Zotero.ZoteroIF.httpRequestInit(async () => {
+    return await Zotero.AI4Paper.httpRequestInit(async () => {
       return await Zotero.HTTP.request(var248.HYyXH, var251, {
         'headers': {
           'Content-Type': var248.rAXWC,
@@ -3425,7 +3425,7 @@ Zotero.ZoteroIF_Prefs = {
         'responseType': var248.iqdDq
       });
     }, _0x4a3c23 => {
-      if (Zotero.ZoteroIF.runAuthor()) {
+      if (Zotero.AI4Paper.runAuthor()) {
         if (_0x4a3c23.response.choices[0x0][var248.FuCQq][var248.XhOkg]) {
           if (var248.JpapH(var248.yTnLd, var248.NJtRB)) {
             window.alert(var248.ebYdy);
@@ -3449,10 +3449,10 @@ Zotero.ZoteroIF_Prefs = {
         },
         'cLscd': "yBuhO",
         'EyFjc': "afZpB",
-        'RtORW': "zoteroif.zjuchatVerifyResult",
+        'RtORW': "ai4paper.zjuchatVerifyResult",
         'tIjIl': "未验证",
-        'iIhUC': "zoteroif.zjuchat.apiverify.button",
-        'BCQHD': "zoteroif.zjuchat.removeapi.button"
+        'iIhUC': "ai4paper.zjuchat.apiverify.button",
+        'BCQHD': "ai4paper.zjuchat.removeapi.button"
       },
       var254 = window.confirm(var253.CEWoM);
     if (var254) {
@@ -3473,15 +3473,15 @@ Zotero.ZoteroIF_Prefs = {
         return param345 === param346;
       },
       'zDiJs': "未读取到生词本！你可能需要前往欧路词典客户端创建生词本。",
-      'cgHWa': "zoteroif.eudicCategoriesInfo",
+      'cgHWa': "ai4paper.eudicCategoriesInfo",
       'VIEBP': "selectEudicCategory",
-      'vtltM': "zoteroif.vocabulary.eudicCategoryID",
-      'iOFwP': "zoteroif.eudicCategoryID",
+      'vtltM': "ai4paper.vocabulary.eudicCategoryID",
+      'iOFwP': "ai4paper.eudicCategoryID",
       'TAapq': "POST",
       'VJTjC': "application/json",
       'ZTNvN': "user",
       'CUSen': "json",
-      'GtGsb': "zoteroif.showfileToolBarButton",
+      'GtGsb': "ai4paper.showfileToolBarButton",
       'jYTpl': "showFile",
       'jpmll': "smooth",
       'bOWXL': "start",
@@ -3493,10 +3493,10 @@ Zotero.ZoteroIF_Prefs = {
       'ikUFp': "message",
       'GzdxU': "content",
       'jgJJZ': '验证成功！',
-      'nFHTL': "zoteroif.volcanoSearchVerifyresult",
+      'nFHTL': "ai4paper.volcanoSearchVerifyresult",
       'tIyKO': "验证成功",
-      'mTfBg': "zoteroif.volcanoSearch.apiverify.button",
-      'kTGiU': "zoteroif.volcanoSearch.removeapi.button",
+      'mTfBg': "ai4paper.volcanoSearch.apiverify.button",
+      'kTGiU': "ai4paper.volcanoSearch.removeapi.button",
       'wSVfE': "火山联网搜索",
       'aZHvG': function (param349, param350) {
         return param349 === param350;
@@ -3506,9 +3506,9 @@ Zotero.ZoteroIF_Prefs = {
       'OHfJJ': "alert"
     };
     let var256 = var255.wSVfE;
-    var var257 = Zotero.ZoteroIF.gptServiceList()[var256].api_key,
-      var258 = Zotero.ZoteroIF.gptServiceList()[var256].request_url,
-      var259 = Zotero.ZoteroIF.gptServiceList()[var256].model;
+    var var257 = Zotero.AI4Paper.gptServiceList()[var256].api_key,
+      var258 = Zotero.AI4Paper.gptServiceList()[var256].request_url,
+      var259 = Zotero.AI4Paper.gptServiceList()[var256].model;
     if (var255.ycDVc(var257, '') || var255.aZHvG(var259, '')) {
       if (var255.RfOdW(var255.lYzGb, var255.lYzGb)) {
         function fn81() {
@@ -3526,14 +3526,14 @@ Zotero.ZoteroIF_Prefs = {
             return;
           }
           _0x4fe19b.Prefs.set(var255.cgHWa, _0x504b37.stringify(var260));
-          _0x2658f9.ZoteroIF._data_EudicCategories = var260;
-          let var263 = _0x257406.ZoteroIF.openDialogByType_modal(var255.VIEBP);
+          _0x2658f9.AI4Paper._data_EudicCategories = var260;
+          let var263 = _0x257406.AI4Paper.openDialogByType_modal(var255.VIEBP);
           var263 && (_0x123aa6.getElementById(var255.vtltM).value = var263, _0x36c567.Prefs.set(var255.iOFwP, var263));
         }
       } else return window.alert("请先输入【火山联网搜索】API-Key 和模型！"), -0x1;
     }
     var var264 = var255.liRVM;
-    return await Zotero.ZoteroIF.httpRequestInit(async () => {
+    return await Zotero.AI4Paper.httpRequestInit(async () => {
       return await Zotero.HTTP.request(var255.TAapq, var258, {
         'headers': {
           'Content-Type': var255.VJTjC,
@@ -3555,10 +3555,10 @@ Zotero.ZoteroIF_Prefs = {
       };
       if (var255.RfOdW(var255.dIpwK, var255.dIpwK)) {
         function fn82() {
-          _0x2a9029.getElementById(var255.GtGsb).checked ? (_0x2feb37.Prefs.set(var255.GtGsb, true), _0x591b5d.ZoteroIF.registerItemsToolBarButtons([var255.jYTpl])) : _0x186088.ZoteroIF.unregisterItemsToolBarButtons([var255.jYTpl]);
+          _0x2a9029.getElementById(var255.GtGsb).checked ? (_0x2feb37.Prefs.set(var255.GtGsb, true), _0x591b5d.AI4Paper.registerItemsToolBarButtons([var255.jYTpl])) : _0x186088.AI4Paper.unregisterItemsToolBarButtons([var255.jYTpl]);
         }
       } else {
-        if (Zotero.ZoteroIF.runAuthor()) {
+        if (Zotero.AI4Paper.runAuthor()) {
           if (var255.ycDVc(var255.WTQym, var255.WTQym)) _0x1cba03.response.choices[0x0][var255.ikUFp][var255.GzdxU] && (window.alert(var255.jgJJZ), Zotero.Prefs.set(var255.nFHTL, var255.tIyKO), document.getElementById(var255.mTfBg).hidden = true, document.getElementById(var255.kTGiU).hidden = false);else {
             function fn83() {
               _0x3a242e.focus();
@@ -3575,28 +3575,28 @@ Zotero.ZoteroIF_Prefs = {
   'removeVolcanoSearchAPI': function () {
     var var266 = {
         'OyICA': "8|7|4|6|12|5|3|11|10|2|9|0|1",
-        'uausG': "zoteroif.plugintimeactivated",
-        'gsYYn': "zoteroif.remove.activation.button",
-        'DvciK': "zoteroif.activationstatus.fail.label",
-        'xeUmm': "zoteroif.activationkey.input",
-        'BnhEW': "zoteroif.activationstatus.invalid.label",
-        'oATgT': "zoteroif.activationstatus.not.label",
-        'venri': "zoteroif.activationkey.input.label",
-        'MBlPo': "zoteroif.activationkeyverifyresult",
+        'uausG': "ai4paper.plugintimeactivated",
+        'gsYYn': "ai4paper.remove.activation.button",
+        'DvciK': "ai4paper.activationstatus.fail.label",
+        'xeUmm': "ai4paper.activationkey.input",
+        'BnhEW': "ai4paper.activationstatus.invalid.label",
+        'oATgT': "ai4paper.activationstatus.not.label",
+        'venri': "ai4paper.activationkey.input.label",
+        'MBlPo': "ai4paper.activationkeyverifyresult",
         'obqaP': '未激活',
-        'gMgqD': "zoteroif.activationkeyexpiredate",
-        'hZKty': "zoteroif.activationkey.verify.button",
-        'KLpvE': "zoteroif.activationkeyinput",
-        'ndWuI': "zoteroif.activationstatus.succeed.label",
+        'gMgqD': "ai4paper.activationkeyexpiredate",
+        'hZKty': "ai4paper.activationkey.verify.button",
+        'KLpvE': "ai4paper.activationkeyinput",
+        'ndWuI': "ai4paper.activationstatus.succeed.label",
         'qAzrM': "是否确认解除 API 绑定？",
         'YtjJX': function (param351, param352) {
           return param351 !== param352;
         },
         'CGVoA': "yzsJW",
-        'zLfrH': "zoteroif.volcanoSearchVerifyresult",
+        'zLfrH': "ai4paper.volcanoSearchVerifyresult",
         'IXLIV': "未验证",
-        'wlinl': "zoteroif.volcanoSearch.apiverify.button",
-        'nHODG': "zoteroif.volcanoSearch.removeapi.button"
+        'wlinl': "ai4paper.volcanoSearch.apiverify.button",
+        'nHODG': "ai4paper.volcanoSearch.removeapi.button"
       },
       var267 = window.confirm(var266.qAzrM);
     if (var267) {
@@ -3659,7 +3659,7 @@ Zotero.ZoteroIF_Prefs = {
   'verifyVolcanoEngineAPI': async function () {
     var var270 = {
       'MfioH': "请先输入 ChatAnywhere API-Key！",
-      'buNGn': "zoteroif.collectionitempanedisplayToolBarButton",
+      'buNGn': "ai4paper.collectionitempanedisplayToolBarButton",
       'nhUab': "collectionitemPaneDisplay",
       'qdTff': function (param353, param354) {
         return param353 !== param354;
@@ -3684,10 +3684,10 @@ Zotero.ZoteroIF_Prefs = {
       'aoJSJ': "GnPfb",
       'QhJwE': "opFDR",
       'livTY': "验证成功！",
-      'nXEJb': "zoteroif.volcanoEngineVerifyresult",
+      'nXEJb': "ai4paper.volcanoEngineVerifyresult",
       'gvdog': "验证成功",
-      'BCrMf': "zoteroif.volcanoEngine.apiverify.button",
-      'ufylz': "zoteroif.volcanoEngine.removeapi.button",
+      'BCrMf': "ai4paper.volcanoEngine.apiverify.button",
+      'ufylz': "ai4paper.volcanoEngine.removeapi.button",
       'GJPus': "火山引擎",
       'RgmiF': "RbOHd",
       'woNUQ': function (param359, param360) {
@@ -3699,10 +3699,10 @@ Zotero.ZoteroIF_Prefs = {
       'Rqwrz': "alert"
     };
     let var271 = var270.GJPus;
-    var var272 = Zotero.ZoteroIF.gptServiceList()[var271].api_key,
-      var273 = Zotero.ZoteroIF.gptServiceList()[var271].request_url,
-      var274 = Zotero.ZoteroIF.gptServiceList()[var271].custom_model,
-      var275 = Zotero.ZoteroIF.gptServiceList()[var271].custom_model_enable;
+    var var272 = Zotero.AI4Paper.gptServiceList()[var271].api_key,
+      var273 = Zotero.AI4Paper.gptServiceList()[var271].request_url,
+      var274 = Zotero.AI4Paper.gptServiceList()[var271].custom_model,
+      var275 = Zotero.AI4Paper.gptServiceList()[var271].custom_model_enable;
     if (var270.WQMLy(var272, '')) {
       if (var270.qdTff(var270.RgmiF, var270.RgmiF)) {
         function fn85() {
@@ -3713,12 +3713,12 @@ Zotero.ZoteroIF_Prefs = {
     if (var275 && var270.woNUQ(var274, '')) {
       if (var270.qdTff(var270.Cuuyk, var270.Cuuyk)) {
         function fn86() {
-          _0x3e032d.getElementById(var270.buNGn).checked ? (_0x5f36b5.Prefs.set(var270.buNGn, true), _0x4c2113.ZoteroIF.registerItemsToolBarButtons([var270.nhUab])) : _0x3ae476.ZoteroIF.unregisterItemsToolBarButtons([var270.nhUab]);
+          _0x3e032d.getElementById(var270.buNGn).checked ? (_0x5f36b5.Prefs.set(var270.buNGn, true), _0x4c2113.AI4Paper.registerItemsToolBarButtons([var270.nhUab])) : _0x3ae476.AI4Paper.unregisterItemsToolBarButtons([var270.nhUab]);
         }
       } else return window.alert("您启用了自定义模型，但是尚未配置【" + var271 + "】模型！"), -0x1;
     }
     var var276 = var270.tGkRV;
-    return var274 = var275 ? var274 : Zotero.ZoteroIF.getGPTModel(var270.zrJco), await Zotero.ZoteroIF.httpRequestInit(async () => {
+    return var274 = var275 ? var274 : Zotero.AI4Paper.getGPTModel(var270.zrJco), await Zotero.AI4Paper.httpRequestInit(async () => {
       if (var270.qdTff(var270.EDlXV, var270.EDlXV)) {
         function fn87() {
           _0x2b11b5 = _0x5c97ac + "/v1/chat/completions";
@@ -3738,14 +3738,14 @@ Zotero.ZoteroIF_Prefs = {
         'responseType': var270.HxKNW
       });
     }, _0x822060 => {
-      if (Zotero.ZoteroIF.runAuthor()) {
+      if (Zotero.AI4Paper.runAuthor()) {
         if (var270.bREDg(var270.wdtDb, var270.wdtDb)) {
           if (_0x822060.response.choices[0x0][var270.gxEtm][var270.zJWVM]) {
             if (var270.WQMLy(var270.aoJSJ, var270.QhJwE)) {
               function fn88() {
-                let var277 = _0x5f52a0.ZoteroIF.gptCustom_suffix;
+                let var277 = _0x5f52a0.AI4Paper.gptCustom_suffix;
                 var var278 = _0x147154.confirm(var270.BPtDm);
-                var278 && (_0x374a15.Prefs.set("zoteroif.gptcustomverifyresult" + var277[_0x4d18d1], var270.mbsdc), _0x5a4e3f.getElementById("zoteroif.gptcustom" + var277[_0x1de133] + ".apiverify.button").hidden = false, _0x22992b.getElementById("zoteroif.gptcustom" + var277[_0x741520] + ".removeapi.button").hidden = true);
+                var278 && (_0x374a15.Prefs.set("ai4paper.gptcustomverifyresult" + var277[_0x4d18d1], var270.mbsdc), _0x5a4e3f.getElementById("ai4paper.gptcustom" + var277[_0x1de133] + ".apiverify.button").hidden = false, _0x22992b.getElementById("ai4paper.gptcustom" + var277[_0x741520] + ".removeapi.button").hidden = true);
               }
             } else {
               window.alert(var270.livTY);
@@ -3764,17 +3764,17 @@ Zotero.ZoteroIF_Prefs = {
   },
   'removeVolcanoEngineAPI': function () {
     var var279 = {
-        'yMaXA': "zoteroif.gptservice",
-        'MHZiI': "zoteroif.gptmodel",
+        'yMaXA': "ai4paper.gptservice",
+        'MHZiI': "ai4paper.gptmodel",
         'PLhbA': "是否确认解除 API 绑定？",
         'Dghzc': function (param361, param362) {
           return param361 !== param362;
         },
         'pmvln': "oADjH",
-        'nsfPy': "zoteroif.volcanoEngineVerifyresult",
+        'nsfPy': "ai4paper.volcanoEngineVerifyresult",
         'IxpWn': "未验证",
-        'Zxauu': "zoteroif.volcanoEngine.apiverify.button",
-        'RgYtS': "zoteroif.volcanoEngine.removeapi.button"
+        'Zxauu': "ai4paper.volcanoEngine.apiverify.button",
+        'RgYtS': "ai4paper.volcanoEngine.removeapi.button"
       },
       var280 = window.confirm(var279.PLhbA);
     if (var280) {
@@ -3782,7 +3782,7 @@ Zotero.ZoteroIF_Prefs = {
         function fn90() {
           _0x36a889.Prefs.set(var279.yMaXA, _0x148a0a.getElementById(var279.yMaXA).label);
           _0x47ec6.Prefs.set(var279.MHZiI, _0x293fb1.getElementById(var279.MHZiI).label);
-          _0x14bcbf.ZoteroIF.gptReaderSidePane_updateServiceModel();
+          _0x14bcbf.AI4Paper.gptReaderSidePane_updateServiceModel();
         }
       } else {
         Zotero.Prefs.set(var279.nsfPy, var279.IxpWn);
@@ -3797,15 +3797,15 @@ Zotero.ZoteroIF_Prefs = {
       'AmEYW': "application/json",
       'oLHzb': "user",
       'KvGFA': "json",
-      'cwrFn': "zoteroif.gpt.geminihost",
+      'cwrFn': "ai4paper.gpt.geminihost",
       'VWCFC': 'type',
       'AnmHx': "password",
       'icpGB': "enablesvgeyesprotection_off",
       'IDHJh': '验证成功！',
-      'ClVsA': "zoteroif.eudicVerifyResult",
+      'ClVsA': "ai4paper.eudicVerifyResult",
       'Ucseu': "验证成功",
-      'ZUqyT': "zoteroif.eudic.apiverify.button",
-      'aSrna': "zoteroif.eudic.removeapi.button",
+      'ZUqyT': "ai4paper.eudic.apiverify.button",
+      'aSrna': "ai4paper.eudic.removeapi.button",
       'BbPjF': function (param363, param364) {
         return param363 !== param364;
       },
@@ -3817,9 +3817,9 @@ Zotero.ZoteroIF_Prefs = {
       'eDjCs': "ZXxeN",
       'luXMw': "message",
       'SRzjU': "content",
-      'KGezt': "zoteroif.doubaoverifyresult",
-      'rGRQg': "zoteroif.doubao.apiverify.button",
-      'GbBXy': "zoteroif.doubao.removeapi.button",
+      'KGezt': "ai4paper.doubaoverifyresult",
+      'rGRQg': "ai4paper.doubao.apiverify.button",
+      'GbBXy': "ai4paper.doubao.removeapi.button",
       'JUiJg': function (param367, param368) {
         return param367 === param368;
       },
@@ -3828,14 +3828,14 @@ Zotero.ZoteroIF_Prefs = {
       'zUjpx': 'alert'
     };
     let var282 = '豆包';
-    var var283 = Zotero.ZoteroIF.gptServiceList()[var282].api_key,
-      var284 = Zotero.ZoteroIF.gptServiceList()[var282].request_url,
-      var285 = Zotero.ZoteroIF.gptServiceList()[var282].custom_model,
-      var286 = Zotero.ZoteroIF.gptServiceList()[var282].custom_model_enable;
+    var var283 = Zotero.AI4Paper.gptServiceList()[var282].api_key,
+      var284 = Zotero.AI4Paper.gptServiceList()[var282].request_url,
+      var285 = Zotero.AI4Paper.gptServiceList()[var282].custom_model,
+      var286 = Zotero.AI4Paper.gptServiceList()[var282].custom_model_enable;
     if (var281.LeKsw(var283, '')) return window.alert("请先输入【" + var282 + "】API-Key！"), -0x1;
     if (var286 && var281.JUiJg(var285, '')) return window.alert("您启用了自定义模型，但是尚未配置【" + var282 + '】模型！'), -0x1;
     var var287 = var281.ZkLqG;
-    return var285 = var286 ? var285 : Zotero.ZoteroIF.getGPTModel(var281.wucRr), await Zotero.ZoteroIF.httpRequestInit(async () => {
+    return var285 = var286 ? var285 : Zotero.AI4Paper.getGPTModel(var281.wucRr), await Zotero.AI4Paper.httpRequestInit(async () => {
       return await Zotero.HTTP.request(var281.QzxPK, var284, {
         'headers': {
           'Content-Type': var281.AmEYW,
@@ -3865,10 +3865,10 @@ Zotero.ZoteroIF_Prefs = {
       if (var281.BbPjF(var281.Txlze, var281.Txlze)) {
         function fn91() {
           _0x53dd83.getElementById(var288.Sztpo).setAttribute(var288.IMpHX, var288.CLFBx);
-          _0x506668.innerHTML = _0x29d7d8.ZoteroIF.svg_icon_20px[var288.SzuoK];
+          _0x506668.innerHTML = _0x29d7d8.AI4Paper.svg_icon_20px[var288.SzuoK];
         }
       } else {
-        if (Zotero.ZoteroIF.runAuthor()) {
+        if (Zotero.AI4Paper.runAuthor()) {
           if (var281.LeKsw(var281.dCsKT, var281.eDjCs)) {
             function fn92() {
               _0x2c8313.alert(var288.SSQps);
@@ -3884,10 +3884,10 @@ Zotero.ZoteroIF_Prefs = {
   'removeDoubaoAPI': function () {
     var var289 = {
         'kIoEO': "是否确认解除 API 绑定？",
-        'jaPlr': "zoteroif.doubaoverifyresult",
+        'jaPlr': "ai4paper.doubaoverifyresult",
         'IKTQo': '未验证',
-        'Kpskm': "zoteroif.doubao.apiverify.button",
-        'kUcSa': "zoteroif.doubao.removeapi.button"
+        'Kpskm': "ai4paper.doubao.apiverify.button",
+        'kUcSa': "ai4paper.doubao.removeapi.button"
       },
       var290 = window.confirm(var289.kIoEO);
     var290 && (Zotero.Prefs.set(var289.jaPlr, var289.IKTQo), document.getElementById(var289.Kpskm).hidden = false, document.getElementById(var289.kUcSa).hidden = true);
@@ -3897,10 +3897,10 @@ Zotero.ZoteroIF_Prefs = {
       'DNioA': "message",
       'CePpV': "content",
       'ZCddt': '验证成功！',
-      'qNHfP': "zoteroif.kimiVerifyResult",
+      'qNHfP': "ai4paper.kimiVerifyResult",
       'dNtrm': "验证成功",
-      'EGXSy': "zoteroif.kimi.apiverify.button",
-      'XuTqY': "zoteroif.kimi.removeapi.button",
+      'EGXSy': "ai4paper.kimi.apiverify.button",
+      'XuTqY': "ai4paper.kimi.removeapi.button",
       'AyIYP': function (param369, param370) {
         return param369 !== param370;
       },
@@ -3912,7 +3912,7 @@ Zotero.ZoteroIF_Prefs = {
       'XfOts': "user",
       'HBfub': "json",
       'esowY': "4|6|7|3|2|5|1|0",
-      'jzpRc': "zoteroif.plugintimerunning",
+      'jzpRc': "ai4paper.plugintimerunning",
       'ZNtxF': function (param371, param372) {
         return param371 + param372;
       },
@@ -3934,7 +3934,7 @@ Zotero.ZoteroIF_Prefs = {
       'GUgBq': function (param383, param384) {
         return param383 / param384;
       },
-      'VRTHy': "zoteroif.plugintimeactivated",
+      'VRTHy': "ai4paper.plugintimeactivated",
       'NNFQz': function (param385, param386) {
         return param385 === param386;
       },
@@ -3943,7 +3943,7 @@ Zotero.ZoteroIF_Prefs = {
       'lYpun': function (param387, param388) {
         return param387 === param388;
       },
-      'ZRdrK': "zoteroif.kimiAPI",
+      'ZRdrK': "ai4paper.kimiAPI",
       'YkcxB': function (param389, param390) {
         return param389 !== param390;
       },
@@ -3963,7 +3963,7 @@ Zotero.ZoteroIF_Prefs = {
     var var292 = var291.aeJyv,
       var293 = Zotero.Prefs.get(var291.ZRdrK).trim(),
       var294 = var291.TdbVG;
-    return await Zotero.ZoteroIF.httpRequestInit(async () => {
+    return await Zotero.AI4Paper.httpRequestInit(async () => {
       var var295 = {
         'aZzuP': var291.DNioA,
         'NEPtq': var291.CePpV,
@@ -4024,7 +4024,7 @@ Zotero.ZoteroIF_Prefs = {
           return var291.GUgBq(param407, param408);
         }
       };
-      if (Zotero.ZoteroIF.runAuthor()) {
+      if (Zotero.AI4Paper.runAuthor()) {
         if (_0x4ba1a7.response.choices[0x0][var291.DNioA][var291.CePpV]) {
           if (var291.NNFQz(var291.UyRBf, var291.KqQKr)) {
             function fn95() {
@@ -4075,26 +4075,26 @@ Zotero.ZoteroIF_Prefs = {
         'nfSGj': "message",
         'rBezs': "content",
         'remmI': "验证成功！",
-        'SWXmI': "zoteroif.openaiverifyresult",
+        'SWXmI': "ai4paper.openaiverifyresult",
         'kdcwt': '验证成功',
-        'DzeaH': "zoteroif.openai.apiverify.button",
-        'ScbOr': "zoteroif.openai.removeapi.button",
+        'DzeaH': "ai4paper.openai.apiverify.button",
+        'ScbOr': "ai4paper.openai.removeapi.button",
         'YIQrH': "是否确认解除 API 绑定？",
         'alCTw': function (param409, param410) {
           return param409 === param410;
         },
         'FMlWP': "PtrGI",
         'tDTQd': "tohBM",
-        'joIxk': "zoteroif.kimiVerifyResult",
+        'joIxk': "ai4paper.kimiVerifyResult",
         'TVcUS': "未验证",
-        'zApBi': "zoteroif.kimi.apiverify.button",
-        'TGEML': "zoteroif.kimi.removeapi.button"
+        'zApBi': "ai4paper.kimi.apiverify.button",
+        'TGEML': "ai4paper.kimi.removeapi.button"
       },
       var307 = window.confirm(var306.YIQrH);
     if (var307) {
       if (var306.alCTw(var306.FMlWP, var306.tDTQd)) {
         function fn96() {
-          _0x5369fa.ZoteroIF.runAuthor() && _0x2ed20a.response.choices[0x0][var306.nfSGj][var306.rBezs] && (_0x59f791.alert(var306.remmI), _0xbd6ba5.Prefs.set(var306.SWXmI, var306.kdcwt), _0x40b799.getElementById(var306.DzeaH).hidden = true, _0x5df70f.getElementById(var306.ScbOr).hidden = false);
+          _0x5369fa.AI4Paper.runAuthor() && _0x2ed20a.response.choices[0x0][var306.nfSGj][var306.rBezs] && (_0x59f791.alert(var306.remmI), _0xbd6ba5.Prefs.set(var306.SWXmI, var306.kdcwt), _0x40b799.getElementById(var306.DzeaH).hidden = true, _0x5df70f.getElementById(var306.ScbOr).hidden = false);
         }
       } else {
         Zotero.Prefs.set(var306.joIxk, var306.TVcUS);
@@ -4134,11 +4134,11 @@ Zotero.ZoteroIF_Prefs = {
       'AvLgz': "message",
       'sAvqN': "content",
       'CLgsf': "验证成功！",
-      'EAPXL': "zoteroif.deepSeekVerifyResult",
+      'EAPXL': "ai4paper.deepSeekVerifyResult",
       'TEbIq': "验证成功",
-      'CigmO': "zoteroif.deepSeek.apiverify.button",
-      'cbhzm': "zoteroif.deepSeek.removeapi.button",
-      'vRZRG': "zoteroif.deepSeekAPI",
+      'CigmO': "ai4paper.deepSeek.apiverify.button",
+      'cbhzm': "ai4paper.deepSeek.removeapi.button",
+      'vRZRG': "ai4paper.deepSeekAPI",
       'XwtJM': "VrvLd",
       'ZXcoj': "请先输入 DeepSeek API-Key！",
       'fnfJg': 'Hello',
@@ -4155,7 +4155,7 @@ Zotero.ZoteroIF_Prefs = {
     var var309 = var308.fnfJg,
       var310 = Zotero.Prefs.get(var308.vRZRG).trim(),
       var311 = var308.UiadX;
-    return await Zotero.ZoteroIF.httpRequestInit(async () => {
+    return await Zotero.AI4Paper.httpRequestInit(async () => {
       var var312 = {
         'rFJgp': var308.KPcNW
       };
@@ -4194,7 +4194,7 @@ Zotero.ZoteroIF_Prefs = {
         'KooWT': var308.tVXRz
       };
       if (var308.jsRBX(var308.kkdzj, var308.trnaM)) {
-        if (Zotero.ZoteroIF.runAuthor()) {
+        if (Zotero.AI4Paper.runAuthor()) {
           if (var308.jsRBX(var308.DzYLQ, var308.DzYLQ)) {
             function fn99() {
               return _0xc54512.alert(var308.eiQbf), -0x1;
@@ -4203,8 +4203,8 @@ Zotero.ZoteroIF_Prefs = {
         }
       } else {
         function fn100() {
-          let var315 = _0x10ab74.ZoteroIF.gptCustom_suffix;
-          var314.jSmXW(_0x377647.getElementById("zoteroif.gpt.gptcustomhost" + var315[_0x281e59]).getAttribute(var314.jByZN), var314.kGyhF) ? (_0x55442e.getElementById("zoteroif.gpt.gptcustomhost" + var315[_0x4becfd]).setAttribute(var314.jByZN, var314.GOWQS), _0x518b3d.innerHTML = _0x15cafd.ZoteroIF.svg_icon_20px[var314.RfpjM]) : (_0x26c672.getElementById("zoteroif.gpt.gptcustomhost" + var315[_0xc10969]).setAttribute(var314.jByZN, var314.kGyhF), _0x1e15e0.innerHTML = _0x548584.ZoteroIF.svg_icon_20px[var314.KooWT]);
+          let var315 = _0x10ab74.AI4Paper.gptCustom_suffix;
+          var314.jSmXW(_0x377647.getElementById("ai4paper.gpt.gptcustomhost" + var315[_0x281e59]).getAttribute(var314.jByZN), var314.kGyhF) ? (_0x55442e.getElementById("ai4paper.gpt.gptcustomhost" + var315[_0x4becfd]).setAttribute(var314.jByZN, var314.GOWQS), _0x518b3d.innerHTML = _0x15cafd.AI4Paper.svg_icon_20px[var314.RfpjM]) : (_0x26c672.getElementById("ai4paper.gpt.gptcustomhost" + var315[_0xc10969]).setAttribute(var314.jByZN, var314.kGyhF), _0x1e15e0.innerHTML = _0x548584.AI4Paper.svg_icon_20px[var314.KooWT]);
         }
       }
     }, var308.qPqzm);
@@ -4225,10 +4225,10 @@ Zotero.ZoteroIF_Prefs = {
         },
         'WSaPF': 'lrPbX',
         'jzryi': "JlCOV",
-        'mNVWl': "zoteroif.deepSeekVerifyResult",
+        'mNVWl': "ai4paper.deepSeekVerifyResult",
         'UBBKd': "未验证",
-        'gEHwr': "zoteroif.deepSeek.apiverify.button",
-        'LXtxt': "zoteroif.deepSeek.removeapi.button"
+        'gEHwr': "ai4paper.deepSeek.apiverify.button",
+        'LXtxt': "ai4paper.deepSeek.removeapi.button"
       },
       var317 = window.confirm(var316.YfDGS);
     if (var317) {
@@ -4248,10 +4248,10 @@ Zotero.ZoteroIF_Prefs = {
       'eUAEw': "message",
       'QAGaB': "content",
       'BHQuC': "验证成功！",
-      'xoXCc': "zoteroif.doubaoverifyresult",
+      'xoXCc': "ai4paper.doubaoverifyresult",
       'HSPVn': "验证成功",
-      'JYouh': "zoteroif.doubao.apiverify.button",
-      'iiBoM': "zoteroif.doubao.removeapi.button",
+      'JYouh': "ai4paper.doubao.apiverify.button",
+      'iiBoM': "ai4paper.doubao.removeapi.button",
       'NtRtB': function (param425, param426) {
         return param425 === param426;
       },
@@ -4260,15 +4260,15 @@ Zotero.ZoteroIF_Prefs = {
       'IqvTD': 'GET',
       'JaYLA': "application/json",
       'oEmqH': "json",
-      'gRygx': "zoteroif.volcanoEngineVerifyresult",
-      'yvjvP': "zoteroif.volcanoEngine.apiverify.button",
-      'JgqQW': "zoteroif.volcanoEngine.removeapi.button",
+      'gRygx': "ai4paper.volcanoEngineVerifyresult",
+      'yvjvP': "ai4paper.volcanoEngine.apiverify.button",
+      'JgqQW': "ai4paper.volcanoEngine.removeapi.button",
       'yItlx': function (param427, param428) {
         return param427 !== param428;
       },
       'oIonc': 'hdctl',
       'KaBXC': "DeepSeek 余额查询",
-      'dpksm': "zoteroif.deepSeekAPI",
+      'dpksm': "ai4paper.deepSeekAPI",
       'BYHxS': "VJlzL",
       'EjNqd': "jkoKA",
       'pMiZs': "请先输入 DeepSeek API-Key！",
@@ -4278,13 +4278,13 @@ Zotero.ZoteroIF_Prefs = {
     if (var318.NtRtB(Zotero.Prefs.get(var318.dpksm), '')) {
       if (var318.yItlx(var318.BYHxS, var318.EjNqd)) return window.alert(var318.pMiZs), -0x1;else {
         function fn102() {
-          _0x4a54ed.ZoteroIF.runAuthor() && _0x7eb4fb.response.choices[0x0][var318.eUAEw][var318.QAGaB] && (_0x72c647.alert(var318.BHQuC), _0xd46de5.Prefs.set(var318.xoXCc, var318.HSPVn), _0x2f9796.getElementById(var318.JYouh).hidden = true, _0x337fce.getElementById(var318.iiBoM).hidden = false);
+          _0x4a54ed.AI4Paper.runAuthor() && _0x7eb4fb.response.choices[0x0][var318.eUAEw][var318.QAGaB] && (_0x72c647.alert(var318.BHQuC), _0xd46de5.Prefs.set(var318.xoXCc, var318.HSPVn), _0x2f9796.getElementById(var318.JYouh).hidden = true, _0x337fce.getElementById(var318.iiBoM).hidden = false);
         }
       }
     }
     let var319 = var318.oCHXP,
       var320 = Zotero.Prefs.get(var318.dpksm).trim();
-    return await Zotero.ZoteroIF.httpRequestInit(async () => {
+    return await Zotero.AI4Paper.httpRequestInit(async () => {
       if (var318.NtRtB(var318.HfPBg, var318.wibTo)) {
         function fn103() {
           _0x221549.debug(_0x5e74ea);
@@ -4305,7 +4305,7 @@ Zotero.ZoteroIF_Prefs = {
         'EyZtl': var318.yvjvP,
         'RFUzS': var318.JgqQW
       };
-      if (Zotero.ZoteroIF.runAuthor()) {
+      if (Zotero.AI4Paper.runAuthor()) {
         if (var318.yItlx(var318.oIonc, var318.oIonc)) {
           function fn104() {
             _0x3e9c97.alert(var321.FSQVg);
@@ -4331,19 +4331,19 @@ Zotero.ZoteroIF_Prefs = {
       'gHbIH': "message",
       'XejJV': "content",
       'Ftecb': "验证成功！",
-      'BXhEw': "zoteroif.volcanoSearchVerifyresult",
+      'BXhEw': "ai4paper.volcanoSearchVerifyresult",
       'CAxlK': "验证成功",
-      'RRLdV': "zoteroif.volcanoSearch.apiverify.button",
-      'aSMaG': "zoteroif.volcanoSearch.removeapi.button",
-      'KrcYX': "zoteroif.tagscardnotesToolBarButton",
+      'RRLdV': "ai4paper.volcanoSearch.apiverify.button",
+      'aSMaG': "ai4paper.volcanoSearch.removeapi.button",
+      'KrcYX': "ai4paper.tagscardnotesToolBarButton",
       'lxcvN': "tagscardnotes",
       'AiMjl': "2|1|5|0|3|4",
-      'sxGMl': "zoteroif.activationstatus.succeed.label",
-      'GRovg': "zoteroif.activationkey.input",
-      'rTEks': "zoteroif.activationkey.input.label",
-      'dnOsl': "zoteroif.activationstatus.invalid.label",
-      'ZRhsM': "zoteroif.activationstatus.fail.label",
-      'Nwbty': "zoteroif.activationstatus.not.label",
+      'sxGMl': "ai4paper.activationstatus.succeed.label",
+      'GRovg': "ai4paper.activationkey.input",
+      'rTEks': "ai4paper.activationkey.input.label",
+      'dnOsl': "ai4paper.activationstatus.invalid.label",
+      'ZRhsM': "ai4paper.activationstatus.fail.label",
+      'Nwbty': "ai4paper.activationstatus.not.label",
       'VAJXp': function (param430, param431) {
         return param430 === param431;
       },
@@ -4369,30 +4369,30 @@ Zotero.ZoteroIF_Prefs = {
       },
       'ITdKu': "alert"
     };
-    let var327 = Zotero.ZoteroIF.gptCustom_suffix,
-      var328 = Zotero.ZoteroIF.gptCustom_numEmoji;
-    if (var326.VAJXp(Zotero.Prefs.get("zoteroif.gptcustomapiinput" + var327[param429]), '')) return window.alert("请先输入 GPT 自定 " + var328[param429] + " API-Key！"), -0x1;
-    if (var326.VaGif(Zotero.Prefs.get("zoteroif.gptcustomhost" + var327[param429]), '')) {
+    let var327 = Zotero.AI4Paper.gptCustom_suffix,
+      var328 = Zotero.AI4Paper.gptCustom_numEmoji;
+    if (var326.VAJXp(Zotero.Prefs.get("ai4paper.gptcustomapiinput" + var327[param429]), '')) return window.alert("请先输入 GPT 自定 " + var328[param429] + " API-Key！"), -0x1;
+    if (var326.VaGif(Zotero.Prefs.get("ai4paper.gptcustomhost" + var327[param429]), '')) {
       if (var326.wRopb(var326.SKvge, var326.Dmgbd)) {
         function fn105() {
-          _0x56f02f.ZoteroIF.runAuthor() && _0x17ba25.response.choices[0x0][var326.gHbIH][var326.XejJV] && (_0x2a0922.alert(var326.Ftecb), _0x2e06c4.Prefs.set(var326.BXhEw, var326.CAxlK), _0x1e3a44.getElementById(var326.RRLdV).hidden = true, _0x2b5a71.getElementById(var326.aSMaG).hidden = false);
+          _0x56f02f.AI4Paper.runAuthor() && _0x17ba25.response.choices[0x0][var326.gHbIH][var326.XejJV] && (_0x2a0922.alert(var326.Ftecb), _0x2e06c4.Prefs.set(var326.BXhEw, var326.CAxlK), _0x1e3a44.getElementById(var326.RRLdV).hidden = true, _0x2b5a71.getElementById(var326.aSMaG).hidden = false);
         }
       } else return window.alert("请先输入 GPT 自定 " + var328[param429] + " Host！"), -0x1;
     }
-    if (Zotero.Prefs.get("zoteroif.gptcustomModelCustomEnable" + var327[param429]) && var326.wRopb(Zotero.Prefs.get("zoteroif.gptcustomModelCustom" + var327[param429]), '')) {
+    if (Zotero.Prefs.get("ai4paper.gptcustomModelCustomEnable" + var327[param429]) && var326.wRopb(Zotero.Prefs.get("ai4paper.gptcustomModelCustom" + var327[param429]), '')) {
       if (var326.wRopb(var326.qrOHw, var326.qrOHw)) return window.alert(var326.aKwBj), -0x1;else {
         function fn106() {
           _0x257544.Prefs.set(var326.KrcYX, true);
-          _0x140ffe.ZoteroIF.registerItemsToolBarButtons([var326.lxcvN]);
+          _0x140ffe.AI4Paper.registerItemsToolBarButtons([var326.lxcvN]);
         }
       }
     }
     var var329 = var326.cBOmu,
-      var330 = Zotero.Prefs.get("zoteroif.gptcustomapiinput" + var327[param429]).trim(),
-      var331 = Zotero.Prefs.get("zoteroif.gptcustomModelCustomEnable" + var327[param429]) ? Zotero.Prefs.get("zoteroif.gptcustomModelCustom" + var327[param429]).trim() : var326.fsgUb,
+      var330 = Zotero.Prefs.get("ai4paper.gptcustomapiinput" + var327[param429]).trim(),
+      var331 = Zotero.Prefs.get("ai4paper.gptcustomModelCustomEnable" + var327[param429]) ? Zotero.Prefs.get("ai4paper.gptcustomModelCustom" + var327[param429]).trim() : var326.fsgUb,
       var332;
-    let var333 = Zotero.Prefs.get("zoteroif.gptcustomhost" + var327[param429]).trim();
-    return var333.endsWith('#') ? var332 = var333.substring(0x0, var326.LNrKW(var333.length, 0x1)) : var332 = var333 + "/v1/chat/completions", await Zotero.ZoteroIF.httpRequestInit(async () => {
+    let var333 = Zotero.Prefs.get("ai4paper.gptcustomhost" + var327[param429]).trim();
+    return var333.endsWith('#') ? var332 = var333.substring(0x0, var326.LNrKW(var333.length, 0x1)) : var332 = var333 + "/v1/chat/completions", await Zotero.AI4Paper.httpRequestInit(async () => {
       if (var326.VAJXp(var326.TPxkJ, var326.TPxkJ)) return await Zotero.HTTP.request(var326.deiyG, var332, {
         'headers': {
           'Content-Type': var326.FJMwL,
@@ -4436,7 +4436,7 @@ Zotero.ZoteroIF_Prefs = {
         }
       }
     }, _0x361cda => {
-      Zotero.ZoteroIF.runAuthor() && _0x361cda.response.choices[0x0][var326.gHbIH][var326.XejJV] && (window.alert(var326.Ftecb), Zotero.Prefs.set("zoteroif.gptcustomverifyresult" + var327[param429], var326.CAxlK), document.getElementById("zoteroif.gptcustom" + var327[param429] + ".apiverify.button").hidden = true, document.getElementById("zoteroif.gptcustom" + var327[param429] + ".removeapi.button").hidden = false);
+      Zotero.AI4Paper.runAuthor() && _0x361cda.response.choices[0x0][var326.gHbIH][var326.XejJV] && (window.alert(var326.Ftecb), Zotero.Prefs.set("ai4paper.gptcustomverifyresult" + var327[param429], var326.CAxlK), document.getElementById("ai4paper.gptcustom" + var327[param429] + ".apiverify.button").hidden = true, document.getElementById("ai4paper.gptcustom" + var327[param429] + ".removeapi.button").hidden = false);
     }, var326.ITdKu);
   },
   'removeGPTCustomAPI': function (param438) {
@@ -4444,9 +4444,9 @@ Zotero.ZoteroIF_Prefs = {
       'yStOU': "是否确认解除 API 绑定？",
       'YgwEs': "未验证"
     };
-    let var337 = Zotero.ZoteroIF.gptCustom_suffix;
+    let var337 = Zotero.AI4Paper.gptCustom_suffix;
     var var338 = window.confirm(var336.yStOU);
-    var338 && (Zotero.Prefs.set("zoteroif.gptcustomverifyresult" + var337[param438], var336.YgwEs), document.getElementById("zoteroif.gptcustom" + var337[param438] + ".apiverify.button").hidden = false, document.getElementById("zoteroif.gptcustom" + var337[param438] + ".removeapi.button").hidden = true);
+    var338 && (Zotero.Prefs.set("ai4paper.gptcustomverifyresult" + var337[param438], var336.YgwEs), document.getElementById("ai4paper.gptcustom" + var337[param438] + ".apiverify.button").hidden = false, document.getElementById("ai4paper.gptcustom" + var337[param438] + ".removeapi.button").hidden = true);
   },
   'verifyGeminiAPI': async function () {
     var var339 = {
@@ -4455,9 +4455,9 @@ Zotero.ZoteroIF_Prefs = {
       },
       'tstZh': "验证成功",
       'rDiEi': "验证成功！",
-      'KLQwL': "zoteroif.qwenVerifyResult",
-      'NZzGy': "zoteroif.qwen.apiverify.button",
-      'wlpsm': "zoteroif.qwen.removeapi.button",
+      'KLQwL': "ai4paper.qwenVerifyResult",
+      'NZzGy': "ai4paper.qwen.apiverify.button",
+      'wlpsm': "ai4paper.qwen.removeapi.button",
       'LHWcg': "API2D 余额查询",
       'qVSMg': function (param441, param442) {
         return param441 === param442;
@@ -4469,10 +4469,10 @@ Zotero.ZoteroIF_Prefs = {
       'xXbFt': "USER",
       'rvKIB': "json",
       'GOWSd': "是否确认解除 API 绑定？",
-      'YkBzu': "zoteroif.openaiverifyresult",
+      'YkBzu': "ai4paper.openaiverifyresult",
       'kkycV': '未验证',
-      'ypJoc': "zoteroif.openai.apiverify.button",
-      'KTJsp': "zoteroif.openai.removeapi.button",
+      'ypJoc': "ai4paper.openai.apiverify.button",
+      'KTJsp': "ai4paper.openai.removeapi.button",
       'ZwGVi': "请先输入 智普清言 API-Key！",
       'BUuvj': "zSMZU",
       'zvQHH': 'GNXQB',
@@ -4481,27 +4481,27 @@ Zotero.ZoteroIF_Prefs = {
       },
       'wWoOq': "QSGaC",
       'hRVCw': "mUwAU",
-      'BvFhR': "zoteroif.geminiverifyresult",
-      'SRpom': "zoteroif.gemini.apiverify.button",
-      'qOTrQ': "zoteroif.gemini.removeapi.button",
+      'BvFhR': "ai4paper.geminiverifyresult",
+      'SRpom': "ai4paper.gemini.apiverify.button",
+      'qOTrQ': "ai4paper.gemini.removeapi.button",
       'EgVDw': function (param445, param446) {
         return param445 === param446;
       },
-      'QVprG': "zoteroif.geminihost",
+      'QVprG': "ai4paper.geminihost",
       'gpBuN': "uArGP",
       'XjKqC': "qDqpZ",
       'rmZfH': "尚未配置 Gemini Host！",
-      'GLIGm': "zoteroif.geminiapiinput",
+      'GLIGm': "ai4paper.geminiapiinput",
       'wMAOG': function (param447, param448) {
         return param447 === param448;
       },
       'AisPH': 'ckNnT',
       'bpTmP': "请先输入 Gemini API-Key！",
-      'levrF': "zoteroif.geminiModelCustomEnable",
+      'levrF': "ai4paper.geminiModelCustomEnable",
       'fNlqn': function (param449, param450) {
         return param449 === param450;
       },
-      'KqAtZ': "zoteroif.geminiModelCustom",
+      'KqAtZ': "ai4paper.geminiModelCustom",
       'mEmES': function (param451, param452) {
         return param451 === param452;
       },
@@ -4514,7 +4514,7 @@ Zotero.ZoteroIF_Prefs = {
     if (var339.EgVDw(Zotero.Prefs.get(var339.QVprG), '')) {
       if (var339.EgVDw(var339.gpBuN, var339.XjKqC)) {
         function fn108() {
-          var339.azYtM(_0x2f099a.Prefs.get("zoteroif.gptcustomverifyresult" + _0x3791e4), var339.tstZh) && (_0x27027e.getElementById("zoteroif.gptcustom" + _0x22d5e0 + ".apiverify.button").hidden = true, _0x393553.getElementById("zoteroif.gptcustom" + _0x140671 + ".removeapi.button").hidden = false);
+          var339.azYtM(_0x2f099a.Prefs.get("ai4paper.gptcustomverifyresult" + _0x3791e4), var339.tstZh) && (_0x27027e.getElementById("ai4paper.gptcustom" + _0x22d5e0 + ".apiverify.button").hidden = true, _0x393553.getElementById("ai4paper.gptcustom" + _0x140671 + ".removeapi.button").hidden = false);
         }
       } else return window.alert(var339.rmZfH), -0x1;
     }
@@ -4539,7 +4539,7 @@ Zotero.ZoteroIF_Prefs = {
       var341 = Zotero.Prefs.get(var339.GLIGm).trim(),
       var342 = Zotero.Prefs.get(var339.levrF) ? Zotero.Prefs.get(var339.KqAtZ).trim() : var339.xxiqK,
       var343 = Zotero.Prefs.get(var339.QVprG).trim() + "/v1beta/models/" + var342 + ":generateContent";
-    return await Zotero.ZoteroIF.httpRequestInit(async () => {
+    return await Zotero.AI4Paper.httpRequestInit(async () => {
       if (var339.qVSMg(var339.mCpUk, var339.VsAke)) {
         function fn111() {
           let var344 = '点数余额：' + _0x485ff4.response.total_available + '\x20P';
@@ -4569,7 +4569,7 @@ Zotero.ZoteroIF_Prefs = {
           return _0x1076e4.alert(var345.WxKnF), -0x1;
         }
       } else {
-        if (Zotero.ZoteroIF.runAuthor()) {
+        if (Zotero.AI4Paper.runAuthor()) {
           if (var339.ZYRWZ(var339.wWoOq, var339.hRVCw)) _0x360ba2.response.candidates[0x0].content.parts[0x0].text && (window.alert(var339.rDiEi), Zotero.Prefs.set(var339.BvFhR, var339.tstZh), document.getElementById(var339.SRpom).hidden = true, document.getElementById(var339.qOTrQ).hidden = false);else {
             function fn113() {
               var var346 = _0x18da8a.confirm(var339.GOWSd);
@@ -4583,22 +4583,22 @@ Zotero.ZoteroIF_Prefs = {
   'removeGeminiAPI': function () {
     var var347 = {
         'tHIUJ': "0|1|6|5|3|2|4",
-        'XQTwB': "zoteroif.zotInfoMon",
-        'MlQjO': "zoteroif.zotInfoTues",
-        'iJHtS': "zoteroif.zotInfoSat",
-        'xrFZK': "zoteroif.zotInfoFri",
-        'iScHQ': "zoteroif.zotInfoSun",
-        'kFxlB': "zoteroif.zotInfoThur",
-        'fBaTX': "zoteroif.zotInfoWed",
+        'XQTwB': "ai4paper.zotInfoMon",
+        'MlQjO': "ai4paper.zotInfoTues",
+        'iJHtS': "ai4paper.zotInfoSat",
+        'xrFZK': "ai4paper.zotInfoFri",
+        'iScHQ': "ai4paper.zotInfoSun",
+        'kFxlB': "ai4paper.zotInfoThur",
+        'fBaTX': "ai4paper.zotInfoWed",
         'ggcYK': "是否确认解除 API 绑定？",
         'WyzjQ': function (param453, param454) {
           return param453 !== param454;
         },
         'qeiBm': 'pkiHy',
-        'aiKSI': "zoteroif.geminiverifyresult",
+        'aiKSI': "ai4paper.geminiverifyresult",
         'ddVGB': "未验证",
-        'DQWus': "zoteroif.gemini.apiverify.button",
-        'oaJwp': "zoteroif.gemini.removeapi.button"
+        'DQWus': "ai4paper.gemini.apiverify.button",
+        'oaJwp': "ai4paper.gemini.removeapi.button"
       },
       var348 = window.confirm(var347.ggcYK);
     if (var348) {
@@ -4643,14 +4643,14 @@ Zotero.ZoteroIF_Prefs = {
   'verifyClaudeAPI': async function () {
     var var351 = {
       'gTYMI': "0|2|1|5|3|4",
-      'ogidT': "zoteroif.activationkey.input.label",
-      'WZtxe': "zoteroif.activationstatus.not.label",
-      'YLGVO': "zoteroif.activationkey.input",
-      'kioNC': "zoteroif.activationstatus.invalid.label",
-      'tiJco': "zoteroif.activationstatus.fail.label",
-      'QMxoR': "zoteroif.activationstatus.succeed.label",
-      'kikmN': "zoteroif.wenxin.apiverify.button",
-      'THVhb': "zoteroif.wenxin.removeapi.button",
+      'ogidT': "ai4paper.activationkey.input.label",
+      'WZtxe': "ai4paper.activationstatus.not.label",
+      'YLGVO': "ai4paper.activationkey.input",
+      'kioNC': "ai4paper.activationstatus.invalid.label",
+      'tiJco': "ai4paper.activationstatus.fail.label",
+      'QMxoR': "ai4paper.activationstatus.succeed.label",
+      'kikmN': "ai4paper.wenxin.apiverify.button",
+      'THVhb': "ai4paper.wenxin.removeapi.button",
       'CuIYw': function (param455, param456) {
         return param455 !== param456;
       },
@@ -4663,14 +4663,14 @@ Zotero.ZoteroIF_Prefs = {
       'esABF': "json",
       'SOPTZ': "text",
       'LTxbi': "验证成功！",
-      'IohKl': "zoteroif.claudeverifyresult",
+      'IohKl': "ai4paper.claudeverifyresult",
       'tAeiC': "验证成功",
-      'hBIlV': "zoteroif.claude.apiverify.button",
-      'fdcix': "zoteroif.claude.removeapi.button",
+      'hBIlV': "ai4paper.claude.apiverify.button",
+      'fdcix': "ai4paper.claude.removeapi.button",
       'qKxxd': function (param457, param458) {
         return param457 === param458;
       },
-      'DgVtu': "zoteroif.claudeAPI",
+      'DgVtu': "ai4paper.claudeAPI",
       'qgdMK': function (param459, param460) {
         return param459 === param460;
       },
@@ -4715,7 +4715,7 @@ Zotero.ZoteroIF_Prefs = {
     var var354 = var351.LVYPo,
       var355 = Zotero.Prefs.get(var351.DgVtu).trim(),
       var356 = var351.pfixI;
-    return await Zotero.ZoteroIF.httpRequestInit(async () => {
+    return await Zotero.AI4Paper.httpRequestInit(async () => {
       var var357 = {
         'Tqrnb': var351.kikmN,
         'yumQj': var351.THVhb
@@ -4742,7 +4742,7 @@ Zotero.ZoteroIF_Prefs = {
         'responseType': var351.esABF
       });
     }, _0x21cd39 => {
-      Zotero.ZoteroIF.runAuthor() && _0x21cd39.response.content[0x0][var351.SOPTZ] && (window.alert(var351.LTxbi), Zotero.Prefs.set(var351.IohKl, var351.tAeiC), document.getElementById(var351.hBIlV).hidden = true, document.getElementById(var351.fdcix).hidden = false);
+      Zotero.AI4Paper.runAuthor() && _0x21cd39.response.content[0x0][var351.SOPTZ] && (window.alert(var351.LTxbi), Zotero.Prefs.set(var351.IohKl, var351.tAeiC), document.getElementById(var351.hBIlV).hidden = true, document.getElementById(var351.fdcix).hidden = false);
     }, var351.Imodj);
   },
   'removeClaudeAPI': function () {
@@ -4752,10 +4752,10 @@ Zotero.ZoteroIF_Prefs = {
           return param461 === param462;
         },
         'rCFZo': "RhKEv",
-        'YpeVd': "zoteroif.claudeverifyresult",
+        'YpeVd': "ai4paper.claudeverifyresult",
         'aUxNA': "未验证",
-        'dqcVN': "zoteroif.claude.apiverify.button",
-        'Tmdra': "zoteroif.claude.removeapi.button"
+        'dqcVN': "ai4paper.claude.apiverify.button",
+        'Tmdra': "ai4paper.claude.removeapi.button"
       },
       var359 = window.confirm(var358.GbkBV);
     if (var359) {
@@ -4785,13 +4785,13 @@ Zotero.ZoteroIF_Prefs = {
       'YcYtm': function (param467, param468) {
         return param467 != param468;
       },
-      'tUoCs': "zoteroif.kimi.apiverify.button",
-      'qZMXN': "zoteroif.kimi.removeapi.button",
+      'tUoCs': "ai4paper.kimi.apiverify.button",
+      'qZMXN': "ai4paper.kimi.removeapi.button",
       'LmcqF': "5|2|6|10|9|0|8|1|3|4|7",
       'WQWZt': function (param469, param470) {
         return param469 === param470;
       },
-      'QrqlL': "zoteroif.eudicAPIKey",
+      'QrqlL': "ai4paper.eudicAPIKey",
       'NADNZ': function (param471, param472) {
         return param471 !== param472;
       },
@@ -4801,7 +4801,7 @@ Zotero.ZoteroIF_Prefs = {
       'bdSdj': function (param473, param474) {
         return param473 === param474;
       },
-      'MvHtX': "zoteroif.eudicCategoryID",
+      'MvHtX': "ai4paper.eudicCategoryID",
       'MjBhI': "请先输入生词本 ID！输入 0，代表使用默认生词本。",
       'tluew': "https://api.frdic.com/api/open/v1/studylist/category?language=en",
       'iLlXC': "GET",
@@ -4810,10 +4810,10 @@ Zotero.ZoteroIF_Prefs = {
       'lrtAY': "alsnw",
       'tPlTJ': "eoHMo",
       'PgSVF': "验证成功！",
-      'QVsel': "zoteroif.eudicVerifyResult",
+      'QVsel': "ai4paper.eudicVerifyResult",
       'fHvpV': "验证成功",
-      'BagOH': "zoteroif.eudic.apiverify.button",
-      'SjWne': "zoteroif.eudic.removeapi.button",
+      'BagOH': "ai4paper.eudic.apiverify.button",
+      'SjWne': "ai4paper.eudic.removeapi.button",
       'MqdrM': "vWvvM"
     };
     if (var360.WQWZt(Zotero.Prefs.get(var360.QrqlL), '')) {
@@ -4929,7 +4929,7 @@ Zotero.ZoteroIF_Prefs = {
                 this.buildTranslationEnginesList();
                 continue;
               case '1':
-                _0x28717b.ZoteroIF.update_svg_icons(_0xcfe371);
+                _0x28717b.AI4Paper.update_svg_icons(_0xcfe371);
                 continue;
               case '2':
                 this.updateElementLabels();
@@ -4968,10 +4968,10 @@ Zotero.ZoteroIF_Prefs = {
   'removeEudicAPI': function () {
     var var372 = {
         'MoFXl': "是否确认解除 API 绑定？",
-        'afbUh': "zoteroif.eudicVerifyResult",
+        'afbUh': "ai4paper.eudicVerifyResult",
         'wWcQz': "未验证",
-        'vmrxT': "zoteroif.eudic.apiverify.button",
-        'fuXEy': "zoteroif.eudic.removeapi.button"
+        'vmrxT': "ai4paper.eudic.apiverify.button",
+        'fuXEy': "ai4paper.eudic.removeapi.button"
       },
       var373 = window.confirm(var372.MoFXl);
     var373 && (Zotero.Prefs.set(var372.afbUh, var372.wWcQz), document.getElementById(var372.vmrxT).hidden = false, document.getElementById(var372.fuXEy).hidden = true);
@@ -4984,8 +4984,8 @@ Zotero.ZoteroIF_Prefs = {
       'LGMBk': function (param475, param476) {
         return param475 === param476;
       },
-      'tvqXb': "zoteroif.translatemacshortcutsstyles",
-      'uYGON': "zoteroif.eudicAPIKey",
+      'tvqXb': "ai4paper.translatemacshortcutsstyles",
+      'uYGON': "ai4paper.eudicAPIKey",
       'NHmGA': "请先输入 欧路词典 API-Key！",
       'ildYr': "https://api.frdic.com/api/open/v1/studylist/category?language=en",
       'aZtGT': function (param477, param478) {
@@ -5002,11 +5002,11 @@ Zotero.ZoteroIF_Prefs = {
       'ZonoZ': "caJdu",
       'eJkhL': "EOorZ",
       'bTPYn': "未读取到生词本！你可能需要前往欧路词典客户端创建生词本。",
-      'SgLHE': "zoteroif.eudicCategoriesInfo",
+      'SgLHE': "ai4paper.eudicCategoriesInfo",
       'QwFzL': "selectEudicCategory",
       'IjrVw': "NuTaH",
-      'Ptsqu': "zoteroif.vocabulary.eudicCategoryID",
-      'eHrhV': "zoteroif.eudicCategoryID"
+      'Ptsqu': "ai4paper.vocabulary.eudicCategoryID",
+      'eHrhV': "ai4paper.eudicCategoryID"
     };
     if (var374.LGMBk(Zotero.Prefs.get(var374.uYGON), '')) return window.alert(var374.NHmGA), -0x1;
     var var375 = Zotero.Prefs.get(var374.uYGON).trim(),
@@ -5037,7 +5037,7 @@ Zotero.ZoteroIF_Prefs = {
             if (var374.xlpnD(var380.length, 0x0)) {
               if (var374.aZtGT(var374.eJkhL, var374.eJkhL)) {
                 function fn121() {
-                  _0x5384d8.ZoteroIF.unregisterItemsToolBarButtons([var374.BFOYQ]);
+                  _0x5384d8.AI4Paper.unregisterItemsToolBarButtons([var374.BFOYQ]);
                 }
               } else {
                 window.alert(var374.bTPYn);
@@ -5045,8 +5045,8 @@ Zotero.ZoteroIF_Prefs = {
               }
             }
             Zotero.Prefs.set(var374.SgLHE, JSON.stringify(var380));
-            Zotero.ZoteroIF._data_EudicCategories = var380;
-            let var383 = Zotero.ZoteroIF.openDialogByType_modal(var374.QwFzL);
+            Zotero.AI4Paper._data_EudicCategories = var380;
+            let var383 = Zotero.AI4Paper.openDialogByType_modal(var374.QwFzL);
             if (var383) {
               if (var374.aZtGT(var374.IjrVw, var374.IjrVw)) {
                 function fn122() {
@@ -5077,10 +5077,10 @@ Zotero.ZoteroIF_Prefs = {
     var var385 = {
       'HzSsn': "copyPDF",
       'xsVtb': "是否确认解除 API 绑定？",
-      'JSpop': "zoteroif.wenxinAPIVerifyResult",
+      'JSpop': "ai4paper.wenxinAPIVerifyResult",
       'VxCyg': "未验证",
-      'hqBVO': "zoteroif.wenxin.apiverify.button",
-      'cJceu': "zoteroif.wenxin.removeapi.button",
+      'hqBVO': "ai4paper.wenxin.apiverify.button",
+      'cJceu': "ai4paper.wenxin.removeapi.button",
       'nGsOA': "请先输入 零一万物 API-Key！",
       'JEQbg': function (param481, param482) {
         return param481 === param482;
@@ -5088,7 +5088,7 @@ Zotero.ZoteroIF_Prefs = {
       'RJLNu': "pyoiO",
       'MxrFa': "eXZIJ",
       'sRahF': "vBaFR",
-      'gWNtq': "zoteroif-gpt-notesAttachItems-content",
+      'gWNtq': "ai4paper-gpt-notesAttachItems-content",
       'gASpG': function (param483, param484) {
         return param483 != param484;
       },
@@ -5099,16 +5099,16 @@ Zotero.ZoteroIF_Prefs = {
       'tsEpK': function (param487, param488) {
         return param487 + param488;
       },
-      'fqiDD': "zoteroif.gptNotesAttachItems"
+      'fqiDD': "ai4paper.gptNotesAttachItems"
     };
-    let var386 = Zotero.ZoteroIF.getItemsTitleANDKey();
+    let var386 = Zotero.AI4Paper.getItemsTitleANDKey();
     if (var386) {
       if (var385.JEQbg(var385.RJLNu, var385.RJLNu)) {
         let var387 = window.confirm("是否确认将选定的（或者当前已打开的）【" + var386.length + "】文献添加为 GPT 笔记绑定条目？");
         if (var387) for (let var388 of var386) {
           if (var385.JEQbg(var385.MxrFa, var385.sRahF)) {
             function fn125() {
-              _0x56d6f3.ZoteroIF.unregisterItemsToolBarButtons([var385.HzSsn]);
+              _0x56d6f3.AI4Paper.unregisterItemsToolBarButtons([var385.HzSsn]);
             }
           } else {
             let var389 = document.getElementById(var385.gWNtq).value;
@@ -5135,33 +5135,33 @@ Zotero.ZoteroIF_Prefs = {
   'clearGPTNotesAttachItems': function () {
     var var392 = {
       'nOfLU': "是否确认清空？",
-      'Ktuze': "zoteroif-gpt-notesAttachItems-content",
-      'jiLkd': "zoteroif.gptNotesAttachItems"
+      'Ktuze': "ai4paper-gpt-notesAttachItems-content",
+      'jiLkd': "ai4paper.gptNotesAttachItems"
     };
     let var393 = window.confirm(var392.nOfLU);
     var393 && (document.getElementById(var392.Ktuze).value = '', Zotero.Prefs.set(var392.jiLkd, ''));
   },
   'locateGPTNotesAttachItems': async function () {
     var var394 = {
-      'XWYOa': "zoteroif.qwenVerifyResult",
+      'XWYOa': "ai4paper.qwenVerifyResult",
       'NuMUt': "未验证",
-      'FHAAz': "zoteroif.qwen.apiverify.button",
-      'wOsKw': "zoteroif.qwen.removeapi.button",
-      'qZtnQ': "zoteroif.scheme4WebSearchBrowser",
+      'FHAAz': "ai4paper.qwen.apiverify.button",
+      'wOsKw': "ai4paper.qwen.removeapi.button",
+      'qZtnQ': "ai4paper.scheme4WebSearchBrowser",
       'wyzqH': function (param489, param490) {
         return param489 === param490;
       },
       'dSJby': '自定义',
-      'aTBvC': "zoteroif.browser4WebSearch",
+      'aTBvC': "ai4paper.browser4WebSearch",
       'qevIN': "none",
-      'TEfRi': "zoteroif.browser4WebSearch.choose",
+      'TEfRi': "ai4paper.browser4WebSearch.choose",
       'kwiRd': "itemPaneDisplay",
       'RUaDB': "scroll-to-top-btn",
       'IEMYJ': function (param491, param492, param493) {
         return param491(param492, param493);
       },
       'nnoxr': "click",
-      'EuzbH': "zoteroif-gpt-notesAttachItems-content",
+      'EuzbH': "ai4paper-gpt-notesAttachItems-content",
       'thhSs': function (param494, param495) {
         return param494 !== param495;
       },
@@ -5247,7 +5247,7 @@ Zotero.ZoteroIF_Prefs = {
         return;
       } else {
         function fn130() {
-          _0x134a3b.ZoteroIF.unregisterItemsToolBarButtons([var394.kwiRd]);
+          _0x134a3b.AI4Paper.unregisterItemsToolBarButtons([var394.kwiRd]);
         }
       }
     }
@@ -5255,7 +5255,7 @@ Zotero.ZoteroIF_Prefs = {
     if (var394.iFvza(var403.lastIndexOf('🆔'), -0x1)) {
       let var404 = var403.lastIndexOf('🆔'),
         var405 = var403.substring(var394.pyKpV(var404, 0x2)).trim(),
-        var406 = Zotero.ZoteroIF.findItemByIDORKey(var405);
+        var406 = Zotero.AI4Paper.findItemByIDORKey(var405);
       if (var406) {
         if (var394.ZOBJJ(var394.pyGiw, var394.pyGiw)) {
           function fn131() {
@@ -5263,9 +5263,9 @@ Zotero.ZoteroIF_Prefs = {
           }
         } else try {
           let var407 = var406.getCollections()[0x0];
-          Zotero.ZoteroIF.getGlobal(var394.qFooh).collectionsView.selectCollection(var407);
-          Zotero.ZoteroIF.getGlobal(var394.tUwxm).select(var394.cNSuv);
-          let var408 = await Zotero.ZoteroIF.getGlobal(var394.qFooh).selectItem(var406.itemID);
+          Zotero.AI4Paper.getGlobal(var394.qFooh).collectionsView.selectCollection(var407);
+          Zotero.AI4Paper.getGlobal(var394.tUwxm).select(var394.cNSuv);
+          let var408 = await Zotero.AI4Paper.getGlobal(var394.qFooh).selectItem(var406.itemID);
           var394.BYHgi(var408, false) && window.alert(var394.zaeHm);
         } catch (_0x2feb50) {
           if (var394.ZOBJJ(var394.PKtDx, var394.PKtDx)) {
@@ -5293,13 +5293,13 @@ Zotero.ZoteroIF_Prefs = {
       'skTJB': function (param516, param517) {
         return param516 === param517;
       },
-      'zxSQZ': "zoteroif.semanticscholarHost",
+      'zxSQZ': "ai4paper.semanticscholarHost",
       'WGGCA': "type",
       'TukTp': "password",
       'zKLGN': "text",
       'eoBhL': "enablesvgeyesprotection",
       'YAkqc': "enablesvgeyesprotection_off",
-      'SJkvz': "zoteroif-gpt-notesAttachItems-content",
+      'SJkvz': "ai4paper-gpt-notesAttachItems-content",
       'XJCDk': 'oZqob',
       'QptQi': "AZboA",
       'QfkIt': "内容为空，无须删除！",
@@ -5320,13 +5320,13 @@ Zotero.ZoteroIF_Prefs = {
       'EsbVd': function (param526, param527) {
         return param526 - param527;
       },
-      'ZiShR': "zoteroif.gptNotesAttachItems"
+      'ZiShR': "ai4paper.gptNotesAttachItems"
     };
     let var410 = document.getElementById(var409.SJkvz).value.trim();
     if (!var410) {
       if (var409.skTJB(var409.XJCDk, var409.QptQi)) {
         function fn133() {
-          var409.skTJB(_0x63b022.getElementById(var409.zxSQZ).getAttribute(var409.WGGCA), var409.TukTp) ? (_0x534c5b.getElementById(var409.zxSQZ).setAttribute(var409.WGGCA, var409.zKLGN), _0x5df123.innerHTML = _0x55a226.ZoteroIF.svg_icon_20px[var409.eoBhL]) : (_0x21bcc7.getElementById(var409.zxSQZ).setAttribute(var409.WGGCA, var409.TukTp), _0x4b97a9.innerHTML = _0x344e2e.ZoteroIF.svg_icon_20px[var409.YAkqc]);
+          var409.skTJB(_0x63b022.getElementById(var409.zxSQZ).getAttribute(var409.WGGCA), var409.TukTp) ? (_0x534c5b.getElementById(var409.zxSQZ).setAttribute(var409.WGGCA, var409.zKLGN), _0x5df123.innerHTML = _0x55a226.AI4Paper.svg_icon_20px[var409.eoBhL]) : (_0x21bcc7.getElementById(var409.zxSQZ).setAttribute(var409.WGGCA, var409.TukTp), _0x4b97a9.innerHTML = _0x344e2e.AI4Paper.svg_icon_20px[var409.YAkqc]);
         }
       } else {
         window.alert(var409.QfkIt);
@@ -5355,15 +5355,15 @@ Zotero.ZoteroIF_Prefs = {
   },
   'disableZoteroAutoUpdate': function () {
     var var417 = {
-      'uaHnD': "zoteroif.openaiverifyresult",
+      'uaHnD': "ai4paper.openaiverifyresult",
       'lRPCK': "未验证",
-      'vueBg': "zoteroif.openai.apiverify.button",
-      'znjVr': "zoteroif.openai.removeapi.button",
-      'PiVdy': "zoteroif.zjuchat.apiverify.button",
-      'sSRvf': "zoteroif.zjuchat.removeapi.button",
-      'xYEiF': "zoteroif.zoteroColorSchemeToolBarButton",
+      'vueBg': "ai4paper.openai.apiverify.button",
+      'znjVr': "ai4paper.openai.removeapi.button",
+      'PiVdy': "ai4paper.zjuchat.apiverify.button",
+      'sSRvf': "ai4paper.zjuchat.removeapi.button",
+      'xYEiF': "ai4paper.zoteroColorSchemeToolBarButton",
       'UXLYQ': "zoteroColorScheme",
-      'KPQXD': "zoteroif.disableZoteroUpdates",
+      'KPQXD': "ai4paper.disableZoteroUpdates",
       'dTzhp': function (param528, param529) {
         return param528 !== param529;
       },
@@ -5412,7 +5412,7 @@ Zotero.ZoteroIF_Prefs = {
         var419 ? (Zotero.Prefs.set(var417.DeGVg, true, true), Zotero.Prefs.set(var417.bYUot, true, true)) : (Zotero.Prefs.set(var417.DeGVg, false, true), Zotero.Prefs.set(var417.bYUot, false, true), document.getElementById(var417.KPQXD).checked = true);
       } else {
         function fn136() {
-          _0x2a8bfd.getElementById(var417.xYEiF).checked ? (_0x12d895.Prefs.set(var417.xYEiF, true), _0x1a0384.ZoteroIF.registerItemsToolBarButtons([var417.UXLYQ])) : _0x1b3014.ZoteroIF.unregisterItemsToolBarButtons([var417.UXLYQ]);
+          _0x2a8bfd.getElementById(var417.xYEiF).checked ? (_0x12d895.Prefs.set(var417.xYEiF, true), _0x1a0384.AI4Paper.registerItemsToolBarButtons([var417.UXLYQ])) : _0x1b3014.AI4Paper.unregisterItemsToolBarButtons([var417.UXLYQ]);
         }
       }
     }
@@ -5422,7 +5422,7 @@ Zotero.ZoteroIF_Prefs = {
     'scrollContainer': null,
     'init'() {
       var var420 = {
-        'hJztP': "zoteroif.enableShortcutsAddAnnotationTag",
+        'hJztP': "ai4paper.enableShortcutsAddAnnotationTag",
         'jnLLV': function (param532, param533) {
           return param532 !== param533;
         },
@@ -5437,7 +5437,7 @@ Zotero.ZoteroIF_Prefs = {
         if (var420.jnLLV(var420.garGm, var420.garGm)) {
           function fn137() {
             _0x159e76.Prefs.set(var420.hJztP, _0x10b84a.getElementById(var420.hJztP).checked);
-            _0x22563b.ZoteroIF.registerShortcuts_addAnnotationTag();
+            _0x22563b.AI4Paper.registerShortcuts_addAnnotationTag();
           }
         } else {
           this.btn = document.getElementById(var420.UDbwI);
@@ -5601,7 +5601,7 @@ Zotero.ZoteroIF_Prefs = {
             var429.QPhlN(var435, 0x1) && var429.rGMKw(requestAnimationFrame, var433);
           } else {
             function fn142() {
-              if (_0x46fdf4.ZoteroIF.runAuthor()) {
+              if (_0x46fdf4.AI4Paper.runAuthor()) {
                 let var437 = {
                     'CNY': '元',
                     'USD': '美元'
@@ -5620,10 +5620,10 @@ Zotero.ZoteroIF_Prefs = {
   'injectStyles': function () {
     var var441 = {
       'JOwnK': "是否确认解除 API 绑定？",
-      'AKMSB': "zoteroif.claudeverifyresult",
+      'AKMSB': "ai4paper.claudeverifyresult",
       'gdDkH': '未验证',
-      'bwoRU': "zoteroif.claude.apiverify.button",
-      'OsjMs': "zoteroif.claude.removeapi.button",
+      'bwoRU': "ai4paper.claude.apiverify.button",
+      'OsjMs': "ai4paper.claude.removeapi.button",
       'ivAkb': function (param577, param578) {
         return param577 !== param578;
       },
@@ -5639,8 +5639,8 @@ Zotero.ZoteroIF_Prefs = {
     try {
       if (var441.ivAkb(var441.dVjnc, var441.dVjnc)) {
         function fn143() {
-          _0x438dc7.ZoteroIF.collectionK();
-          _0x95b409.ZoteroIF.collectionU();
+          _0x438dc7.AI4Paper.collectionK();
+          _0x95b409.AI4Paper.collectionU();
         }
       } else {
         let var442 = document.createElementNS(var441.tPQMc, var441.VJuLe);
@@ -5659,57 +5659,57 @@ Zotero.ZoteroIF_Prefs = {
   'onChangeValue': {
     'updateActivationKey': function () {
       var var444 = {
-        'Indae': "zoteroif.activationkeyinput",
-        'aHtyO': "zoteroif.activationkey.input"
+        'Indae': "ai4paper.activationkeyinput",
+        'aHtyO': "ai4paper.activationkey.input"
       };
       Zotero.Prefs.set(var444.Indae, document.getElementById(var444.aHtyO).value);
     },
     'updateBaidufanyiAppID': function () {
       var var445 = {
-        'meAMM': "zoteroif.baidufanyiappidinput",
-        'ZWMYT': "zoteroif.baidufanyi.appidinput"
+        'meAMM': "ai4paper.baidufanyiappidinput",
+        'ZWMYT': "ai4paper.baidufanyi.appidinput"
       };
       Zotero.Prefs.set(var445.meAMM, document.getElementById(var445.ZWMYT).value);
     },
     'updateBaidufanyiAppKey': function () {
       var var446 = {
-        'rFMFK': "zoteroif.baidufanyiappkeyinput",
-        'PUFmj': "zoteroif.baidufanyi.appkeyinput"
+        'rFMFK': "ai4paper.baidufanyiappkeyinput",
+        'PUFmj': "ai4paper.baidufanyi.appkeyinput"
       };
       Zotero.Prefs.set(var446.rFMFK, document.getElementById(var446.PUFmj).value);
     },
     'updateNiutransApiKey': function () {
       var var447 = {
-        'XfwEz': "zoteroif.niutransapikeyinput",
-        'lLdMp': "zoteroif.niutrans.apikeyinput"
+        'XfwEz': "ai4paper.niutransapikeyinput",
+        'lLdMp': "ai4paper.niutrans.apikeyinput"
       };
       Zotero.Prefs.set(var447.XfwEz, document.getElementById(var447.lLdMp).value);
     },
     'updateCaiyunxiaoyiToken': function () {
       var var448 = {
-        'oQIoM': "zoteroif.caiyunxiaoyitokeninput",
-        'Iwmuf': "zoteroif.caiyunxiaoyi.tokeninput"
+        'oQIoM': "ai4paper.caiyunxiaoyitokeninput",
+        'Iwmuf': "ai4paper.caiyunxiaoyi.tokeninput"
       };
       Zotero.Prefs.set(var448.oQIoM, document.getElementById(var448.Iwmuf).value);
     },
     'updateDeepLAPI': function () {
       var var449 = {
-        'DayLw': "zoteroif.deeplapiinput",
-        'kMLIu': "zoteroif.deepl.apiinput"
+        'DayLw': "ai4paper.deeplapiinput",
+        'kMLIu': "ai4paper.deepl.apiinput"
       };
       Zotero.Prefs.set(var449.DayLw, document.getElementById(var449.kMLIu).value);
     },
     'updateDeepLPlan': function () {
       var var450 = {
-        'JMFgg': "zoteroif.deeplplan",
-        'nVXNb': "zoteroif.deepl.plan"
+        'JMFgg': "ai4paper.deeplplan",
+        'nVXNb': "ai4paper.deepl.plan"
       };
       Zotero.Prefs.set(var450.JMFgg, document.getElementById(var450.nVXNb).label);
     },
     'updateDeepLXAPIURL': function () {
       var var451 = {
-        'NBtOS': "zoteroif.deeplxurl",
-        'YNHpy': "zoteroif.deeplx.url"
+        'NBtOS': "ai4paper.deeplxurl",
+        'YNHpy': "ai4paper.deeplx.url"
       };
       Zotero.Prefs.set(var451.NBtOS, document.getElementById(var451.YNHpy).value);
     },
@@ -5718,56 +5718,56 @@ Zotero.ZoteroIF_Prefs = {
         'xQQUN': function (param582, param583) {
           return param582 === param583;
         },
-        'vFstq': "zoteroif.deeplx.url",
+        'vFstq': "ai4paper.deeplx.url",
         'Tijbi': "type",
         'QdCfB': "password",
         'gzxsi': 'text',
         'bBfbX': "enablesvgeyesprotection",
         'BvBYN': "enablesvgeyesprotection_off"
       };
-      var452.xQQUN(document.getElementById(var452.vFstq).getAttribute(var452.Tijbi), var452.QdCfB) ? (document.getElementById(var452.vFstq).setAttribute(var452.Tijbi, var452.gzxsi), param581.innerHTML = Zotero.ZoteroIF.svg_icon_20px[var452.bBfbX]) : (document.getElementById(var452.vFstq).setAttribute(var452.Tijbi, var452.QdCfB), param581.innerHTML = Zotero.ZoteroIF.svg_icon_20px[var452.BvBYN]);
+      var452.xQQUN(document.getElementById(var452.vFstq).getAttribute(var452.Tijbi), var452.QdCfB) ? (document.getElementById(var452.vFstq).setAttribute(var452.Tijbi, var452.gzxsi), param581.innerHTML = Zotero.AI4Paper.svg_icon_20px[var452.bBfbX]) : (document.getElementById(var452.vFstq).setAttribute(var452.Tijbi, var452.QdCfB), param581.innerHTML = Zotero.AI4Paper.svg_icon_20px[var452.BvBYN]);
     },
     'updateGPTServiceModel': function () {
       var var453 = {
-        'uUxcC': "zoteroif.gptservice",
-        'QqZfE': "zoteroif.gptmodel"
+        'uUxcC': "ai4paper.gptservice",
+        'QqZfE': "ai4paper.gptmodel"
       };
       Zotero.Prefs.set(var453.uUxcC, document.getElementById(var453.uUxcC).label);
       Zotero.Prefs.set(var453.QqZfE, document.getElementById(var453.QqZfE).label);
-      Zotero.ZoteroIF.gptReaderSidePane_updateServiceModel();
+      Zotero.AI4Paper.gptReaderSidePane_updateServiceModel();
     },
     'updateOpenAIAPI': function () {
       var var454 = {
-        'XPVbQ': "zoteroif.openaiapiinput",
-        'boCqk': "zoteroif.gpt.openaiapiinput"
+        'XPVbQ': "ai4paper.openaiapiinput",
+        'boCqk': "ai4paper.gpt.openaiapiinput"
       };
       Zotero.Prefs.set(var454.XPVbQ, document.getElementById(var454.boCqk).value);
     },
     'updateAPI2DAPI': function () {
       var var455 = {
-        'jYDWR': "zoteroif.api2dapiinput",
-        'YZyax': "zoteroif.gpt.api2dapiinput"
+        'jYDWR': "ai4paper.api2dapiinput",
+        'YZyax': "ai4paper.gpt.api2dapiinput"
       };
       Zotero.Prefs.set(var455.jYDWR, document.getElementById(var455.YZyax).value);
     },
     'updateChatAnywhereAPI': function () {
       var var456 = {
-        'tNOvR': "zoteroif.chatanywhereapiinput",
-        'pnMIl': "zoteroif.gpt.chatanywhereapiinput"
+        'tNOvR': "ai4paper.chatanywhereapiinput",
+        'pnMIl': "ai4paper.gpt.chatanywhereapiinput"
       };
       Zotero.Prefs.set(var456.tNOvR, document.getElementById(var456.pnMIl).value);
     },
     'updateChatAnywhereHost': function () {
       var var457 = {
-        'nDnrG': "zoteroif.chatanywherehost",
-        'twMZF': "zoteroif.gpt.chatanywherehost"
+        'nDnrG': "ai4paper.chatanywherehost",
+        'twMZF': "ai4paper.gpt.chatanywherehost"
       };
       Zotero.Prefs.set(var457.nDnrG, document.getElementById(var457.twMZF).value);
     },
     'showGPTCustomHost': function (param584, param585) {
       var var458 = {
-        'MJnTi': "zoteroif.baidufanyiappidinput",
-        'nrjUJ': "zoteroif.baidufanyi.appidinput",
+        'MJnTi': "ai4paper.baidufanyiappidinput",
+        'nrjUJ': "ai4paper.baidufanyi.appidinput",
         'aRjtN': function (param586, param587) {
           return param586 === param587;
         },
@@ -5785,11 +5785,11 @@ Zotero.ZoteroIF_Prefs = {
         'tMTUd': "GfdlP",
         'ysbYC': "enablesvgeyesprotection_off"
       };
-      let var459 = Zotero.ZoteroIF.gptCustom_suffix;
-      if (var458.aRjtN(document.getElementById("zoteroif.gpt.gptcustomhost" + var459[param585]).getAttribute(var458.nlUJZ), var458.DuVab)) {
+      let var459 = Zotero.AI4Paper.gptCustom_suffix;
+      if (var458.aRjtN(document.getElementById("ai4paper.gpt.gptcustomhost" + var459[param585]).getAttribute(var458.nlUJZ), var458.DuVab)) {
         if (var458.hmwFj(var458.HdPNn, var458.HdPNn)) {
-          document.getElementById("zoteroif.gpt.gptcustomhost" + var459[param585]).setAttribute(var458.nlUJZ, var458.IwRVO);
-          param584.innerHTML = Zotero.ZoteroIF.svg_icon_20px[var458.DbjTK];
+          document.getElementById("ai4paper.gpt.gptcustomhost" + var459[param585]).setAttribute(var458.nlUJZ, var458.IwRVO);
+          param584.innerHTML = Zotero.AI4Paper.svg_icon_20px[var458.DbjTK];
         } else {
           function fn145() {
             _0x2b7579.Prefs.set(var458.MJnTi, _0x44f620.getElementById(var458.nrjUJ).value);
@@ -5798,26 +5798,26 @@ Zotero.ZoteroIF_Prefs = {
       } else {
         if (var458.OPuix(var458.tMTUd, var458.tMTUd)) {
           function fn146() {
-            let var460 = _0x51973a.ZoteroIF.get_AC_True();
-            if (!var460) return _0x5761bb.ZoteroIF.acLoginAlert(), false;else this.onAddRun();
+            let var460 = _0x51973a.AI4Paper.get_AC_True();
+            if (!var460) return _0x5761bb.AI4Paper.acLoginAlert(), false;else this.onAddRun();
           }
         } else {
-          document.getElementById("zoteroif.gpt.gptcustomhost" + var459[param585]).setAttribute(var458.nlUJZ, var458.DuVab);
-          param584.innerHTML = Zotero.ZoteroIF.svg_icon_20px[var458.ysbYC];
+          document.getElementById("ai4paper.gpt.gptcustomhost" + var459[param585]).setAttribute(var458.nlUJZ, var458.DuVab);
+          param584.innerHTML = Zotero.AI4Paper.svg_icon_20px[var458.ysbYC];
         }
       }
     },
     'updateGeminiHost': function () {
       var var461 = {
-        'FRlMY': "zoteroif.geminihost",
-        'zmdXV': "zoteroif.gpt.geminihost"
+        'FRlMY': "ai4paper.geminihost",
+        'zmdXV': "ai4paper.gpt.geminihost"
       };
       Zotero.Prefs.set(var461.FRlMY, document.getElementById(var461.zmdXV).value);
     },
     'updateGeminiAPI': function () {
       var var462 = {
-        'yGMzZ': "zoteroif.geminiapiinput",
-        'awOpj': "zoteroif.gpt.geminiapiinput"
+        'yGMzZ': "ai4paper.geminiapiinput",
+        'awOpj': "ai4paper.gpt.geminiapiinput"
       };
       Zotero.Prefs.set(var462.yGMzZ, document.getElementById(var462.awOpj).value);
     },
@@ -5838,7 +5838,7 @@ Zotero.ZoteroIF_Prefs = {
         'HcaiH': function (param599, param600) {
           return param599 === param600;
         },
-        'KohIK': "zoteroif.gpt.geminihost",
+        'KohIK': "ai4paper.gpt.geminihost",
         'GnLHi': "type",
         'DpCOj': "password",
         'Rwbgq': function (param601, param602) {
@@ -5855,7 +5855,7 @@ Zotero.ZoteroIF_Prefs = {
       if (var463.HcaiH(document.getElementById(var463.KohIK).getAttribute(var463.GnLHi), var463.DpCOj)) {
         if (var463.Rwbgq(var463.FymfJ, var463.pbUGV)) {
           document.getElementById(var463.KohIK).setAttribute(var463.GnLHi, var463.KoNTm);
-          param592.innerHTML = Zotero.ZoteroIF.svg_icon_20px[var463.thDrg];
+          param592.innerHTML = Zotero.AI4Paper.svg_icon_20px[var463.thDrg];
         } else {
           function fn147() {
             var var464;
@@ -5870,7 +5870,7 @@ Zotero.ZoteroIF_Prefs = {
       } else {
         if (var463.Rwbgq(var463.mWKeF, var463.LYMqV)) {
           document.getElementById(var463.KohIK).setAttribute(var463.GnLHi, var463.DpCOj);
-          param592.innerHTML = Zotero.ZoteroIF.svg_icon_20px[var463.NdJmk];
+          param592.innerHTML = Zotero.AI4Paper.svg_icon_20px[var463.NdJmk];
         } else {
           function fn148() {
             return _0xdacf92.alert(var463.fkgoK), -0x1;
@@ -5883,14 +5883,14 @@ Zotero.ZoteroIF_Prefs = {
         'ommER': function (param604, param605) {
           return param604 === param605;
         },
-        'pztms': "zoteroif.semanticscholarHost",
+        'pztms': "ai4paper.semanticscholarHost",
         'uSYrk': "type",
         'FtUSY': "password",
         'IpuQi': "text",
         'PuWfv': "enablesvgeyesprotection",
         'UVRfb': "enablesvgeyesprotection_off"
       };
-      var465.ommER(document.getElementById(var465.pztms).getAttribute(var465.uSYrk), var465.FtUSY) ? (document.getElementById(var465.pztms).setAttribute(var465.uSYrk, var465.IpuQi), param603.innerHTML = Zotero.ZoteroIF.svg_icon_20px[var465.PuWfv]) : (document.getElementById(var465.pztms).setAttribute(var465.uSYrk, var465.FtUSY), param603.innerHTML = Zotero.ZoteroIF.svg_icon_20px[var465.UVRfb]);
+      var465.ommER(document.getElementById(var465.pztms).getAttribute(var465.uSYrk), var465.FtUSY) ? (document.getElementById(var465.pztms).setAttribute(var465.uSYrk, var465.IpuQi), param603.innerHTML = Zotero.AI4Paper.svg_icon_20px[var465.PuWfv]) : (document.getElementById(var465.pztms).setAttribute(var465.uSYrk, var465.FtUSY), param603.innerHTML = Zotero.AI4Paper.svg_icon_20px[var465.UVRfb]);
     },
     'updateMacShortcutsTranslationStyle': function (param606) {
       var var466 = {
@@ -5899,28 +5899,28 @@ Zotero.ZoteroIF_Prefs = {
           return param607 === param608;
         },
         'JMLOb': "ZHsyN",
-        'CzExQ': "zoteroif.translatemacshortcutsstyles",
-        'gDEya': "zoteroif.translate.mac.shortcuts.styles",
-        'QaaCi': "zoteroif.translate.mac.info.1.info.1.label.id",
-        'VSJDG': "zoteroif.translate.mac.info.1.info.2.label.id",
-        'mQabW': "zoteroif.translate.mac.info.1.info.3.label.id",
-        'pSMBy': "zoteroif.translate.mac.info.2.label.id",
-        'ERIZX': "zoteroif.translate.mac.d.shortcuts",
-        'DVbuM': "zoteroif.translate.mac.d.shortcuts.select.info.2.label.id",
-        'TOKtz': "zoteroif.translate.mac.s.shortcuts",
-        'TpAoj': "zoteroif.translate.mac.s.shortcuts.select.info.2.label.id",
-        'bRQpF': "zoteroif.translate.mac.f.iciba.shortcuts.label.id"
+        'CzExQ': "ai4paper.translatemacshortcutsstyles",
+        'gDEya': "ai4paper.translate.mac.shortcuts.styles",
+        'QaaCi': "ai4paper.translate.mac.info.1.info.1.label.id",
+        'VSJDG': "ai4paper.translate.mac.info.1.info.2.label.id",
+        'mQabW': "ai4paper.translate.mac.info.1.info.3.label.id",
+        'pSMBy': "ai4paper.translate.mac.info.2.label.id",
+        'ERIZX': "ai4paper.translate.mac.d.shortcuts",
+        'DVbuM': "ai4paper.translate.mac.d.shortcuts.select.info.2.label.id",
+        'TOKtz': "ai4paper.translate.mac.s.shortcuts",
+        'TpAoj': "ai4paper.translate.mac.s.shortcuts.select.info.2.label.id",
+        'bRQpF': "ai4paper.translate.mac.f.iciba.shortcuts.label.id"
       };
       if (param606) {
         if (var466.TMaYC(var466.JMLOb, var466.JMLOb)) var var467 = var466.TMaYC(Zotero.Prefs.get(var466.CzExQ), '自定') ? false : true;else {
           function fn149() {
-            _0x3c7edf.ZoteroIF.unregisterItemsToolBarButtons([var466.QwRPE]);
+            _0x3c7edf.AI4Paper.unregisterItemsToolBarButtons([var466.QwRPE]);
           }
         }
       } else {
         var var467 = var466.TMaYC(document.getElementById(var466.gDEya).label, '自定') ? false : true;
         Zotero.Prefs.set(var466.CzExQ, document.getElementById(var466.gDEya).label);
-        Zotero.ZoteroIF.registerShortcuts_Translation();
+        Zotero.AI4Paper.registerShortcuts_Translation();
       }
       document.getElementById(var466.QaaCi).hidden = var467;
       document.getElementById(var466.VSJDG).hidden = var467;
@@ -5935,10 +5935,10 @@ Zotero.ZoteroIF_Prefs = {
     'updateWinShortcutsTranslationStyle': function (param609) {
       var var468 = {
         'FVTEr': "验证成功！",
-        'ZiCes': "zoteroif.geminiverifyresult",
+        'ZiCes': "ai4paper.geminiverifyresult",
         'YSCfg': "验证成功",
-        'UNJXx': "zoteroif.gemini.apiverify.button",
-        'UeIIz': "zoteroif.gemini.removeapi.button",
+        'UNJXx': "ai4paper.gemini.apiverify.button",
+        'UeIIz': "ai4paper.gemini.removeapi.button",
         'krfxd': function (param610, param611) {
           return param610(param611);
         },
@@ -5947,7 +5947,7 @@ Zotero.ZoteroIF_Prefs = {
         },
         'xGlnp': "xsCTk",
         'BkhQx': "wXKwb",
-        'EGTpy': "zoteroif.translatewinshortcutsstyles",
+        'EGTpy': "ai4paper.translatewinshortcutsstyles",
         'dOFZo': function (param614, param615) {
           return param614 !== param615;
         },
@@ -5955,17 +5955,17 @@ Zotero.ZoteroIF_Prefs = {
         'pHLui': function (param616, param617) {
           return param616 === param617;
         },
-        'LBlFu': "zoteroif.translate.win.shortcuts.styles",
-        'hssTr': "zoteroif.translate.win.d.shortcuts",
-        'TZjjv': "zoteroif.translation.shortcuts.win.single.d.id",
-        'xnkIW': "zoteroif.translate.win.s.shortcuts",
-        'qiIsm': "zoteroif.translation.shortcuts.win.single.s.id",
-        'tDbbL': "zoteroif.translation.shortcuts.win.single.pronunciation.id",
-        'JRSmU': "zoteroif.translate.win.alt.d.shortcuts",
-        'RWCnj': "zoteroif.translation.shortcuts.win.double.alt.d.id",
-        'AwBCE': "zoteroif.translate.win.alt.w.shortcuts",
-        'rsvEJ': "zoteroif.translation.shortcuts.win.double.alt.w.id",
-        'VzOib': "zoteroif.translation.shortcuts.win.double.pronunciation.id"
+        'LBlFu': "ai4paper.translate.win.shortcuts.styles",
+        'hssTr': "ai4paper.translate.win.d.shortcuts",
+        'TZjjv': "ai4paper.translation.shortcuts.win.single.d.id",
+        'xnkIW': "ai4paper.translate.win.s.shortcuts",
+        'qiIsm': "ai4paper.translation.shortcuts.win.single.s.id",
+        'tDbbL': "ai4paper.translation.shortcuts.win.single.pronunciation.id",
+        'JRSmU': "ai4paper.translate.win.alt.d.shortcuts",
+        'RWCnj': "ai4paper.translation.shortcuts.win.double.alt.d.id",
+        'AwBCE': "ai4paper.translate.win.alt.w.shortcuts",
+        'rsvEJ': "ai4paper.translation.shortcuts.win.double.alt.w.id",
+        'VzOib': "ai4paper.translation.shortcuts.win.double.pronunciation.id"
       };
       if (param609) {
         if (var468.IRgZJ(var468.xGlnp, var468.BkhQx)) {
@@ -5984,7 +5984,7 @@ Zotero.ZoteroIF_Prefs = {
         } else {
           var var469 = var468.pHLui(document.getElementById(var468.LBlFu).label, '单键') ? false : true;
           Zotero.Prefs.set(var468.EGTpy, document.getElementById(var468.LBlFu).label);
-          Zotero.ZoteroIF.registerShortcuts_Translation();
+          Zotero.AI4Paper.registerShortcuts_Translation();
         }
       }
       document.getElementById(var468.hssTr).hidden = var469;
@@ -6001,18 +6001,18 @@ Zotero.ZoteroIF_Prefs = {
     'updateShortcuts_Translation': function () {
       var var470 = {
           'FJYeU': "5|0|1|4|3|6|2",
-          'baXBJ': "zoteroif.translatesmacshortcuts",
-          'rwUkI': "zoteroif.translate.mac.s.shortcuts",
-          'broZM': "zoteroif.translatedwinshortcuts",
-          'AfdXL': "zoteroif.translate.win.d.shortcuts",
-          'VmogZ': "zoteroif.translatealtdshortcuts",
-          'iMpeq': "zoteroif.translate.win.alt.d.shortcuts",
-          'QGUns': "zoteroif.translateswinshortcuts",
-          'oFrAc': "zoteroif.translate.win.s.shortcuts",
-          'WJNDR': "zoteroif.translatedmacshortcuts",
-          'sGoJb': "zoteroif.translate.mac.d.shortcuts",
-          'RfziH': "zoteroif.translatealtwshortcuts",
-          'pWAux': "zoteroif.translate.win.alt.w.shortcuts"
+          'baXBJ': "ai4paper.translatesmacshortcuts",
+          'rwUkI': "ai4paper.translate.mac.s.shortcuts",
+          'broZM': "ai4paper.translatedwinshortcuts",
+          'AfdXL': "ai4paper.translate.win.d.shortcuts",
+          'VmogZ': "ai4paper.translatealtdshortcuts",
+          'iMpeq': "ai4paper.translate.win.alt.d.shortcuts",
+          'QGUns': "ai4paper.translateswinshortcuts",
+          'oFrAc': "ai4paper.translate.win.s.shortcuts",
+          'WJNDR': "ai4paper.translatedmacshortcuts",
+          'sGoJb': "ai4paper.translate.mac.d.shortcuts",
+          'RfziH': "ai4paper.translatealtwshortcuts",
+          'pWAux': "ai4paper.translate.win.alt.w.shortcuts"
         },
         var471 = var470.FJYeU.split('|'),
         var472 = 0x0;
@@ -6025,7 +6025,7 @@ Zotero.ZoteroIF_Prefs = {
             Zotero.Prefs.set(var470.broZM, document.getElementById(var470.AfdXL).label);
             continue;
           case '2':
-            Zotero.ZoteroIF.registerShortcuts_Translation();
+            Zotero.AI4Paper.registerShortcuts_Translation();
             continue;
           case '3':
             Zotero.Prefs.set(var470.VmogZ, document.getElementById(var470.iMpeq).label);
@@ -6045,24 +6045,24 @@ Zotero.ZoteroIF_Prefs = {
     },
     'updateShortcuts_Star': function () {
       var var473 = {
-        'iQUyt': "zoteroif.disableStarShortucts"
+        'iQUyt': "ai4paper.disableStarShortucts"
       };
       Zotero.Prefs.set(var473.iQUyt, document.getElementById(var473.iQUyt).checked);
-      Zotero.ZoteroIF.registerShortcuts_Star();
+      Zotero.AI4Paper.registerShortcuts_Star();
     },
     'updateShortcuts_AddAnnotationTag': function () {
       var var474 = {
-        'vOvPc': "zoteroif.enableShortcutsAddAnnotationTag"
+        'vOvPc': "ai4paper.enableShortcutsAddAnnotationTag"
       };
       Zotero.Prefs.set(var474.vOvPc, document.getElementById(var474.vOvPc).checked);
-      Zotero.ZoteroIF.registerShortcuts_addAnnotationTag();
+      Zotero.AI4Paper.registerShortcuts_addAnnotationTag();
     },
     'updateShortcuts_PreviewWin': function () {
       var var475 = {
-        'pIiLc': "zoteroif.enableWinPreview"
+        'pIiLc': "ai4paper.enableWinPreview"
       };
       Zotero.Prefs.set(var475.pIiLc, document.getElementById(var475.pIiLc).checked);
-      Zotero.ZoteroIF.registerShortcuts_PreviewWin();
+      Zotero.AI4Paper.registerShortcuts_PreviewWin();
     },
     'setSciHub': function () {
       var var476 = {
@@ -6073,9 +6073,9 @@ Zotero.ZoteroIF_Prefs = {
         'aguKe': 'html',
         'vrVHX': "#pdf",
         'iWmLl': "src",
-        'zLIBY': "zoteroif.scihub",
-        'orlpo': "zoteroif.scihubauto",
-        'ffxBR': "zoteroif.scihubswitch",
+        'zLIBY': "ai4paper.scihub",
+        'orlpo': "ai4paper.scihubauto",
+        'ffxBR': "ai4paper.scihubswitch",
         'SaYAc': function (param618, param619) {
           return param618 === param619;
         },
@@ -6102,21 +6102,21 @@ Zotero.ZoteroIF_Prefs = {
       if (!var479) {
         if (var476.SaYAc(var476.RJiKS, var476.Yebyu)) {
           function fn152() {
-            return _0x269676.alert(_0x24b911.ZoteroIF.decpCN(_0x3290b6.ZoteroIF.removeIF(var476.ktBue))), -0x1;
+            return _0x269676.alert(_0x24b911.AI4Paper.decpCN(_0x3290b6.AI4Paper.removeIF(var476.ktBue))), -0x1;
           }
         } else Zotero.Prefs.set(var476.mCGBx, JSON.stringify(var477));
       } else Zotero.Prefs.set(var476.mCGBx, '[]');
     },
     'selectBrowser4WebSearch': function (param620) {
       var var480 = {
-        'EoSeQ': "zoteroif.scheme4WebSearchBrowser",
+        'EoSeQ': "ai4paper.scheme4WebSearchBrowser",
         'UAHYc': function (param621, param622) {
           return param621 === param622;
         },
         'fmdWP': "自定义",
-        'skXxv': "zoteroif.browser4WebSearch",
+        'skXxv': "ai4paper.browser4WebSearch",
         'DjTib': "none",
-        'qvkQn': "zoteroif.browser4WebSearch.choose"
+        'qvkQn': "ai4paper.browser4WebSearch.choose"
       };
       !param620 && Zotero.Prefs.set(var480.EoSeQ, document.getElementById(var480.EoSeQ).label);
       let var481 = var480.UAHYc(Zotero.Prefs.get(var480.EoSeQ), var480.fmdWP);
@@ -6125,23 +6125,23 @@ Zotero.ZoteroIF_Prefs = {
     },
     'updateEyesProtectionColor': function (param623) {
       var var482 = {
-        'xVFWg': "zoteroif.doubaoverifyresult",
+        'xVFWg': "ai4paper.doubaoverifyresult",
         'Mljys': "未验证",
-        'SAbVY': "zoteroif.doubao.apiverify.button",
-        'sgGMa': "zoteroif.doubao.removeapi.button",
-        'tqPhs': "zoteroif.eyesprotectioncolor",
-        'aEXcr': "zoteroif.eyesprotection.color",
-        'YwytV': "zoteroif.eyesprotectioncolorenable",
-        'kElwm': "zoteroif.eyesprotection.color.enable",
+        'SAbVY': "ai4paper.doubao.apiverify.button",
+        'sgGMa': "ai4paper.doubao.removeapi.button",
+        'tqPhs': "ai4paper.eyesprotectioncolor",
+        'aEXcr': "ai4paper.eyesprotection.color",
+        'YwytV': "ai4paper.eyesprotectioncolorenable",
+        'kElwm': "ai4paper.eyesprotection.color.enable",
         'kkQbd': function (param624, param625) {
           return param624 === param625;
         },
         'LEWkc': '自定义',
-        'apAMX': "zoteroif.protection.color.code.input.description",
-        'YKDpW': "zoteroif.eyesprotectioncolorcode",
-        'oUtiV': "zoteroif.color.code.ok",
-        'kVkFT': "zoteroif.eyesprotectioncolorcodeisok",
-        'ydwPQ': "zoteroif.color.code.not.ok",
+        'apAMX': "ai4paper.protection.color.code.input.description",
+        'YKDpW': "ai4paper.eyesprotectioncolorcode",
+        'oUtiV': "ai4paper.color.code.ok",
+        'kVkFT': "ai4paper.eyesprotectioncolorcodeisok",
+        'ydwPQ': "ai4paper.color.code.not.ok",
         'QAIFn': function (param626, param627) {
           return param626 !== param627;
         },
@@ -6155,7 +6155,7 @@ Zotero.ZoteroIF_Prefs = {
       document.getElementById(var482.oUtiV).hidden = !var483 || !Zotero.Prefs.get(var482.YKDpW) || !Zotero.Prefs.get(var482.kVkFT);
       document.getElementById(var482.ydwPQ).hidden = !var483 || Zotero.Prefs.get(var482.YKDpW) && Zotero.Prefs.get(var482.kVkFT);
       if (!param623) {
-        if (var482.QAIFn(var482.VCcfN, var482.fORNt)) Zotero.ZoteroIF_Prefs.onChangeValue.updateCurrentPDFBackGroundColor();else {
+        if (var482.QAIFn(var482.VCcfN, var482.fORNt)) Zotero.AI4Paper_Prefs.onChangeValue.updateCurrentPDFBackGroundColor();else {
           function fn153() {
             _0x549081.Prefs.set(var482.xVFWg, var482.Mljys);
             _0x2dd1af.getElementById(var482.SAbVY).hidden = false;
@@ -6166,30 +6166,30 @@ Zotero.ZoteroIF_Prefs = {
     },
     'checkColorCode': function () {
       var var484 = {
-        'AfxZr': "zoteroif.eyesprotectioncolorcode",
-        'mKeyq': "zoteroif.eyesprotectioncolorcodeisok"
+        'AfxZr': "ai4paper.eyesprotectioncolorcode",
+        'mKeyq': "ai4paper.eyesprotectioncolorcodeisok"
       };
       const var485 = /^(#([A-Fa-f0-9]{3}){1,2}|rgb\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*\)|rgba\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*,\s*(1|0?\.\d+)\s*\))$/;
       Zotero.Prefs.set(var484.AfxZr, document.getElementById(var484.AfxZr).value.toLowerCase());
       let var486 = Zotero.Prefs.get(var484.AfxZr);
       Zotero.Prefs.set(var484.mKeyq, var485.test(var486));
-      Zotero.ZoteroIF_Prefs.onChangeValue.updateEyesProtectionColor(false);
+      Zotero.AI4Paper_Prefs.onChangeValue.updateEyesProtectionColor(false);
     },
     'updateCurrentPDFBackGroundColor': function () {
       let var487 = Zotero.getMainWindow().Zotero_Tabs._selectedID;
       var var488 = Zotero.Reader.getByTabID(var487);
       if (!var488) return false;
       let var489 = var488._iframeWindow;
-      Zotero.ZoteroIF.setPDFBackGroundColor(var489);
-      Zotero.ZoteroIF.updateReaderButtonState(var489);
+      Zotero.AI4Paper.setPDFBackGroundColor(var489);
+      Zotero.AI4Paper.updateReaderButtonState(var489);
     },
     'updateAnnotationsvginFloatingWindow': function () {
       var var490 = {
-        'yhqrF': "zoteroif.kimiVerifyResult",
+        'yhqrF': "ai4paper.kimiVerifyResult",
         'GjIVZ': "未验证",
-        'ktAQQ': "zoteroif.kimi.apiverify.button",
-        'XFUvV': "zoteroif.kimi.removeapi.button",
-        'qTgOE': "zoteroif.enableannotationsvginFloatingWindow",
+        'ktAQQ': "ai4paper.kimi.apiverify.button",
+        'XFUvV': "ai4paper.kimi.removeapi.button",
+        'qTgOE': "ai4paper.enableannotationsvginFloatingWindow",
         'ydgYH': function (param628, param629) {
           return param628 !== param629;
         },
@@ -6209,14 +6209,14 @@ Zotero.ZoteroIF_Prefs = {
         }
       }
       let var493 = var492._iframeWindow;
-      Zotero.ZoteroIF.addAnnotationButtonsInFloatingWindow(var493);
+      Zotero.AI4Paper.addAnnotationButtonsInFloatingWindow(var493);
     },
     'buildTranslateSidePane': function () {
       var var494 = {
         'tIGBv': "无效的序号！",
         'eCSZS': "请先输入 API2D FowardKey!",
-        'hDNKY': "zoteroif.translationreadersidepane",
-        'pGfXV': "zoteroif.translate.translationreadersidepane",
+        'hDNKY': "ai4paper.translationreadersidepane",
+        'pGfXV': "ai4paper.translate.translationreadersidepane",
         'nODSW': function (param630, param631) {
           return param630 === param631;
         },
@@ -6226,14 +6226,14 @@ Zotero.ZoteroIF_Prefs = {
       };
       Zotero.Prefs.set(var494.hDNKY, document.getElementById(var494.pGfXV).checked);
       if (!Zotero.Prefs.get(var494.hDNKY)) {
-        if (var494.nODSW(var494.BGJsw, var494.BGJsw)) Zotero.ZoteroIF.unregisterReaderSidePanes([var494.JcNde]);else {
+        if (var494.nODSW(var494.BGJsw, var494.BGJsw)) Zotero.AI4Paper.unregisterReaderSidePanes([var494.JcNde]);else {
           function fn155() {
             _0x1dc25d.alert(var494.tIGBv);
             return;
           }
         }
       } else {
-        if (var494.nODSW(var494.PBXyh, var494.PBXyh)) Zotero.ZoteroIF.isReaderSidePaneExist(var494.JcNde);else {
+        if (var494.nODSW(var494.PBXyh, var494.PBXyh)) Zotero.AI4Paper.isReaderSidePaneExist(var494.JcNde);else {
           function fn156() {
             return _0x201421.alert(var494.eCSZS), -0x1;
           }
@@ -6242,12 +6242,12 @@ Zotero.ZoteroIF_Prefs = {
     },
     'buildGPTSidePane': function () {
       var var495 = {
-        'teQUE': "zoteroif.gptviewReaderSidepane",
+        'teQUE': "ai4paper.gptviewReaderSidepane",
         'lSCzJ': 'gpt',
         'cOMCL': "chatgpt"
       };
       Zotero.Prefs.set(var495.teQUE, document.getElementById(var495.teQUE).checked);
-      !Zotero.Prefs.get(var495.teQUE) ? Zotero.ZoteroIF.unregisterReaderSidePanes([var495.lSCzJ]) : Zotero.ZoteroIF.isReaderSidePaneExist(var495.cOMCL);
+      !Zotero.Prefs.get(var495.teQUE) ? Zotero.AI4Paper.unregisterReaderSidePanes([var495.lSCzJ]) : Zotero.AI4Paper.isReaderSidePaneExist(var495.cOMCL);
     },
     'updateReaderElements': async function () {
       await Zotero.Promise.delay(0xa);
@@ -6255,8 +6255,8 @@ Zotero.ZoteroIF_Prefs = {
       var var497 = Zotero.Reader.getByTabID(var496);
       if (!var497) return false;
       let var498 = var497._iframeWindow;
-      Zotero.ZoteroIF.updateReaderButtonState(var498);
-      Zotero.ZoteroIF.initTranslateReaderSidePane();
+      Zotero.AI4Paper.updateReaderButtonState(var498);
+      Zotero.AI4Paper.initTranslateReaderSidePane();
     },
     'updateReaderButtons': async function () {
       await Zotero.Promise.delay(0xa);
@@ -6264,16 +6264,16 @@ Zotero.ZoteroIF_Prefs = {
       var var500 = Zotero.Reader.getByTabID(var499);
       if (!var500) return false;
       let var501 = var500._iframeWindow;
-      Zotero.ZoteroIF.addReaderButton(var501);
-      Zotero.ZoteroIF.addAnnotationButton(var500);
+      Zotero.AI4Paper.addReaderButton(var501);
+      Zotero.AI4Paper.addAnnotationButton(var500);
     },
     'navigate': function (param632) {
       var var502 = {
         'MSsoy': function (param633, param634) {
           return param633 === param634;
         },
-        'iUEvF': "zoteroif.translate.mac.shortcuts.styles",
-        'Bzgbw': "zoteroif.translatemacshortcutsstyles",
+        'iUEvF': "ai4paper.translate.mac.shortcuts.styles",
+        'Bzgbw': "ai4paper.translatemacshortcutsstyles",
         'JhCKC': "IHHeE",
         'iSJZU': "qSEeB",
         'jVoDz': "smooth",
@@ -6285,7 +6285,7 @@ Zotero.ZoteroIF_Prefs = {
           function fn157() {
             var var504 = var502.MSsoy(_0x4b89be.getElementById(var502.iUEvF).label, '自定') ? false : true;
             _0x2bf29d.Prefs.set(var502.Bzgbw, _0x4410f2.getElementById(var502.iUEvF).label);
-            _0x4b1760.ZoteroIF.registerShortcuts_Translation();
+            _0x4b1760.AI4Paper.registerShortcuts_Translation();
           }
         } else {
           var503.focus();
@@ -6298,7 +6298,7 @@ Zotero.ZoteroIF_Prefs = {
     },
     'enableSettingsToolbarButton': function () {
       var var505 = {
-        'titWX': "zoteroif.settingsToolBarButton",
+        'titWX': "ai4paper.settingsToolBarButton",
         'pexqg': "preferences",
         'cqrPt': function (param635, param636) {
           return param635 !== param636;
@@ -6307,34 +6307,34 @@ Zotero.ZoteroIF_Prefs = {
       };
       if (document.getElementById(var505.titWX).checked) {
         Zotero.Prefs.set(var505.titWX, true);
-        Zotero.ZoteroIF.registerItemsToolBarButtons([var505.pexqg]);
+        Zotero.AI4Paper.registerItemsToolBarButtons([var505.pexqg]);
       } else {
         if (var505.cqrPt(var505.ewDQg, var505.ewDQg)) {
           function fn158() {
             _0x238131.debug(_0x46955d);
           }
-        } else Zotero.ZoteroIF.unregisterItemsToolBarButtons([var505.pexqg]);
+        } else Zotero.AI4Paper.unregisterItemsToolBarButtons([var505.pexqg]);
       }
     },
     'enableZoteroColorSchemeToolbarButton': function () {
       var var506 = {
         'jqawk': "10|5|1|7|8|9|11|2|12|6|0|4|3",
-        'mFIwb': "zoteroif.activationkeyexpiredate",
-        'ERloY': "zoteroif.activationkey.input.label",
-        'irAIh': "zoteroif.activationstatus.fail.label",
-        'lEDAw': "zoteroif.plugintimeactivated",
-        'qENrE': "zoteroif.activationkeyverifyresult",
+        'mFIwb': "ai4paper.activationkeyexpiredate",
+        'ERloY': "ai4paper.activationkey.input.label",
+        'irAIh': "ai4paper.activationstatus.fail.label",
+        'lEDAw': "ai4paper.plugintimeactivated",
+        'qENrE': "ai4paper.activationkeyverifyresult",
         'AXhXD': "8K+ZrzEnw4EnuMwopJInm6EnmZkwwJF=",
-        'GtOWB': "zoteroif.remove.activation.button",
-        'rFjqg': "zoteroif.activationkey.input",
-        'fKwaz': "zoteroif.activationstatus.not.label",
-        'KPxcX': "zoteroif.activationstatus.succeed.label",
+        'GtOWB': "ai4paper.remove.activation.button",
+        'rFjqg': "ai4paper.activationkey.input",
+        'fKwaz': "ai4paper.activationstatus.not.label",
+        'KPxcX': "ai4paper.activationstatus.succeed.label",
         'RdCxQ': "4q2NJPb/hPb0v+fhhfbYpPbWjDEkhKCbc3Smdn8hU25m44DS",
         'OyCFl': "5pLp6M6U5ZXm55rF5s+B5sT756DC",
         'CQQtb': "5qzK6L+w5pjX5cfz5bTy5qXJ77zC",
-        'ZWGQY': "zoteroif.activationstatus.invalid.label",
-        'BSIEb': "zoteroif.activationkey.verify.button",
-        'oSqkB': "zoteroif.zoteroColorSchemeToolBarButton",
+        'ZWGQY': "ai4paper.activationstatus.invalid.label",
+        'BSIEb': "ai4paper.activationkey.verify.button",
+        'oSqkB': "ai4paper.zoteroColorSchemeToolBarButton",
         'TVrac': function (param637, param638) {
           return param637 !== param638;
         },
@@ -6345,7 +6345,7 @@ Zotero.ZoteroIF_Prefs = {
       if (document.getElementById(var506.oSqkB).checked) {
         if (var506.TVrac(var506.QkOVS, var506.DEQXj)) {
           Zotero.Prefs.set(var506.oSqkB, true);
-          Zotero.ZoteroIF.registerItemsToolBarButtons([var506.BKPsZ]);
+          Zotero.AI4Paper.registerItemsToolBarButtons([var506.BKPsZ]);
         } else {
           function fn159() {
             var var507 = var506.jqawk.split('|'),
@@ -6368,7 +6368,7 @@ Zotero.ZoteroIF_Prefs = {
                   _0x3bdaa6.Prefs.set(var506.lEDAw, '');
                   continue;
                 case '5':
-                  _0x50d4b6.Prefs.set(var506.qENrE, _0x15cf6d.ZoteroIF.decpCN(_0x638d0.ZoteroIF.removeIF(var506.AXhXD)));
+                  _0x50d4b6.Prefs.set(var506.qENrE, _0x15cf6d.AI4Paper.decpCN(_0x638d0.AI4Paper.removeIF(var506.AXhXD)));
                   continue;
                 case '6':
                   _0x224ede.getElementById(var506.GtOWB).hidden = true;
@@ -6383,7 +6383,7 @@ Zotero.ZoteroIF_Prefs = {
                   _0x2e836a.getElementById(var506.KPxcX).hidden = true;
                   continue;
                 case '10':
-                  _0x102907.ZoteroIF.showProgressWindow(0x1770, _0xc4adad.ZoteroIF.decpCN(_0x39587e.ZoteroIF.removeIF(var506.RdCxQ)), _0xa24489.ZoteroIF.decpCN(_0x58b249.ZoteroIF.removeIF(var506.OyCFl)) + '【' + _0x28be7e + '】' + _0x13ccad.ZoteroIF.decpCN(_0x3f6925.ZoteroIF.removeIF(var506.CQQtb)));
+                  _0x102907.AI4Paper.showProgressWindow(0x1770, _0xc4adad.AI4Paper.decpCN(_0x39587e.AI4Paper.removeIF(var506.RdCxQ)), _0xa24489.AI4Paper.decpCN(_0x58b249.AI4Paper.removeIF(var506.OyCFl)) + '【' + _0x28be7e + '】' + _0x13ccad.AI4Paper.decpCN(_0x3f6925.AI4Paper.removeIF(var506.CQQtb)));
                   continue;
                 case '11':
                   _0x49b2f4.getElementById(var506.ZWGQY).hidden = false;
@@ -6396,24 +6396,24 @@ Zotero.ZoteroIF_Prefs = {
             }
           }
         }
-      } else Zotero.ZoteroIF.unregisterItemsToolBarButtons([var506.BKPsZ]);
+      } else Zotero.AI4Paper.unregisterItemsToolBarButtons([var506.BKPsZ]);
     },
     'enablePinAttachmentsToolbarButton': function () {
       var var509 = {
-        'NKmuM': "zoteroif.pinAttachmentsToolBarButton",
+        'NKmuM': "ai4paper.pinAttachmentsToolBarButton",
         'SSLqe': "pinAttachments"
       };
-      document.getElementById(var509.NKmuM).checked ? (Zotero.Prefs.set(var509.NKmuM, true), Zotero.ZoteroIF.registerItemsToolBarButtons([var509.SSLqe])) : Zotero.ZoteroIF.unregisterItemsToolBarButtons([var509.SSLqe]);
+      document.getElementById(var509.NKmuM).checked ? (Zotero.Prefs.set(var509.NKmuM, true), Zotero.AI4Paper.registerItemsToolBarButtons([var509.SSLqe])) : Zotero.AI4Paper.unregisterItemsToolBarButtons([var509.SSLqe]);
     },
     'enableCopyPDFToolBarButton': function () {
       var var510 = {
-        'qZfdb': "zoteroif.semanticscholarHost",
+        'qZfdb': "ai4paper.semanticscholarHost",
         'llrVx': "type",
         'NWdIU': "password",
         'wVhTs': "enablesvgeyesprotection_off",
-        'RNUzr': "zoteroif.baidufanyiappkeyinput",
-        'GoInu': "zoteroif.baidufanyi.appkeyinput",
-        'spcob': "zoteroif.copyPDFToolBarButton",
+        'RNUzr': "ai4paper.baidufanyiappkeyinput",
+        'GoInu': "ai4paper.baidufanyi.appkeyinput",
+        'spcob': "ai4paper.copyPDFToolBarButton",
         'NJecI': function (param639, param640) {
           return param639 === param640;
         },
@@ -6430,18 +6430,18 @@ Zotero.ZoteroIF_Prefs = {
         if (var510.NJecI(var510.eXdKG, var510.dZkxR)) {
           function fn160() {
             _0x3b6a16.getElementById(var510.qZfdb).setAttribute(var510.llrVx, var510.NWdIU);
-            _0x46abfe.innerHTML = _0x346764.ZoteroIF.svg_icon_20px[var510.wVhTs];
+            _0x46abfe.innerHTML = _0x346764.AI4Paper.svg_icon_20px[var510.wVhTs];
           }
         } else {
           Zotero.Prefs.set(var510.spcob, true);
-          Zotero.ZoteroIF.registerItemsToolBarButtons([var510.HUeSC]);
+          Zotero.AI4Paper.registerItemsToolBarButtons([var510.HUeSC]);
         }
       } else {
         if (var510.URBui(var510.rfMRa, var510.pmwQY)) {
           function fn161() {
             _0x1dd404.Prefs.set(var510.RNUzr, _0x37ffd5.getElementById(var510.GoInu).value);
           }
-        } else Zotero.ZoteroIF.unregisterItemsToolBarButtons([var510.HUeSC]);
+        } else Zotero.AI4Paper.unregisterItemsToolBarButtons([var510.HUeSC]);
       }
     },
     'enableBatchAIInterpretToolBarButton': function () {
@@ -6449,11 +6449,11 @@ Zotero.ZoteroIF_Prefs = {
         'BgUlI': "message",
         'HSrkH': "content",
         'pMNkm': "验证成功！",
-        'zvigi': "zoteroif.zjuchatVerifyResult",
+        'zvigi': "ai4paper.zjuchatVerifyResult",
         'Fwpcz': "验证成功",
-        'khQWM': "zoteroif.zjuchat.apiverify.button",
-        'eckpu': "zoteroif.zjuchat.removeapi.button",
-        'WCNJh': "zoteroif.batchAIInterpretToolBarButton",
+        'khQWM': "ai4paper.zjuchat.apiverify.button",
+        'eckpu': "ai4paper.zjuchat.removeapi.button",
+        'WCNJh': "ai4paper.batchAIInterpretToolBarButton",
         'uZXMC': function (param643, param644) {
           return param643 !== param644;
         },
@@ -6467,13 +6467,13 @@ Zotero.ZoteroIF_Prefs = {
           }
         } else {
           Zotero.Prefs.set(var511.WCNJh, true);
-          Zotero.ZoteroIF.registerItemsToolBarButtons([var511.POieI]);
+          Zotero.AI4Paper.registerItemsToolBarButtons([var511.POieI]);
         }
-      } else Zotero.ZoteroIF.unregisterItemsToolBarButtons([var511.POieI]);
+      } else Zotero.AI4Paper.unregisterItemsToolBarButtons([var511.POieI]);
     },
     'enableChatWithNewBingToolbarButton': function () {
       var var512 = {
-        'pJFNf': "zoteroif.chatwithnewbingToolBarButton",
+        'pJFNf': "ai4paper.chatwithnewbingToolBarButton",
         'FPdPS': "chatWithNewBing",
         'qpegh': function (param645, param646) {
           return param645 !== param646;
@@ -6482,14 +6482,14 @@ Zotero.ZoteroIF_Prefs = {
       };
       if (document.getElementById(var512.pJFNf).checked) {
         Zotero.Prefs.set(var512.pJFNf, true);
-        Zotero.ZoteroIF.registerItemsToolBarButtons([var512.FPdPS]);
+        Zotero.AI4Paper.registerItemsToolBarButtons([var512.FPdPS]);
       } else {
         if (var512.qpegh(var512.JGKUV, var512.JGKUV)) {
           function fn163() {
-            _0x51ffde.getElementById("zoteroif.gptcustom" + _0x316a37 + ".apiverify.button").hidden = true;
-            _0x3a9277.getElementById("zoteroif.gptcustom" + _0x2ed5f1 + ".removeapi.button").hidden = false;
+            _0x51ffde.getElementById("ai4paper.gptcustom" + _0x316a37 + ".apiverify.button").hidden = true;
+            _0x3a9277.getElementById("ai4paper.gptcustom" + _0x2ed5f1 + ".removeapi.button").hidden = false;
           }
-        } else Zotero.ZoteroIF.unregisterItemsToolBarButtons([var512.FPdPS]);
+        } else Zotero.AI4Paper.unregisterItemsToolBarButtons([var512.FPdPS]);
       }
     },
     'enableImmersiveTranslateToolbarButton': function () {
@@ -6498,7 +6498,7 @@ Zotero.ZoteroIF_Prefs = {
         'NJRyk': "content",
         'JZCvt': "验证成功！",
         'BhOmb': '验证成功',
-        'dnFdV': "zoteroif.immersiveTranslateToolBarButton",
+        'dnFdV': "ai4paper.immersiveTranslateToolBarButton",
         'OYBBL': "immersiveTranslate",
         'LJzWs': function (param647, param648) {
           return param647 !== param648;
@@ -6508,11 +6508,11 @@ Zotero.ZoteroIF_Prefs = {
       };
       if (document.getElementById(var513.dnFdV).checked) {
         Zotero.Prefs.set(var513.dnFdV, true);
-        Zotero.ZoteroIF.registerItemsToolBarButtons([var513.OYBBL]);
+        Zotero.AI4Paper.registerItemsToolBarButtons([var513.OYBBL]);
       } else {
-        if (var513.LJzWs(var513.FZlaf, var513.YwcEE)) Zotero.ZoteroIF.unregisterItemsToolBarButtons([var513.OYBBL]);else {
+        if (var513.LJzWs(var513.FZlaf, var513.YwcEE)) Zotero.AI4Paper.unregisterItemsToolBarButtons([var513.OYBBL]);else {
           function fn164() {
-            _0xe009d7.response.choices[0x0][var513.PUUqr][var513.NJRyk] && (_0x3c5905.alert(var513.JZCvt), _0x4a307a.Prefs.set("zoteroif.gptcustomverifyresult" + _0x244e3a[_0x150479], var513.BhOmb), _0x266b05.getElementById("zoteroif.gptcustom" + _0xd0743b[_0x2c2bd6] + ".apiverify.button").hidden = true, _0x52b48a.getElementById("zoteroif.gptcustom" + _0x1fadc4[_0x23b5cc] + ".removeapi.button").hidden = false);
+            _0xe009d7.response.choices[0x0][var513.PUUqr][var513.NJRyk] && (_0x3c5905.alert(var513.JZCvt), _0x4a307a.Prefs.set("ai4paper.gptcustomverifyresult" + _0x244e3a[_0x150479], var513.BhOmb), _0x266b05.getElementById("ai4paper.gptcustom" + _0xd0743b[_0x2c2bd6] + ".apiverify.button").hidden = true, _0x52b48a.getElementById("ai4paper.gptcustom" + _0x1fadc4[_0x23b5cc] + ".removeapi.button").hidden = false);
           }
         }
       }
@@ -6522,11 +6522,11 @@ Zotero.ZoteroIF_Prefs = {
         'Pymwg': "message",
         'HWqFi': "content",
         'FaavE': "验证成功！",
-        'DUHlp': "zoteroif.chatanywhereverifyresult",
+        'DUHlp': "ai4paper.chatanywhereverifyresult",
         'eFByB': '验证成功',
-        'cKogr': "zoteroif.chatanywhere.apiverify.button",
-        'IHVaC': "zoteroif.chatanywhere.removeapi.button",
-        'HVPaL': "zoteroif.openwithToolBarButton",
+        'cKogr': "ai4paper.chatanywhere.apiverify.button",
+        'IHVaC': "ai4paper.chatanywhere.removeapi.button",
+        'HVPaL': "ai4paper.openwithToolBarButton",
         'evCuc': "openwith",
         'NsZIM': function (param649, param650) {
           return param649 === param650;
@@ -6535,19 +6535,19 @@ Zotero.ZoteroIF_Prefs = {
       };
       if (document.getElementById(var514.HVPaL).checked) {
         Zotero.Prefs.set(var514.HVPaL, true);
-        Zotero.ZoteroIF.registerItemsToolBarButtons([var514.evCuc]);
+        Zotero.AI4Paper.registerItemsToolBarButtons([var514.evCuc]);
       } else {
-        if (var514.NsZIM(var514.KYZiY, var514.KYZiY)) Zotero.ZoteroIF.unregisterItemsToolBarButtons([var514.evCuc]);else {
+        if (var514.NsZIM(var514.KYZiY, var514.KYZiY)) Zotero.AI4Paper.unregisterItemsToolBarButtons([var514.evCuc]);else {
           function fn165() {
-            _0x142a6d.ZoteroIF.runAuthor() && _0x40dc91.response.choices[0x0][var514.Pymwg][var514.HWqFi] && (_0x3120f1.alert(var514.FaavE), _0x250661.Prefs.set(var514.DUHlp, var514.eFByB), _0x71d5c6.getElementById(var514.cKogr).hidden = true, _0x53a785.getElementById(var514.IHVaC).hidden = false);
+            _0x142a6d.AI4Paper.runAuthor() && _0x40dc91.response.choices[0x0][var514.Pymwg][var514.HWqFi] && (_0x3120f1.alert(var514.FaavE), _0x250661.Prefs.set(var514.DUHlp, var514.eFByB), _0x71d5c6.getElementById(var514.cKogr).hidden = true, _0x53a785.getElementById(var514.IHVaC).hidden = false);
           }
         }
       }
     },
     'enableFilesHistoryToolbarButton': function () {
       var var515 = {
-        'MgkUN': "zoteroif.activationkeyexpiredate",
-        'iaBYc': "zoteroif.fileshistoryToolBarButton",
+        'MgkUN': "ai4paper.activationkeyexpiredate",
+        'iaBYc': "ai4paper.fileshistoryToolBarButton",
         'SGOhu': "fileshistory",
         'EyamH': function (param651, param652) {
           return param651 === param652;
@@ -6556,9 +6556,9 @@ Zotero.ZoteroIF_Prefs = {
       };
       if (document.getElementById(var515.iaBYc).checked) {
         Zotero.Prefs.set(var515.iaBYc, true);
-        Zotero.ZoteroIF.registerItemsToolBarButtons([var515.SGOhu]);
+        Zotero.AI4Paper.registerItemsToolBarButtons([var515.SGOhu]);
       } else {
-        if (var515.EyamH(var515.puOod, var515.puOod)) Zotero.ZoteroIF.unregisterItemsToolBarButtons([var515.SGOhu]);else {
+        if (var515.EyamH(var515.puOod, var515.puOod)) Zotero.AI4Paper.unregisterItemsToolBarButtons([var515.SGOhu]);else {
           function fn166() {
             _0x2cbc21.Prefs.set(var515.MgkUN, '');
           }
@@ -6569,11 +6569,11 @@ Zotero.ZoteroIF_Prefs = {
       var var516 = {
         'ymzhe': "请先输入 Kimi API-Key！",
         'HwzOz': "是否确认解除 API 绑定？",
-        'VCtiR': "zoteroif.api2dverifyresult",
+        'VCtiR': "ai4paper.api2dverifyresult",
         'hMNLz': "未验证",
-        'McqqJ': "zoteroif.api2d.apiverify.button",
-        'uhXpk': "zoteroif.api2d.removeapi.button",
-        'gqegh': "zoteroif.obsidiannoteToolBarButton",
+        'McqqJ': "ai4paper.api2d.apiverify.button",
+        'uhXpk': "ai4paper.api2d.removeapi.button",
+        'gqegh': "ai4paper.obsidiannoteToolBarButton",
         'LDeTi': function (param653, param654) {
           return param653 === param654;
         },
@@ -6589,10 +6589,10 @@ Zotero.ZoteroIF_Prefs = {
           }
         } else {
           Zotero.Prefs.set(var516.gqegh, true);
-          Zotero.ZoteroIF.registerItemsToolBarButtons([var516.nudWM]);
+          Zotero.AI4Paper.registerItemsToolBarButtons([var516.nudWM]);
         }
       } else {
-        if (var516.LDeTi(var516.kMveG, var516.kMveG)) Zotero.ZoteroIF.unregisterItemsToolBarButtons([var516.nudWM]);else {
+        if (var516.LDeTi(var516.kMveG, var516.kMveG)) Zotero.AI4Paper.unregisterItemsToolBarButtons([var516.nudWM]);else {
           function fn168() {
             var var517 = _0x29e591.confirm(var516.HwzOz);
             var517 && (_0x4b5aa3.Prefs.set(var516.VCtiR, var516.hMNLz), _0x218ca4.getElementById(var516.McqqJ).hidden = false, _0x4fae9f.getElementById(var516.uhXpk).hidden = true);
@@ -6603,11 +6603,11 @@ Zotero.ZoteroIF_Prefs = {
     'enableTagsCardNotesToolbarButton': function () {
       var var518 = {
         'uEIHt': "验证成功！",
-        'hAbOv': "zoteroif.glmVerifyResult",
+        'hAbOv': "ai4paper.glmVerifyResult",
         'jTulh': "验证成功",
-        'tnNLZ': "zoteroif.glm.apiverify.button",
-        'WRqDT': "zoteroif.glm.removeapi.button",
-        'dveel': "zoteroif.tagscardnotesToolBarButton",
+        'tnNLZ': "ai4paper.glm.apiverify.button",
+        'WRqDT': "ai4paper.glm.removeapi.button",
+        'dveel': "ai4paper.tagscardnotesToolBarButton",
         'XeHKx': "tagscardnotes",
         'lWnFv': function (param655, param656) {
           return param655 !== param656;
@@ -6617,9 +6617,9 @@ Zotero.ZoteroIF_Prefs = {
       };
       if (document.getElementById(var518.dveel).checked) {
         Zotero.Prefs.set(var518.dveel, true);
-        Zotero.ZoteroIF.registerItemsToolBarButtons([var518.XeHKx]);
+        Zotero.AI4Paper.registerItemsToolBarButtons([var518.XeHKx]);
       } else {
-        if (var518.lWnFv(var518.rOjNW, var518.FfDHF)) Zotero.ZoteroIF.unregisterItemsToolBarButtons([var518.XeHKx]);else {
+        if (var518.lWnFv(var518.rOjNW, var518.FfDHF)) Zotero.AI4Paper.unregisterItemsToolBarButtons([var518.XeHKx]);else {
           function fn169() {
             _0x1e69e3.alert(var518.uEIHt);
             _0x400dee.Prefs.set(var518.hAbOv, var518.jTulh);
@@ -6634,11 +6634,11 @@ Zotero.ZoteroIF_Prefs = {
         'icEgx': "message",
         'BEBgH': "content",
         'mSkbw': '验证成功！',
-        'iQFQS': "zoteroif.api2dverifyresult",
+        'iQFQS': "ai4paper.api2dverifyresult",
         'RmdMo': "验证成功",
-        'UpucF': "zoteroif.api2d.apiverify.button",
-        'wDoNR': "zoteroif.api2d.removeapi.button",
-        'CXycg': "zoteroif.go2favoritecollectionToolBarButton",
+        'UpucF': "ai4paper.api2d.apiverify.button",
+        'wDoNR': "ai4paper.api2d.removeapi.button",
+        'CXycg': "ai4paper.go2favoritecollectionToolBarButton",
         'xxboT': "go2favoritecollection",
         'GxLOu': function (param657, param658) {
           return param657 === param658;
@@ -6648,19 +6648,19 @@ Zotero.ZoteroIF_Prefs = {
       };
       if (document.getElementById(var519.CXycg).checked) {
         Zotero.Prefs.set(var519.CXycg, true);
-        Zotero.ZoteroIF.registerItemsToolBarButtons([var519.xxboT]);
+        Zotero.AI4Paper.registerItemsToolBarButtons([var519.xxboT]);
       } else {
         if (var519.GxLOu(var519.aLmdI, var519.TzDOx)) {
           function fn170() {
             _0x5914f6.response.choices[0x0][var519.icEgx][var519.BEBgH] && (_0xb98e62.alert(var519.mSkbw), _0x501e12.Prefs.set(var519.iQFQS, var519.RmdMo), _0x21bdb6.getElementById(var519.UpucF).hidden = true, _0x1959d6.getElementById(var519.wDoNR).hidden = false);
           }
-        } else Zotero.ZoteroIF.unregisterItemsToolBarButtons([var519.xxboT]);
+        } else Zotero.AI4Paper.unregisterItemsToolBarButtons([var519.xxboT]);
       }
     },
     'enableAbleSciToolbarButton': function () {
       var var520 = {
         'alQSu': "尚未配置 Gemini Host！",
-        'xgdTc': "zoteroif.ablesciToolBarButton",
+        'xgdTc': "ai4paper.ablesciToolBarButton",
         'VQmke': function (param659, param660) {
           return param659 !== param660;
         },
@@ -6674,13 +6674,13 @@ Zotero.ZoteroIF_Prefs = {
           }
         } else {
           Zotero.Prefs.set(var520.xgdTc, true);
-          Zotero.ZoteroIF.registerItemsToolBarButtons([var520.KYHuB]);
+          Zotero.AI4Paper.registerItemsToolBarButtons([var520.KYHuB]);
         }
-      } else Zotero.ZoteroIF.unregisterItemsToolBarButtons([var520.KYHuB]);
+      } else Zotero.AI4Paper.unregisterItemsToolBarButtons([var520.KYHuB]);
     },
     'enableArchiveToolbarButton': function () {
       var var521 = {
-        'WgTyY': "zoteroif.archiveToolBarButton",
+        'WgTyY': "ai4paper.archiveToolBarButton",
         'mJjri': function (param661, param662) {
           return param661 !== param662;
         },
@@ -6691,21 +6691,21 @@ Zotero.ZoteroIF_Prefs = {
       if (document.getElementById(var521.WgTyY).checked) {
         if (var521.mJjri(var521.tOQAy, var521.LbEGE)) {
           Zotero.Prefs.set(var521.WgTyY, true);
-          Zotero.ZoteroIF.registerItemsToolBarButtons([var521.yrcTW]);
+          Zotero.AI4Paper.registerItemsToolBarButtons([var521.yrcTW]);
         } else {
           function fn172() {
             return false;
           }
         }
-      } else Zotero.ZoteroIF.unregisterItemsToolBarButtons([var521.yrcTW]);
+      } else Zotero.AI4Paper.unregisterItemsToolBarButtons([var521.yrcTW]);
     },
     'enableShowFileToolbarButton': function () {
       var var522 = {
-        'WchCi': "zoteroif.collectionpanedisplayToolBarButton",
+        'WchCi': "ai4paper.collectionpanedisplayToolBarButton",
         'dKbuH': "collectionPaneDisplay",
-        'Cwvoh': "zoteroif.deeplxurl",
-        'CkZch': "zoteroif.deeplx.url",
-        'JEGhV': "zoteroif.showfileToolBarButton",
+        'Cwvoh': "ai4paper.deeplxurl",
+        'CkZch': "ai4paper.deeplx.url",
+        'JEGhV': "ai4paper.showfileToolBarButton",
         'SHMnq': function (param663, param664) {
           return param663 === param664;
         },
@@ -6719,15 +6719,15 @@ Zotero.ZoteroIF_Prefs = {
       if (document.getElementById(var522.JEGhV).checked) {
         if (var522.SHMnq(var522.FOquo, var522.FOquo)) {
           Zotero.Prefs.set(var522.JEGhV, true);
-          Zotero.ZoteroIF.registerItemsToolBarButtons([var522.PvIQE]);
+          Zotero.AI4Paper.registerItemsToolBarButtons([var522.PvIQE]);
         } else {
           function fn173() {
             _0x4fd8f1.Prefs.set(var522.WchCi, true);
-            _0x44dd75.ZoteroIF.registerItemsToolBarButtons([var522.dKbuH]);
+            _0x44dd75.AI4Paper.registerItemsToolBarButtons([var522.dKbuH]);
           }
         }
       } else {
-        if (var522.AOVuP(var522.xrozp, var522.xrozp)) Zotero.ZoteroIF.unregisterItemsToolBarButtons([var522.PvIQE]);else {
+        if (var522.AOVuP(var522.xrozp, var522.xrozp)) Zotero.AI4Paper.unregisterItemsToolBarButtons([var522.PvIQE]);else {
           function fn174() {
             _0x1f67b8.Prefs.set(var522.Cwvoh, _0x369024.getElementById(var522.CkZch).value);
           }
@@ -6736,15 +6736,15 @@ Zotero.ZoteroIF_Prefs = {
     },
     'enableCollectionpanedisplayToolbarButton': function () {
       var var523 = {
-        'MDBrU': "zoteroif.collectionpanedisplayToolBarButton",
+        'MDBrU': "ai4paper.collectionpanedisplayToolBarButton",
         'AXzeO': "collectionPaneDisplay"
       };
-      document.getElementById(var523.MDBrU).checked ? (Zotero.Prefs.set(var523.MDBrU, true), Zotero.ZoteroIF.registerItemsToolBarButtons([var523.AXzeO])) : Zotero.ZoteroIF.unregisterItemsToolBarButtons([var523.AXzeO]);
+      document.getElementById(var523.MDBrU).checked ? (Zotero.Prefs.set(var523.MDBrU, true), Zotero.AI4Paper.registerItemsToolBarButtons([var523.AXzeO])) : Zotero.AI4Paper.unregisterItemsToolBarButtons([var523.AXzeO]);
     },
     'enableItempanedisplayToolbarButton': function () {
       var var524 = {
         'IWbPu': "7|0|6|11|2|1|10|3|4|9|8|5",
-        'hbQML': "zoteroif.itempanedisplayToolBarButton",
+        'hbQML': "ai4paper.itempanedisplayToolBarButton",
         'MfoKJ': "itemPaneDisplay",
         'AsvDK': function (param667, param668) {
           return param667 !== param668;
@@ -6754,9 +6754,9 @@ Zotero.ZoteroIF_Prefs = {
       };
       if (document.getElementById(var524.hbQML).checked) {
         Zotero.Prefs.set(var524.hbQML, true);
-        Zotero.ZoteroIF.registerItemsToolBarButtons([var524.MfoKJ]);
+        Zotero.AI4Paper.registerItemsToolBarButtons([var524.MfoKJ]);
       } else {
-        if (var524.AsvDK(var524.iMqVS, var524.XzaUT)) Zotero.ZoteroIF.unregisterItemsToolBarButtons([var524.MfoKJ]);else {
+        if (var524.AsvDK(var524.iMqVS, var524.XzaUT)) Zotero.AI4Paper.unregisterItemsToolBarButtons([var524.MfoKJ]);else {
           function fn175() {
             var var525 = var524.IWbPu.split('|'),
               var526 = 0x0;
@@ -6807,16 +6807,16 @@ Zotero.ZoteroIF_Prefs = {
     },
     'enableCollectionItempanedisplayToolbarButton': function () {
       var var527 = {
-        'IJKoU': "zoteroif.collectionitempanedisplayToolBarButton",
+        'IJKoU': "ai4paper.collectionitempanedisplayToolBarButton",
         'cwvPj': "collectionitemPaneDisplay"
       };
-      document.getElementById(var527.IJKoU).checked ? (Zotero.Prefs.set(var527.IJKoU, true), Zotero.ZoteroIF.registerItemsToolBarButtons([var527.cwvPj])) : Zotero.ZoteroIF.unregisterItemsToolBarButtons([var527.cwvPj]);
+      document.getElementById(var527.IJKoU).checked ? (Zotero.Prefs.set(var527.IJKoU, true), Zotero.AI4Paper.registerItemsToolBarButtons([var527.cwvPj])) : Zotero.AI4Paper.unregisterItemsToolBarButtons([var527.cwvPj]);
     },
     'enableCollapseCollectionsCollectionsToolBarButton': function () {
       var var528 = {
-        'QEjPh': "zoteroif.yi.apiverify.button",
-        'DhlJv': "zoteroif.yi.removeapi.button",
-        'NeEdz': "zoteroif.collapseCollectionsCollectionsToolBarButton",
+        'QEjPh': "ai4paper.yi.apiverify.button",
+        'DhlJv': "ai4paper.yi.removeapi.button",
+        'NeEdz': "ai4paper.collapseCollectionsCollectionsToolBarButton",
         'sHSUU': "collapseCollections",
         'iSVSW': function (param669, param670) {
           return param669 !== param670;
@@ -6826,9 +6826,9 @@ Zotero.ZoteroIF_Prefs = {
       };
       if (document.getElementById(var528.NeEdz).checked) {
         Zotero.Prefs.set(var528.NeEdz, true);
-        Zotero.ZoteroIF.registerCollectionsToolBarButtons([var528.sHSUU]);
+        Zotero.AI4Paper.registerCollectionsToolBarButtons([var528.sHSUU]);
       } else {
-        if (var528.iSVSW(var528.mrxAu, var528.NfyUS)) Zotero.ZoteroIF.unregisterCollectionsToolBarButtons([var528.sHSUU]);else {
+        if (var528.iSVSW(var528.mrxAu, var528.NfyUS)) Zotero.AI4Paper.unregisterCollectionsToolBarButtons([var528.sHSUU]);else {
           function fn176() {
             _0x23279e.getElementById(var528.QEjPh).hidden = true;
             _0x10a443.getElementById(var528.DhlJv).hidden = false;

@@ -1,9 +1,9 @@
 var methodsBody = function () {};
 methodsBody.init = async function () {
-  Zotero.ZoteroIF.update_svg_icons(document);
+  Zotero.AI4Paper.update_svg_icons(document);
 
   // 根据 Zotero 版本调整样式
-  Zotero.ZoteroIF.updateTextAreaBox4ZoteroScheme(window);
+  Zotero.AI4Paper.updateTextAreaBox4ZoteroScheme(window);
   document.addEventListener('dialogaccept', () => methodsBody.acceptSelection());
   this.io = window.arguments[0];
 
@@ -12,13 +12,13 @@ methodsBody.init = async function () {
   // // 创建新的菜单项
   // const newMenuItem = document.createXULElement('menuitem');
   // newMenuItem.setAttribute('label', 'New Item');
-  // document.getElementById('zotero-if-xul-add-anotation-head-level').label = Zotero.ZoteroIF.defaultHeadLevel;
-  document.getElementById('zotero-if-xul-add-anotation-head-level').selectedIndex = Number(Zotero.ZoteroIF.defaultHeadLevel.substring(1)) - 1; // 索引从 0 开始
-  document.getElementById("zotero-if-xul-add-anotation-head-autoLoad").checked = Zotero.Prefs.get('zoteroif.autoloadhead');
+  // document.getElementById('zotero-if-xul-add-anotation-head-level').label = Zotero.AI4Paper.defaultHeadLevel;
+  document.getElementById('zotero-if-xul-add-anotation-head-level').selectedIndex = Number(Zotero.AI4Paper.defaultHeadLevel.substring(1)) - 1; // 索引从 0 开始
+  document.getElementById("zotero-if-xul-add-anotation-head-autoLoad").checked = Zotero.Prefs.get('ai4paper.autoloadhead');
   let headContent = methodsBody.loadCurrentHead(this.io.dataIn);
   if (headContent) {
     document.getElementById("zotero-if-xul-add-anotation-head-content").value = headContent;
-  } else if (Zotero.Prefs.get('zoteroif.autoloadhead')) {
+  } else if (Zotero.Prefs.get('ai4paper.autoloadhead')) {
     methodsBody.loadHead();
   }
 
@@ -30,7 +30,7 @@ methodsBody.init = async function () {
 };
 methodsBody.acceptSelection = function () {
   if (['H1', 'H2', 'H3', 'H4', 'H5', 'H6'].includes(document.getElementById('zotero-if-xul-add-anotation-head-level').label)) {
-    Zotero.ZoteroIF.defaultHeadLevel = document.getElementById('zotero-if-xul-add-anotation-head-level').label;
+    Zotero.AI4Paper.defaultHeadLevel = document.getElementById('zotero-if-xul-add-anotation-head-level').label;
   }
   this.io.dataOut = '';
   let headLevel = 'ZH3';
@@ -142,12 +142,12 @@ methodsBody.removeHead = async function () {
       annotationItem.annotationComment = `${content1}${content2}`;
       await annotationItem.saveTx();
       window.close();
-      Zotero.ZoteroIF.showProgressWindowZot(6000, '取消大纲级别', `✅ 成功取消当前注释的大纲级别！`);
+      Zotero.AI4Paper.showProgressWindowZot(6000, '取消大纲级别', `✅ 成功取消当前注释的大纲级别！`);
     }
   } else {
     window.alert('当前注释无大纲级别！');
   }
 };
 methodsBody.autoLoadHead = function () {
-  Zotero.Prefs.set('zoteroif.autoloadhead', document.getElementById("zotero-if-xul-add-anotation-head-autoLoad").checked);
+  Zotero.Prefs.set('ai4paper.autoloadhead', document.getElementById("zotero-if-xul-add-anotation-head-autoLoad").checked);
 };

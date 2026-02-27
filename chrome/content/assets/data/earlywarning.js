@@ -1,4 +1,4 @@
-Zotero.ZoteroIF._data_earlywarning = {
+Zotero.AI4Paper._data_earlywarning = {
     "wireless personal communications":"预警",
     "natural resources forum":"预警",
     "computers & electrical engineering":"预警",

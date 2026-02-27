@@ -1,9 +1,9 @@
 var methodsBody = function () {};
 methodsBody.init = function () {
-  Zotero.ZoteroIF.update_svg_icons(document);
+  Zotero.AI4Paper.update_svg_icons(document);
 
   // 根据 Zotero 版本调整样式
-  Zotero.ZoteroIF.updateTextAreaBox4ZoteroScheme(window);
+  Zotero.AI4Paper.updateTextAreaBox4ZoteroScheme(window);
   document.addEventListener('dialogaccept', () => methodsBody.acceptSelection());
   this.io = window.arguments[0];
 
@@ -125,7 +125,7 @@ methodsBody.buildContextMenu = function (event, isInit) {
   let menuitem = window.document.createXULElement('menuitem');
   menuitem.setAttribute('label', "拷贝模板");
   menuitem.addEventListener('command', () => {
-    Zotero.ZoteroIF.copy2Clipboard(itemInfo);
+    Zotero.AI4Paper.copy2Clipboard(itemInfo);
   });
   popup.appendChild(menuitem);
   return popup;
@@ -205,15 +205,15 @@ methodsBody.acceptSelection = function () {
 };
 methodsBody.updateTemplate = function (isInit) {
   if (isInit) {
-    document.getElementById("textarea-annotationCommentTemplate").value = Zotero.Prefs.get("zoteroif.annotationCommentTemplate");
+    document.getElementById("textarea-annotationCommentTemplate").value = Zotero.Prefs.get("ai4paper.annotationCommentTemplate");
   } else {
-    Zotero.Prefs.set("zoteroif.annotationCommentTemplate", document.getElementById("textarea-annotationCommentTemplate").value);
+    Zotero.Prefs.set("ai4paper.annotationCommentTemplate", document.getElementById("textarea-annotationCommentTemplate").value);
   }
   methodsBody.parseTemplate();
 };
 methodsBody.parseTemplate = function () {
   let listData = [];
-  let template_str = Zotero.Prefs.get("zoteroif.annotationCommentTemplate");
+  let template_str = Zotero.Prefs.get("ai4paper.annotationCommentTemplate");
   if (template_str) {
     // 考虑 dataview 变量后 的 :: 可能跟着空格，因此这里不剔除。listData = template_str.split('\n').map(e => e.trim()).filter(e => e != "");
     listData = template_str.split('\n').filter(e => e != "" && e.trim() != "");

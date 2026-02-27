@@ -1,4 +1,4 @@
-Zotero.ZoteroIF._data_zjk_fenqu = {
+Zotero.AI4Paper._data_zjk_fenqu = {
     "20 et 21-revue d histoire":4,
     "2d materials":3,
     "3 biotech":4,

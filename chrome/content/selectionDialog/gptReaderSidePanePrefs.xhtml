@@ -5,7 +5,7 @@
 <?xml-stylesheet href="chrome://zotero-platform/content/zotero.css" type="text/css"?>
 <?xml-stylesheet href="chrome://zotero/skin/scaffold.css" type="text/css"?>
 
-<?xml-stylesheet href="chrome://zoteroif/content/assets/css/style.css" type="text/css"?>
+<?xml-stylesheet href="chrome://ai4paper/content/assets/css/style.css" type="text/css"?>
 
 <!DOCTYPE window SYSTEM "chrome://zotero/locale/zotero.dtd">
 <window xmlns:html="http://www.w3.org/1999/xhtml"
@@ -24,7 +24,7 @@
 		Services.scriptloader.loadSubScript("chrome://zotero/content/include.js", this);
 		Services.scriptloader.loadSubScript("chrome://zotero/content/customElements.js", this);
 
-		Services.scriptloader.loadSubScript("chrome://zoteroif/content/selectionDialog/gptReaderSidePanePrefs.js", this);
+		Services.scriptloader.loadSubScript("chrome://ai4paper/content/selectionDialog/gptReaderSidePanePrefs.js", this);
 	</script>
 
 	<html:style>
@@ -35,7 +35,7 @@
 	</html:style>
 
 	<linkset>
-	    <html:link rel="localization" href="zoteroif_preferences.ftl"/>
+	    <html:link rel="localization" href="ai4paper_preferences.ftl"/>
 	</linkset>
 
 	    <vbox id="vboxContainer-elem">
@@ -72,11 +72,11 @@
 
 					<html:div class="two-columns">
 						<hbox align="center">
-							<button label="参数调节" oncommand='Zotero.ZoteroIF.openDialogByType("setAIModelsParameters");'/>
+							<button label="参数调节" oncommand='Zotero.AI4Paper.openDialogByType("setAIModelsParameters");'/>
 						</hbox>
 
 						<hbox align="center">
-							<button  label="功能按钮开关" oncommand='Zotero.ZoteroIF.openDialogByType("gptFuncButtonsEnable")'/>
+							<button  label="功能按钮开关" oncommand='Zotero.AI4Paper.openDialogByType("gptFuncButtonsEnable")'/>
 						</hbox>
 					</html:div>
 
@@ -145,7 +145,7 @@
 
 						<hbox align="center">
 							<label value="🙋 用户名："/>
-							<html:input type="text" id="zotero-if-xul-chatgptprefs-userName" size="10" placeholder="" onchange="Zotero.Prefs.set('zoteroif.gptUserName', this.value);Zotero.ZoteroIF.gptReaderSidePane_ChatMode_updateUserName();" oninput="Zotero.Prefs.set('zoteroif.gptUserName', this.value);Zotero.ZoteroIF.gptReaderSidePane_ChatMode_updateUserName();"></html:input>
+							<html:input type="text" id="zotero-if-xul-chatgptprefs-userName" size="10" placeholder="" onchange="Zotero.Prefs.set('ai4paper.gptUserName', this.value);Zotero.AI4Paper.gptReaderSidePane_ChatMode_updateUserName();" oninput="Zotero.Prefs.set('ai4paper.gptUserName', this.value);Zotero.AI4Paper.gptReaderSidePane_ChatMode_updateUserName();"></html:input>
 						</hbox>
 
 					</html:div>
@@ -156,12 +156,12 @@
 
 					<html:div class="two-columns">
 						<hbox align="center">
-							<checkbox id="zotero-if-xul-chatgptprefs-clearChatOnPaperAI" native="true" label='AI 解读论文前清空历史对话' checked="true" oncommand="Zotero.Prefs.set('zoteroif.clearChatOnPaperAI', this.checked)"/>
+							<checkbox id="zotero-if-xul-chatgptprefs-clearChatOnPaperAI" native="true" label='AI 解读论文前清空历史对话' checked="true" oncommand="Zotero.Prefs.set('ai4paper.clearChatOnPaperAI', this.checked)"/>
 						</hbox>
 
 						<hbox align="center">
-							<checkbox id="zotero-if-xul-chatgptprefs-createAIReadingNoteOnPaperAI" native="true" label='AI 解读论文后自动创建笔记' checked="true" oncommand="Zotero.Prefs.set('zoteroif.createAIReadingNoteOnPaperAI', this.checked)"/>
-							<image src="chrome://zoteroif/content/icons/help.png" 
+							<checkbox id="zotero-if-xul-chatgptprefs-createAIReadingNoteOnPaperAI" native="true" label='AI 解读论文后自动创建笔记' checked="true" oncommand="Zotero.Prefs.set('ai4paper.createAIReadingNoteOnPaperAI', this.checked)"/>
+							<image src="chrome://ai4paper/content/icons/help.png" 
 								tooltiptext="帮助文档" 
 								style='margin-left: 8px; width: 16px; height: 16px' 
 								onclick='Zotero.getMainWindow().ZoteroPane.loadURI("https://www.yuque.com/qnscholar/zotero-one/cchdn61qqgpvnp0g?singleDoc# 《关于【AI 解读论文后自动创建笔记】选项的说明》");'
@@ -170,13 +170,13 @@
 					</html:div>
 
 					<hbox align="center">
-						<checkbox id="zotero-if-xul-chatgptprefs-addEmojiTag2ParentItemOnPaperAI" native="true" label='生成 AI 解读笔记后，为父条目添加标签：' checked="true" oncommand="Zotero.Prefs.set('zoteroif.addEmojiTag2ParentItemOnPaperAI', this.checked)"/>
-						<html:input type="text" id="zotero-if-xul-chatgptprefs-emojiTagAdded2ParentItemOnPaperAI" size="5" placeholder="" oninput="Zotero.Prefs.set('zoteroif.emojiTagAdded2ParentItemOnPaperAI', this.value);"></html:input>
+						<checkbox id="zotero-if-xul-chatgptprefs-addEmojiTag2ParentItemOnPaperAI" native="true" label='生成 AI 解读笔记后，为父条目添加标签：' checked="true" oncommand="Zotero.Prefs.set('ai4paper.addEmojiTag2ParentItemOnPaperAI', this.checked)"/>
+						<html:input type="text" id="zotero-if-xul-chatgptprefs-emojiTagAdded2ParentItemOnPaperAI" size="5" placeholder="" oninput="Zotero.Prefs.set('ai4paper.emojiTagAdded2ParentItemOnPaperAI', this.value);"></html:input>
 					</hbox>
 
 
 					<hbox align="center">
-						<checkbox id="zotero-if-xul-chatgptprefs-updateModifiedDate4PapersMatrix" native="true" label='强制刷新条目修改时间' checked="true" oncommand="Zotero.Prefs.set('zoteroif.updateModifiedDate4PapersMatrix', this.checked)"/>
+						<checkbox id="zotero-if-xul-chatgptprefs-updateModifiedDate4PapersMatrix" native="true" label='强制刷新条目修改时间' checked="true" oncommand="Zotero.Prefs.set('ai4paper.updateModifiedDate4PapersMatrix', this.checked)"/>
 					</hbox>
 
 					<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * ▌ Markdown AI 消息导出路径预设 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
@@ -184,7 +184,7 @@
 					<description style="white-space: pre-wrap; color: #fa553c; margin-top: 10px; margin-bottom: 10px; font-size: 14px; font-weight: bold;">▌ Markdown AI 消息导出路径预设</description>
 					<hbox align="center" class="zoteroone-hbox-tiny-gap">
 						<label value="选择路径"/>
-						<html:input type="text" id="zoteroif.gptMarkdownMsgExportPath" size="35" readonly="true"></html:input>
+						<html:input type="text" id="ai4paper.gptMarkdownMsgExportPath" size="35" readonly="true"></html:input>
 						<button label="Choose" oncommand="methodsBody.chooseDirectory('gptMarkdownMsgExportPath');"></button>
 					</hbox>
 
@@ -249,7 +249,7 @@
 				</hbox>
 
 				<hbox align="center">
-					<button label="自定义内置提示词" oncommand='Zotero.ZoteroIF.openDialogByType("customBuiltInPrompt");'/>
+					<button label="自定义内置提示词" oncommand='Zotero.AI4Paper.openDialogByType("customBuiltInPrompt");'/>
 				</hbox>
 			</html:div>
 

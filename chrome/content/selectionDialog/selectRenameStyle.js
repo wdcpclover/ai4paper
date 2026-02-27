@@ -1,9 +1,9 @@
 var methodsBody = function () {};
 methodsBody.init = function () {
-  Zotero.ZoteroIF.update_svg_icons(document);
+  Zotero.AI4Paper.update_svg_icons(document);
   document.addEventListener('dialogaccept', () => methodsBody.acceptSelection());
   this.io = window.arguments[0];
-  let renameTemplate = Zotero.Prefs.get('zoteroif.renameTemplate');
+  let renameTemplate = Zotero.Prefs.get('ai4paper.renameTemplate');
   if (renameTemplate) {
     renameTemplate = renameTemplate.split('\n').filter(item => item != '');
     let _radio;
@@ -14,7 +14,7 @@ methodsBody.init = function () {
       document.getElementById("rename-style").appendChild(_radio);
     }
   }
-  document.getElementById("rename-style").value = Zotero.Prefs.get('zoteroif.lastRenameStyle');
+  document.getElementById("rename-style").value = Zotero.Prefs.get('ai4paper.lastRenameStyle');
 };
 methodsBody.acceptSelection = function () {
   var returnObject = false;

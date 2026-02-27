@@ -5,7 +5,7 @@
 <?xml-stylesheet href="chrome://zotero-platform/content/zotero.css" type="text/css"?>
 <?xml-stylesheet href="chrome://zotero/skin/scaffold.css" type="text/css"?>
 
-<?xml-stylesheet href="chrome://zoteroif/content/assets/css/style.css" type="text/css"?>
+<?xml-stylesheet href="chrome://ai4paper/content/assets/css/style.css" type="text/css"?>
 
 <!DOCTYPE window SYSTEM "chrome://zotero/locale/zotero.dtd">
 <window xmlns:html="http://www.w3.org/1999/xhtml"
@@ -24,7 +24,7 @@
 		Services.scriptloader.loadSubScript("chrome://zotero/content/include.js", this);
 		Services.scriptloader.loadSubScript("chrome://zotero/content/customElements.js", this);
 
-		Services.scriptloader.loadSubScript("chrome://zoteroif/content/selectionDialog/backupSettings.js", this);
+		Services.scriptloader.loadSubScript("chrome://ai4paper/content/selectionDialog/backupSettings.js", this);
 	</script>
 
 	<html:style>
@@ -49,7 +49,7 @@
 	</html:style>
 
 	<linkset>
-	    <html:link rel="localization" href="zoteroif_preferences.ftl"/>
+	    <html:link rel="localization" href="ai4paper_preferences.ftl"/>
 	</linkset>
 
     <vbox id="vboxContainer-elem" style="margin-bottom:8px;">
@@ -62,7 +62,7 @@
             <button label="点击导出插件设置" oncommand="methodsBody.exportZoteroOnePrefs();"></button>
             <div class="prefs-Button svg-container-updateDatabase"
                 tooltiptext="升级【设置】数据库，以确保多设备间的兼容性"
-                onclick='Zotero.ZoteroIF.updateDatabase_ZoteroOnePrefs();'>
+                onclick='Zotero.AI4Paper.updateDatabase_ZoteroOnePrefs();'>
             </div>
 
 			<div class="prefs-Button svg-container-help"
@@ -99,8 +99,8 @@
         </hbox>
 
         <hbox align="center">
-            <button label="拷贝全部【翻译 API-Keys】" style="margin-right: 10px;" oncommand="Zotero.ZoteroIF.copyTranslationAPIKeys();"></button>
-            <button label="拷贝全部【GPT API-Keys】" oncommand="Zotero.ZoteroIF.copyGPTAPIKeys();"></button>
+            <button label="拷贝全部【翻译 API-Keys】" style="margin-right: 10px;" oncommand="Zotero.AI4Paper.copyTranslationAPIKeys();"></button>
+            <button label="拷贝全部【GPT API-Keys】" oncommand="Zotero.AI4Paper.copyGPTAPIKeys();"></button>
         </hbox>
 
     </vbox>

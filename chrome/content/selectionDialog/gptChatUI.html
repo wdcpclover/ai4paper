@@ -5,20 +5,20 @@
     <title>GPT Chat UI</title>
 
     <!-- Markdown 和 LaTeX 渲染 -->
-    <script src="chrome://zoteroif/content/assets/js/markdown-it.min.js"></script>
-    <script src="chrome://zoteroif/content/assets/js/katex.min.js"></script>
-    <script src="chrome://zoteroif/content/assets/js/texmath.min.js"></script>
-    <link type="text/css" rel="stylesheet" href="chrome://zoteroif/content/assets/css/katex.min.css">
-    <link type="text/css" rel="stylesheet" href="chrome://zoteroif/content/assets/css/texmath.min.css">
+    <script src="chrome://ai4paper/content/assets/js/markdown-it.min.js"></script>
+    <script src="chrome://ai4paper/content/assets/js/katex.min.js"></script>
+    <script src="chrome://ai4paper/content/assets/js/texmath.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="chrome://ai4paper/content/assets/css/katex.min.css">
+    <link type="text/css" rel="stylesheet" href="chrome://ai4paper/content/assets/css/texmath.min.css">
 
     <!-- highlight.js 代码块高亮 -->
-    <script src="chrome://zoteroif/content/assets/js/highlight.min.js"></script>
+    <script src="chrome://ai4paper/content/assets/js/highlight.min.js"></script>
     <!-- 辅助 highlight.js 高亮代码块 css/highlight -->
-    <link id="highlightStyle" rel="stylesheet" type="text/css" href="chrome://zoteroif/content/assets/css/highlight/github.min.css">
+    <link id="highlightStyle" rel="stylesheet" type="text/css" href="chrome://ai4paper/content/assets/css/highlight/github.min.css">
     <!-- github markdown 风格，连同 highlight 一起优化代码块样式 css/highlight -->
-    <link rel="stylesheet" type="text/css" href="chrome://zoteroif/content/assets/css/highlight/github-markdown.min.css">
+    <link rel="stylesheet" type="text/css" href="chrome://ai4paper/content/assets/css/highlight/github-markdown.min.css">
 
-    <script src="chrome://zoteroif/content/selectionDialog/gptChatUI.js"></script>
+    <script src="chrome://ai4paper/content/selectionDialog/gptChatUI.js"></script>
     <script src="chrome://zotero/content/include.js"></script>
     <style id="chatUIStyle">
 
@@ -29,7 +29,7 @@
     <div style="position: relative;">
         <div id="chat-container" class="chat-container">
             <div class="openaiLogoContainer" style="display: '';">
-                <img id="OpenAI-Lgo" src="chrome://zoteroif/content/icons/logo.png" class="openaiLogo" draggable="false">
+                <img id="OpenAI-Lgo" src="chrome://ai4paper/content/icons/logo.png" class="openaiLogo" draggable="false">
             </div>
         </div>
 
@@ -54,47 +54,47 @@
                title="发送" 
                onmouseover="updateButtonBgColor(this);" 
                onmouseout="this.style.background='';" 
-               onclick='Zotero.ZoteroIF.gptReaderSidePane_ChatMode_send();'
+               onclick='Zotero.AI4Paper.gptReaderSidePane_ChatMode_send();'
         ></div>
         <div id="clear-button" 
                class="quickButton svg-container-remove" 
                style="right: 47px;" 
                title="清空消息输入框" 
-               onmouseover="updateButtonBgColor(this);this.innerHTML = Zotero.ZoteroIF.svg_icon_20px['remove'].replace(/#0281ff/g, '#f40614');" 
-               onmouseout="this.style.background='';this.innerHTML = Zotero.ZoteroIF.svg_icon_20px['remove'];" 
-               onclick='document.getElementById("message-input").value = ""; Zotero.Prefs.set("zoteroif.chatgptprompt", "");'
+               onmouseover="updateButtonBgColor(this);this.innerHTML = Zotero.AI4Paper.svg_icon_20px['remove'].replace(/#0281ff/g, '#f40614');" 
+               onmouseout="this.style.background='';this.innerHTML = Zotero.AI4Paper.svg_icon_20px['remove'];" 
+               onclick='document.getElementById("message-input").value = ""; Zotero.Prefs.set("ai4paper.chatgptprompt", "");'
         ></div>
         <div id="metaso-button"
                class="quickButton svg-container-metaso" 
                style="right: 79px;" 
                title="秘塔 AI 搜索" 
-               onmouseover="updateButtonBgColor(this);this.innerHTML = Zotero.ZoteroIF.svg_icon_20px['metaso'].replace(/#0281ff/g, '#f40614');" 
-               onmouseout="this.style.background='';this.innerHTML = Zotero.ZoteroIF.svg_icon_20px['metaso'];" 
+               onmouseover="updateButtonBgColor(this);this.innerHTML = Zotero.AI4Paper.svg_icon_20px['metaso'].replace(/#0281ff/g, '#f40614');" 
+               onmouseout="this.style.background='';this.innerHTML = Zotero.AI4Paper.svg_icon_20px['metaso'];" 
                onclick='metaso();'
         ></div>
         <div id="chatHistory-button" 
                class="quickButton svg-container-chatHistory" 
                style="right: 111px;" 
                title="AI 对话历史" 
-               onmouseover="updateButtonBgColor(this);this.innerHTML = Zotero.ZoteroIF.svg_icon_20px['chatHistory'].replace(/#0281ff/g, '#f40614');" 
-               onmouseout="this.style.background='';this.innerHTML = Zotero.ZoteroIF.svg_icon_20px['chatHistory'];" 
+               onmouseover="updateButtonBgColor(this);this.innerHTML = Zotero.AI4Paper.svg_icon_20px['chatHistory'].replace(/#0281ff/g, '#f40614');" 
+               onmouseout="this.style.background='';this.innerHTML = Zotero.AI4Paper.svg_icon_20px['chatHistory'];" 
                onclick='onClickChatHistoryBtn(event);'
         ></div>
         <div id="paperai_batch-button"
                class="quickButton svg-container-paperai_batch" 
                style="right: 143px;" 
                title="批量 AI 解读文献" 
-               onmouseover="updateButtonBgColor(this);this.innerHTML = Zotero.ZoteroIF.svg_icon_20px['paperai_batch'].replace(/#0281ff/g, '#f40614');" 
-               onmouseout="this.style.background='';this.innerHTML = Zotero.ZoteroIF.svg_icon_20px['paperai_batch'];" 
+               onmouseover="updateButtonBgColor(this);this.innerHTML = Zotero.AI4Paper.svg_icon_20px['paperai_batch'].replace(/#0281ff/g, '#f40614');" 
+               onmouseout="this.style.background='';this.innerHTML = Zotero.AI4Paper.svg_icon_20px['paperai_batch'];" 
                onclick='onClickPaperAIBatchBtn(event);'
-               oncontextmenu='Zotero.ZoteroIF.batchInterpretSelectedItems();'
+               oncontextmenu='Zotero.AI4Paper.batchInterpretSelectedItems();'
         ></div>
         <div id="paperAI-button" 
                class="quickButton svg-container-paperai"
                style="right: 175px;" 
                title="AI 解读文献" 
-               onmouseover="updateButtonBgColor(this);this.innerHTML = Zotero.ZoteroIF.svg_icon_20px['paperai'].replace(/#0281ff/g, '#f40614');" 
-               onmouseout="this.style.background='';this.innerHTML = Zotero.ZoteroIF.svg_icon_20px['paperai'];" 
+               onmouseover="updateButtonBgColor(this);this.innerHTML = Zotero.AI4Paper.svg_icon_20px['paperai'].replace(/#0281ff/g, '#f40614');" 
+               onmouseout="this.style.background='';this.innerHTML = Zotero.AI4Paper.svg_icon_20px['paperai'];" 
                onmousedown='paperAI(event);'
         ></div>
     </div>

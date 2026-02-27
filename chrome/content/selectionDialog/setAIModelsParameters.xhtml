@@ -19,7 +19,7 @@
 
     <script>
         Services.scriptloader.loadSubScript("chrome://zotero/content/include.js", this);
-        Services.scriptloader.loadSubScript("chrome://zoteroif/content/selectionDialog/setAIModelsParameters.js", this);
+        Services.scriptloader.loadSubScript("chrome://ai4paper/content/selectionDialog/setAIModelsParameters.js", this);
         Services.scriptloader.loadSubScript("chrome://zotero/content/customElements.js", this);
     </script>
 
@@ -38,7 +38,7 @@
 	</html:style>
 
     <linkset>
-        <html:link rel="localization" href="zoteroif_preferences.ftl"/>
+        <html:link rel="localization" href="ai4paper_preferences.ftl"/>
     </linkset>
 
         <vbox id="vboxContainer-elem" flex="1">
@@ -233,7 +233,7 @@
                             onclick='Zotero.getMainWindow().ZoteroPane.loadURI("https://www.yuque.com/qnscholar/zotero-one/vfuqga3k8il0e2hr?singleDoc# 《Gemini 思考模式设置》");'>
                         </div>
                         
-                        <!-- <image src="chrome://zoteroif/content/icons/help.png" 
+                        <!-- <image src="chrome://ai4paper/content/icons/help.png" 
                             tooltiptext="帮助文档" 
                             style='margin-left: 8px; width: 16px; height: 16px' 
                             onclick='Zotero.getMainWindow().ZoteroPane.loadURI("https://www.yuque.com/qnscholar/zotero-one/vfuqga3k8il0e2hr?singleDoc# 《Gemini 思考模式设置》");'
@@ -241,7 +241,7 @@
                     </hbox>
                     
                     <hbox align="center" style="margin-bottom:5px;">
-                        <radiogroup id="gemini-thinkingBudget" orient="horizontal" oncommand="Zotero.Prefs.set('zoteroif.geminiThinkingBudget', this.value);">
+                        <radiogroup id="gemini-thinkingBudget" orient="horizontal" oncommand="Zotero.Prefs.set('ai4paper.geminiThinkingBudget', this.value);">
                             <radio label="关闭" value="disable"/>
                             <radio label="动态" value="dynamic"/>
                             <radio label="低" value="low"/>

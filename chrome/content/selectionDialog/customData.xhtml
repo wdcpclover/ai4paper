@@ -4,7 +4,7 @@
 <?xml-stylesheet href="chrome://zotero-platform/content/zotero.css" type="text/css"?>
 <?xml-stylesheet href="chrome://zotero/skin/scaffold.css" type="text/css"?>
 
-<?xml-stylesheet href="chrome://zoteroif/content/assets/css/style.css" type="text/css"?>
+<?xml-stylesheet href="chrome://ai4paper/content/assets/css/style.css" type="text/css"?>
 
 <!DOCTYPE window SYSTEM "chrome://zotero/locale/zotero.dtd">
 <window xmlns:html="http://www.w3.org/1999/xhtml"
@@ -22,11 +22,11 @@
         Services.scriptloader.loadSubScript("chrome://zotero/content/include.js", this);
         Services.scriptloader.loadSubScript("chrome://zotero/content/customElements.js", this);
 
-        Services.scriptloader.loadSubScript("chrome://zoteroif/content/selectionDialog/customData.js", this);
+        Services.scriptloader.loadSubScript("chrome://ai4paper/content/selectionDialog/customData.js", this);
     </script>
 
     <linkset>
-        <html:link rel="localization" href="zoteroif_preferences.ftl"/>
+        <html:link rel="localization" href="ai4paper_preferences.ftl"/>
     </linkset>
 
         <vbox id="vboxContainer-elem" style="margin-bottom:8px;">
@@ -40,7 +40,7 @@
 
             <hbox align="center">
                 <label value="选择 CSV 文件"></label>
-                <html:input type="text" id="zoteroif.customPublicationTitle.path" size="35" readonly="true"></html:input>
+                <html:input type="text" id="ai4paper.customPublicationTitle.path" size="35" readonly="true"></html:input>
                 <button label="Choose" oncommand="choosePath_customPublicationTitle();"></button>
                 <div class="svg-container-help"
                     tooltiptext="帮助文档" 
@@ -51,10 +51,10 @@
 
             <hbox align="center">
                 <button label="载入数据" oncommand="importData_customPublicationTitle();"></button>
-                <checkbox id="zoteroif.enableCustomPublicationTitle"
+                <checkbox id="ai4paper.enableCustomPublicationTitle"
                           label="启用"
                           native="true"
-                          oncommand="Zotero.Prefs.set('zoteroif.enableCustomPublicationTitle', this.checked);"/>
+                          oncommand="Zotero.Prefs.set('ai4paper.enableCustomPublicationTitle', this.checked);"/>
 
                 <!-- <description id="customPublicationTitle_resultMessage" style="display: none;font-weight: bold;"></description> -->
                 <!-- <label><html:h4 id="customPublicationTitle_resultMessage" style="display: none;font-weight: normal;"></html:h4></label> -->
@@ -64,14 +64,14 @@
             <box flex="1">
                 <richlistbox flex="1" style="height:150px;">
                     <hbox class="virtualized-table-container" flex="1">
-                    <html:table id="zoteroif-customPublicationTitle-table">
-                      <html:thead id="zoteroif-customPublicationTitle-table-header">
+                    <html:table id="ai4paper-customPublicationTitle-table">
+                      <html:thead id="ai4paper-customPublicationTitle-table-header">
                         <html:tr align="left">
                           <html:th style="width: 200px;">期刊原名</html:th>
                           <html:th style="width: 200px;">修改名</html:th>
                         </html:tr>
                       </html:thead>
-                      <html:tbody id="zoteroif-customPublicationTitle-table-tbody">
+                      <html:tbody id="ai4paper-customPublicationTitle-table-tbody">
                         <html:tr> </html:tr>
                       </html:tbody>
                     </html:table>
@@ -88,7 +88,7 @@
 
             <hbox align="center">
                 <label value="选择 CSV 文件"></label>
-                <html:input type="text" id="zoteroif.customJournalAbbr.path" size="35" readonly="true"></html:input>
+                <html:input type="text" id="ai4paper.customJournalAbbr.path" size="35" readonly="true"></html:input>
                 <button label="Choose" oncommand="choosePath_customJournalAbbr();"></button>
                 <div class="svg-container-help"
                     tooltiptext="帮助文档" 
@@ -99,10 +99,10 @@
 
             <hbox align="center">
                 <button label="载入数据" oncommand="importData_customJournalAbbr();"></button>
-                <checkbox id="zoteroif.enableCustomJournalAbbr"
+                <checkbox id="ai4paper.enableCustomJournalAbbr"
                           label="启用"
                           native="true"
-                          oncommand="Zotero.Prefs.set('zoteroif.enableCustomJournalAbbr', this.checked);"/>
+                          oncommand="Zotero.Prefs.set('ai4paper.enableCustomJournalAbbr', this.checked);"/>
 
                 <!-- <label><html:h4 id="customJournalAbbr_resultMessage" style="display: none;font-weight: normal;"></html:h4></label> -->
                 <label id="customJournalAbbr_resultMessage" style="display: none;margin-left: 10px;font-weight: normal;"></label>
@@ -111,14 +111,14 @@
             <box flex="1">
                 <richlistbox flex="1" style="height:150px;">
                     <hbox class="virtualized-table-container" flex="1">
-                    <html:table id="zoteroif-customJournalAbbr-table">
-                      <html:thead id="zoteroif-customJournalAbbr-table-header">
+                    <html:table id="ai4paper-customJournalAbbr-table">
+                      <html:thead id="ai4paper-customJournalAbbr-table-header">
                         <html:tr align="left">
                           <html:th style="width: 200px;">期刊全名</html:th>
                           <html:th style="width: 200px;">期刊简称</html:th>
                         </html:tr>
                       </html:thead>
-                      <html:tbody id="zoteroif-customJournalAbbr-table-tbody">
+                      <html:tbody id="ai4paper-customJournalAbbr-table-tbody">
                         <html:tr> </html:tr>
                       </html:tbody>
                     </html:table>

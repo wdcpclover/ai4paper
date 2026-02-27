@@ -3,7 +3,7 @@ var chatHistoryMethods = {
   'currentSelectedId': null,
   'init': async function () {
     this.injectStyle();
-    Zotero.ZoteroIF.update_svg_icons(document);
+    Zotero.AI4Paper.update_svg_icons(document);
     this.setupIframeResize();
     this.buildContextMenu(null, true);
     this.buildContextMenu_filter(true);
@@ -113,9 +113,9 @@ var chatHistoryMethods = {
     window.moveTo(var31 + Math.round((var29 - 0x450) / 0x2), var32 + Math.round((var30 - 0x2d3) / 0x2));
   },
   'readMessages': async function () {
-    let var33 = Zotero.Prefs.get("zoteroif.gptChatHistoryLocalPath");
-    (!var33 || !(await Zotero.ZoteroIF.isPathExists(var33))) && (this.messages = []);
-    let var34 = await Zotero.ZoteroIF.readChatHistoryFromLocal(var33);
+    let var33 = Zotero.Prefs.get("ai4paper.gptChatHistoryLocalPath");
+    (!var33 || !(await Zotero.AI4Paper.isPathExists(var33))) && (this.messages = []);
+    let var34 = await Zotero.AI4Paper.readChatHistoryFromLocal(var33);
     return this.messages = var34, var34;
   },
   'renderMessageList': function (param2, param3) {
@@ -145,7 +145,7 @@ var chatHistoryMethods = {
       });
       var37.addEventListener("click", _0x2f6344 => {
         this.selectMessage(param2, _0x221b6c.id, param3);
-        _0x2f6344.shiftKey && Zotero.ZoteroIF.revealPath(_0x221b6c.path);
+        _0x2f6344.shiftKey && Zotero.AI4Paper.revealPath(_0x221b6c.path);
       });
       var37.oncontextmenu = _0xc9422 => {
         let var42 = this.buildContextMenu(_0xc9422, false);
@@ -156,7 +156,7 @@ var chatHistoryMethods = {
           let var43 = JSON.parse(_0x221b6c.content),
             var44 = var43.find(_0x28c397 => _0x28c397.fileID);
           if (var44) {
-            let var45 = Zotero.ZoteroIF.findItemByIDORKey(var44.fileID);
+            let var45 = Zotero.AI4Paper.findItemByIDORKey(var44.fileID);
             var45 && Zotero.Reader.open(var45.itemID, null, {
               'openInWindow': false
             });
@@ -244,7 +244,7 @@ var chatHistoryMethods = {
   },
   'calculateTokens': function (param11) {
     try {
-      return Zotero.ZoteroIF.calculateTokens(JSON.parse(param11).map(_0x5312a6 => _0x5312a6.content).join(''));
+      return Zotero.AI4Paper.calculateTokens(JSON.parse(param11).map(_0x5312a6 => _0x5312a6.content).join(''));
     } catch (_0x24c79d) {
       return Zotero.debug(_0x24c79d), false;
     }
@@ -276,7 +276,7 @@ var chatHistoryMethods = {
         let _0x563a91 = var66.createMessageElement(var68.content, var68.role, null, var68);
         var67.appendChild(_0x563a91);
       }
-      Zotero.ZoteroIF.gptReaderSidePane_ChatMode_enhanceMessageElem(var66);
+      Zotero.AI4Paper.gptReaderSidePane_ChatMode_enhanceMessageElem(var66);
     }
     this.showResultMessage_selectedItem(param12, param13, param14);
   },
@@ -301,7 +301,7 @@ var chatHistoryMethods = {
     !param16 && (param16 = document.getElementById("renderChatHistory-iframe").contentWindow);
     let var71 = param16.document.querySelectorAll('.message-container');
     var71.forEach(_0x50aae2 => _0x50aae2.remove());
-    Zotero.ZoteroIF.gptReaderSidePane_hiddeScrollBtn(param16);
+    Zotero.AI4Paper.gptReaderSidePane_hiddeScrollBtn(param16);
   },
   'deleteMessage': async function () {
     if (!this.currentSelectedId) {
@@ -328,17 +328,17 @@ var chatHistoryMethods = {
     }
     let var73 = this.messages.find(_0x42e162 => _0x42e162.id === this.currentSelectedId);
     if (var73) try {
-      let var74 = Zotero.ZoteroIF.getIframeWindowBySidePaneType("chatgpt");
+      let var74 = Zotero.AI4Paper.getIframeWindowBySidePaneType("chatgpt");
       if (var74 && var74._gptStreamRunning) {
         window.alert('❌\x20当前已有\x20GPT\x20对话正在进行中...如有需要，可手动中止对话后再载入。');
         return;
       }
       let var75 = JSON.parse(var73.content);
-      Zotero.ZoteroIF._data_gptMessagesHistory = var73.content;
-      Zotero.ZoteroIF._data_gptChatHistoryFileName = var73.fileName;
-      Zotero.ZoteroIF.updateChatGPTReaderSidePane();
+      Zotero.AI4Paper._data_gptMessagesHistory = var73.content;
+      Zotero.AI4Paper._data_gptChatHistoryFileName = var73.fileName;
+      Zotero.AI4Paper.updateChatGPTReaderSidePane();
     } catch (_0xdef4c) {
-      Zotero.ZoteroIF._data_gptMessagesHistory = '[]';
+      Zotero.AI4Paper._data_gptMessagesHistory = '[]';
     }
   },
   'injectStyle': function () {
@@ -350,20 +350,20 @@ var chatHistoryMethods = {
     let var77 = this.messages.find(_0x1d4729 => _0x1d4729.id === param17);
     try {
       let var78 = var77.title,
-        var79 = Zotero.ZoteroIF.openDialogByType_modal("renameChat", var78);
+        var79 = Zotero.AI4Paper.openDialogByType_modal("renameChat", var78);
       if (!var79 || var79.trim() === var78) return;
       let var80 = var77.fileName,
         var81 = var80.split('⌚️'),
         var82 = var80;
-      if (var81.length === 0x2) var82 = Zotero.ZoteroIF.sanitizeFilename(var79).trim() + " ⌚️" + var81[0x1];else {
-        let var83 = '\x20⌚️\x20' + Zotero.ZoteroIF.getDateTime().replace(/:/g, '-');
-        var82 = '' + Zotero.ZoteroIF.sanitizeFilename(var79).trim() + var83 + '.json';
+      if (var81.length === 0x2) var82 = Zotero.AI4Paper.sanitizeFilename(var79).trim() + " ⌚️" + var81[0x1];else {
+        let var83 = '\x20⌚️\x20' + Zotero.AI4Paper.getDateTime().replace(/:/g, '-');
+        var82 = '' + Zotero.AI4Paper.sanitizeFilename(var79).trim() + var83 + '.json';
       }
       let var84 = var77.path,
         var85 = PathUtils.parent(var84);
-      if (!(await Zotero.ZoteroIF.isPathExists(var84))) throw new Error("当前对话在本地不存在！请刷新列表后重试。");
+      if (!(await Zotero.AI4Paper.isPathExists(var84))) throw new Error("当前对话在本地不存在！请刷新列表后重试。");
       let var86 = PathUtils.join(var85, var82);
-      if (!(await Zotero.ZoteroIF.isPathExists(var86))) {
+      if (!(await Zotero.AI4Paper.isPathExists(var86))) {
         await IOUtils.move(var84, var86);
         await this.selectTargetItem(var82);
       } else throw new Error("已有同名文件，请重新命名！");
@@ -384,7 +384,7 @@ var chatHistoryMethods = {
       let var88 = var87.fileName,
         var89 = "【副本】" + var88,
         var90 = var87.path;
-      if (!(await Zotero.ZoteroIF.isPathExists(var90))) throw new Error("当前对话在本地不存在！请刷新列表后重试。");
+      if (!(await Zotero.AI4Paper.isPathExists(var90))) throw new Error("当前对话在本地不存在！请刷新列表后重试。");
       let var91 = PathUtils.parent(var90),
         var92 = PathUtils.join(var91, var89);
       await IOUtils.copy(var90, var92, {
@@ -396,7 +396,7 @@ var chatHistoryMethods = {
     }
   },
   async 'importChat'() {
-    let var93 = await Zotero.ZoteroIF.importChat(true);
+    let var93 = await Zotero.AI4Paper.importChat(true);
     if (var93) {
       await this.refreshMessages(true);
     }
@@ -405,21 +405,21 @@ var chatHistoryMethods = {
     let var94 = this.messages.find(_0x124d78 => _0x124d78.id === param19),
       var95 = var94.path,
       var96 = JSON.parse(var94.content),
-      var97 = await Zotero.ZoteroIF.importChat(false);
+      var97 = await Zotero.AI4Paper.importChat(false);
     if (var97) {
       let _0x997f95 = [...var96, ...var97],
         _0x1d9f6b = JSON.stringify(_0x997f95, null, 0x2);
       await Zotero.File.putContentsAsync(var95, _0x1d9f6b);
       await this.refreshMessages(true);
-      Zotero.ZoteroIF.showProgressWindow(0x9c4, "✅ 向对话添加新消息【AI4paper】", "成功向对话添加新消息。");
+      Zotero.AI4Paper.showProgressWindow(0x9c4, "✅ 向对话添加新消息【AI4paper】", "成功向对话添加新消息。");
     }
   },
   'modifyMessage': async function () {
-    if (!Zotero.ZoteroIF._data_renderChatHistory_modifyMessage) return;
+    if (!Zotero.AI4Paper._data_renderChatHistory_modifyMessage) return;
     let {
         newMessageContent: _0x3d4744,
         index: _0x44d086
-      } = Zotero.ZoteroIF._data_renderChatHistory_modifyMessage,
+      } = Zotero.AI4Paper._data_renderChatHistory_modifyMessage,
       var100 = chatHistoryMethods.currentSelectedId,
       var101 = chatHistoryMethods.messages.find(_0x18f38a => _0x18f38a.id === var100),
       var102 = var101.path,
@@ -427,11 +427,11 @@ var chatHistoryMethods = {
     var103[_0x44d086] && (var103[_0x44d086].content = _0x3d4744);
     await Zotero.File.putContentsAsync(var102, JSON.stringify(var103, null, 0x2));
     await chatHistoryMethods.refreshMessages(true);
-    Zotero.ZoteroIF.showProgressWindow(0x9c4, "✅ 修改消息【AI4paper】", "成功修改消息。");
+    Zotero.AI4Paper.showProgressWindow(0x9c4, "✅ 修改消息【AI4paper】", "成功修改消息。");
   },
   'deleteMessages': async function () {
-    if (!Zotero.ZoteroIF._data_renderChatHistory_deleteMessages) return;
-    let var104 = Zotero.ZoteroIF._data_renderChatHistory_deleteMessages,
+    if (!Zotero.AI4Paper._data_renderChatHistory_deleteMessages) return;
+    let var104 = Zotero.AI4Paper._data_renderChatHistory_deleteMessages,
       var105 = chatHistoryMethods.currentSelectedId,
       var106 = chatHistoryMethods.messages.find(_0x2f8cf7 => _0x2f8cf7.id === var105),
       var107 = var106.path,
@@ -439,7 +439,7 @@ var chatHistoryMethods = {
     var108.splice(var104 - 0x1, 0x2);
     await Zotero.File.putContentsAsync(var107, JSON.stringify(var108, null, 0x2));
     await chatHistoryMethods.refreshMessages(true);
-    Zotero.ZoteroIF.showProgressWindow(0x9c4, "✅ 删除消息【AI4paper】", '成功删除当前【用户问题\x20&\x20AI\x20回复】消息组。');
+    Zotero.AI4Paper.showProgressWindow(0x9c4, "✅ 删除消息【AI4paper】", '成功删除当前【用户问题\x20&\x20AI\x20回复】消息组。');
   },
   'selectTargetItem': async function (param20) {
     window._notSelectFirst = true;
@@ -507,7 +507,7 @@ var chatHistoryMethods = {
     'content': '内容',
     'all': '标题和内容'
   },
-  'PREF_KEY': "zoteroif.gptChatHistorySearchMode",
+  'PREF_KEY': "ai4paper.gptChatHistorySearchMode",
   'getMode'() {
     const var121 = Zotero.Prefs.get(this.PREF_KEY);
     if (!var121 || !this._searchModes[var121]) {
@@ -603,7 +603,7 @@ var chatHistoryMethods = {
     'half_year': '过去半年',
     'year': "过去一年"
   },
-  'PREF_KEY_FILTER': "zoteroif.gptChatHistoryFilterMode",
+  'PREF_KEY_FILTER': "ai4paper.gptChatHistoryFilterMode",
   'getMode_filter'() {
     const var136 = Zotero.Prefs.get(this.PREF_KEY_FILTER);
     if (!var136 || !this._filterModes[var136]) {
@@ -614,7 +614,7 @@ var chatHistoryMethods = {
   'setMode_filter'(_0x22dbce, _0x2568c9) {
     Zotero.Prefs.set(this.PREF_KEY_FILTER, _0x22dbce);
     let var137 = document.getElementById("filter-button");
-    var137.src = "chrome://zoteroif/content/icons/" + _0x22dbce + '.png';
+    var137.src = "chrome://ai4paper/content/icons/" + _0x22dbce + '.png';
     if (!_0x2568c9) {
       let var138 = this.getMessagesByFilter();
       this.displayResultsByType(var138, "filter");
@@ -645,10 +645,10 @@ var chatHistoryMethods = {
         'year': 0x16d
       };
       var141 = this.messages.filter(_0x10cb0c => {
-        let var143 = Zotero.ZoteroIF.getBeforeDate(var142[var140]),
+        let var143 = Zotero.AI4Paper.getBeforeDate(var142[var140]),
           var144 = _0x10cb0c.time.split('\x20'),
           var145 = var144[0x0].replace(/-/g, '/');
-        if (Zotero.ZoteroIF.dateDiff(var145, var143)) {
+        if (Zotero.AI4Paper.dateDiff(var145, var143)) {
           return true;
         } else return false;
       });
@@ -686,15 +686,15 @@ var chatHistoryMethods = {
       'label': "拷贝标题",
       'action': () => {
         const var150 = this.messages.find(_0x18dfe3 => _0x18dfe3.id === var148);
-        Zotero.ZoteroIF.copy2Clipboard(var150?.["title"]);
-        Zotero.ZoteroIF.showProgressWindow(0xbb8, "✅ 拷贝标题【AI4paper】", "已拷贝标题 👉 " + var150?.["title"] + '\x20👈。');
+        Zotero.AI4Paper.copy2Clipboard(var150?.["title"]);
+        Zotero.AI4Paper.showProgressWindow(0xbb8, "✅ 拷贝标题【AI4paper】", "已拷贝标题 👉 " + var150?.["title"] + '\x20👈。');
       },
       'separator': true
     }, {
       'label': "在本地显示",
       'action': () => {
         const var151 = this.messages.find(_0x26df42 => _0x26df42.id === var148);
-        Zotero.ZoteroIF.revealPath(var151.path);
+        Zotero.AI4Paper.revealPath(var151.path);
       },
       'separator': true
     }, {
@@ -759,17 +759,17 @@ var chatHistoryMethods = {
       'children': [{
         'label': "当前消息",
         'action': () => {
-          Zotero.ZoteroIF.gptReaderSidePane_ChatMode_exportAIMessages2CollectionAsMD(var161, "currentMessage", Zotero.ZoteroIF._data_renderChatHistory_quickBtn_clickEvent, chatHistoryMethods);
+          Zotero.AI4Paper.gptReaderSidePane_ChatMode_exportAIMessages2CollectionAsMD(var161, "currentMessage", Zotero.AI4Paper._data_renderChatHistory_quickBtn_clickEvent, chatHistoryMethods);
         }
       }, {
         'label': "全部 AI 回复",
         'action': () => {
-          Zotero.ZoteroIF.gptReaderSidePane_ChatMode_exportAIMessages2CollectionAsMD(var161, 'assistantMessages', null, chatHistoryMethods);
+          Zotero.AI4Paper.gptReaderSidePane_ChatMode_exportAIMessages2CollectionAsMD(var161, 'assistantMessages', null, chatHistoryMethods);
         }
       }, {
         'label': '全部消息',
         'action': () => {
-          Zotero.ZoteroIF.gptReaderSidePane_ChatMode_exportAIMessages2CollectionAsMD(var161, 'allMessages', null, chatHistoryMethods);
+          Zotero.AI4Paper.gptReaderSidePane_ChatMode_exportAIMessages2CollectionAsMD(var161, 'allMessages', null, chatHistoryMethods);
         }
       }],
       'separator': true
@@ -778,17 +778,17 @@ var chatHistoryMethods = {
       'children': [{
         'label': "当前消息",
         'action': () => {
-          Zotero.ZoteroIF.gptReaderSidePane_ChatMode_exportAIMessages2UserLibraryAsMD(var161, "currentMessage", Zotero.ZoteroIF._data_renderChatHistory_quickBtn_clickEvent, chatHistoryMethods);
+          Zotero.AI4Paper.gptReaderSidePane_ChatMode_exportAIMessages2UserLibraryAsMD(var161, "currentMessage", Zotero.AI4Paper._data_renderChatHistory_quickBtn_clickEvent, chatHistoryMethods);
         }
       }, {
         'label': "全部 AI 回复",
         'action': () => {
-          Zotero.ZoteroIF.gptReaderSidePane_ChatMode_exportAIMessages2UserLibraryAsMD(var161, 'assistantMessages', null, chatHistoryMethods);
+          Zotero.AI4Paper.gptReaderSidePane_ChatMode_exportAIMessages2UserLibraryAsMD(var161, 'assistantMessages', null, chatHistoryMethods);
         }
       }, {
         'label': "全部消息",
         'action': () => {
-          Zotero.ZoteroIF.gptReaderSidePane_ChatMode_exportAIMessages2UserLibraryAsMD(var161, "allMessages", null, chatHistoryMethods);
+          Zotero.AI4Paper.gptReaderSidePane_ChatMode_exportAIMessages2UserLibraryAsMD(var161, "allMessages", null, chatHistoryMethods);
         }
       }],
       'separator': true
@@ -797,17 +797,17 @@ var chatHistoryMethods = {
       'children': [{
         'label': '当前消息',
         'action': () => {
-          Zotero.ZoteroIF.gptReaderSidePane_ChatMode_exportAIMessages2LocalDirectoryAsMD(var161, 'currentMessage', Zotero.ZoteroIF._data_renderChatHistory_quickBtn_clickEvent, chatHistoryMethods);
+          Zotero.AI4Paper.gptReaderSidePane_ChatMode_exportAIMessages2LocalDirectoryAsMD(var161, 'currentMessage', Zotero.AI4Paper._data_renderChatHistory_quickBtn_clickEvent, chatHistoryMethods);
         }
       }, {
         'label': "全部 AI 回复",
         'action': () => {
-          Zotero.ZoteroIF.gptReaderSidePane_ChatMode_exportAIMessages2LocalDirectoryAsMD(var161, "assistantMessages", null, chatHistoryMethods);
+          Zotero.AI4Paper.gptReaderSidePane_ChatMode_exportAIMessages2LocalDirectoryAsMD(var161, "assistantMessages", null, chatHistoryMethods);
         }
       }, {
         'label': '全部消息',
         'action': () => {
-          Zotero.ZoteroIF.gptReaderSidePane_ChatMode_exportAIMessages2LocalDirectoryAsMD(var161, "allMessages", null, chatHistoryMethods);
+          Zotero.AI4Paper.gptReaderSidePane_ChatMode_exportAIMessages2LocalDirectoryAsMD(var161, "allMessages", null, chatHistoryMethods);
         }
       }],
       'separator': true
@@ -816,17 +816,17 @@ var chatHistoryMethods = {
       'children': [{
         'label': '当前消息',
         'action': () => {
-          Zotero.ZoteroIF.gptReaderSidePane_ChatMode_exportAIMessages2LocalAsMD(var161, "currentMessage", Zotero.ZoteroIF._data_renderChatHistory_quickBtn_clickEvent, chatHistoryMethods);
+          Zotero.AI4Paper.gptReaderSidePane_ChatMode_exportAIMessages2LocalAsMD(var161, "currentMessage", Zotero.AI4Paper._data_renderChatHistory_quickBtn_clickEvent, chatHistoryMethods);
         }
       }, {
         'label': "全部 AI 回复",
         'action': () => {
-          Zotero.ZoteroIF.gptReaderSidePane_ChatMode_exportAIMessages2LocalAsMD(var161, "assistantMessages", null, chatHistoryMethods);
+          Zotero.AI4Paper.gptReaderSidePane_ChatMode_exportAIMessages2LocalAsMD(var161, "assistantMessages", null, chatHistoryMethods);
         }
       }, {
         'label': "全部消息",
         'action': () => {
-          Zotero.ZoteroIF.gptReaderSidePane_ChatMode_exportAIMessages2LocalAsMD(var161, "allMessages", null, chatHistoryMethods);
+          Zotero.AI4Paper.gptReaderSidePane_ChatMode_exportAIMessages2LocalAsMD(var161, "allMessages", null, chatHistoryMethods);
         }
       }],
       'separator': true
@@ -835,17 +835,17 @@ var chatHistoryMethods = {
       'children': [{
         'label': '当前消息',
         'action': () => {
-          Zotero.ZoteroIF.gptReaderSidePane_ChatMode_exportAIMessages2AttachmentAsMD(var161, "currentMessage", Zotero.ZoteroIF._data_renderChatHistory_quickBtn_clickEvent, chatHistoryMethods);
+          Zotero.AI4Paper.gptReaderSidePane_ChatMode_exportAIMessages2AttachmentAsMD(var161, "currentMessage", Zotero.AI4Paper._data_renderChatHistory_quickBtn_clickEvent, chatHistoryMethods);
         }
       }, {
         'label': "全部 AI 回复",
         'action': () => {
-          Zotero.ZoteroIF.gptReaderSidePane_ChatMode_exportAIMessages2AttachmentAsMD(var161, 'assistantMessages', null, chatHistoryMethods);
+          Zotero.AI4Paper.gptReaderSidePane_ChatMode_exportAIMessages2AttachmentAsMD(var161, 'assistantMessages', null, chatHistoryMethods);
         }
       }, {
         'label': "全部消息",
         'action': () => {
-          Zotero.ZoteroIF.gptReaderSidePane_ChatMode_exportAIMessages2AttachmentAsMD(var161, 'allMessages', null, chatHistoryMethods);
+          Zotero.AI4Paper.gptReaderSidePane_ChatMode_exportAIMessages2AttachmentAsMD(var161, 'allMessages', null, chatHistoryMethods);
         }
       }]
     }, {
@@ -853,20 +853,20 @@ var chatHistoryMethods = {
       'children': [{
         'label': '当前消息',
         'action': () => {
-          Zotero.ZoteroIF.gptReaderSidePane_ChatMode_exportAIMessages2TabItemAttachmentAsMD(var161, "currentMessage", Zotero.ZoteroIF._data_renderChatHistory_quickBtn_clickEvent, chatHistoryMethods);
+          Zotero.AI4Paper.gptReaderSidePane_ChatMode_exportAIMessages2TabItemAttachmentAsMD(var161, "currentMessage", Zotero.AI4Paper._data_renderChatHistory_quickBtn_clickEvent, chatHistoryMethods);
         }
       }, {
         'label': '全部\x20AI\x20回复',
         'action': () => {
-          Zotero.ZoteroIF.gptReaderSidePane_ChatMode_exportAIMessages2TabItemAttachmentAsMD(var161, "assistantMessages", null, chatHistoryMethods);
+          Zotero.AI4Paper.gptReaderSidePane_ChatMode_exportAIMessages2TabItemAttachmentAsMD(var161, "assistantMessages", null, chatHistoryMethods);
         }
       }, {
         'label': "全部消息",
         'action': () => {
-          Zotero.ZoteroIF.gptReaderSidePane_ChatMode_exportAIMessages2TabItemAttachmentAsMD(var161, "allMessages", null, chatHistoryMethods);
+          Zotero.AI4Paper.gptReaderSidePane_ChatMode_exportAIMessages2TabItemAttachmentAsMD(var161, "allMessages", null, chatHistoryMethods);
         }
       }]
     }];
-    return Zotero.ZoteroIF.createMenuitem_universal(window, var159, var162), var159;
+    return Zotero.AI4Paper.createMenuitem_universal(window, var159, var162), var159;
   }
 };

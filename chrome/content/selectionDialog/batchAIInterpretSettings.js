@@ -1,15 +1,15 @@
 var methodsBody = function () {};
 methodsBody.init = function () {
   // 禁用默认的元素聚焦状态
-  Zotero.ZoteroIF.blurActiveElement(window);
+  Zotero.AI4Paper.blurActiveElement(window);
 
-  // Zotero.ZoteroIF.update_svg_icons(document);
+  // Zotero.AI4Paper.update_svg_icons(document);
 
   // 创建服务和模型菜单
   methodsBody.buildPopup_serviceAndModel();
 
   // 先创建提示词模板菜单
-  Zotero.ZoteroIF.buildPopup_promptList(window, document.getElementById("zoteroif-prompt4BatchAIInterpret-menupopup"));
+  Zotero.AI4Paper.buildPopup_promptList(window, document.getElementById("ai4paper-prompt4BatchAIInterpret-menupopup"));
 
   // 初始化设置
   methodsBody.updatePrefs(true);
@@ -17,9 +17,9 @@ methodsBody.init = function () {
 methodsBody.buildPopup_serviceAndModel = function () {
   try {
     // 设置服务
-    let service_menupopup = document.getElementById("zoteroif-service4BatchAIInterpret-menupopup");
+    let service_menupopup = document.getElementById("ai4paper-service4BatchAIInterpret-menupopup");
     // 获取服务对象的属性，返回服务名称数组
-    let serviceList = Object.keys(Zotero.ZoteroIF.gptServiceList()).filter(s => s.includes("GPT 自定"));
+    let serviceList = Object.keys(Zotero.AI4Paper.gptServiceList()).filter(s => s.includes("GPT 自定"));
     for (let e of serviceList) {
       let menuitem = document.createXULElement('menuitem');
       menuitem.label = e;
@@ -28,9 +28,9 @@ methodsBody.buildPopup_serviceAndModel = function () {
     }
 
     // 设置模型
-    let model_menupopup = document.getElementById("zoteroif-model4BatchAIInterpret-menupopup");
+    let model_menupopup = document.getElementById("ai4paper-model4BatchAIInterpret-menupopup");
     // 获取模型
-    let modelList = Zotero.ZoteroIF.gptModelList;
+    let modelList = Zotero.AI4Paper.gptModelList;
     for (let e of modelList) {
       let menuitem = document.createXULElement('menuitem');
       menuitem.label = e;
@@ -46,21 +46,21 @@ methodsBody.updatePrefs = function (isInit) {
   let boolPrefs = ["autoInterpretNewItems", "includeReasoning4BatchAIInterpret", "syncChatHistory4BatchAIInterpret"];
   for (let item of strPrefs) {
     if (isInit) {
-      document.getElementById(`zoteroif.${item}`).value = Zotero.Prefs.get(`zoteroif.${item}`);
+      document.getElementById(`ai4paper.${item}`).value = Zotero.Prefs.get(`ai4paper.${item}`);
     } else {
-      Zotero.Prefs.set(`zoteroif.${item}`, document.getElementById(`zoteroif.${item}`).value);
+      Zotero.Prefs.set(`ai4paper.${item}`, document.getElementById(`ai4paper.${item}`).value);
     }
   }
   for (let item of boolPrefs) {
     if (isInit) {
-      document.getElementById(`zoteroif.${item}`).checked = Zotero.Prefs.get(`zoteroif.${item}`);
+      document.getElementById(`ai4paper.${item}`).checked = Zotero.Prefs.get(`ai4paper.${item}`);
     } else {
-      Zotero.Prefs.set(`zoteroif.${item}`, document.getElementById(`zoteroif.${item}`).checked);
+      Zotero.Prefs.set(`ai4paper.${item}`, document.getElementById(`ai4paper.${item}`).checked);
     }
   }
 
   // 即时刷新 AI 批量解读文献 窗口的 footer 信息
   if (!isInit) {
-    Zotero.ZoteroIF.updateFooterUI_batchInterpret();
+    Zotero.AI4Paper.updateFooterUI_batchInterpret();
   }
 };

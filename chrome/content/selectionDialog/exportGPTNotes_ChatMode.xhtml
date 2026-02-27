@@ -5,7 +5,7 @@
 <?xml-stylesheet href="chrome://zotero-platform/content/zotero.css" type="text/css"?>
 <?xml-stylesheet href="chrome://zotero/skin/scaffold.css" type="text/css"?>
 
-<?xml-stylesheet href="chrome://zoteroif/content/assets/css/style.css" type="text/css"?>
+<?xml-stylesheet href="chrome://ai4paper/content/assets/css/style.css" type="text/css"?>
 
 <!DOCTYPE window SYSTEM "chrome://zotero/locale/zotero.dtd">
 <window xmlns:html="http://www.w3.org/1999/xhtml"
@@ -23,7 +23,7 @@
         Services.scriptloader.loadSubScript("chrome://zotero/content/include.js", this);
         Services.scriptloader.loadSubScript("chrome://zotero/content/customElements.js", this);
 
-        Services.scriptloader.loadSubScript("chrome://zoteroif/content/selectionDialog/exportGPTNotes_ChatMode.js", this);
+        Services.scriptloader.loadSubScript("chrome://ai4paper/content/selectionDialog/exportGPTNotes_ChatMode.js", this);
     </script>
 
 	<html:style>
@@ -39,7 +39,7 @@
 	</html:style>
 
     <linkset>
-        <html:link rel="localization" href="zoteroif_preferences.ftl"/>
+        <html:link rel="localization" href="ai4paper_preferences.ftl"/>
     </linkset>  
 
     <vbox id="vboxContainer-elem" flex="1">
@@ -49,7 +49,7 @@
             <label id="editGPTNotes-description" style="font-size:13px;" value="正在添加 GPT 笔记。点击头像旁的编辑按钮，可修改消息内容。"/>
         </hbox>
 
-        <iframe id='gptNotesList-iframe' src="chrome://zoteroif/content/selectionDialog/gptNotesList.html" width="500"></iframe>
+        <iframe id='gptNotesList-iframe' src="chrome://ai4paper/content/selectionDialog/gptNotesList.html" width="500"></iframe>
 
         <hbox align="center" class="zoteroone-hbox-medium-gap" style="margin-top:8px;margin-bottom:8px;">
             <hbox align="center">
@@ -59,7 +59,7 @@
 
             <!-- 将标签输入框作为参数传递 -->
             <button label="从标签库选择" 
-                    oncommand='Zotero.ZoteroIF.openSelectGPTNoteTagWindow(document.getElementById("zotero-if-xul-add-chatgpt-note-tag"));'></button>
+                    oncommand='Zotero.AI4Paper.openSelectGPTNoteTagWindow(document.getElementById("zotero-if-xul-add-chatgpt-note-tag"));'></button>
 
             <button label="拷贝全部消息" 
                     oncommand='methodsBody.copyMessages();'></button>
@@ -87,7 +87,7 @@
                   <!-- <menuitem label="无"/> -->
               </menupopup>
             </menulist>
-            <checkbox id="keep-markdown-style" label='保留 Markdown 样式' checked="true" native="true" oncommand='Zotero.Prefs.set("zoteroif.gptNotesMarkdownStyle", this.checked);'/>
+            <checkbox id="keep-markdown-style" label='保留 Markdown 样式' checked="true" native="true" oncommand='Zotero.Prefs.set("ai4paper.gptNotesMarkdownStyle", this.checked);'/>
         </hbox>
 
     </vbox>

@@ -20,7 +20,7 @@
 
     <script>
         Services.scriptloader.loadSubScript("chrome://zotero/content/include.js", this);
-        Services.scriptloader.loadSubScript("chrome://zoteroif/content/selectionDialog/chatHistory.js", this);
+        Services.scriptloader.loadSubScript("chrome://ai4paper/content/selectionDialog/chatHistory.js", this);
         Services.scriptloader.loadSubScript("chrome://zotero/content/customElements.js", this);
     </script>
 
@@ -40,7 +40,7 @@
                     <html:div class="footer-right">
                         <image id="filter-button" 
                                class="filter-btn"
-                               src="chrome://zoteroif/content/icons/filter.png" 
+                               src="chrome://ai4paper/content/icons/filter.png" 
                                tooltiptext="按日期筛选" 
                                onclick="chatHistoryMethods.onClickFilterBtn(this, event)" 
                         />
@@ -64,7 +64,7 @@
                 </html:div>
                 <html:div class="right-panel-body">
                     <!-- <html:div id="content-body">点击左侧列表查看消息内容</html:div> -->
-                     <iframe id='renderChatHistory-iframe' src="chrome://zoteroif/content/selectionDialog/renderChatHistory.html"></iframe>
+                     <iframe id='renderChatHistory-iframe' src="chrome://ai4paper/content/selectionDialog/renderChatHistory.html"></iframe>
                 </html:div>
 
                 <hbox class="right-panel-footer">
@@ -92,7 +92,7 @@
                         <div class="svg-container-prefs_16px filter-btn add-btn"
                             tooltiptext="打开设置"
                             style="margin-right: 4px;"
-                            onclick='Zotero.ZoteroIF.openPluginSettingsAndFocusElement("navigator-item-chatHistory");'
+                            onclick='Zotero.AI4Paper.openPluginSettingsAndFocusElement("navigator-item-chatHistory");'
                         ></div>
 
                         <html:button id="fitscreen-btn" class="action-btn" 

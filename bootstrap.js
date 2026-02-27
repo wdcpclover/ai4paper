@@ -4,7 +4,7 @@ const {
   OS
 } = ChromeUtils.importESModule("chrome://zotero/content/osfile.mjs");
 function log(param1) {
-  Zotero.debug('ZoteroIF:\x20' + param1);
+  Zotero.debug('AI4paper:\x20' + param1);
 }
 function onMainWindowLoad({
   id: _0x4c95e2,
@@ -31,10 +31,10 @@ async function install({
   resourceURI: _0x269e56,
   rootURI = _0x269e56.spec
 }) {
-  log("ZoteroIF: Installed");
+  log("AI4paper: Installed");
 }
 function uninstall() {
-  log("ZoteroIF: Uninstalled");
+  log("AI4paper: Uninstalled");
 }
 async function waitForZotero() {
   typeof Zotero != 'undefined' && (await Zotero.initializationPromise);
@@ -77,19 +77,19 @@ async function startup({
   var6._globalThis = var6;
   load_unload_JS(rootURI, var6, "load");
   Zotero.PreferencePanes.register({
-    'id': "zotero-prefpane-zoteroif",
-    'pluginID': "zoteroif-deobf@cpc.dev",
+    'id': "zotero-prefpane-ai4paper",
+    'pluginID': "ai4paper@cpc.dev",
     'label': "AI4paper",
-    'image': 'chrome://zoteroif/content/icons/favicon.png',
+    'image': 'chrome://ai4paper/content/icons/favicon.png',
     'src': rootURI + '/chrome/content/prefs.xhtml',
     'scripts': [rootURI + "/chrome/content/scripts/preferences.js"]
   });
   if (Zotero.platformMajorVersion >= 0x66) {
     var var7 = Components.classes["@mozilla.org/addons/addon-manager-startup;1"].getService(Components.interfaces.amIAddonManagerStartup),
       var8 = Services.io.newURI(rootURI + 'manifest.json');
-    chromeHandle = var7.registerChrome(var8, [["content", 'zoteroif', rootURI + "chrome/content/"]]);
+    chromeHandle = var7.registerChrome(var8, [["content", 'ai4paper', rootURI + "chrome/content/"]]);
   }
-  Zotero.ZoteroIF.init({
+  Zotero.AI4Paper.init({
     'id': _0x8ac95e,
     'version': _0x46fdd6,
     'rootURI': rootURI
@@ -101,14 +101,14 @@ function shutdown({
   resourceURI: _0x4727cb,
   rootURI: _0x30fb7a
 }, param3) {
-  log("ZoteroIF: Shutting down");
+  log("AI4paper: Shutting down");
   if (param3 === APP_SHUTDOWN) {
     return;
   }
   typeof Zotero === "undefined" && (Zotero = Components.classes["@zotero.org/Zotero;1"].getService(Components.interfaces.nsISupports).wrappedJSObject);
-  Zotero.ZoteroIF.destroy();
-  Zotero.ZoteroIF = null;
-  Zotero.ZoteroIF_Prefs = null;
+  Zotero.AI4Paper.destroy();
+  Zotero.AI4Paper = null;
+  Zotero.AI4Paper_Prefs = null;
   load_unload_JS(_0x30fb7a, null, "unload");
   if (chromeHandle) {
     chromeHandle.destruct();
@@ -117,8 +117,8 @@ function shutdown({
   Cc["@mozilla.org/intl/stringbundle;1"].getService(Components.interfaces.nsIStringBundleService).flushBundles();
 }
 function load_unload_JS(param4, param5, param6) {
-  log("ZoteroIF: load scripts");
-  var var9 = ["zoteroif", 'menuPopup', 'ui', "ChinesePY"],
+  log("AI4paper: load scripts");
+  var var9 = ["ai4paper", 'menuPopup', 'ui', "ChinesePY"],
     var10 = ["emoji", "jcr_if", "zjk_fenqu", "modifiedPubTitles", 'earlywarning', 'jcr_if_abbrev', 'abbrev_to_full', "abbrev_to_full_dots", 'full_to_abbrev_dots', "full_to_abbrev", 'jcr_if_issn', 'issn_journal', "pkucore", 'njucore', "cscd", "ccf"],
     var11 = ["svg_icons", "marked.min", "highlight.min"];
   if (param6 === "load") {

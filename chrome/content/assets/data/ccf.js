@@ -1,4 +1,4 @@
-Zotero.ZoteroIF._data_ccf = {
+Zotero.AI4Paper._data_ccf = {
 "acm transactions on computer systems":"CCF A",
 "acm transactions on storage":"CCF A",
 "ieee transactions on computer-aided design of integrated circuits and systems":"CCF A",

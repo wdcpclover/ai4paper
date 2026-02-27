@@ -1,8 +1,8 @@
 var methodsBody = function () {};
 methodsBody.init = function () {
-  Zotero.ZoteroIF.update_svg_icons(document);
+  Zotero.AI4Paper.update_svg_icons(document);
   document.addEventListener('dialogaccept', () => methodsBody.acceptSelection());
-  if (Zotero.Prefs.get('zoteroif.eyesprotectioncolorcodeisok')) {
+  if (Zotero.Prefs.get('ai4paper.eyesprotectioncolorcodeisok')) {
     let customColorRadio = document.createXULElement('radio');
     customColorRadio.setAttribute('class', 'color-option');
     customColorRadio.setAttribute('label', '自定义');
@@ -11,7 +11,7 @@ methodsBody.init = function () {
 
     // 假设你有一个自定义颜色，比如红色
     // const customColor = 'rgb(255, 0, 0)';
-    const customColor = Zotero.Prefs.get('zoteroif.eyesprotectioncolorcode');
+    const customColor = Zotero.Prefs.get('ai4paper.eyesprotectioncolorcode');
 
     // 获取所有拥有 ".color-option" 类和带有 value="ivory_white" 属性的元素
     const elements = document.querySelectorAll('.color-option[value="custom"]');
@@ -22,30 +22,30 @@ methodsBody.init = function () {
       element.style.setProperty('--before-bg-color', customColor);
     });
   }
-  if (!Zotero.Prefs.get('zoteroif.eyesprotectioncolorenable')) {
+  if (!Zotero.Prefs.get('ai4paper.eyesprotectioncolorenable')) {
     document.getElementById("backgroundcolor-style").value = 'default';
   } else {
-    if (Zotero.Prefs.get('zoteroif.eyesprotectioncolor') === '豆沙绿') {
+    if (Zotero.Prefs.get('ai4paper.eyesprotectioncolor') === '豆沙绿') {
       document.getElementById("backgroundcolor-style").value = 'mungbean_green';
-    } else if (Zotero.Prefs.get('zoteroif.eyesprotectioncolor') === '抹茶绿') {
+    } else if (Zotero.Prefs.get('ai4paper.eyesprotectioncolor') === '抹茶绿') {
       document.getElementById("backgroundcolor-style").value = 'matcha_green';
-    } else if (Zotero.Prefs.get('zoteroif.eyesprotectioncolor') === '青草绿') {
+    } else if (Zotero.Prefs.get('ai4paper.eyesprotectioncolor') === '青草绿') {
       document.getElementById("backgroundcolor-style").value = 'grass_green';
-    } else if (Zotero.Prefs.get('zoteroif.eyesprotectioncolor') === '杏仁黄') {
+    } else if (Zotero.Prefs.get('ai4paper.eyesprotectioncolor') === '杏仁黄') {
       document.getElementById("backgroundcolor-style").value = 'almond_yellow';
-    } else if (Zotero.Prefs.get('zoteroif.eyesprotectioncolor') === '秋叶褐') {
+    } else if (Zotero.Prefs.get('ai4paper.eyesprotectioncolor') === '秋叶褐') {
       document.getElementById("backgroundcolor-style").value = 'autumnleaf_brown';
-    } else if (Zotero.Prefs.get('zoteroif.eyesprotectioncolor') === '胭脂红') {
+    } else if (Zotero.Prefs.get('ai4paper.eyesprotectioncolor') === '胭脂红') {
       document.getElementById("backgroundcolor-style").value = 'crimson_red';
-    } else if (Zotero.Prefs.get('zoteroif.eyesprotectioncolor') === '海天蓝') {
+    } else if (Zotero.Prefs.get('ai4paper.eyesprotectioncolor') === '海天蓝') {
       document.getElementById("backgroundcolor-style").value = 'ocean_blue';
-    } else if (Zotero.Prefs.get('zoteroif.eyesprotectioncolor') === '葛巾紫') {
+    } else if (Zotero.Prefs.get('ai4paper.eyesprotectioncolor') === '葛巾紫') {
       document.getElementById("backgroundcolor-style").value = 'gauze_purple';
-    } else if (Zotero.Prefs.get('zoteroif.eyesprotectioncolor') === '极光灰') {
+    } else if (Zotero.Prefs.get('ai4paper.eyesprotectioncolor') === '极光灰') {
       document.getElementById("backgroundcolor-style").value = 'aurora_grey';
-    } else if (Zotero.Prefs.get('zoteroif.eyesprotectioncolor') === '象牙白') {
+    } else if (Zotero.Prefs.get('ai4paper.eyesprotectioncolor') === '象牙白') {
       document.getElementById("backgroundcolor-style").value = 'ivory_white';
-    } else if (Zotero.Prefs.get('zoteroif.eyesprotectioncolor') === '自定义' && Zotero.Prefs.get('zoteroif.eyesprotectioncolorcodeisok')) {
+    } else if (Zotero.Prefs.get('ai4paper.eyesprotectioncolor') === '自定义' && Zotero.Prefs.get('ai4paper.eyesprotectioncolorcodeisok')) {
       document.getElementById("backgroundcolor-style").value = 'custom';
     }
   }
@@ -62,7 +62,7 @@ methodsBody.acceptSelection = function () {
 };
 methodsBody.setZoteroColorScheme = function () {
   Zotero.Prefs.set('browser.theme.toolbar-theme', Number(document.getElementById('zotero-color-scheme').value), true);
-  Zotero.ZoteroIF.updateZoteroColorSchemeButtonState();
+  Zotero.AI4Paper.updateZoteroColorSchemeButtonState();
 };
 
 // 实时预览所选的护眼色
@@ -70,35 +70,35 @@ methodsBody.setZoteroColorScheme = function () {
 methodsBody.previewSelectedBackGroundColor = function () {
   let selectedBackGroundColor = document.getElementById("backgroundcolor-style").value;
   if (selectedBackGroundColor === 'default') {
-    Zotero.Prefs.set('zoteroif.eyesprotectioncolorenable', false);
+    Zotero.Prefs.set('ai4paper.eyesprotectioncolorenable', false);
   } else {
-    Zotero.Prefs.set('zoteroif.eyesprotectioncolorenable', true);
+    Zotero.Prefs.set('ai4paper.eyesprotectioncolorenable', true);
     if (selectedBackGroundColor === 'mungbean_green') {
-      Zotero.Prefs.set('zoteroif.eyesprotectioncolor', '豆沙绿');
+      Zotero.Prefs.set('ai4paper.eyesprotectioncolor', '豆沙绿');
     } else if (selectedBackGroundColor === 'matcha_green') {
-      Zotero.Prefs.set('zoteroif.eyesprotectioncolor', '抹茶绿');
+      Zotero.Prefs.set('ai4paper.eyesprotectioncolor', '抹茶绿');
     } else if (selectedBackGroundColor === 'grass_green') {
-      Zotero.Prefs.set('zoteroif.eyesprotectioncolor', '青草绿');
+      Zotero.Prefs.set('ai4paper.eyesprotectioncolor', '青草绿');
     } else if (selectedBackGroundColor === 'almond_yellow') {
-      Zotero.Prefs.set('zoteroif.eyesprotectioncolor', '杏仁黄');
+      Zotero.Prefs.set('ai4paper.eyesprotectioncolor', '杏仁黄');
     } else if (selectedBackGroundColor === 'autumnleaf_brown') {
-      Zotero.Prefs.set('zoteroif.eyesprotectioncolor', '秋叶褐');
+      Zotero.Prefs.set('ai4paper.eyesprotectioncolor', '秋叶褐');
     } else if (selectedBackGroundColor === 'crimson_red') {
-      Zotero.Prefs.set('zoteroif.eyesprotectioncolor', '胭脂红');
+      Zotero.Prefs.set('ai4paper.eyesprotectioncolor', '胭脂红');
     } else if (selectedBackGroundColor === 'ocean_blue') {
-      Zotero.Prefs.set('zoteroif.eyesprotectioncolor', '海天蓝');
+      Zotero.Prefs.set('ai4paper.eyesprotectioncolor', '海天蓝');
     } else if (selectedBackGroundColor === 'gauze_purple') {
-      Zotero.Prefs.set('zoteroif.eyesprotectioncolor', '葛巾紫');
+      Zotero.Prefs.set('ai4paper.eyesprotectioncolor', '葛巾紫');
     } else if (selectedBackGroundColor === 'aurora_grey') {
-      Zotero.Prefs.set('zoteroif.eyesprotectioncolor', '极光灰');
+      Zotero.Prefs.set('ai4paper.eyesprotectioncolor', '极光灰');
     } else if (selectedBackGroundColor === 'ivory_white') {
-      Zotero.Prefs.set('zoteroif.eyesprotectioncolor', '象牙白');
+      Zotero.Prefs.set('ai4paper.eyesprotectioncolor', '象牙白');
     } else if (selectedBackGroundColor === 'custom') {
-      Zotero.Prefs.set('zoteroif.eyesprotectioncolor', '自定义');
+      Zotero.Prefs.set('ai4paper.eyesprotectioncolor', '自定义');
     }
   }
-  let currentReader = Zotero.ZoteroIF.getCurrentReader();
+  let currentReader = Zotero.AI4Paper.getCurrentReader();
   if (currentReader) {
-    Zotero.ZoteroIF.setPDFBackGroundColor(currentReader._iframeWindow);
+    Zotero.AI4Paper.setPDFBackGroundColor(currentReader._iframeWindow);
   }
 };

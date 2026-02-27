@@ -1,4 +1,4 @@
-Zotero.ZoteroIF._data_njucore = {
+Zotero.AI4Paper._data_njucore = {
 "安徽大学学报(哲学社会科学版)":"南核",
 "北京大学学报(哲学社会科学版)":"南核",
 "北京工业大学学报(社会科学版)":"南核",

@@ -1,8 +1,8 @@
 var methodsBody = function () {};
 methodsBody.init = function () {
-  Zotero.ZoteroIF.update_svg_icons(document);
-  Zotero.ZoteroIF.setFontSize_Dialog(document.querySelector("dialog"), 0.92);
-  Zotero.ZoteroIF.lastDeleteTagsSearchInput && (document.getElementById("searchBox-elem").placeholder = Zotero.ZoteroIF.lastDeleteTagsSearchInput);
+  Zotero.AI4Paper.update_svg_icons(document);
+  Zotero.AI4Paper.setFontSize_Dialog(document.querySelector("dialog"), 0.92);
+  Zotero.AI4Paper.lastDeleteTagsSearchInput && (document.getElementById("searchBox-elem").placeholder = Zotero.AI4Paper.lastDeleteTagsSearchInput);
   document.getElementById("searchBox-elem").focus();
   methodsBody.libraryTag();
   methodsBody.buildContextMenu(null, true);
@@ -37,7 +37,7 @@ methodsBody.itemTag = function (param1) {
   this._searchKeyWords = !param1 ? "选择要删除的条目标签：" : '刷新完成，请选择要删除的条目标签：';
   methodsBody.updateButtonStatus("itemTag");
   methodsBody.clearListbox();
-  let var3 = Zotero.ZoteroIF.returnItemTags();
+  let var3 = Zotero.AI4Paper.returnItemTags();
   methodsBody.buildItemNodes(var3);
   methodsBody.updateSelectedItemNum();
   methodsBody.updateFilterButtons(true);
@@ -46,7 +46,7 @@ methodsBody.annotationTag = function (param2) {
   this._searchKeyWords = !param2 ? '选择要删除的注释标签：' : "刷新完成，请选择要删除的注释标签：";
   methodsBody.updateButtonStatus('annotationTag');
   methodsBody.clearListbox();
-  let var4 = Zotero.ZoteroIF.returnAnnotationTags();
+  let var4 = Zotero.AI4Paper.returnAnnotationTags();
   methodsBody.buildItemNodes(var4);
   methodsBody.updateSelectedItemNum();
   methodsBody.updateFilterButtons(true);
@@ -58,29 +58,29 @@ methodsBody.updateTags = async function (param3) {
     },
     var6 = await Zotero.Tags.getAll(0x1);
   if (var6.length === 0x0) {
-    Zotero.ZoteroIF.showProgressWindow(0xbb8, "❌ 未发现标签【AI4paper】", "未在【我的文库】中发现任何标签！");
+    Zotero.AI4Paper.showProgressWindow(0xbb8, "❌ 未发现标签【AI4paper】", "未在【我的文库】中发现任何标签！");
     return;
   }
   document.getElementById("message-label").textContent = "正在刷新" + var5[param3] + "，右下角查看进度...";
   let var7 = "_deleteTagsDialog_update_" + param3;
-  Zotero.ZoteroIF.progressPercent_initProgress(var6, var7, var5[param3]);
+  Zotero.AI4Paper.progressPercent_initProgress(var6, var7, var5[param3]);
   methodsBody["update_" + param3 + "_checkNext"](var7, var5[param3]);
 };
 methodsBody.update_itemTag_checkNext = async function (param4, param5) {
-  Zotero.ZoteroIF["numberOfUpdatedItems" + param4]++;
-  if (Zotero.ZoteroIF["current" + param4] == Zotero.ZoteroIF["toUpdate" + param4] - 0x1) {
-    Zotero.ZoteroIF["progressWindow" + param4].close();
-    Zotero.ZoteroIF.progressPercent_resetState(null, param4, param5);
-    Zotero.Prefs.set("zoteroif.itemTags", JSON.stringify(Zotero.ZoteroIF["_progressData_" + param4]));
+  Zotero.AI4Paper["numberOfUpdatedItems" + param4]++;
+  if (Zotero.AI4Paper["current" + param4] == Zotero.AI4Paper["toUpdate" + param4] - 0x1) {
+    Zotero.AI4Paper["progressWindow" + param4].close();
+    Zotero.AI4Paper.progressPercent_resetState(null, param4, param5);
+    Zotero.Prefs.set("ai4paper.itemTags", JSON.stringify(Zotero.AI4Paper["_progressData_" + param4]));
     methodsBody.itemTag(true);
     return;
   }
-  Zotero.ZoteroIF.progressPercent_updatePercent(param4, "检查所有标签： ");
-  methodsBody.update_itemTag_checkTag(Zotero.ZoteroIF['itemsToUpdate' + param4][Zotero.ZoteroIF["current" + param4]], param4, param5);
+  Zotero.AI4Paper.progressPercent_updatePercent(param4, "检查所有标签： ");
+  methodsBody.update_itemTag_checkTag(Zotero.AI4Paper['itemsToUpdate' + param4][Zotero.AI4Paper["current" + param4]], param4, param5);
 };
 methodsBody.update_itemTag_checkTag = async function (param6, param7, param8) {
   try {
-    let var8 = await Zotero.ZoteroIF.checkItemTag(param6.tag);
+    let var8 = await Zotero.AI4Paper.checkItemTag(param6.tag);
     if (var8) {
       let _0x48c76d = param6.tag,
         _0x273403 = 0x0,
@@ -88,7 +88,7 @@ methodsBody.update_itemTag_checkTag = async function (param6, param7, param8) {
           'tag': _0x48c76d,
           'type': _0x273403
         };
-      !JSON.stringify(Zotero.ZoteroIF["_progressData_" + param7]).includes(JSON.stringify(_0x54e1c0)) && (Zotero.ZoteroIF['_progressData_' + param7].push(_0x54e1c0), Zotero.ZoteroIF["counter" + param7]++);
+      !JSON.stringify(Zotero.AI4Paper["_progressData_" + param7]).includes(JSON.stringify(_0x54e1c0)) && (Zotero.AI4Paper['_progressData_' + param7].push(_0x54e1c0), Zotero.AI4Paper["counter" + param7]++);
     }
   } catch (_0x1315c3) {
     Zotero.debug(_0x1315c3);
@@ -96,20 +96,20 @@ methodsBody.update_itemTag_checkTag = async function (param6, param7, param8) {
   methodsBody.update_itemTag_checkNext(param7, param8);
 };
 methodsBody.update_annotationTag_checkNext = async function (param9, param10) {
-  Zotero.ZoteroIF['numberOfUpdatedItems' + param9]++;
-  if (Zotero.ZoteroIF["current" + param9] == Zotero.ZoteroIF["toUpdate" + param9] - 0x1) {
-    Zotero.ZoteroIF["progressWindow" + param9].close();
-    Zotero.ZoteroIF.progressPercent_resetState(null, param9, param10);
-    Zotero.Prefs.set('zoteroif.annotationtagsrecent', JSON.stringify(Zotero.ZoteroIF["_progressData_" + param9]));
+  Zotero.AI4Paper['numberOfUpdatedItems' + param9]++;
+  if (Zotero.AI4Paper["current" + param9] == Zotero.AI4Paper["toUpdate" + param9] - 0x1) {
+    Zotero.AI4Paper["progressWindow" + param9].close();
+    Zotero.AI4Paper.progressPercent_resetState(null, param9, param10);
+    Zotero.Prefs.set('ai4paper.annotationtagsrecent', JSON.stringify(Zotero.AI4Paper["_progressData_" + param9]));
     methodsBody.annotationTag(true);
     return;
   }
-  Zotero.ZoteroIF.progressPercent_updatePercent(param9, "检查所有标签： ");
-  methodsBody.update_annotationTag_checkTag(Zotero.ZoteroIF['itemsToUpdate' + param9][Zotero.ZoteroIF["current" + param9]], param9, param10);
+  Zotero.AI4Paper.progressPercent_updatePercent(param9, "检查所有标签： ");
+  methodsBody.update_annotationTag_checkTag(Zotero.AI4Paper['itemsToUpdate' + param9][Zotero.AI4Paper["current" + param9]], param9, param10);
 };
 methodsBody.update_annotationTag_checkTag = async function (param11, param12, param13) {
   try {
-    let var12 = await Zotero.ZoteroIF.checkAnnotationTag(param11.tag);
+    let var12 = await Zotero.AI4Paper.checkAnnotationTag(param11.tag);
     if (var12) {
       let var13 = param11.tag,
         var14 = 0x0,
@@ -117,7 +117,7 @@ methodsBody.update_annotationTag_checkTag = async function (param11, param12, pa
           'tag': var13,
           'type': var14
         };
-      !JSON.stringify(Zotero.ZoteroIF["_progressData_" + param12]).includes(JSON.stringify(var15)) && (Zotero.ZoteroIF['_progressData_' + param12].push(var15), Zotero.ZoteroIF["counter" + param12]++);
+      !JSON.stringify(Zotero.AI4Paper["_progressData_" + param12]).includes(JSON.stringify(var15)) && (Zotero.AI4Paper['_progressData_' + param12].push(var15), Zotero.AI4Paper["counter" + param12]++);
     }
   } catch (_0x2d53c3) {
     Zotero.debug(_0x2d53c3);
@@ -131,9 +131,9 @@ methodsBody.filter = async function (param14) {
     var16 = await methodsBody.getData_filteredTags(param14, true);
   } else {
     if (document.getElementById('automaticTag-button').getAttribute("default") === "true") var16 = await methodsBody.getData_filteredTags(param14, false);else {
-      if (document.getElementById("itemTag-button").getAttribute("default") === "true") var16 = Zotero.ZoteroIF.returnItemTagsFilter(param14);else {
+      if (document.getElementById("itemTag-button").getAttribute("default") === "true") var16 = Zotero.AI4Paper.returnItemTagsFilter(param14);else {
         if (document.getElementById('annotationTag-button').getAttribute("default") === "true") {
-          var16 = Zotero.ZoteroIF.returnAnnotationTagsFilter(param14);
+          var16 = Zotero.AI4Paper.returnAnnotationTagsFilter(param14);
         }
       }
     }
@@ -160,8 +160,8 @@ methodsBody.updateFilterButtons = function (param15, param16) {
   let var17 = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'OT'];
   for (let var18 of var17) {
     let _0x1c57d7 = document.getElementById("tagFilter-" + var18),
-      _0x5f4a85 = "chrome://zoteroif/content/icons/" + var18 + ".png",
-      _0x4a05ba = "chrome://zoteroif/content/icons/" + var18 + "-select.png";
+      _0x5f4a85 = "chrome://ai4paper/content/icons/" + var18 + ".png",
+      _0x4a05ba = "chrome://ai4paper/content/icons/" + var18 + "-select.png";
     if (param15) {
       _0x1c57d7.setAttribute("src", _0x5f4a85);
       _0x1c57d7.onmouseover = () => _0x1c57d7.style.transform = 'scale(1.3)';
@@ -179,10 +179,10 @@ methodsBody.getData_filteredTags = async function (param17, param18) {
   } else var23 = await methodsBody.getData_AutomaticTags();
   let var24 = [];
   for (let var25 of var23) {
-    let _0x477bc4 = Zotero.ZoteroIF.checkENZH(var25.substring(0x0, 0x1));
+    let _0x477bc4 = Zotero.AI4Paper.checkENZH(var25.substring(0x0, 0x1));
     if (_0x477bc4 === 'en') var25.substring(0x0, 0x1).toUpperCase() === param17 && var24.push(var25);else {
       if (_0x477bc4 === 'zh') {
-        let _0x3df911 = Zotero.ZoteroIF.Pinyin.getWordsCode(var25);
+        let _0x3df911 = Zotero.AI4Paper.Pinyin.getWordsCode(var25);
         _0x3df911 != '' && (_0x3df911 = _0x3df911.substring(0x0, 0x1).toUpperCase(), _0x3df911 == param17 && var24.push(var25));
       } else param17 === 'OT' && var24.push(var25);
     }
@@ -212,7 +212,7 @@ methodsBody.buildItemNodes = function (param19) {
         return;
       }
       if (_0x56fa32.shiftKey) {
-        Zotero.ZoteroIF.showItemsBasedOnTag(_0x56fa32.target.closest("richlistitem")?.["querySelector"]('checkbox')["label"]);
+        Zotero.AI4Paper.showItemsBasedOnTag(_0x56fa32.target.closest("richlistitem")?.["querySelector"]('checkbox')["label"]);
         return;
       }
       _0x56fa32.target == var33 && (var34.checked = !var34.checked);
@@ -278,13 +278,13 @@ methodsBody.buildContextMenu = function (param21, param22) {
   let var53 = window.document.createXULElement("menuitem");
   var53.setAttribute("label", '拷贝标签');
   var53.addEventListener("command", () => {
-    Zotero.ZoteroIF.copy2Clipboard(var51);
-    Zotero.ZoteroIF.showProgressWindow(0x7d0, '拷贝标签【Zotero\x20One】', "已拷贝标签【" + var51 + '】');
+    Zotero.AI4Paper.copy2Clipboard(var51);
+    Zotero.AI4Paper.showProgressWindow(0x7d0, '拷贝标签【Zotero\x20One】', "已拷贝标签【" + var51 + '】');
   });
   var50.appendChild(var53);
   let var54 = document.createXULElement("menuseparator");
   return var50.appendChild(var54), var53 = window.document.createXULElement("menuitem"), var53.setAttribute("label", "检索所属文献"), var53.addEventListener('command', () => {
-    Zotero.ZoteroIF.showItemsBasedOnTag(var51);
+    Zotero.AI4Paper.showItemsBasedOnTag(var51);
   }), var50.appendChild(var53), var50;
 };
 methodsBody.selectAll = function (param23) {
@@ -312,7 +312,7 @@ methodsBody.deleteSelectedTags = async function () {
       let var64 = Zotero.Tags.getID(var63);
       await Zotero.Tags.removeFromLibrary(0x1, var64);
     }
-    Zotero.ZoteroIF.showProgressWindow(0xbb8, "✅ 批量删除标签", '完成删除【' + var58.length + "】个标签，并刷新标签列表！");
+    Zotero.AI4Paper.showProgressWindow(0xbb8, "✅ 批量删除标签", '完成删除【' + var58.length + "】个标签，并刷新标签列表！");
     for (let var65 of var58) {
       try {
         methodsBody.updateTagsDatabase(var65);
@@ -324,7 +324,7 @@ methodsBody.deleteSelectedTags = async function () {
   }
 };
 methodsBody.updateTagsDatabase = function (param24) {
-  let var66 = JSON.parse(Zotero.Prefs.get("zoteroif.annotationtagsrecent") || '[]'),
+  let var66 = JSON.parse(Zotero.Prefs.get("ai4paper.annotationtagsrecent") || '[]'),
     var67 = param24,
     var68 = 0x0,
     var69 = {
@@ -334,23 +334,23 @@ methodsBody.updateTagsDatabase = function (param24) {
     var70 = var66.findIndex(_0x1918fd => JSON.stringify(_0x1918fd) === JSON.stringify(var69));
   if (var70 !== -0x1) {
     var66.splice(var70, 0x1);
-    Zotero.Prefs.set("zoteroif.annotationtagsrecent", JSON.stringify(var66));
+    Zotero.Prefs.set("ai4paper.annotationtagsrecent", JSON.stringify(var66));
   }
   var70 = -0x1;
   var66 = [];
-  var66 = JSON.parse(Zotero.Prefs.get("zoteroif.imageannotationtagsrecent") || '[]');
+  var66 = JSON.parse(Zotero.Prefs.get("ai4paper.imageannotationtagsrecent") || '[]');
   var70 = var66.findIndex(_0x3c563a => JSON.stringify(_0x3c563a) === JSON.stringify(var69));
-  var70 !== -0x1 && (var66.splice(var70, 0x1), Zotero.Prefs.set("zoteroif.imageannotationtagsrecent", JSON.stringify(var66)));
+  var70 !== -0x1 && (var66.splice(var70, 0x1), Zotero.Prefs.set("ai4paper.imageannotationtagsrecent", JSON.stringify(var66)));
   var70 = -0x1;
   var66 = [];
-  var66 = JSON.parse(Zotero.Prefs.get("zoteroif.itemTags") || '[]');
+  var66 = JSON.parse(Zotero.Prefs.get("ai4paper.itemTags") || '[]');
   var70 = var66.findIndex(_0x273eb3 => JSON.stringify(_0x273eb3) === JSON.stringify(var69));
-  var70 !== -0x1 && (var66.splice(var70, 0x1), Zotero.Prefs.set("zoteroif.itemTags", JSON.stringify(var66)));
+  var70 !== -0x1 && (var66.splice(var70, 0x1), Zotero.Prefs.set("ai4paper.itemTags", JSON.stringify(var66)));
   var70 = -0x1;
   var66 = [];
-  var66 = JSON.parse(Zotero.Prefs.get("zoteroif.gptnotetagsrecent") || '[]');
+  var66 = JSON.parse(Zotero.Prefs.get("ai4paper.gptnotetagsrecent") || '[]');
   var70 = var66.findIndex(_0x421804 => JSON.stringify(_0x421804) === JSON.stringify(var69));
-  var70 !== -0x1 && (var66.splice(var70, 0x1), Zotero.Prefs.set("zoteroif.gptnotetagsrecent", JSON.stringify(var66)));
+  var70 !== -0x1 && (var66.splice(var70, 0x1), Zotero.Prefs.set("ai4paper.gptnotetagsrecent", JSON.stringify(var66)));
   var70 = -0x1;
   var66 = [];
 };
@@ -381,7 +381,7 @@ methodsBody.search = async function () {
   }
   var72.placeholder = var73;
   methodsBody.clearListbox();
-  Zotero.ZoteroIF.lastDeleteTagsSearchInput = var73;
+  Zotero.AI4Paper.lastDeleteTagsSearchInput = var73;
   var73 = var73.toLowerCase();
   let var74;
   if (document.getElementById("libraryTag-button").getAttribute("default") === 'true') {
@@ -395,10 +395,10 @@ methodsBody.search = async function () {
       this._searchKeyWords = "自动标签搜索【" + var73 + "】｜选择要删除的标签：";
     } else {
       if (document.getElementById("itemTag-button").getAttribute("default") === "true") {
-        var74 = Zotero.ZoteroIF.returnItemTagsSearch(var73);
+        var74 = Zotero.AI4Paper.returnItemTagsSearch(var73);
         document.getElementById("message-label").textContent = '条目标签搜索【' + var73 + '】｜共有\x20' + var74.length + " 个标签！";
         this._searchKeyWords = "条目标签搜索【" + var73 + "】｜选择要删除的标签：";
-      } else document.getElementById('annotationTag-button').getAttribute("default") === "true" && (var74 = Zotero.ZoteroIF.returnAnnotationTagsSearch(var73), document.getElementById("message-label").textContent = "注释标签搜索【" + var73 + '】｜共有\x20' + var74.length + '\x20个标签！', this._searchKeyWords = '注释标签搜索【' + var73 + "】｜选择要删除的标签：");
+      } else document.getElementById('annotationTag-button').getAttribute("default") === "true" && (var74 = Zotero.AI4Paper.returnAnnotationTagsSearch(var73), document.getElementById("message-label").textContent = "注释标签搜索【" + var73 + '】｜共有\x20' + var74.length + '\x20个标签！', this._searchKeyWords = '注释标签搜索【' + var73 + "】｜选择要删除的标签：");
     }
   }
   methodsBody.buildItemNodes(var74);

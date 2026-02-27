@@ -22,7 +22,7 @@
 		Services.scriptloader.loadSubScript("chrome://zotero/content/include.js", this);
 		Services.scriptloader.loadSubScript("chrome://zotero/content/customElements.js", this);
 
-		Services.scriptloader.loadSubScript("chrome://zoteroif/content/selectionDialog/selectCiting.js", this);
+		Services.scriptloader.loadSubScript("chrome://ai4paper/content/selectionDialog/selectCiting.js", this);
 	</script>
 
 	<html:style>
@@ -64,7 +64,7 @@
 	</html:style>
 
 	<linkset>
-	    <html:link rel="localization" href="zoteroif_preferences.ftl"/>
+	    <html:link rel="localization" href="ai4paper_preferences.ftl"/>
 	</linkset>	
 
 	<vbox id="vboxContainer-elem" flex="1">
@@ -114,19 +114,19 @@
 
 			<div class="svg-container-line"></div>
 
-			<checkbox id="zoteroif.retrieverefsSelectCollection" 
+			<checkbox id="ai4paper.retrieverefsSelectCollection" 
 					  label='手动选择存放文件夹' 
 					  checked="false" 
 					  native="true" 
 					  oncommand="methodsBody.updatePrefs();"
 			/>
-			<checkbox id="zoteroif.retrieverefsLocateinCollection" 
+			<checkbox id="ai4paper.retrieverefsLocateinCollection" 
 					  label='导入后显示条目' 
 					  checked="false" 
 					  native="true" 
 					  oncommand="methodsBody.updatePrefs();"
 			/>
-			<checkbox id="zoteroif.retrieverefsAbstractTranslationBehind" 
+			<checkbox id="ai4paper.retrieverefsAbstractTranslationBehind" 
 					  label='摘要翻译在后' 
 					  checked="false" 
 					  native="true" 
@@ -137,7 +137,7 @@
 
 			<hbox align="center">
 				<label value="🔘 IF 阈值："/>
-				<html:input type="text" id="zoteroif.retrieverefsIFlimit" size="1" oninput="methodsBody.onIFLimitChange();"></html:input>
+				<html:input type="text" id="ai4paper.retrieverefsIFlimit" size="1" oninput="methodsBody.onIFLimitChange();"></html:input>
 				<div class="aiButton svg-container-ai" 
 					 tooltiptext="AI 分析施引文献" 
 					 onclick="methodsBody.aiAnalysis();">

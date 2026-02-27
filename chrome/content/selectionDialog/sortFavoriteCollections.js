@@ -1,8 +1,8 @@
 var methodsBody = function () {};
 methodsBody.init = function () {
-  Zotero.ZoteroIF.update_svg_icons(document);
+  Zotero.AI4Paper.update_svg_icons(document);
   document.addEventListener("dialogaccept", () => window.close());
-  Zotero.ZoteroIF.formatFavoriteCollection();
+  Zotero.AI4Paper.formatFavoriteCollection();
   methodsBody.registerShortcuts();
   methodsBody.showItemsByType('collection');
   document.addEventListener('focus', () => {
@@ -17,7 +17,7 @@ methodsBody.switchView = function () {
 methodsBody.showItemsByType = function (param1) {
   var var1 = document.getElementById("richlistbox-elem");
   methodsBody.updateButtonStatus(param1);
-  let var2 = JSON.parse(Zotero.Prefs.get("zoteroif.favoritecollections")),
+  let var2 = JSON.parse(Zotero.Prefs.get("ai4paper.favoritecollections")),
     var3 = var2?.[param1 + "Part"]["collectionsName"];
   methodsBody.clearListbox(var1);
   methodsBody.buildItemNodes(var1, var3, param1);
@@ -43,7 +43,7 @@ methodsBody.buildItemNodes = function (param3, param4, param5) {
     var10.style.whiteSpace = 'nowrap';
     var11.checked = var9;
     var11.label = var8;
-    var11.collectionKey = JSON.parse(Zotero.Prefs.get("zoteroif.favoritecollections"))?.[param5 + "Part"]["collectionsKey"][var6];
+    var11.collectionKey = JSON.parse(Zotero.Prefs.get("ai4paper.favoritecollections"))?.[param5 + "Part"]["collectionsKey"][var6];
     var11.setAttribute("native", "true");
     var10.setAttribute('value', var6);
     var10.append(var11);
@@ -55,7 +55,7 @@ methodsBody.buildItemNodes = function (param3, param4, param5) {
       }
       _0x59c279.target == var10 && (var11.checked = !var11.checked);
       var11.checked && methodsBody.singleSelect(var11);
-      _0x59c279.shiftKey && Zotero.ZoteroIF.go2FavoriteCollection(param5 === 'collection' ? true : false, var11.collectionKey);
+      _0x59c279.shiftKey && Zotero.AI4Paper.go2FavoriteCollection(param5 === 'collection' ? true : false, var11.collectionKey);
     });
     param3.append(var10);
   }
@@ -86,7 +86,7 @@ methodsBody.buildContextMenu = function (param6, param7, param8) {
   }), var13.appendChild(var16), var13.appendChild(document.createXULElement("menuseparator")), var16 = window.document.createXULElement("menuitem"), var16.setAttribute("label", '移除'), var16.addEventListener('command', () => {
     methodsBody.moveItem(param8, var14, "removeFavoriteCollectionFromList");
   }), var13.appendChild(var16), var13.appendChild(document.createXULElement("menuseparator")), var16 = window.document.createXULElement("menuitem"), var16.setAttribute("label", '定位'), var16.addEventListener("command", () => {
-    Zotero.ZoteroIF.go2FavoriteCollection(param8, var14);
+    Zotero.AI4Paper.go2FavoriteCollection(param8, var14);
   }), var13.appendChild(var16), var13;
 };
 methodsBody.updateButtonStatus = function (param9) {
@@ -109,8 +109,8 @@ methodsBody.singleSelect = function (param10) {
   }
 };
 methodsBody.moveItem = function (param11, param12, param13) {
-  Zotero.ZoteroIF[param13](param11, param12);
-  Zotero.ZoteroIF.getCurrentReader() && Zotero.ZoteroIF.addReaderMenuButton_go2FavoriteCollection(Zotero.ZoteroIF.getCurrentReader()._iframeWindow);
+  Zotero.AI4Paper[param13](param11, param12);
+  Zotero.AI4Paper.getCurrentReader() && Zotero.AI4Paper.addReaderMenuButton_go2FavoriteCollection(Zotero.AI4Paper.getCurrentReader()._iframeWindow);
   methodsBody.showItemsByType(param11 ? "collection" : 'savedSearch');
   methodsBody.selectItemAfterMove(param12);
 };

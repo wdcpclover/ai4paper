@@ -1,4 +1,4 @@
-Zotero.ZoteroIF._data_pkucore = {
+Zotero.AI4Paper._data_pkucore = {
 "安徽大学学报(哲学社会科学版)":"北核",
 "安徽大学学报(自然科学版)":"北核",
 "北方民族大学学报(哲学社会科学版)":"北核",

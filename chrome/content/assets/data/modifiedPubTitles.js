@@ -1,4 +1,4 @@
-Zotero.ZoteroIF._data_modifiedPubTitles = {
+Zotero.AI4Paper._data_modifiedPubTitles = {
 "acta metallurgica":	"acta metallurgica sinica",
 "sensors and actuators b: chemical":	"sensors and actuators b-chemical",
 "sensors and actuators-a-physical sensors":	"sensors and actuators a-physical",

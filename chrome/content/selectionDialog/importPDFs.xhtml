@@ -33,7 +33,7 @@
 
     // 如果按了 esc 取消了，则复位
     document.addEventListener('dialogcancel', () => {
-        Zotero.ZoteroIF._dataOut_selectedPDFsInfo = "";
+        Zotero.AI4Paper._dataOut_selectedPDFsInfo = "";
     });
 
     // 根据 Zotero 版本调整样式
@@ -52,13 +52,13 @@
 
     // 恢复历史
     function recoveryHistory (){
-        if (!Zotero.ZoteroIF._dataOut_lastSelectedPDFsInfo) {
+        if (!Zotero.AI4Paper._dataOut_lastSelectedPDFsInfo) {
             document.getElementById("resultMessage").textContent = "🙅 历史记录为空！";
             return;
         }
 
-        document.getElementById("zotero-if-xul-selectedItems-textarea").value = Zotero.ZoteroIF._dataOut_lastSelectedPDFsInfo;
-        Zotero.ZoteroIF._dataOut_selectedPDFsInfo = Zotero.ZoteroIF._dataOut_lastSelectedPDFsInfo;
+        document.getElementById("zotero-if-xul-selectedItems-textarea").value = Zotero.AI4Paper._dataOut_lastSelectedPDFsInfo;
+        Zotero.AI4Paper._dataOut_selectedPDFsInfo = Zotero.AI4Paper._dataOut_lastSelectedPDFsInfo;
         document.getElementById("resultMessage").textContent = "✅ 已恢复历史记录！";
     }
 
@@ -130,7 +130,7 @@
         }
 
         // 存储 textarea 值，以供点击 OK 后处理
-        Zotero.ZoteroIF._dataOut_selectedPDFsInfo = document.getElementById("zotero-if-xul-selectedItems-textarea").value;
+        Zotero.AI4Paper._dataOut_selectedPDFsInfo = document.getElementById("zotero-if-xul-selectedItems-textarea").value;
     }
 
 </script>
@@ -160,9 +160,9 @@
         <button label="选择" tooltiptext="选择" oncommand="handleSelectedItems();"/>
         <button label="清空" 
                 tooltiptext="清空" style="margin-left: 10px;" 
-                oncommand='document.getElementById("zotero-if-xul-selectedItems-textarea").value = "";Zotero.ZoteroIF._dataOut_selectedPDFsInfo = "";document.getElementById("resultMessage").textContent = "📍 选中（可多选）条目，然后点击【选择】按钮";'/>
+                oncommand='document.getElementById("zotero-if-xul-selectedItems-textarea").value = "";Zotero.AI4Paper._dataOut_selectedPDFsInfo = "";document.getElementById("resultMessage").textContent = "📍 选中（可多选）条目，然后点击【选择】按钮";'/>
 
-        <button label="定位当前位置" tooltiptext="定位当前位置" style="margin-left: 15px" oncommand="let collectionID = Zotero.ZoteroIF.getRandomItemCollection(); collectionID != '未分类' ? collectionsView.selectCollection(collectionID) : collectionsView.selectLibrary();"/>
+        <button label="定位当前位置" tooltiptext="定位当前位置" style="margin-left: 15px" oncommand="let collectionID = Zotero.AI4Paper.getRandomItemCollection(); collectionID != '未分类' ? collectionsView.selectCollection(collectionID) : collectionsView.selectLibrary();"/>
 
         <button label="恢复历史记录" tooltiptext="恢复历史记录" style="margin-left: 60px" oncommand='recoveryHistory();'/>
     </hbox>

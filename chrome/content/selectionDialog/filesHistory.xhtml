@@ -21,7 +21,7 @@
 
 	<script>
 		Services.scriptloader.loadSubScript("chrome://zotero/content/include.js", this);
-		Services.scriptloader.loadSubScript("chrome://zoteroif/content/selectionDialog/filesHistory.js", this);
+		Services.scriptloader.loadSubScript("chrome://ai4paper/content/selectionDialog/filesHistory.js", this);
 		Services.scriptloader.loadSubScript("chrome://zotero/content/customElements.js", this);
 	</script>
 
@@ -43,7 +43,7 @@
 	</html:style>
 
 	<linkset>
-	    <html:link rel="localization" href="zoteroif_preferences.ftl"/>
+	    <html:link rel="localization" href="ai4paper_preferences.ftl"/>
 	</linkset>	
 
 	<vbox id="zotero-select-FilesHistory-container" flex="1">
@@ -86,7 +86,7 @@
 				</hbox>
 
 				<hbox align="center">
-					<html:input type="text" id="zoteroif.filesHistory.search" size="15" onkeydown="methodsBody.checkKeyEnter(event);"></html:input>
+					<html:input type="text" id="ai4paper.filesHistory.search" size="15" onkeydown="methodsBody.checkKeyEnter(event);"></html:input>
 					<div class="svg-container-search" 
 						style="margin-left: 5px;"
 						tooltiptext="搜索最近打开文献" 
@@ -119,7 +119,7 @@
 				</div>
 
 				<hbox align="center">
-					<html:input type="text" id="zoteroif.workSpace.search" size="15" onkeydown="methodsBody.checkKeyEnter_workSpace(event);"></html:input>
+					<html:input type="text" id="ai4paper.workSpace.search" size="15" onkeydown="methodsBody.checkKeyEnter_workSpace(event);"></html:input>
 					<div class="svg-container-search" 
 						style="margin-left: 5px;"
 						tooltiptext="搜索选中工作区内的文献" 
@@ -149,8 +149,8 @@
 			<button label="全选" style="margin-left: 30px;" oncommand="methodsBody.selectAll();"/>
 			<button label="取消全选" oncommand="methodsBody.selectAll(true);"/>
 
-			<checkbox id="filesHistory-doubleClick-enable" label='双击打开' checked="false" native="true" oncommand='Zotero.Prefs.set("zoteroif.filesHistoryDoubleClick", this.checked);'/>
-			<checkbox id="setFilesHistoryAsDefaultView" label='默认视图：最近打开' checked="false" native="true" oncommand='Zotero.Prefs.set("zoteroif.setFilesHistoryAsDefaultView", this.checked);'/>
+			<checkbox id="filesHistory-doubleClick-enable" label='双击打开' checked="false" native="true" oncommand='Zotero.Prefs.set("ai4paper.filesHistoryDoubleClick", this.checked);'/>
+			<checkbox id="setFilesHistoryAsDefaultView" label='默认视图：最近打开' checked="false" native="true" oncommand='Zotero.Prefs.set("ai4paper.setFilesHistoryAsDefaultView", this.checked);'/>
 
 			<div class="svg-container-help"
 				tooltiptext="帮助文档" 

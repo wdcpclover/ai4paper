@@ -1,10 +1,10 @@
 var methodsBody = function () {};
 methodsBody.init = async function () {
-  Zotero.ZoteroIF.update_svg_icons(document);
+  Zotero.AI4Paper.update_svg_icons(document);
   document.addEventListener('dialogaccept', () => methodsBody.acceptSelection());
 
   // 设置 Dialog 字体大小
-  Zotero.ZoteroIF.setFontSize_Dialog(document.querySelector('dialog'), 0.92);
+  Zotero.AI4Paper.setFontSize_Dialog(document.querySelector('dialog'), 0.92);
 
   // 视图切换快捷键监听事件
   if (!document._switchViewShortcutsAdded) {
@@ -32,29 +32,29 @@ methodsBody.init = async function () {
       }
     });
   }
-  if (Zotero.ZoteroIF.lasttaginput) {
-    document.getElementById('searchBox-elem').placeholder = Zotero.ZoteroIF.lasttaginput;
+  if (Zotero.AI4Paper.lasttaginput) {
+    document.getElementById('searchBox-elem').placeholder = Zotero.AI4Paper.lasttaginput;
   }
   // 双击跳转
-  document.getElementById("cardNotes-doubleClick-enable").checked = Zotero.Prefs.get('zoteroif.selectTagsDoubleClick');
+  document.getElementById("cardNotes-doubleClick-enable").checked = Zotero.Prefs.get('ai4paper.selectTagsDoubleClick');
   this.io = window.arguments[0];
   let listData;
 
   // 面板记忆
-  let lastPane = Zotero.ZoteroIF.lastGPTNoteTagsPane;
+  let lastPane = Zotero.AI4Paper.lastGPTNoteTagsPane;
   if (lastPane === 'gptNoteTagsPane') {
-    listData = Zotero.ZoteroIF.returnGPTNoteTags();
+    listData = Zotero.AI4Paper.returnGPTNoteTags();
     methodsBody.updateTagsNumMessage(listData, "gptNoteTag");
     methodsBody.updateButtonStatus("gptNoteTag");
   } else if (lastPane === 'recentTagsPane') {
-    listData = Zotero.Prefs.get('zoteroif.recentlyaddedGPTNoteTags').split('😊🎈🍓');
+    listData = Zotero.Prefs.get('ai4paper.recentlyaddedGPTNoteTags').split('😊🎈🍓');
     if (listData.length === 1 && listData[0] === '') {
       listData = [];
     }
     methodsBody.updateTagsNumMessage(listData, "recentTag");
     methodsBody.updateButtonStatus("recentTag");
   } else {
-    listData = Zotero.ZoteroIF.returnGPTNoteTags();
+    listData = Zotero.AI4Paper.returnGPTNoteTags();
     methodsBody.updateTagsNumMessage(listData, "gptNoteTag");
     methodsBody.updateButtonStatus("gptNoteTag");
   }
@@ -79,7 +79,7 @@ methodsBody.showGPTNoteTags = function (isUpdate) {
   methodsBody.updateButtonStatus("gptNoteTag");
 
   // 获取数据
-  let listData = Zotero.ZoteroIF.returnGPTNoteTags();
+  let listData = Zotero.AI4Paper.returnGPTNoteTags();
 
   // 先清空列表
   methodsBody.clearListbox();
@@ -103,7 +103,7 @@ methodsBody.showGPTNoteTags = function (isUpdate) {
 methodsBody.filter = function (filter) {
   // 刷新首字母过滤按钮
   methodsBody.updateFilterButtons(null, filter);
-  let listData = Zotero.ZoteroIF.returnGPTNoteTagsFilter(filter);
+  let listData = Zotero.AI4Paper.returnGPTNoteTagsFilter(filter);
   methodsBody.updateButtonStatus("gptNoteTag");
 
   // 先清空列表
@@ -120,36 +120,36 @@ methodsBody.filter = function (filter) {
 methodsBody.updateTags = async function () {
   let items = await Zotero.Tags.getAll(1);
   if (items.length === 0) {
-    Zotero.ZoteroIF.showProgressWindow(3000, "❌ 未发现标签【AI4paper】", "未在【我的文库】中发现任何标签！");
+    Zotero.AI4Paper.showProgressWindow(3000, "❌ 未发现标签【AI4paper】", "未在【我的文库】中发现任何标签！");
     return;
   }
-  document.getElementById('gptNoteTagType-image').setAttribute("src", `chrome://zoteroif/content/icons/robot.png`);
+  document.getElementById('gptNoteTagType-image').setAttribute("src", `chrome://ai4paper/content/icons/robot.png`);
   document.getElementById('message-label').textContent = `正在刷新 GPT 笔记标签，右下角查看进度...`;
   let taskName = `_selectGPTNoteTags_update_gptNoteTag`;
   let description = " GPT 笔记标签";
 
   // 赋值等一些设置，使用通用接口。
-  Zotero.ZoteroIF.progressPercent_initProgress(items, taskName, description);
+  Zotero.AI4Paper.progressPercent_initProgress(items, taskName, description);
   // 注意函数的命名
   methodsBody.update_gptNoteTag_checkNext(taskName, description);
 };
 methodsBody.update_gptNoteTag_checkNext = async function (taskName, description) {
-  Zotero.ZoteroIF[`numberOfUpdatedItems${taskName}`]++;
-  if (Zotero.ZoteroIF[`current${taskName}`] == Zotero.ZoteroIF[`toUpdate${taskName}`] - 1) {
-    Zotero.ZoteroIF[`progressWindow${taskName}`].close();
-    Zotero.ZoteroIF.progressPercent_resetState(null, taskName, description);
-    Zotero.Prefs.set('zoteroif.gptnotetagsrecent', JSON.stringify(Zotero.ZoteroIF[`_progressData_${taskName}`]));
+  Zotero.AI4Paper[`numberOfUpdatedItems${taskName}`]++;
+  if (Zotero.AI4Paper[`current${taskName}`] == Zotero.AI4Paper[`toUpdate${taskName}`] - 1) {
+    Zotero.AI4Paper[`progressWindow${taskName}`].close();
+    Zotero.AI4Paper.progressPercent_resetState(null, taskName, description);
+    Zotero.Prefs.set('ai4paper.gptnotetagsrecent', JSON.stringify(Zotero.AI4Paper[`_progressData_${taskName}`]));
     methodsBody.showGPTNoteTags(true);
     return;
   }
 
   // 刷新进度百分比。使用通用接口
-  Zotero.ZoteroIF.progressPercent_updatePercent(taskName, "检查所有标签： ");
-  methodsBody.update_gptNoteTag_checkTag(Zotero.ZoteroIF[`itemsToUpdate${taskName}`][Zotero.ZoteroIF[`current${taskName}`]], taskName, description);
+  Zotero.AI4Paper.progressPercent_updatePercent(taskName, "检查所有标签： ");
+  methodsBody.update_gptNoteTag_checkTag(Zotero.AI4Paper[`itemsToUpdate${taskName}`][Zotero.AI4Paper[`current${taskName}`]], taskName, description);
 };
 methodsBody.update_gptNoteTag_checkTag = async function (librayTag, taskName, description) {
   try {
-    let check = await Zotero.ZoteroIF.checkGPTNoteTag(librayTag.tag);
+    let check = await Zotero.AI4Paper.checkGPTNoteTag(librayTag.tag);
     if (check) {
       let tag = librayTag.tag;
       let type = 0;
@@ -157,9 +157,9 @@ methodsBody.update_gptNoteTag_checkTag = async function (librayTag, taskName, de
         tag,
         type
       };
-      if (!JSON.stringify(Zotero.ZoteroIF[`_progressData_${taskName}`]).includes(JSON.stringify(tagInfo))) {
-        Zotero.ZoteroIF[`_progressData_${taskName}`].push(tagInfo);
-        Zotero.ZoteroIF[`counter${taskName}`]++;
+      if (!JSON.stringify(Zotero.AI4Paper[`_progressData_${taskName}`]).includes(JSON.stringify(tagInfo))) {
+        Zotero.AI4Paper[`_progressData_${taskName}`].push(tagInfo);
+        Zotero.AI4Paper[`counter${taskName}`]++;
       }
     }
   } catch (e) {
@@ -170,7 +170,7 @@ methodsBody.update_gptNoteTag_checkTag = async function (librayTag, taskName, de
 methodsBody.recentTags = function () {
   // 刷新按钮选中状态
   methodsBody.updateButtonStatus("recentTag");
-  let listData = Zotero.Prefs.get('zoteroif.recentlyaddedGPTNoteTags').split('😊🎈🍓');
+  let listData = Zotero.Prefs.get('ai4paper.recentlyaddedGPTNoteTags').split('😊🎈🍓');
   if (listData.length === 1 && listData[0] === '') {
     listData = [];
   }
@@ -199,8 +199,8 @@ methodsBody.search = function () {
     document.getElementById('searchBox-elem').value = document.getElementById('searchBox-elem').placeholder;
   }
   document.getElementById('searchBox-elem').placeholder = textSearch;
-  Zotero.ZoteroIF.lasttaginput = textSearch;
-  let listData = Zotero.ZoteroIF.returnGPTNoteTagsSearch(textSearch);
+  Zotero.AI4Paper.lasttaginput = textSearch;
+  let listData = Zotero.AI4Paper.returnGPTNoteTagsSearch(textSearch);
   methodsBody.updateButtonStatus("gptNoteTag");
 
   // 先清空列表
@@ -236,12 +236,12 @@ methodsBody.acceptSelection = function () {
   } else {
     this.io.dataOut = document.getElementById('selectedTags-inputBox-elem').value;
     let image = document.getElementById('gptNoteTagType-image');
-    if (image.getAttribute("src") === `chrome://zoteroif/content/icons/robot.png`) {
-      Zotero.ZoteroIF.lastGPTNoteTagsPane = 'gptNoteTagsPane';
-    } else if (image.getAttribute("src") === `chrome://zoteroif/content/icons/recentTag.png`) {
-      Zotero.ZoteroIF.lastGPTNoteTagsPane = 'recentTagsPane';
+    if (image.getAttribute("src") === `chrome://ai4paper/content/icons/robot.png`) {
+      Zotero.AI4Paper.lastGPTNoteTagsPane = 'gptNoteTagsPane';
+    } else if (image.getAttribute("src") === `chrome://ai4paper/content/icons/recentTag.png`) {
+      Zotero.AI4Paper.lastGPTNoteTagsPane = 'recentTagsPane';
     } else {
-      Zotero.ZoteroIF.lastGPTNoteTagsPane = 'gptNoteTagsPane';
+      Zotero.AI4Paper.lastGPTNoteTagsPane = 'gptNoteTagsPane';
     }
   }
 };
@@ -308,12 +308,12 @@ methodsBody.checkTagSelected = function (tagName) {
 // 双击跳转
 
 methodsBody.quickJump = function (tag_Name) {
-  if (!Zotero.Prefs.get('zoteroif.selectTagsDoubleClick')) return; // 未启用双击跳转
+  if (!Zotero.Prefs.get('ai4paper.selectTagsDoubleClick')) return; // 未启用双击跳转
 
-  Zotero.ZoteroIF.tagGPTCardNotes(tag_Name);
+  Zotero.AI4Paper.tagGPTCardNotes(tag_Name);
 };
 methodsBody.run = function () {
-  Zotero.Prefs.set('zoteroif.selectTagsDoubleClick', document.getElementById("cardNotes-doubleClick-enable").checked);
+  Zotero.Prefs.set('ai4paper.selectTagsDoubleClick', document.getElementById("cardNotes-doubleClick-enable").checked);
 };
 
 /**
@@ -355,7 +355,7 @@ methodsBody.buildItemNodes = function (listData) {
       //     let tagName = event.target.closest('richlistitem')?.querySelector('checkbox').label;
       //     // 可能是最近标签，需要做处理
       //     tagName = tagName.indexOf("🤖️/") != 0 ? `🤖️/${tagName}` : tagName;
-      // 	Zotero.ZoteroIF.showItemsBasedOnTag();
+      // 	Zotero.AI4Paper.showItemsBasedOnTag();
       // 	return;
       // }
     });
@@ -415,7 +415,7 @@ methodsBody.updateTagsNumMessage = function (listData, tagType) {
   // 文字信息
   document.getElementById("message-label").textContent = `共有【${listData.length}】个${tagType_description[tagType]}`;
   // 刷新图标
-  document.getElementById('gptNoteTagType-image').setAttribute("src", `chrome://zoteroif/content/icons/${tagType === "gptNoteTag" ? "robot" : tagType}.png`);
+  document.getElementById('gptNoteTagType-image').setAttribute("src", `chrome://ai4paper/content/icons/${tagType === "gptNoteTag" ? "robot" : tagType}.png`);
 };
 
 /**
@@ -436,7 +436,7 @@ methodsBody.updateButtonStatus = function (buttonType) {
     }
   }
   // 刷新图标
-  document.getElementById('gptNoteTagType-image').setAttribute("src", `chrome://zoteroif/content/icons/${buttonType === "gptNoteTag" ? "robot" : buttonType}.png`);
+  document.getElementById('gptNoteTagType-image').setAttribute("src", `chrome://ai4paper/content/icons/${buttonType === "gptNoteTag" ? "robot" : buttonType}.png`);
 };
 
 /**
@@ -449,9 +449,9 @@ methodsBody.updateFilterButtons = function (isInit, filter) {
   for (let character of characters) {
     let image = document.getElementById(`tagFilter-${character}`);
     // 未点击状态
-    let defaultImamgePath = `chrome://zoteroif/content/icons/${character}.png`;
+    let defaultImamgePath = `chrome://ai4paper/content/icons/${character}.png`;
     // 点击状态
-    let selectedImamgePath = `chrome://zoteroif/content/icons/${character}-select.png`;
+    let selectedImamgePath = `chrome://ai4paper/content/icons/${character}-select.png`;
 
     // 初始化
     if (isInit) {

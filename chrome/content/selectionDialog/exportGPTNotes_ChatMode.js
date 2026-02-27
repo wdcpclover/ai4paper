@@ -1,9 +1,9 @@
 var methodsBody = function () {};
 methodsBody.init = async function () {
-  Zotero.ZoteroIF.update_svg_icons(document);
+  Zotero.AI4Paper.update_svg_icons(document);
 
   // 根据 Zotero 版本调整样式
-  Zotero.ZoteroIF.updateTextAreaBox4ZoteroScheme(window);
+  Zotero.AI4Paper.updateTextAreaBox4ZoteroScheme(window);
 
   // 设置 iframe 高度，主要要放在最前面。
   let screen_height = window.screen.height;
@@ -14,8 +14,8 @@ methodsBody.init = async function () {
   }
   document.addEventListener('dialogaccept', () => methodsBody.acceptSelection());
   document.addEventListener('dialogcancel', () => methodsBody.cancelSelection());
-  document.getElementById('editGPTNotes-description').value = `已选择【${Zotero.ZoteroIF._store_selecteGPTMessages.length}】条待导出消息。点击头像旁的编辑按钮，可修改消息内容。`;
-  document.getElementById('keep-markdown-style').checked = Zotero.Prefs.get("zoteroif.gptNotesMarkdownStyle");
+  document.getElementById('editGPTNotes-description').value = `已选择【${Zotero.AI4Paper._store_selecteGPTMessages.length}】条待导出消息。点击头像旁的编辑按钮，可修改消息内容。`;
+  document.getElementById('keep-markdown-style').checked = Zotero.Prefs.get("ai4paper.gptNotesMarkdownStyle");
   this.io = window.arguments[0];
   if (this.io.dataIn) {
     let item_title = this.io.dataIn;
@@ -74,7 +74,7 @@ methodsBody.getEditedMessage = function () {
   let messageElements = iframeWindow.document.querySelectorAll(".message");
   for (let messageEle of messageElements) {
     let messageContent;
-    if (Zotero.Prefs.get("zoteroif.gptNotesMarkdownStyle")) {
+    if (Zotero.Prefs.get("ai4paper.gptNotesMarkdownStyle")) {
       messageContent = messageEle.querySelector('.content').messageSourceText;
     } else {
       messageContent = messageEle.querySelector('.content').innerText;
@@ -118,10 +118,10 @@ methodsBody.copyMessages = function () {
     }
   }
   if (messagesArray.length) {
-    Zotero.ZoteroIF.copy2Clipboard(messagesArray.join("\n\n"));
-    Zotero.ZoteroIF.showProgressWindow(1500, "拷贝全部消息【AI4paper】", "✅ 拷贝成功！");
+    Zotero.AI4Paper.copy2Clipboard(messagesArray.join("\n\n"));
+    Zotero.AI4Paper.showProgressWindow(1500, "拷贝全部消息【AI4paper】", "✅ 拷贝成功！");
   } else {
-    Zotero.ZoteroIF.showProgressWindow(2000, "拷贝全部消息【AI4paper】", "未发现消息！");
+    Zotero.AI4Paper.showProgressWindow(2000, "拷贝全部消息【AI4paper】", "未发现消息！");
   }
 };
 methodsBody.cancelSelection = function () {
@@ -149,7 +149,7 @@ methodsBody.setPopup = function () {
     first.remove();
     first = popup.firstElementChild;
   }
-  let userPromptTemplate = Zotero.Prefs.get('zoteroif.gptNotesAttachItems');
+  let userPromptTemplate = Zotero.Prefs.get('ai4paper.gptNotesAttachItems');
   let prompTemplateObject = [];
   if (userPromptTemplate != '') {
     let userPromptTemplateArray = userPromptTemplate.split('\n');
@@ -174,13 +174,13 @@ methodsBody.setPopup = function () {
       }
     }
   }
-  Zotero.Prefs.set('zoteroif.gptNotesAttachItemsObject', JSON.stringify(prompTemplateObject));
-  if (Zotero.Prefs.get('zoteroif.gptNotesLastSelectedItem') != '') {
+  Zotero.Prefs.set('ai4paper.gptNotesAttachItemsObject', JSON.stringify(prompTemplateObject));
+  if (Zotero.Prefs.get('ai4paper.gptNotesLastSelectedItem') != '') {
     // 刷新模板选择
     let menulist = document.getElementById("zotero-if-xul-add-chatgpt-note-tag-fixeditems2attach");
     let allTemplates = popup.childNodes;
     for (let i = 0; i < allTemplates.length; i++) {
-      if (allTemplates[i].label === Zotero.Prefs.get('zoteroif.gptNotesLastSelectedItem')) {
+      if (allTemplates[i].label === Zotero.Prefs.get('ai4paper.gptNotesLastSelectedItem')) {
         menulist.selectedIndex = i;
         return;
       }

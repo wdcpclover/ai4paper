@@ -1,14 +1,14 @@
 var methodsBody = function () {};
 methodsBody.init = async function () {
   // 根据 Zotero 版本调整样式
-  Zotero.ZoteroIF.updateTextAreaBox4ZoteroScheme(window);
+  Zotero.AI4Paper.updateTextAreaBox4ZoteroScheme(window);
   document.addEventListener('dialogaccept', () => methodsBody.acceptModification());
   this.io = window.arguments[0];
   let textarea = document.getElementById("message");
   textarea.value = this.io.dataIn;
 
   // 聚焦，且能中文输入
-  await Zotero.ZoteroIF.focusWithIMEFix(textarea);
+  await Zotero.AI4Paper.focusWithIMEFix(textarea);
 
   // 等待完成渲染
   requestAnimationFrame(() => {

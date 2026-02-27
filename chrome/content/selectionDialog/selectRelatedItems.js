@@ -1,13 +1,13 @@
 var methodsBody = function () {};
 methodsBody.init = function () {
-  Zotero.ZoteroIF.update_svg_icons(document);
+  Zotero.AI4Paper.update_svg_icons(document);
   document.addEventListener('dialogaccept', () => methodsBody.acceptSelection());
 
   // 设置 Dialog 字体大小
-  Zotero.ZoteroIF.setFontSize_Dialog(document.querySelector('dialog'), 0.92);
+  Zotero.AI4Paper.setFontSize_Dialog(document.querySelector('dialog'), 0.92);
 
   // 显示相应的标题
-  if (Zotero.ZoteroIF._action_removeRelatedItems) {
+  if (Zotero.AI4Paper._action_removeRelatedItems) {
     document.getElementById("zotero-selectRelatedItems-intro").textContent = "选择要移除的关联文献";
     document.title = "移除关联文献";
   } else {
@@ -94,7 +94,7 @@ methodsBody.maxWindowWidth = function () {
     window.moveTo(availLeft, currentY);
     window.resizeTo(availWidth, currentHeight);
   } catch (e) {
-    Zotero.ZoteroIF.showProgressWindow(3000, "❌ 窗口尺寸调整失败", "出错了！窗口尺寸调整遇到问题。");
+    Zotero.AI4Paper.showProgressWindow(3000, "❌ 窗口尺寸调整失败", "出错了！窗口尺寸调整遇到问题。");
   }
 };
 
@@ -128,6 +128,6 @@ methodsBody.adjustWindowWidthPercent = function () {
     window.moveTo(centerX, currentY);
     window.resizeTo(newWidth, currentHeight);
   } catch (e) {
-    Zotero.ZoteroIF.showProgressWindow(3000, "❌ 窗口尺寸调整失败", "出错了！窗口尺寸调整遇到问题。");
+    Zotero.AI4Paper.showProgressWindow(3000, "❌ 窗口尺寸调整失败", "出错了！窗口尺寸调整遇到问题。");
   }
 };

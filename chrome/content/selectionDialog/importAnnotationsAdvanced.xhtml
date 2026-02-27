@@ -28,7 +28,7 @@
 		Services.scriptloader.loadSubScript("chrome://zotero/content/include.js", this);
 		Services.scriptloader.loadSubScript("chrome://zotero/content/customElements.js", this);
 		Services.scriptloader.loadSubScript("chrome://zotero/content/advancedSearch.js", this);
-		Services.scriptloader.loadSubScript("chrome://zoteroif/content/selectionDialog/importAnnotationsAdvanced.js", this);
+		Services.scriptloader.loadSubScript("chrome://ai4paper/content/selectionDialog/importAnnotationsAdvanced.js", this);
 
 	    /**
 	     * 重置搜索
@@ -67,7 +67,7 @@
 			ZoteroAdvancedSearch.itemsView.changeCollectionTreeRow(collectionTreeRow);
 
 			// 清空已选择条目
-			Zotero.ZoteroIF._dataOut_selectedItemsAdvancedSearch = [];
+			Zotero.AI4Paper._dataOut_selectedItemsAdvancedSearch = [];
 		}
 
 	    /**
@@ -76,7 +76,7 @@
 	     */
 		function cancelSelection() {
 			// 清空已选择条目
-			Zotero.ZoteroIF._dataOut_selectedItemsAdvancedSearch = [];
+			Zotero.AI4Paper._dataOut_selectedItemsAdvancedSearch = [];
 
 			window.close();
 		}
@@ -86,13 +86,13 @@
 	     * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
 	     */
 		function recoveryHistory (){
-			if (!Zotero.ZoteroIF._dataOut_lastSelectedItemsAdvancedSearch) {
-				Zotero.ZoteroIF.showProgressWindow(2000, "恢复历史记录", `🙅 历史记录为空！`);
+			if (!Zotero.AI4Paper._dataOut_lastSelectedItemsAdvancedSearch) {
+				Zotero.AI4Paper.showProgressWindow(2000, "恢复历史记录", `🙅 历史记录为空！`);
 				return;
 			}
 			
-			Zotero.ZoteroIF.showProgressWindow(2000, "恢复历史记录", `✅ 已恢复历史记录！`);
-			Zotero.ZoteroIF._dataOut_selectedItemsAdvancedSearch = Zotero.ZoteroIF._dataOut_lastSelectedItemsAdvancedSearch;
+			Zotero.AI4Paper.showProgressWindow(2000, "恢复历史记录", `✅ 已恢复历史记录！`);
+			Zotero.AI4Paper._dataOut_selectedItemsAdvancedSearch = Zotero.AI4Paper._dataOut_lastSelectedItemsAdvancedSearch;
 			window.close();
 		}
 
@@ -101,7 +101,7 @@
 	     * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
 	     */
 		async function handleSelectedItems (){
-			Zotero.ZoteroIF._dataOut_selectedItemsAdvancedSearch = [];
+			Zotero.AI4Paper._dataOut_selectedItemsAdvancedSearch = [];
 
 			let itemsID = ZoteroAdvancedSearch.itemsView.getSelectedItems(true);
 			// 含注释的条目数量
@@ -120,9 +120,9 @@
 		                }
 						let annotationItems = await item.getAnnotations();
 						if (annotationItems.length) {
-							if (!Zotero.ZoteroIF._dataOut_selectedItemsAdvancedSearch.includes(item)) {
+							if (!Zotero.AI4Paper._dataOut_selectedItemsAdvancedSearch.includes(item)) {
 								num++;
-								Zotero.ZoteroIF._dataOut_selectedItemsAdvancedSearch.push(item);
+								Zotero.AI4Paper._dataOut_selectedItemsAdvancedSearch.push(item);
 							}
 						}
 					}
@@ -147,9 +147,9 @@
 			                }
 							let annotationItems = await item.getAnnotations();
 							if (annotationItems.length) {
-								if (!Zotero.ZoteroIF._dataOut_selectedItemsAdvancedSearch.includes(item)) {
+								if (!Zotero.AI4Paper._dataOut_selectedItemsAdvancedSearch.includes(item)) {
 									num++;
-									Zotero.ZoteroIF._dataOut_selectedItemsAdvancedSearch.push(item);
+									Zotero.AI4Paper._dataOut_selectedItemsAdvancedSearch.push(item);
 								}
 							}
 			            }
@@ -159,7 +159,7 @@
 
 			if (itemsID) {
 				let emoji = num ? "✅" : "❌";
-				Zotero.ZoteroIF.showProgressWindow(4000, "导入注释（高级搜索）", `${emoji} 您选择了【${itemsID.length}】个条目，其中【${num}】个条目包含注释。`);
+				Zotero.AI4Paper.showProgressWindow(4000, "导入注释（高级搜索）", `${emoji} 您选择了【${itemsID.length}】个条目，其中【${num}】个条目包含注释。`);
 				// 如果有包含注释的条目，则关闭窗口，继续下一步处理；否则保留窗口，继续选择条目
 				if (num) {
 					window.close();
@@ -189,7 +189,7 @@
 		                }
 						let annotationItems = await item.getAnnotations();
 						if (annotationItems.length) {
-							if (!Zotero.ZoteroIF._dataOut_selectedItemsAdvancedSearch.includes(item)) {
+							if (!Zotero.AI4Paper._dataOut_selectedItemsAdvancedSearch.includes(item)) {
 								num++;
 							}
 						}
@@ -214,7 +214,7 @@
 			                }
 							let annotationItems = await item.getAnnotations();
 							if (annotationItems.length) {
-								if (!Zotero.ZoteroIF._dataOut_selectedItemsAdvancedSearch.includes(item)) {
+								if (!Zotero.AI4Paper._dataOut_selectedItemsAdvancedSearch.includes(item)) {
 									num++;
 								}
 							}
@@ -225,7 +225,7 @@
 
 			if (itemsID) {
 				let emoji = num ? "✅" : "❌";
-				Zotero.ZoteroIF.showProgressWindow(4000, "导入注释统计", `${emoji} 您选择了【${itemsID.length}】个条目，其中【${num}】个条目包含注释。`);
+				Zotero.AI4Paper.showProgressWindow(4000, "导入注释统计", `${emoji} 您选择了【${itemsID.length}】个条目，其中【${num}】个条目包含注释。`);
 			}
 		}
 

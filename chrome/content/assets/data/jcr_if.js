@@ -1,5 +1,5 @@
 // 20250618
-Zotero.ZoteroIF._data_jcr_if = {
+Zotero.AI4Paper._data_jcr_if = {
 "ca-a cancer journal for clinicians":"232.4IFQ1",
 "nature reviews microbiology":"103.3IFQ1",
 "nature reviews drug discovery":"101.8IFQ1",

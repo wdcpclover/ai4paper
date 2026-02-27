@@ -12,8 +12,8 @@
   },
   "applications": {
     "zotero": {
-      "id": "zoteroif-deobf@cpc.dev",
-      "update_url": "https://raw.githubusercontent.com/MGaMG/MGM/main/getUpdate.json",
+      "id": "ai4paper@cpc.dev",
+      "update_url": "https://raw.githubusercontent.com/wdcpclover/ai4paper/main/update.json",
       "strict_min_version": "6.999",
       "strict_max_version": "9.9.*"
     }
