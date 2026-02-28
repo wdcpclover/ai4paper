@@ -118,7 +118,7 @@ function shutdown({
 }
 function load_unload_JS(param4, param5, param6) {
   log("AI4paper: load scripts");
-  var var9 = ["ai4paper", "ai4paper-config", "ai4paper-utils", "ai4paper-shortcuts", "ai4paper-theme", "ai4paper-trans-engines", "ai4paper-vocabulary", "ai4paper-gpt-completion", "ai4paper-gpt-chat", 'menuPopup', 'ui', "ChinesePY"],
+  var var9 = ["ai4paper", "ai4paper-config", "ai4paper-utils", "ai4paper-shortcuts", "ai4paper-theme", "ai4paper-trans-engines", "ai4paper-vocabulary", "ai4paper-gpt-completion", "ai4paper-gpt-chat", "ai4paper-reader", 'menuPopup', 'ui', "ChinesePY"],
     var10 = ["emoji", "jcr_if", "zjk_fenqu", "modifiedPubTitles", 'earlywarning', 'jcr_if_abbrev', 'abbrev_to_full', "abbrev_to_full_dots", 'full_to_abbrev_dots', "full_to_abbrev", 'jcr_if_issn', 'issn_journal', "pkucore", 'njucore', "cscd", "ccf"],
     var11 = ["svg_icons", "marked.min", "highlight.min"];
   if (param6 === "load") {
