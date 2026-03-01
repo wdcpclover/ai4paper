@@ -12,14 +12,14 @@ Zotero.AI4Paper = {
   '_aiReadingNoteTag': '/AI文献解读',
   '_store_added_tagMenu_elements': [],
   'init': function ({
-    id: _0x4206ec,
-    version: _0x2c657a,
-    rootURI: _0x471b0e
+    id: addonId,
+    version: addonVersion,
+    rootURI: addonRootURI
   }) {
     if (this.initialized) return;
-    this.id = _0x4206ec;
-    this.version = _0x2c657a;
-    this.rootURI = _0x471b0e;
+    this.id = addonId;
+    this.version = addonVersion;
+    this.rootURI = addonRootURI;
     this.initialized = true;
     this.window = this.getGlobal("window");
     this._notifierID = Zotero.Notifier.registerObserver(this.notifyCallback, ["item", "tab", "item-tag", "file", 'collection']);
@@ -27,7 +27,7 @@ Zotero.AI4Paper = {
     this.initParam();
     this.setPrefs();
     this.setGlobalParam();
-    window.addEventListener("unload", function (param2) {
+    window.addEventListener("unload", function (unloadEvent) {
       Zotero.Notifier.unregisterObserver(this._notifierID);
     }, false);
     window.addEventListener("pointerup", Zotero.AI4Paper.handlePointerup);
@@ -101,22 +101,22 @@ Zotero.AI4Paper = {
     window.document.getElementById("menu_ToolsPopup").addEventListener("popupshowing", Zotero.AI4Paper.UI.displayToolsMenuitem, false);
     window.document.getElementById("zotero-collectionmenu").addEventListener('popupshowing', Zotero.AI4Paper.UI.displayCollectionMenuitem, false);
   },
-  'injectScripts': function (param3) {
+  'injectScripts': function (shouldInject) {
     try {
-      let var2 = Zotero.getMainWindow().document;
-      var2.querySelectorAll('#zoteroone-injectedIframe').forEach(_0x2019ef => _0x2019ef.remove());
-      if (!param3) return;
-      let var3 = var2.createElement("iframe");
-      var3.id = "zoteroone-injectedIframe";
-      var3.style.display = "none";
-      var3.src = "chrome://ai4paper/content/selectionDialog/injectScripts.html";
-      var2.documentElement.appendChild(var3);
-    } catch (_0x272975) {
-      Zotero.debug(_0x272975);
+      let doc = Zotero.getMainWindow().document;
+      doc.querySelectorAll('#zoteroone-injectedIframe').forEach(oldIframe => oldIframe.remove());
+      if (!shouldInject) return;
+      let iframe = doc.createElement("iframe");
+      iframe.id = "zoteroone-injectedIframe";
+      iframe.style.display = "none";
+      iframe.src = "chrome://ai4paper/content/selectionDialog/injectScripts.html";
+      doc.documentElement.appendChild(iframe);
+    } catch (e) {
+      Zotero.debug(e);
     }
   },
   'updateSciHub': function () {
-    let var4 = {
+    let resolver = {
       'name': "Sci-Hub",
       'method': "GET",
       'url': "https://sci-hub.st/{doi}",
@@ -125,10 +125,10 @@ Zotero.AI4Paper = {
       'attribute': 'src',
       'automatic': false
     };
-    var4.url = Zotero.Prefs.get('ai4paper.scihub') + "/{doi}";
-    var4.automatic = Zotero.Prefs.get("ai4paper.scihubauto");
-    let var5 = Zotero.Prefs.get("ai4paper.scihubswitch");
-    !var5 && Zotero.Prefs.set("findPDFs.resolvers", JSON.stringify(var4));
+    resolver.url = Zotero.Prefs.get('ai4paper.scihub') + "/{doi}";
+    resolver.automatic = Zotero.Prefs.get("ai4paper.scihubauto");
+    let scihubDisabled = Zotero.Prefs.get("ai4paper.scihubswitch");
+    !scihubDisabled && Zotero.Prefs.set("findPDFs.resolvers", JSON.stringify(resolver));
   },
   'destroy': function () {
     try {
@@ -149,81 +149,81 @@ Zotero.AI4Paper = {
       this.changeEventListner_ZoteroColorScheme("remove");
       Zotero.Reader._unregisterEventListenerByPluginID(Zotero.AI4Paper.id);
       this.clearTimeout_Interpret();
-    } catch (_0x5161de) {
-      Zotero.debug(_0x5161de);
+    } catch (e) {
+      Zotero.debug(e);
     }
   },
   'unregisterObserver': function () {
     try {
       Zotero.Notifier.unregisterObserver(this._notifierID);
-    } catch (_0x3c6348) {
-      Zotero.debug(_0x3c6348);
+    } catch (e) {
+      Zotero.debug(e);
     }
   },
   'notifyCallback': {
-    'notify': async function (param4, param5, param6, param7) {
+    'notify': async function (event, type, ids, extraData) {
       if (!Zotero.AI4Paper.getFunMetaTitle()) return false;
-      if (param4 === 'add' && param5 == 'tab') {
-        let _0x42fcf1 = Zotero.Reader.getByTabID(param6[0x0]);
-        Zotero.AI4Paper.addReaderButtonInit(_0x42fcf1);
-        Zotero.Prefs.get('ai4paper.translationreadersidepane') && Zotero.AI4Paper.isReaderSidePaneExist("translate", param6[0x0]);
-        Zotero.Prefs.get("ai4paper.gptviewReaderSidepane") && Zotero.AI4Paper.isReaderSidePaneExist("chatgpt", param6[0x0]);
+      if (event === 'add' && type == 'tab') {
+        let newTabReader = Zotero.Reader.getByTabID(ids[0x0]);
+        Zotero.AI4Paper.addReaderButtonInit(newTabReader);
+        Zotero.Prefs.get('ai4paper.translationreadersidepane') && Zotero.AI4Paper.isReaderSidePaneExist("translate", ids[0x0]);
+        Zotero.Prefs.get("ai4paper.gptviewReaderSidepane") && Zotero.AI4Paper.isReaderSidePaneExist("chatgpt", ids[0x0]);
       }
-      if (param4 == "select" && param5 == "tab") {
-        let var7 = Zotero.Reader.getByTabID(param6[0x0]);
-        await Zotero.AI4Paper.addReaderButtonInit(var7);
+      if (event == "select" && type == "tab") {
+        let selectedReader = Zotero.Reader.getByTabID(ids[0x0]);
+        await Zotero.AI4Paper.addReaderButtonInit(selectedReader);
         await Zotero.AI4Paper.updateReaderButtonStateInit();
         await Zotero.AI4Paper.addAnnotationButtonInit();
-        Zotero.Prefs.get("ai4paper.translationreadersidepane") && Zotero.AI4Paper.isReaderSidePaneExist('translate', param6[0x0]);
-        Zotero.Prefs.get('ai4paper.gptviewReaderSidepane') && Zotero.AI4Paper.isReaderSidePaneExist("chatgpt", param6[0x0]);
+        Zotero.Prefs.get("ai4paper.translationreadersidepane") && Zotero.AI4Paper.isReaderSidePaneExist('translate', ids[0x0]);
+        Zotero.Prefs.get('ai4paper.gptviewReaderSidepane') && Zotero.AI4Paper.isReaderSidePaneExist("chatgpt", ids[0x0]);
         Zotero.AI4Paper.autoFocusReaderSidePane();
       }
-      param4 == "close" && param5 == 'tab' && Zotero.getMainWindow().Zotero_Tabs._tabs.length === 0x1 && Zotero.AI4Paper.unregisterReaderSidePanes(["translate", 'gpt']);
-      if (param4 == "add" && param5 == "item") {
-        Zotero.AI4Paper.updateNewItems(Zotero.Items.get(param6));
-        let _0x15f870 = Zotero.Items.get(param6)[0x0],
-          _0x59ed3f = 0x0;
-        _0x15f870.isAnnotation() && (await Zotero.AI4Paper.addAnnotationButtonInit(_0x15f870), Zotero.Prefs.get("ai4paper.autoreadingtag") && (await Zotero.AI4Paper.addReadingTag(_0x15f870)), Zotero.Prefs.get("ai4paper.defineColorLabelAutoAddTag") && (await Zotero.AI4Paper.addAnnotationTagBasedOnColorLabel(_0x15f870)));
-        Zotero.Prefs.get("ai4paper.obsidianautoupdatenotes") && Zotero.AI4Paper.getFunMetaTitle() && _0x15f870.isAnnotation() && (await Zotero.AI4Paper.updateObsidianNote(_0x15f870), await Zotero.AI4Paper.dataviewCardnotes(), await Zotero.AI4Paper.dataviewStatistics(), await Zotero.AI4Paper.generatePapersMatrix());
+      event == "close" && type == 'tab' && Zotero.getMainWindow().Zotero_Tabs._tabs.length === 0x1 && Zotero.AI4Paper.unregisterReaderSidePanes(["translate", 'gpt']);
+      if (event == "add" && type == "item") {
+        Zotero.AI4Paper.updateNewItems(Zotero.Items.get(ids));
+        let newItem = Zotero.Items.get(ids)[0x0],
+          vocabHandled = 0x0;
+        newItem.isAnnotation() && (await Zotero.AI4Paper.addAnnotationButtonInit(newItem), Zotero.Prefs.get("ai4paper.autoreadingtag") && (await Zotero.AI4Paper.addReadingTag(newItem)), Zotero.Prefs.get("ai4paper.defineColorLabelAutoAddTag") && (await Zotero.AI4Paper.addAnnotationTagBasedOnColorLabel(newItem)));
+        Zotero.Prefs.get("ai4paper.obsidianautoupdatenotes") && Zotero.AI4Paper.getFunMetaTitle() && newItem.isAnnotation() && (await Zotero.AI4Paper.updateObsidianNote(newItem), await Zotero.AI4Paper.dataviewCardnotes(), await Zotero.AI4Paper.dataviewStatistics(), await Zotero.AI4Paper.generatePapersMatrix());
         if (!Zotero.Prefs.get('ai4paper.vocabularybookdisable') && Zotero.AI4Paper.letDOI()) {
-          if (_0x15f870.isAnnotation()) {
-            if (_0x15f870.annotationType === "highlight" && _0x15f870.annotationColor === '#a28ae5' && Zotero.Prefs.get("ai4paper.annotationcolorselect") === '紫色') {
-              await Zotero.AI4Paper.addVocabulary(_0x15f870, _0x15f870.annotationText);
-              _0x59ed3f = 0x1;
-              Zotero.Prefs.get("ai4paper.obsidianautoupdatenotes") && (await Zotero.AI4Paper.updateObsidianNote(_0x15f870));
+          if (newItem.isAnnotation()) {
+            if (newItem.annotationType === "highlight" && newItem.annotationColor === '#a28ae5' && Zotero.Prefs.get("ai4paper.annotationcolorselect") === '紫色') {
+              await Zotero.AI4Paper.addVocabulary(newItem, newItem.annotationText);
+              vocabHandled = 0x1;
+              Zotero.Prefs.get("ai4paper.obsidianautoupdatenotes") && (await Zotero.AI4Paper.updateObsidianNote(newItem));
             } else {
-              if (_0x15f870.annotationType === 'highlight' && _0x15f870.annotationColor === '#ffd400' && Zotero.Prefs.get("ai4paper.annotationcolorselect") === '黄色') {
-                await Zotero.AI4Paper.addVocabulary(_0x15f870, _0x15f870.annotationText);
-                _0x59ed3f = 0x1;
-                Zotero.Prefs.get("ai4paper.obsidianautoupdatenotes") && (await Zotero.AI4Paper.updateObsidianNote(_0x15f870));
+              if (newItem.annotationType === 'highlight' && newItem.annotationColor === '#ffd400' && Zotero.Prefs.get("ai4paper.annotationcolorselect") === '黄色') {
+                await Zotero.AI4Paper.addVocabulary(newItem, newItem.annotationText);
+                vocabHandled = 0x1;
+                Zotero.Prefs.get("ai4paper.obsidianautoupdatenotes") && (await Zotero.AI4Paper.updateObsidianNote(newItem));
               } else {
-                if (_0x15f870.annotationType === "highlight" && _0x15f870.annotationColor === "#ff6666" && Zotero.Prefs.get("ai4paper.annotationcolorselect") === '红色') {
-                  await Zotero.AI4Paper.addVocabulary(_0x15f870, _0x15f870.annotationText);
-                  _0x59ed3f = 0x1;
-                  Zotero.Prefs.get("ai4paper.obsidianautoupdatenotes") && (await Zotero.AI4Paper.updateObsidianNote(_0x15f870));
+                if (newItem.annotationType === "highlight" && newItem.annotationColor === "#ff6666" && Zotero.Prefs.get("ai4paper.annotationcolorselect") === '红色') {
+                  await Zotero.AI4Paper.addVocabulary(newItem, newItem.annotationText);
+                  vocabHandled = 0x1;
+                  Zotero.Prefs.get("ai4paper.obsidianautoupdatenotes") && (await Zotero.AI4Paper.updateObsidianNote(newItem));
                 } else {
-                  if (_0x15f870.annotationType === "highlight" && _0x15f870.annotationColor === "#5fb236" && Zotero.Prefs.get("ai4paper.annotationcolorselect") === '绿色') {
-                    await Zotero.AI4Paper.addVocabulary(_0x15f870, _0x15f870.annotationText);
-                    _0x59ed3f = 0x1;
-                    Zotero.Prefs.get("ai4paper.obsidianautoupdatenotes") && (await Zotero.AI4Paper.updateObsidianNote(_0x15f870));
+                  if (newItem.annotationType === "highlight" && newItem.annotationColor === "#5fb236" && Zotero.Prefs.get("ai4paper.annotationcolorselect") === '绿色') {
+                    await Zotero.AI4Paper.addVocabulary(newItem, newItem.annotationText);
+                    vocabHandled = 0x1;
+                    Zotero.Prefs.get("ai4paper.obsidianautoupdatenotes") && (await Zotero.AI4Paper.updateObsidianNote(newItem));
                   } else {
-                    if (_0x15f870.annotationType === "highlight" && _0x15f870.annotationColor === "#2ea8e5" && Zotero.Prefs.get("ai4paper.annotationcolorselect") === '蓝色') {
-                      await Zotero.AI4Paper.addVocabulary(_0x15f870, _0x15f870.annotationText);
-                      _0x59ed3f = 0x1;
-                      Zotero.Prefs.get("ai4paper.obsidianautoupdatenotes") && (await Zotero.AI4Paper.updateObsidianNote(_0x15f870));
+                    if (newItem.annotationType === "highlight" && newItem.annotationColor === "#2ea8e5" && Zotero.Prefs.get("ai4paper.annotationcolorselect") === '蓝色') {
+                      await Zotero.AI4Paper.addVocabulary(newItem, newItem.annotationText);
+                      vocabHandled = 0x1;
+                      Zotero.Prefs.get("ai4paper.obsidianautoupdatenotes") && (await Zotero.AI4Paper.updateObsidianNote(newItem));
                     } else {
-                      if (_0x15f870.annotationType === "highlight" && _0x15f870.annotationColor === "#e56eee" && Zotero.Prefs.get("ai4paper.annotationcolorselect") === "洋红色") {
-                        await Zotero.AI4Paper.addVocabulary(_0x15f870, _0x15f870.annotationText);
-                        _0x59ed3f = 0x1;
+                      if (newItem.annotationType === "highlight" && newItem.annotationColor === "#e56eee" && Zotero.Prefs.get("ai4paper.annotationcolorselect") === "洋红色") {
+                        await Zotero.AI4Paper.addVocabulary(newItem, newItem.annotationText);
+                        vocabHandled = 0x1;
                         if (Zotero.Prefs.get('ai4paper.obsidianautoupdatenotes')) {
-                          await Zotero.AI4Paper.updateObsidianNote(_0x15f870);
+                          await Zotero.AI4Paper.updateObsidianNote(newItem);
                         }
                       } else {
-                        if (_0x15f870.annotationType === "highlight" && _0x15f870.annotationColor === '#f19837' && Zotero.Prefs.get('ai4paper.annotationcolorselect') === '橘色') {
-                          await Zotero.AI4Paper.addVocabulary(_0x15f870, _0x15f870.annotationText);
-                          _0x59ed3f = 0x1;
-                          Zotero.Prefs.get("ai4paper.obsidianautoupdatenotes") && (await Zotero.AI4Paper.updateObsidianNote(_0x15f870));
-                        } else _0x15f870.annotationType === "highlight" && _0x15f870.annotationColor === '#aaaaaa' && Zotero.Prefs.get("ai4paper.annotationcolorselect") === '灰色' && (await Zotero.AI4Paper.addVocabulary(_0x15f870, _0x15f870.annotationText), _0x59ed3f = 0x1, Zotero.Prefs.get('ai4paper.obsidianautoupdatenotes') && (await Zotero.AI4Paper.updateObsidianNote(_0x15f870)));
+                        if (newItem.annotationType === "highlight" && newItem.annotationColor === '#f19837' && Zotero.Prefs.get('ai4paper.annotationcolorselect') === '橘色') {
+                          await Zotero.AI4Paper.addVocabulary(newItem, newItem.annotationText);
+                          vocabHandled = 0x1;
+                          Zotero.Prefs.get("ai4paper.obsidianautoupdatenotes") && (await Zotero.AI4Paper.updateObsidianNote(newItem));
+                        } else newItem.annotationType === "highlight" && newItem.annotationColor === '#aaaaaa' && Zotero.Prefs.get("ai4paper.annotationcolorselect") === '灰色' && (await Zotero.AI4Paper.addVocabulary(newItem, newItem.annotationText), vocabHandled = 0x1, Zotero.Prefs.get('ai4paper.obsidianautoupdatenotes') && (await Zotero.AI4Paper.updateObsidianNote(newItem)));
                       }
                     }
                   }
@@ -232,36 +232,36 @@ Zotero.AI4Paper = {
             }
           }
         }
-        Zotero.Prefs.get('ai4paper.translateannotationtext') && _0x15f870.isAnnotation() && (_0x15f870.annotationType === "highlight" || _0x15f870.annotationType === "underline") && !_0x59ed3f && (await Zotero.AI4Paper.annotationTextTrans(_0x15f870, "auto"));
-        Zotero.Prefs.get("ai4paper.autoOptimizeSpaces4CurrentTab") && _0x15f870.isAnnotation() && (_0x15f870.annotationType === "highlight" || _0x15f870.annotationType === "underline") && (await Zotero.AI4Paper.optimizeSpaces4CurrentTab(_0x15f870));
-        if (_0x15f870.isAnnotation()) {
-          if (Zotero.Prefs.get("ai4paper.annotationimageactions") != "无操作" && _0x15f870.annotationType === "image") {
-            await Zotero.AI4Paper.onAnnotationImage(_0x15f870, _0x15f870.key);
+        Zotero.Prefs.get('ai4paper.translateannotationtext') && newItem.isAnnotation() && (newItem.annotationType === "highlight" || newItem.annotationType === "underline") && !vocabHandled && (await Zotero.AI4Paper.annotationTextTrans(newItem, "auto"));
+        Zotero.Prefs.get("ai4paper.autoOptimizeSpaces4CurrentTab") && newItem.isAnnotation() && (newItem.annotationType === "highlight" || newItem.annotationType === "underline") && (await Zotero.AI4Paper.optimizeSpaces4CurrentTab(newItem));
+        if (newItem.isAnnotation()) {
+          if (Zotero.Prefs.get("ai4paper.annotationimageactions") != "无操作" && newItem.annotationType === "image") {
+            await Zotero.AI4Paper.onAnnotationImage(newItem, newItem.key);
           }
         }
         if (Zotero.Prefs.get("ai4paper.autoannotationsnote") && Zotero.AI4Paper.getFunMetaTitle()) {
-          _0x15f870.isAnnotation() && !_0x59ed3f && (await Zotero.AI4Paper.autoAddNoteFromAnnotations(_0x15f870));
+          newItem.isAnnotation() && !vocabHandled && (await Zotero.AI4Paper.autoAddNoteFromAnnotations(newItem));
         }
       }
-      if (param4 == 'modify' && param5 == "item") {
-        let var10 = Zotero.Items.get(param6)[0x0];
+      if (event == 'modify' && type == "item") {
+        let modifiedItem = Zotero.Items.get(ids)[0x0];
         if (Zotero.Prefs.get("ai4paper.obsidianautoupdatenotes")) {
-          var10.isAnnotation() && (await Zotero.AI4Paper.updateObsidianNote(var10));
-          await Zotero.AI4Paper.itemsModification2OB(Zotero.Items.get(param6).filter(_0x13e974 => _0x13e974.isRegularItem()));
+          modifiedItem.isAnnotation() && (await Zotero.AI4Paper.updateObsidianNote(modifiedItem));
+          await Zotero.AI4Paper.itemsModification2OB(Zotero.Items.get(ids).filter(itm => itm.isRegularItem()));
         }
-        Zotero.Prefs.get('ai4paper.enableannotationsvgVisitUniversalQuoteLink') && var10.isAnnotation() && (await Zotero.AI4Paper.updateUniversalQuoteLink(var10));
-        Zotero.Prefs.get('ai4paper.autoannotationsnote') && var10.isAnnotation() && (await Zotero.AI4Paper.autoAddNoteFromAnnotationsForModifyListener(var10));
+        Zotero.Prefs.get('ai4paper.enableannotationsvgVisitUniversalQuoteLink') && modifiedItem.isAnnotation() && (await Zotero.AI4Paper.updateUniversalQuoteLink(modifiedItem));
+        Zotero.Prefs.get('ai4paper.autoannotationsnote') && modifiedItem.isAnnotation() && (await Zotero.AI4Paper.autoAddNoteFromAnnotationsForModifyListener(modifiedItem));
         if (!Zotero.Prefs.get("ai4paper.vocabularybookdisable")) {
-          if (var10.isAnnotation()) {
-            if (var10.annotationType === "highlight" && var10.annotationColor === "#a28ae5" && Zotero.Prefs.get('ai4paper.annotationcolorselect') === '紫色') await Zotero.AI4Paper.modifyVocabularyNote(var10, var10.key);else {
-              if (var10.annotationType === 'highlight' && var10.annotationColor === '#ffd400' && Zotero.Prefs.get("ai4paper.annotationcolorselect") === '黄色') await Zotero.AI4Paper.modifyVocabularyNote(var10, var10.key);else {
-                if (var10.annotationType === "highlight" && var10.annotationColor === '#ff6666' && Zotero.Prefs.get('ai4paper.annotationcolorselect') === '红色') await Zotero.AI4Paper.modifyVocabularyNote(var10, var10.key);else {
-                  if (var10.annotationType === "highlight" && var10.annotationColor === '#5fb236' && Zotero.Prefs.get("ai4paper.annotationcolorselect") === '绿色') await Zotero.AI4Paper.modifyVocabularyNote(var10, var10.key);else {
-                    if (var10.annotationType === "highlight" && var10.annotationColor === '#2ea8e5' && Zotero.Prefs.get("ai4paper.annotationcolorselect") === '蓝色') await Zotero.AI4Paper.modifyVocabularyNote(var10, var10.key);else {
-                      if (var10.annotationType === 'highlight' && var10.annotationColor === "#e56eee" && Zotero.Prefs.get('ai4paper.annotationcolorselect') === '洋红色') await Zotero.AI4Paper.modifyVocabularyNote(var10, var10.key);else {
-                        if (var10.annotationType === 'highlight' && var10.annotationColor === "#f19837" && Zotero.Prefs.get('ai4paper.annotationcolorselect') === '橘色') {
-                          await Zotero.AI4Paper.modifyVocabularyNote(var10, var10.key);
-                        } else var10.annotationType === "highlight" && var10.annotationColor === '#aaaaaa' && Zotero.Prefs.get('ai4paper.annotationcolorselect') === '灰色' && (await Zotero.AI4Paper.modifyVocabularyNote(var10, var10.key));
+          if (modifiedItem.isAnnotation()) {
+            if (modifiedItem.annotationType === "highlight" && modifiedItem.annotationColor === "#a28ae5" && Zotero.Prefs.get('ai4paper.annotationcolorselect') === '紫色') await Zotero.AI4Paper.modifyVocabularyNote(modifiedItem, modifiedItem.key);else {
+              if (modifiedItem.annotationType === 'highlight' && modifiedItem.annotationColor === '#ffd400' && Zotero.Prefs.get("ai4paper.annotationcolorselect") === '黄色') await Zotero.AI4Paper.modifyVocabularyNote(modifiedItem, modifiedItem.key);else {
+                if (modifiedItem.annotationType === "highlight" && modifiedItem.annotationColor === '#ff6666' && Zotero.Prefs.get('ai4paper.annotationcolorselect') === '红色') await Zotero.AI4Paper.modifyVocabularyNote(modifiedItem, modifiedItem.key);else {
+                  if (modifiedItem.annotationType === "highlight" && modifiedItem.annotationColor === '#5fb236' && Zotero.Prefs.get("ai4paper.annotationcolorselect") === '绿色') await Zotero.AI4Paper.modifyVocabularyNote(modifiedItem, modifiedItem.key);else {
+                    if (modifiedItem.annotationType === "highlight" && modifiedItem.annotationColor === '#2ea8e5' && Zotero.Prefs.get("ai4paper.annotationcolorselect") === '蓝色') await Zotero.AI4Paper.modifyVocabularyNote(modifiedItem, modifiedItem.key);else {
+                      if (modifiedItem.annotationType === 'highlight' && modifiedItem.annotationColor === "#e56eee" && Zotero.Prefs.get('ai4paper.annotationcolorselect') === '洋红色') await Zotero.AI4Paper.modifyVocabularyNote(modifiedItem, modifiedItem.key);else {
+                        if (modifiedItem.annotationType === 'highlight' && modifiedItem.annotationColor === "#f19837" && Zotero.Prefs.get('ai4paper.annotationcolorselect') === '橘色') {
+                          await Zotero.AI4Paper.modifyVocabularyNote(modifiedItem, modifiedItem.key);
+                        } else modifiedItem.annotationType === "highlight" && modifiedItem.annotationColor === '#aaaaaa' && Zotero.Prefs.get('ai4paper.annotationcolorselect') === '灰色' && (await Zotero.AI4Paper.modifyVocabularyNote(modifiedItem, modifiedItem.key));
                       }
                     }
                   }
@@ -271,29 +271,29 @@ Zotero.AI4Paper = {
           }
         }
       }
-      if (param4 == "delete" && param5 == "item") {
-        let var11 = Zotero_Tabs._selectedID,
-          var12 = Zotero.Reader.getByTabID(var11);
-        !Zotero.Prefs.get("ai4paper.vocabularybookdisable") && var12 && (await Zotero.AI4Paper.removeVocabularyfromNote(param7[param6[0x0]].key));
-        Zotero.Prefs.get("ai4paper.autoannotationsnote") && var12 && (await Zotero.AI4Paper.autoAddNoteFromAnnotationsForDeleteListener());
-        Zotero.Prefs.get("ai4paper.obsidianautoupdatenotes") && var12 && (await Zotero.AI4Paper.updateObsidianNoteForDeleteListener());
+      if (event == "delete" && type == "item") {
+        let selectedTabID = Zotero_Tabs._selectedID,
+          activeReader = Zotero.Reader.getByTabID(selectedTabID);
+        !Zotero.Prefs.get("ai4paper.vocabularybookdisable") && activeReader && (await Zotero.AI4Paper.removeVocabularyfromNote(extraData[ids[0x0]].key));
+        Zotero.Prefs.get("ai4paper.autoannotationsnote") && activeReader && (await Zotero.AI4Paper.autoAddNoteFromAnnotationsForDeleteListener());
+        Zotero.Prefs.get("ai4paper.obsidianautoupdatenotes") && activeReader && (await Zotero.AI4Paper.updateObsidianNoteForDeleteListener());
       }
-      if (param4 == "add" && param5 == "item-tag") {
-        let var13 = param6[0x0].split('-').map(_0x396069 => parseInt(_0x396069))[0x0],
-          var14 = param6[0x0].split('-').map(_0x5827f5 => parseInt(_0x5827f5))[0x1];
-        Zotero.AI4Paper.addAnnotationTag(var13, var14);
-        Zotero.Prefs.get("ai4paper.autogeneratetagscollection") && Zotero.AI4Paper.handleItemTagChange(var13);
+      if (event == "add" && type == "item-tag") {
+        let itemID = ids[0x0].split('-').map(n => parseInt(n))[0x0],
+          tagID = ids[0x0].split('-').map(n => parseInt(n))[0x1];
+        Zotero.AI4Paper.addAnnotationTag(itemID, tagID);
+        Zotero.Prefs.get("ai4paper.autogeneratetagscollection") && Zotero.AI4Paper.handleItemTagChange(itemID);
       }
-      if (param4 == "remove" && param5 == "item-tag") {
-        let var15 = param6[0x0].split('-').map(_0x705748 => parseInt(_0x705748))[0x0],
-          var16 = JSON.stringify(param7[param6[0x0]].tag);
-        Zotero.AI4Paper.checkAnnotatationItem(var15, var16);
-        Zotero.Prefs.get("ai4paper.autogeneratetagscollection") && Zotero.AI4Paper.handleItemTagChange(var15);
+      if (event == "remove" && type == "item-tag") {
+        let tagItemID = ids[0x0].split('-').map(n => parseInt(n))[0x0],
+          tagJSON = JSON.stringify(extraData[ids[0x0]].tag);
+        Zotero.AI4Paper.checkAnnotatationItem(tagItemID, tagJSON);
+        Zotero.Prefs.get("ai4paper.autogeneratetagscollection") && Zotero.AI4Paper.handleItemTagChange(tagItemID);
       }
-      param4 === "trash" && param5 == "collection" && Zotero.AI4Paper.onDeleteCollectionEvent(true, param6[0x0]);
-      if (param4 == "open" && param5 == 'file') {
-        let var17 = Zotero.Items.get(param6)[0x0];
-        Zotero.AI4Paper.filesHistory(var17);
+      event === "trash" && type == "collection" && Zotero.AI4Paper.onDeleteCollectionEvent(true, ids[0x0]);
+      if (event == "open" && type == 'file') {
+        let openedItem = Zotero.Items.get(ids)[0x0];
+        Zotero.AI4Paper.filesHistory(openedItem);
       }
     }
   },
@@ -303,411 +303,411 @@ Zotero.AI4Paper = {
     _globalThis.ZoteroPane = this.getGlobal('ZoteroPane');
     _globalThis.ZoteroPane_Local = this.getGlobal('ZoteroPane_Local');
   },
-  'getGlobal': function (param8) {
-    const var18 = typeof Zotero !== "undefined" ? Zotero : Components.classes["@zotero.org/Zotero;1"].getService(Components.interfaces.nsISupports).wrappedJSObject,
-      var19 = var18.getMainWindow();
-    switch (param8) {
+  'getGlobal': function (globalName) {
+    const zoteroObj = typeof Zotero !== "undefined" ? Zotero : Components.classes["@zotero.org/Zotero;1"].getService(Components.interfaces.nsISupports).wrappedJSObject,
+      mainWin = zoteroObj.getMainWindow();
+    switch (globalName) {
       case 'Zotero':
       case "zotero":
-        return var18;
+        return zoteroObj;
       case "window":
-        return var19;
+        return mainWin;
       case "document":
-        return var19.document;
+        return mainWin.document;
       case "ZoteroPane":
       case "ZoteroPane_Local":
-        return var18.getActiveZoteroPane();
+        return zoteroObj.getActiveZoteroPane();
       default:
-        return var19[param8];
+        return mainWin[globalName];
     }
   },
   'registerStylesheet': function () {
-    let var20 = window.document,
-      var21 = var20.createElement("link");
-    var21.id = 'ai4paper-stylesheet';
-    var21.type = "text/css";
-    var21.rel = "stylesheet";
-    var21.href = "chrome://ai4paper/content/assets/css/style.css";
-    var20.documentElement.appendChild(var21);
+    let doc = window.document,
+      link = doc.createElement("link");
+    link.id = 'ai4paper-stylesheet';
+    link.type = "text/css";
+    link.rel = "stylesheet";
+    link.href = "chrome://ai4paper/content/assets/css/style.css";
+    doc.documentElement.appendChild(link);
   },
   'collapseItemPane_byShortCuts': function () {
     if (Zotero_Tabs._selectedID != 'zotero-pane') return;
     Zotero.AI4Paper.togglePaneDisplay("zotero-item", "toggle");
   },
   'splitHorizontally_byShortCuts': function () {
-    let var401 = Zotero_Tabs._selectedID,
-      var402 = Zotero.Reader.getByTabID(var401);
-    if (!var402) return;
+    let tabID = Zotero_Tabs._selectedID,
+      reader = Zotero.Reader.getByTabID(tabID);
+    if (!reader) return;
     window.document.getElementById("view-menuitem-split-horizontally").click();
   },
   'splitVertically_byShortCuts': function () {
-    let var403 = Zotero_Tabs._selectedID,
-      var404 = Zotero.Reader.getByTabID(var403);
-    if (!var404) return;
+    let tabID = Zotero_Tabs._selectedID,
+      reader = Zotero.Reader.getByTabID(tabID);
+    if (!reader) return;
     window.document.getElementById("view-menuitem-split-vertically").click();
   },
   'oddSpreads_byShortCuts': function () {
-    let var405 = Zotero.AI4Paper.getCurrentReader();
-    if (!var405) return;
-    if (var405.spreadMode != 0x1) {
-      var405.spreadMode = 0x1;
-    } else var405.spreadMode = 0x0;
+    let reader = Zotero.AI4Paper.getCurrentReader();
+    if (!reader) return;
+    if (reader.spreadMode != 0x1) {
+      reader.spreadMode = 0x1;
+    } else reader.spreadMode = 0x0;
   },
   'customItemTreeColumns': async function () {
-    let var406 = ['shortTitle', "archive", 'archiveLocation', "libraryCatalog", "callNumber", 'rights'];
-    for (let var407 of var406) {
-      Zotero.Prefs.get("ai4paper.enableCustomItemTreeColumns" + var407) ? await Zotero.ItemTreeManager.registerColumns({
-        'dataKey': var407,
-        'label': Zotero.Prefs.get("ai4paper.renameCustomItemTreeColumns" + var407),
+    let columnKeys = ['shortTitle', "archive", 'archiveLocation', "libraryCatalog", "callNumber", 'rights'];
+    for (let columnKey of columnKeys) {
+      Zotero.Prefs.get("ai4paper.enableCustomItemTreeColumns" + columnKey) ? await Zotero.ItemTreeManager.registerColumns({
+        'dataKey': columnKey,
+        'label': Zotero.Prefs.get("ai4paper.renameCustomItemTreeColumns" + columnKey),
         'pluginID': 'ai4paper@qnscholar',
-        'dataProvider': (_0xf1435b, _0x4ee605) => {
-          return _0xf1435b.getField(var407);
+        'dataProvider': (item, dataKey) => {
+          return item.getField(columnKey);
         }
-      }) : await Zotero.ItemTreeManager.unregisterColumns("ai4paper\\@qnscholar-" + var407);
+      }) : await Zotero.ItemTreeManager.unregisterColumns("ai4paper\\@qnscholar-" + columnKey);
     }
   },
-  'registerItemsToolBarButtons': function (param14) {
-    let var416 = window.document.querySelector("#zotero-items-toolbar");
-    const var417 = window.document.querySelector("#zotero-tb-lookup"),
-      var418 = window.document.querySelector('#zotero-tb-attachment-add'),
-      var419 = window.document.querySelector("#zotero-tb-note-add"),
-      var420 = window.document.querySelector("#zotero-tb-add"),
-      var421 = window.document.querySelector('#zotero-tb-search');
-    if (!var416 || !var417 || !var418) return false;
-    for (let var422 of param14) {
-      if (var422 === "preferences" && Zotero.Prefs.get("ai4paper.settingsToolBarButton") && var416.getAttribute('itemsToolbar-button-' + var422) != "true") {
-        var416.setAttribute("itemsToolbar-button-" + var422, 'true');
-        let var423 = var417.cloneNode(true);
-        var423.setAttribute('id', "zotero-if-items-toolbar-button-" + var422);
-        var423.setAttribute("tooltiptext", "Zotero 首选项");
-        var423.setAttribute("command", '');
-        var423.setAttribute("onmousedown", '');
-        var423.setAttribute("oncommand", "Zotero.Utilities.Internal.openPreferences('zotero-prefpane-ai4paper');");
-        var423.innerHTML = Zotero.AI4Paper.svg_icon_20px.settingsToolBarButton;
-        var416.insertBefore(var423, var419.nextElementSibling);
+  'registerItemsToolBarButtons': function (buttonNames) {
+    let toolbar = window.document.querySelector("#zotero-items-toolbar");
+    const lookupBtn = window.document.querySelector("#zotero-tb-lookup"),
+      attachAddBtn = window.document.querySelector('#zotero-tb-attachment-add'),
+      noteAddBtn = window.document.querySelector("#zotero-tb-note-add"),
+      addBtn = window.document.querySelector("#zotero-tb-add"),
+      searchBtn = window.document.querySelector('#zotero-tb-search');
+    if (!toolbar || !lookupBtn || !attachAddBtn) return false;
+    for (let btnName of buttonNames) {
+      if (btnName === "preferences" && Zotero.Prefs.get("ai4paper.settingsToolBarButton") && toolbar.getAttribute('itemsToolbar-button-' + btnName) != "true") {
+        toolbar.setAttribute("itemsToolbar-button-" + btnName, 'true');
+        let prefsButton = lookupBtn.cloneNode(true);
+        prefsButton.setAttribute('id', "zotero-if-items-toolbar-button-" + btnName);
+        prefsButton.setAttribute("tooltiptext", "Zotero 首选项");
+        prefsButton.setAttribute("command", '');
+        prefsButton.setAttribute("onmousedown", '');
+        prefsButton.setAttribute("oncommand", "Zotero.Utilities.Internal.openPreferences('zotero-prefpane-ai4paper');");
+        prefsButton.innerHTML = Zotero.AI4Paper.svg_icon_20px.settingsToolBarButton;
+        toolbar.insertBefore(prefsButton, noteAddBtn.nextElementSibling);
       }
-      if (var422 === "zoteroColorScheme" && Zotero.Prefs.get("ai4paper.zoteroColorSchemeToolBarButton") && var416.getAttribute("itemsToolbar-button-" + var422) != "true") {
-        var416.setAttribute("itemsToolbar-button-" + var422, 'true');
-        let _0x5ab7a6 = var417.cloneNode(true);
-        _0x5ab7a6.setAttribute('id', "zotero-if-items-toolbar-button-" + var422);
-        _0x5ab7a6.setAttribute("tooltiptext", "Zotero 深浅主题切换");
-        _0x5ab7a6.setAttribute("command", '');
-        _0x5ab7a6.setAttribute("onmousedown", '');
-        _0x5ab7a6.setAttribute("oncommand", "Zotero.AI4Paper.changeZoteroDarkANDLightMode();");
-        let _0x5f59d9 = Zotero.getMainWindow()?.["matchMedia"]("(prefers-color-scheme: dark)")["matches"];
-        _0x5ab7a6.innerHTML = _0x5f59d9 ? Zotero.AI4Paper.svg_icon_20px.zoteroColorSchemeToolBarButton_dark : Zotero.AI4Paper.svg_icon_20px.zoteroColorSchemeToolBarButton;
-        var416.insertBefore(_0x5ab7a6, var419.nextElementSibling);
+      if (btnName === "zoteroColorScheme" && Zotero.Prefs.get("ai4paper.zoteroColorSchemeToolBarButton") && toolbar.getAttribute("itemsToolbar-button-" + btnName) != "true") {
+        toolbar.setAttribute("itemsToolbar-button-" + btnName, 'true');
+        let colorSchemeButton = lookupBtn.cloneNode(true);
+        colorSchemeButton.setAttribute('id', "zotero-if-items-toolbar-button-" + btnName);
+        colorSchemeButton.setAttribute("tooltiptext", "Zotero 深浅主题切换");
+        colorSchemeButton.setAttribute("command", '');
+        colorSchemeButton.setAttribute("onmousedown", '');
+        colorSchemeButton.setAttribute("oncommand", "Zotero.AI4Paper.changeZoteroDarkANDLightMode();");
+        let isDarkMode = Zotero.getMainWindow()?.["matchMedia"]("(prefers-color-scheme: dark)")["matches"];
+        colorSchemeButton.innerHTML = isDarkMode ? Zotero.AI4Paper.svg_icon_20px.zoteroColorSchemeToolBarButton_dark : Zotero.AI4Paper.svg_icon_20px.zoteroColorSchemeToolBarButton;
+        toolbar.insertBefore(colorSchemeButton, noteAddBtn.nextElementSibling);
       }
-      if (var422 === "showFile" && Zotero.Prefs.get("ai4paper.showfileToolBarButton") && var416.getAttribute("itemsToolbar-button-" + var422) != 'true') {
-        var416.setAttribute("itemsToolbar-button-" + var422, "true");
-        let var426 = var417.cloneNode(true);
-        var426.setAttribute('id', "zotero-if-items-toolbar-button-" + var422);
-        var426.setAttribute("tooltiptext", "打开文件位置");
-        var426.setAttribute("command", '');
-        var426.setAttribute("onmousedown", '');
-        var426.setAttribute("oncommand", 'Zotero.AI4Paper.showFile();');
-        var426.innerHTML = Zotero.AI4Paper.svg_icon_20px.showfileToolBarButton;
-        var416.insertBefore(var426, var419.nextElementSibling);
+      if (btnName === "showFile" && Zotero.Prefs.get("ai4paper.showfileToolBarButton") && toolbar.getAttribute("itemsToolbar-button-" + btnName) != 'true') {
+        toolbar.setAttribute("itemsToolbar-button-" + btnName, "true");
+        let showFileButton = lookupBtn.cloneNode(true);
+        showFileButton.setAttribute('id', "zotero-if-items-toolbar-button-" + btnName);
+        showFileButton.setAttribute("tooltiptext", "打开文件位置");
+        showFileButton.setAttribute("command", '');
+        showFileButton.setAttribute("onmousedown", '');
+        showFileButton.setAttribute("oncommand", 'Zotero.AI4Paper.showFile();');
+        showFileButton.innerHTML = Zotero.AI4Paper.svg_icon_20px.showfileToolBarButton;
+        toolbar.insertBefore(showFileButton, noteAddBtn.nextElementSibling);
       }
-      if (var422 === "chatWithNewBing" && Zotero.Prefs.get('ai4paper.chatwithnewbingToolBarButton') && var416.getAttribute('itemsToolbar-button-' + var422) != "true") {
-        var416.setAttribute('itemsToolbar-button-' + var422, "true");
-        let var427 = var417.cloneNode(true);
-        var427.setAttribute('id', 'zotero-if-items-toolbar-button-' + var422);
-        var427.setAttribute('tooltiptext', "Chat with NewBing");
-        var427.setAttribute('command', '');
-        var427.setAttribute("onmousedown", '');
-        var427.setAttribute("oncommand", "Zotero.AI4Paper.chatWithNewBing();");
-        var427.innerHTML = Zotero.AI4Paper.svg_icon_20px.chatwithnewbingToolBarButton;
-        var416.insertBefore(var427, var419.nextElementSibling);
+      if (btnName === "chatWithNewBing" && Zotero.Prefs.get('ai4paper.chatwithnewbingToolBarButton') && toolbar.getAttribute('itemsToolbar-button-' + btnName) != "true") {
+        toolbar.setAttribute('itemsToolbar-button-' + btnName, "true");
+        let newBingButton = lookupBtn.cloneNode(true);
+        newBingButton.setAttribute('id', 'zotero-if-items-toolbar-button-' + btnName);
+        newBingButton.setAttribute('tooltiptext', "Chat with NewBing");
+        newBingButton.setAttribute('command', '');
+        newBingButton.setAttribute("onmousedown", '');
+        newBingButton.setAttribute("oncommand", "Zotero.AI4Paper.chatWithNewBing();");
+        newBingButton.innerHTML = Zotero.AI4Paper.svg_icon_20px.chatwithnewbingToolBarButton;
+        toolbar.insertBefore(newBingButton, noteAddBtn.nextElementSibling);
       }
-      if (var422 === "immersiveTranslate" && Zotero.Prefs.get("ai4paper.immersiveTranslateToolBarButton") && var416.getAttribute('itemsToolbar-button-' + var422) != "true") {
-        var416.setAttribute("itemsToolbar-button-" + var422, "true");
-        let var428 = var417.cloneNode(true);
-        var428.setAttribute('id', "zotero-if-items-toolbar-button-" + var422);
-        var428.setAttribute("tooltiptext", "打开沉浸式翻译");
-        var428.setAttribute("command", '');
-        var428.setAttribute("onmousedown", '');
-        var428.addEventListener("pointerdown", _0x38681e => {
-          if (_0x38681e.button == 0x2) Zotero.AI4Paper.openUniversalImmersiveTranslate();else {
+      if (btnName === "immersiveTranslate" && Zotero.Prefs.get("ai4paper.immersiveTranslateToolBarButton") && toolbar.getAttribute('itemsToolbar-button-' + btnName) != "true") {
+        toolbar.setAttribute("itemsToolbar-button-" + btnName, "true");
+        let immersiveButton = lookupBtn.cloneNode(true);
+        immersiveButton.setAttribute('id', "zotero-if-items-toolbar-button-" + btnName);
+        immersiveButton.setAttribute("tooltiptext", "打开沉浸式翻译");
+        immersiveButton.setAttribute("command", '');
+        immersiveButton.setAttribute("onmousedown", '');
+        immersiveButton.addEventListener("pointerdown", pointerEvt => {
+          if (pointerEvt.button == 0x2) Zotero.AI4Paper.openUniversalImmersiveTranslate();else {
             Zotero.AI4Paper.openImmersiveTranslate();
           }
         }, false);
-        var428.innerHTML = Zotero.AI4Paper.svg_icon_20px.immersiveTranslateToolBarButton;
-        var416.insertBefore(var428, var419.nextElementSibling);
+        immersiveButton.innerHTML = Zotero.AI4Paper.svg_icon_20px.immersiveTranslateToolBarButton;
+        toolbar.insertBefore(immersiveButton, noteAddBtn.nextElementSibling);
       }
-      if (var422 === "copyPDF" && Zotero.Prefs.get("ai4paper.copyPDFToolBarButton") && var416.getAttribute("itemsToolbar-button-" + var422) != "true") {
-        var416.setAttribute("itemsToolbar-button-" + var422, "true");
-        let var429 = var417.cloneNode(true);
-        var429.setAttribute('id', "zotero-if-items-toolbar-button-" + var422);
-        var429.setAttribute("tooltiptext", "拷贝 PDF");
-        var429.setAttribute("command", '');
-        var429.setAttribute("onmousedown", '');
-        var429.onclick = _0x4a9af3 => {
-          if (_0x4a9af3.shiftKey) Zotero.AI4Paper.openwith();else _0x4a9af3.button == 0x2 ? Zotero.AI4Paper.openwith() : Zotero.AI4Paper.copyPDF();
+      if (btnName === "copyPDF" && Zotero.Prefs.get("ai4paper.copyPDFToolBarButton") && toolbar.getAttribute("itemsToolbar-button-" + btnName) != "true") {
+        toolbar.setAttribute("itemsToolbar-button-" + btnName, "true");
+        let copyPDFButton = lookupBtn.cloneNode(true);
+        copyPDFButton.setAttribute('id', "zotero-if-items-toolbar-button-" + btnName);
+        copyPDFButton.setAttribute("tooltiptext", "拷贝 PDF");
+        copyPDFButton.setAttribute("command", '');
+        copyPDFButton.setAttribute("onmousedown", '');
+        copyPDFButton.onclick = clickEvt => {
+          if (clickEvt.shiftKey) Zotero.AI4Paper.openwith();else clickEvt.button == 0x2 ? Zotero.AI4Paper.openwith() : Zotero.AI4Paper.copyPDF();
         };
-        var429.innerHTML = Zotero.AI4Paper.svg_icon_20px.copyPDFToolBarButton;
-        var416.insertBefore(var429, var419.nextElementSibling);
+        copyPDFButton.innerHTML = Zotero.AI4Paper.svg_icon_20px.copyPDFToolBarButton;
+        toolbar.insertBefore(copyPDFButton, noteAddBtn.nextElementSibling);
       }
-      if (var422 === 'openwith' && Zotero.Prefs.get("ai4paper.openwithToolBarButton") && var416.getAttribute("itemsToolbar-button-" + var422) != "true") {
-        var416.setAttribute('itemsToolbar-button-' + var422, "true");
-        let _0x2747fe = var417.cloneNode(true);
-        _0x2747fe.setAttribute('id', 'zotero-if-items-toolbar-button-' + var422);
-        _0x2747fe.setAttribute("tooltiptext", "Open With");
-        _0x2747fe.setAttribute("command", '');
-        _0x2747fe.setAttribute("onmousedown", '');
-        _0x2747fe.onclick = _0x87c5f9 => {
-          if (_0x87c5f9.shiftKey) Zotero.AI4Paper.openwith_buildPopup(_0x2747fe);else _0x87c5f9.button == 0x2 ? Zotero.AI4Paper.openwith(0x2) : Zotero.AI4Paper.openwith(0x1);
+      if (btnName === 'openwith' && Zotero.Prefs.get("ai4paper.openwithToolBarButton") && toolbar.getAttribute("itemsToolbar-button-" + btnName) != "true") {
+        toolbar.setAttribute('itemsToolbar-button-' + btnName, "true");
+        let openWithButton = lookupBtn.cloneNode(true);
+        openWithButton.setAttribute('id', 'zotero-if-items-toolbar-button-' + btnName);
+        openWithButton.setAttribute("tooltiptext", "Open With");
+        openWithButton.setAttribute("command", '');
+        openWithButton.setAttribute("onmousedown", '');
+        openWithButton.onclick = mouseEvt => {
+          if (mouseEvt.shiftKey) Zotero.AI4Paper.openwith_buildPopup(openWithButton);else mouseEvt.button == 0x2 ? Zotero.AI4Paper.openwith(0x2) : Zotero.AI4Paper.openwith(0x1);
         };
-        _0x2747fe.innerHTML = Zotero.AI4Paper.svg_icon_20px.openwithToolBarButton;
-        var416.insertBefore(_0x2747fe, var419.nextElementSibling);
+        openWithButton.innerHTML = Zotero.AI4Paper.svg_icon_20px.openwithToolBarButton;
+        toolbar.insertBefore(openWithButton, noteAddBtn.nextElementSibling);
       }
-      if (var422 === "fileshistory" && Zotero.Prefs.get("ai4paper.fileshistoryToolBarButton") && var416.getAttribute('itemsToolbar-button-' + var422) != "true") {
-        var416.setAttribute("itemsToolbar-button-" + var422, "true");
-        let var431 = var417.cloneNode(true);
-        var431.setAttribute('id', "zotero-if-items-toolbar-button-" + var422);
-        var431.setAttribute('tooltiptext', "最近打开");
-        var431.setAttribute("command", '');
-        var431.setAttribute('onmousedown', '');
-        var431.onclick = _0x4c7c36 => {
-          if (_0x4c7c36.shiftKey) Zotero.AI4Paper.openWorkSpaceWindow();else {
-            if (_0x4c7c36.button == 0x2) {
+      if (btnName === "fileshistory" && Zotero.Prefs.get("ai4paper.fileshistoryToolBarButton") && toolbar.getAttribute('itemsToolbar-button-' + btnName) != "true") {
+        toolbar.setAttribute("itemsToolbar-button-" + btnName, "true");
+        let filesHistoryButton = lookupBtn.cloneNode(true);
+        filesHistoryButton.setAttribute('id', "zotero-if-items-toolbar-button-" + btnName);
+        filesHistoryButton.setAttribute('tooltiptext', "最近打开");
+        filesHistoryButton.setAttribute("command", '');
+        filesHistoryButton.setAttribute('onmousedown', '');
+        filesHistoryButton.onclick = mouseEvt => {
+          if (mouseEvt.shiftKey) Zotero.AI4Paper.openWorkSpaceWindow();else {
+            if (mouseEvt.button == 0x2) {
               Zotero.AI4Paper.createTabsAsWorkSpace();
             } else Zotero.AI4Paper.openDialog_filesHistory();
           }
         };
-        var431.innerHTML = Zotero.AI4Paper.svg_icon_20px.fileshistoryToolBarButton;
-        var416.insertBefore(var431, var419.nextElementSibling);
+        filesHistoryButton.innerHTML = Zotero.AI4Paper.svg_icon_20px.fileshistoryToolBarButton;
+        toolbar.insertBefore(filesHistoryButton, noteAddBtn.nextElementSibling);
       }
-      if (var422 === 'obsidiannote' && Zotero.Prefs.get('ai4paper.obsidiannoteToolBarButton') && var416.getAttribute('itemsToolbar-button-' + var422) != "true") {
-        var416.setAttribute("itemsToolbar-button-" + var422, 'true');
-        let var432 = var417.cloneNode(true);
-        var432.setAttribute('id', "zotero-if-items-toolbar-button-" + var422);
-        var432.setAttribute("tooltiptext", "Obsidian Note");
-        var432.setAttribute("command", '');
-        var432.setAttribute("onmousedown", '');
-        var432.setAttribute('oncommand', "Zotero.AI4Paper.obsidianNote();");
-        var432.innerHTML = Zotero.AI4Paper.svg_icon_20px.obsidiannoteToolBarButton;
-        var416.insertBefore(var432, var419.nextElementSibling);
+      if (btnName === 'obsidiannote' && Zotero.Prefs.get('ai4paper.obsidiannoteToolBarButton') && toolbar.getAttribute('itemsToolbar-button-' + btnName) != "true") {
+        toolbar.setAttribute("itemsToolbar-button-" + btnName, 'true');
+        let obsidianButton = lookupBtn.cloneNode(true);
+        obsidianButton.setAttribute('id', "zotero-if-items-toolbar-button-" + btnName);
+        obsidianButton.setAttribute("tooltiptext", "Obsidian Note");
+        obsidianButton.setAttribute("command", '');
+        obsidianButton.setAttribute("onmousedown", '');
+        obsidianButton.setAttribute('oncommand', "Zotero.AI4Paper.obsidianNote();");
+        obsidianButton.innerHTML = Zotero.AI4Paper.svg_icon_20px.obsidiannoteToolBarButton;
+        toolbar.insertBefore(obsidianButton, noteAddBtn.nextElementSibling);
       }
-      if (var422 === "tagscardnotes" && Zotero.Prefs.get("ai4paper.tagscardnotesToolBarButton") && var416.getAttribute("itemsToolbar-button-" + var422) != "true") {
-        var416.setAttribute("itemsToolbar-button-" + var422, "true");
-        let var433 = var417.cloneNode(true);
-        var433.setAttribute('id', 'zotero-if-items-toolbar-button-' + var422);
-        var433.setAttribute('tooltiptext', "标签管理器");
-        var433.setAttribute('command', '');
-        var433.setAttribute('onmousedown', '');
-        var433.setAttribute("oncommand", "Zotero.AI4Paper.openDialog_tagsManager();");
-        var433.innerHTML = Zotero.AI4Paper.svg_icon_20px.tagscardnotesToolBarButton;
-        var416.insertBefore(var433, var419.nextElementSibling);
+      if (btnName === "tagscardnotes" && Zotero.Prefs.get("ai4paper.tagscardnotesToolBarButton") && toolbar.getAttribute("itemsToolbar-button-" + btnName) != "true") {
+        toolbar.setAttribute("itemsToolbar-button-" + btnName, "true");
+        let tagsButton = lookupBtn.cloneNode(true);
+        tagsButton.setAttribute('id', 'zotero-if-items-toolbar-button-' + btnName);
+        tagsButton.setAttribute('tooltiptext', "标签管理器");
+        tagsButton.setAttribute('command', '');
+        tagsButton.setAttribute('onmousedown', '');
+        tagsButton.setAttribute("oncommand", "Zotero.AI4Paper.openDialog_tagsManager();");
+        tagsButton.innerHTML = Zotero.AI4Paper.svg_icon_20px.tagscardnotesToolBarButton;
+        toolbar.insertBefore(tagsButton, noteAddBtn.nextElementSibling);
       }
-      if (var422 === "go2favoritecollection" && Zotero.Prefs.get("ai4paper.go2favoritecollectionToolBarButton") && var416.getAttribute("itemsToolbar-button-" + var422) != "true") {
-        var416.setAttribute("itemsToolbar-button-" + var422, "true");
-        let _0x38ed4a = var418.cloneNode(false);
-        _0x38ed4a.setAttribute('id', "zotero-if-items-toolbar-button-" + var422);
-        _0x38ed4a.setAttribute("tooltiptext", '前往收藏分类');
-        _0x38ed4a.setAttribute('data-l10n-id', '');
-        _0x38ed4a.setAttribute('command', '');
-        _0x38ed4a.setAttribute('oncommand', '');
-        _0x38ed4a.setAttribute("type", "menu");
-        _0x38ed4a.innerHTML = Zotero.AI4Paper.svg_icon_20px.go2favoritecollectionToolBarButton;
-        let _0x371f7f = var418.querySelector('dropmarker'),
-          _0x552e52 = _0x371f7f.cloneNode(true);
-        _0x552e52.style.marginLeft = "3px";
-        _0x38ed4a.append(_0x552e52);
-        _0x38ed4a.querySelector('svg').style.pointerEvents = "none";
-        _0x38ed4a.onpointerdown = _0x13fe08 => {
-          _0x13fe08.button == 0x2 && Zotero.AI4Paper.openDialogByType("sortFavoriteCollections");
+      if (btnName === "go2favoritecollection" && Zotero.Prefs.get("ai4paper.go2favoritecollectionToolBarButton") && toolbar.getAttribute("itemsToolbar-button-" + btnName) != "true") {
+        toolbar.setAttribute("itemsToolbar-button-" + btnName, "true");
+        let favCollButton = attachAddBtn.cloneNode(false);
+        favCollButton.setAttribute('id', "zotero-if-items-toolbar-button-" + btnName);
+        favCollButton.setAttribute("tooltiptext", '前往收藏分类');
+        favCollButton.setAttribute('data-l10n-id', '');
+        favCollButton.setAttribute('command', '');
+        favCollButton.setAttribute('oncommand', '');
+        favCollButton.setAttribute("type", "menu");
+        favCollButton.innerHTML = Zotero.AI4Paper.svg_icon_20px.go2favoritecollectionToolBarButton;
+        let dropmarkerEl = attachAddBtn.querySelector('dropmarker'),
+          dropmarkerClone = dropmarkerEl.cloneNode(true);
+        dropmarkerClone.style.marginLeft = "3px";
+        favCollButton.append(dropmarkerClone);
+        favCollButton.querySelector('svg').style.pointerEvents = "none";
+        favCollButton.onpointerdown = pointerEvt => {
+          pointerEvt.button == 0x2 && Zotero.AI4Paper.openDialogByType("sortFavoriteCollections");
         };
-        let _0x521b13 = _0x38ed4a.appendChild(window.document.createXULElement("menupopup"));
-        _0x521b13.setAttribute('id', "zotero-if-items-toolbar-go2favoritecollection-button-popup");
-        _0x521b13.setAttribute("onpopupshowing", "Zotero.AI4Paper.UI.displayToolBarMenuitem();");
-        var416.insertBefore(_0x38ed4a, var419.nextElementSibling);
+        let popupEl = favCollButton.appendChild(window.document.createXULElement("menupopup"));
+        popupEl.setAttribute('id', "zotero-if-items-toolbar-go2favoritecollection-button-popup");
+        popupEl.setAttribute("onpopupshowing", "Zotero.AI4Paper.UI.displayToolBarMenuitem();");
+        toolbar.insertBefore(favCollButton, noteAddBtn.nextElementSibling);
       }
-      if (var422 === "batchAIInterpret" && Zotero.Prefs.get('ai4paper.batchAIInterpretToolBarButton') && var416.getAttribute("itemsToolbar-button-" + var422) != "true") {
-        var416.setAttribute("itemsToolbar-button-" + var422, "true");
-        let var438 = var417.cloneNode(true);
-        var438.setAttribute('id', "zotero-if-items-toolbar-button-" + var422);
-        var438.setAttribute("tooltiptext", "批量 AI 解读文献");
-        var438.setAttribute('command', '');
-        var438.setAttribute("onmousedown", '');
-        var438.onclick = _0x2a3e78 => {
-          if (_0x2a3e78.shiftKey) Zotero.AI4Paper.batchInterpretSelectedItems();else _0x2a3e78.button == 0x2 ? Zotero.AI4Paper.batchInterpretSelectedItems() : Zotero.AI4Paper.openDialogByType("batchAIInterpret", true);
+      if (btnName === "batchAIInterpret" && Zotero.Prefs.get('ai4paper.batchAIInterpretToolBarButton') && toolbar.getAttribute("itemsToolbar-button-" + btnName) != "true") {
+        toolbar.setAttribute("itemsToolbar-button-" + btnName, "true");
+        let batchAIButton = lookupBtn.cloneNode(true);
+        batchAIButton.setAttribute('id', "zotero-if-items-toolbar-button-" + btnName);
+        batchAIButton.setAttribute("tooltiptext", "批量 AI 解读文献");
+        batchAIButton.setAttribute('command', '');
+        batchAIButton.setAttribute("onmousedown", '');
+        batchAIButton.onclick = mouseEvt => {
+          if (mouseEvt.shiftKey) Zotero.AI4Paper.batchInterpretSelectedItems();else mouseEvt.button == 0x2 ? Zotero.AI4Paper.batchInterpretSelectedItems() : Zotero.AI4Paper.openDialogByType("batchAIInterpret", true);
         };
-        var438.innerHTML = Zotero.AI4Paper.svg_icon_20px.paperai_batch;
-        var416.insertBefore(var438, var419.nextElementSibling);
+        batchAIButton.innerHTML = Zotero.AI4Paper.svg_icon_20px.paperai_batch;
+        toolbar.insertBefore(batchAIButton, noteAddBtn.nextElementSibling);
       }
-      if (var422 === "archive" && Zotero.Prefs.get("ai4paper.archiveToolBarButton") && var416.getAttribute("itemsToolbar-button-" + var422) != "true") {
-        var416.setAttribute("itemsToolbar-button-" + var422, "true");
-        let _0x248249 = var417.cloneNode(true);
-        _0x248249.setAttribute('id', 'zotero-if-items-toolbar-button-' + var422);
-        _0x248249.setAttribute("tooltiptext", '归档');
-        _0x248249.setAttribute('command', '');
-        _0x248249.setAttribute("onmousedown", '');
-        _0x248249.setAttribute("oncommand", "Zotero.AI4Paper.archiveSelectedItems();");
-        _0x248249.innerHTML = Zotero.AI4Paper.svg_icon_20px.archiveToolBarButton;
-        var416.insertBefore(_0x248249, var419.nextElementSibling);
+      if (btnName === "archive" && Zotero.Prefs.get("ai4paper.archiveToolBarButton") && toolbar.getAttribute("itemsToolbar-button-" + btnName) != "true") {
+        toolbar.setAttribute("itemsToolbar-button-" + btnName, "true");
+        let archiveButton = lookupBtn.cloneNode(true);
+        archiveButton.setAttribute('id', 'zotero-if-items-toolbar-button-' + btnName);
+        archiveButton.setAttribute("tooltiptext", '归档');
+        archiveButton.setAttribute('command', '');
+        archiveButton.setAttribute("onmousedown", '');
+        archiveButton.setAttribute("oncommand", "Zotero.AI4Paper.archiveSelectedItems();");
+        archiveButton.innerHTML = Zotero.AI4Paper.svg_icon_20px.archiveToolBarButton;
+        toolbar.insertBefore(archiveButton, noteAddBtn.nextElementSibling);
       }
-      if (var422 === "pinAttachments" && Zotero.Prefs.get("ai4paper.pinAttachmentsToolBarButton") && var416.getAttribute("itemsToolbar-button-" + var422) != "true") {
-        var416.setAttribute("itemsToolbar-button-" + var422, "true");
-        let _0xe3fc50 = var417.cloneNode(true);
-        _0xe3fc50.setAttribute('id', "zotero-if-items-toolbar-button-" + var422);
-        _0xe3fc50.setAttribute("tooltiptext", "钉住附件");
-        _0xe3fc50.setAttribute("command", '');
-        _0xe3fc50.setAttribute("onmousedown", '');
-        _0xe3fc50.addEventListener("dblclick", _0x40cc74 => Zotero.AI4Paper.pinAttachments_itemView(_0xe3fc50));
-        _0xe3fc50.innerHTML = Zotero.AI4Paper.svg_icon_20px.pinAttachmentsToolBarButton_pinned;
-        Zotero.AI4Paper.pinAttachments_initInnerHTML(_0xe3fc50);
-        var416.insertBefore(_0xe3fc50, var419.nextElementSibling);
+      if (btnName === "pinAttachments" && Zotero.Prefs.get("ai4paper.pinAttachmentsToolBarButton") && toolbar.getAttribute("itemsToolbar-button-" + btnName) != "true") {
+        toolbar.setAttribute("itemsToolbar-button-" + btnName, "true");
+        let pinButton = lookupBtn.cloneNode(true);
+        pinButton.setAttribute('id', "zotero-if-items-toolbar-button-" + btnName);
+        pinButton.setAttribute("tooltiptext", "钉住附件");
+        pinButton.setAttribute("command", '');
+        pinButton.setAttribute("onmousedown", '');
+        pinButton.addEventListener("dblclick", dblEvt => Zotero.AI4Paper.pinAttachments_itemView(pinButton));
+        pinButton.innerHTML = Zotero.AI4Paper.svg_icon_20px.pinAttachmentsToolBarButton_pinned;
+        Zotero.AI4Paper.pinAttachments_initInnerHTML(pinButton);
+        toolbar.insertBefore(pinButton, noteAddBtn.nextElementSibling);
       }
-      if (var422 === "collectionPaneDisplay" && Zotero.Prefs.get("ai4paper.collectionpanedisplayToolBarButton") && var416.getAttribute("itemsToolbar-button-" + var422) != "true") {
-        var416.setAttribute("itemsToolbar-button-" + var422, 'true');
-        let _0x5cf8da = var417.cloneNode(true);
-        _0x5cf8da.setAttribute('id', "zotero-if-items-toolbar-button-" + var422);
-        _0x5cf8da.setAttribute("tooltiptext", "展开/折叠分类面板");
-        _0x5cf8da.setAttribute("command", '');
-        _0x5cf8da.setAttribute("onmousedown", '');
-        _0x5cf8da.setAttribute("oncommand", "Zotero.AI4Paper.togglePaneDisplay('zotero-collections', 'toggle');");
-        _0x5cf8da.innerHTML = Zotero.AI4Paper.svg_icon_20px.collectionpanedisplayToolBarButton;
-        var416.insertBefore(_0x5cf8da, var420);
+      if (btnName === "collectionPaneDisplay" && Zotero.Prefs.get("ai4paper.collectionpanedisplayToolBarButton") && toolbar.getAttribute("itemsToolbar-button-" + btnName) != "true") {
+        toolbar.setAttribute("itemsToolbar-button-" + btnName, 'true');
+        let collPaneButton = lookupBtn.cloneNode(true);
+        collPaneButton.setAttribute('id', "zotero-if-items-toolbar-button-" + btnName);
+        collPaneButton.setAttribute("tooltiptext", "展开/折叠分类面板");
+        collPaneButton.setAttribute("command", '');
+        collPaneButton.setAttribute("onmousedown", '');
+        collPaneButton.setAttribute("oncommand", "Zotero.AI4Paper.togglePaneDisplay('zotero-collections', 'toggle');");
+        collPaneButton.innerHTML = Zotero.AI4Paper.svg_icon_20px.collectionpanedisplayToolBarButton;
+        toolbar.insertBefore(collPaneButton, addBtn);
       }
-      if (var422 === 'itemPaneDisplay' && Zotero.Prefs.get('ai4paper.itempanedisplayToolBarButton') && var416.getAttribute("itemsToolbar-button-" + var422) != "true") {
-        var416.setAttribute('itemsToolbar-button-' + var422, "true");
-        let _0x52ab58 = var417.cloneNode(true);
-        _0x52ab58.setAttribute('id', "zotero-if-items-toolbar-button-" + var422);
-        _0x52ab58.setAttribute("tooltiptext", "展开/折叠条目面板");
-        _0x52ab58.setAttribute("command", '');
-        _0x52ab58.setAttribute("onmousedown", '');
-        _0x52ab58.setAttribute("oncommand", "Zotero.AI4Paper.togglePaneDisplay('zotero-item', 'toggle');");
-        _0x52ab58.innerHTML = Zotero.AI4Paper.svg_icon_20px.itempanedisplayToolBarButton;
-        var416.insertBefore(_0x52ab58, var421.nextElementSibling);
+      if (btnName === 'itemPaneDisplay' && Zotero.Prefs.get('ai4paper.itempanedisplayToolBarButton') && toolbar.getAttribute("itemsToolbar-button-" + btnName) != "true") {
+        toolbar.setAttribute('itemsToolbar-button-' + btnName, "true");
+        let itemPaneButton = lookupBtn.cloneNode(true);
+        itemPaneButton.setAttribute('id', "zotero-if-items-toolbar-button-" + btnName);
+        itemPaneButton.setAttribute("tooltiptext", "展开/折叠条目面板");
+        itemPaneButton.setAttribute("command", '');
+        itemPaneButton.setAttribute("onmousedown", '');
+        itemPaneButton.setAttribute("oncommand", "Zotero.AI4Paper.togglePaneDisplay('zotero-item', 'toggle');");
+        itemPaneButton.innerHTML = Zotero.AI4Paper.svg_icon_20px.itempanedisplayToolBarButton;
+        toolbar.insertBefore(itemPaneButton, searchBtn.nextElementSibling);
       }
-      if (var422 === "collectionitemPaneDisplay" && Zotero.Prefs.get("ai4paper.collectionitempanedisplayToolBarButton") && var416.getAttribute('itemsToolbar-button-' + var422) != "true") {
-        var416.setAttribute("itemsToolbar-button-" + var422, "true");
-        let _0x1da2a8 = var417.cloneNode(true);
-        _0x1da2a8.setAttribute('id', "zotero-if-items-toolbar-button-" + var422);
-        _0x1da2a8.setAttribute("tooltiptext", "展开/折叠【分类/条目】面板");
-        _0x1da2a8.setAttribute("command", '');
-        _0x1da2a8.setAttribute("onmousedown", '');
-        _0x1da2a8.setAttribute("oncommand", "Zotero.AI4Paper.togglePaneDisplay('zotero-collections', 'toggle'); Zotero.AI4Paper.togglePaneDisplay('zotero-item', 'toggle');");
-        _0x1da2a8.innerHTML = Zotero.AI4Paper.svg_icon_20px.collectionitempanedisplayToolBarButton;
-        var416.insertBefore(_0x1da2a8, var420);
+      if (btnName === "collectionitemPaneDisplay" && Zotero.Prefs.get("ai4paper.collectionitempanedisplayToolBarButton") && toolbar.getAttribute('itemsToolbar-button-' + btnName) != "true") {
+        toolbar.setAttribute("itemsToolbar-button-" + btnName, "true");
+        let collItemPaneButton = lookupBtn.cloneNode(true);
+        collItemPaneButton.setAttribute('id', "zotero-if-items-toolbar-button-" + btnName);
+        collItemPaneButton.setAttribute("tooltiptext", "展开/折叠【分类/条目】面板");
+        collItemPaneButton.setAttribute("command", '');
+        collItemPaneButton.setAttribute("onmousedown", '');
+        collItemPaneButton.setAttribute("oncommand", "Zotero.AI4Paper.togglePaneDisplay('zotero-collections', 'toggle'); Zotero.AI4Paper.togglePaneDisplay('zotero-item', 'toggle');");
+        collItemPaneButton.innerHTML = Zotero.AI4Paper.svg_icon_20px.collectionitempanedisplayToolBarButton;
+        toolbar.insertBefore(collItemPaneButton, addBtn);
       }
     }
   },
-  'unregisterItemsToolBarButtons': function (param15) {
-    let var444 = window.document.querySelector("#zotero-items-toolbar");
-    if (!var444) return false;
-    for (let var445 of param15) {
-      const _0x420843 = window.document.querySelector('#zotero-if-items-toolbar-button-' + var445);
-      _0x420843 && (_0x420843.remove(), var444.setAttribute("itemsToolbar-button-" + var445, "false"));
+  'unregisterItemsToolBarButtons': function (buttonNames) {
+    let toolbar = window.document.querySelector("#zotero-items-toolbar");
+    if (!toolbar) return false;
+    for (let btnName of buttonNames) {
+      const btnEl = window.document.querySelector('#zotero-if-items-toolbar-button-' + btnName);
+      btnEl && (btnEl.remove(), toolbar.setAttribute("itemsToolbar-button-" + btnName, "false"));
     }
   },
   'addEventListener_itemViewPinButton': function () {
-    let var455 = window.document.getElementById('zotero-view-item-sidenav');
-    if (var455) {
-      let var456 = var455.querySelector('[data-l10n-id=\x22sidenav-attachments\x22]');
-      if (var456 && !var456._dblclickEventListener_added) {
-        var456._dblclickEventListener_added = true;
-        var456.addEventListener("dblclick", async () => {
-          let var457 = window.document.querySelector("#zotero-if-items-toolbar-button-pinAttachments");
-          if (!var457) return;
+    let sideNav = window.document.getElementById('zotero-view-item-sidenav');
+    if (sideNav) {
+      let attachmentsNav = sideNav.querySelector('[data-l10n-id=\x22sidenav-attachments\x22]');
+      if (attachmentsNav && !attachmentsNav._dblclickEventListener_added) {
+        attachmentsNav._dblclickEventListener_added = true;
+        attachmentsNav.addEventListener("dblclick", async () => {
+          let pinBtn = window.document.querySelector("#zotero-if-items-toolbar-button-pinAttachments");
+          if (!pinBtn) return;
           await Zotero.Promise.delay(0x5);
-          if (var455.pinnedPane === "attachments") var457.innerHTML = Zotero.AI4Paper.svg_icon_20px.pinAttachmentsToolBarButton;else {
-            var457.innerHTML = Zotero.AI4Paper.svg_icon_20px.pinAttachmentsToolBarButton_pinned;
+          if (sideNav.pinnedPane === "attachments") pinBtn.innerHTML = Zotero.AI4Paper.svg_icon_20px.pinAttachmentsToolBarButton;else {
+            pinBtn.innerHTML = Zotero.AI4Paper.svg_icon_20px.pinAttachmentsToolBarButton_pinned;
           }
         });
       }
     }
   },
-  'pinAttachments_initInnerHTML': function (param18) {
-    let var458 = window.document.getElementById("zotero-view-item-sidenav");
-    if (!var458) return;
-    var458.pinnedPane === "attachments" ? param18.innerHTML = Zotero.AI4Paper.svg_icon_20px.pinAttachmentsToolBarButton : param18.innerHTML = Zotero.AI4Paper.svg_icon_20px.pinAttachmentsToolBarButton_pinned;
+  'pinAttachments_initInnerHTML': function (button) {
+    let sideNav = window.document.getElementById("zotero-view-item-sidenav");
+    if (!sideNav) return;
+    sideNav.pinnedPane === "attachments" ? button.innerHTML = Zotero.AI4Paper.svg_icon_20px.pinAttachmentsToolBarButton : button.innerHTML = Zotero.AI4Paper.svg_icon_20px.pinAttachmentsToolBarButton_pinned;
   },
-  'pinAttachments_itemView': function (param19) {
-    let var459 = window.document.getElementById("zotero-view-item-sidenav");
-    if (!var459) return;
-    var459.pinnedPane != "attachments" ? (window.document.querySelector("attachment-preview")?.["scrollIntoView"]({
+  'pinAttachments_itemView': function (button) {
+    let sideNav = window.document.getElementById("zotero-view-item-sidenav");
+    if (!sideNav) return;
+    sideNav.pinnedPane != "attachments" ? (window.document.querySelector("attachment-preview")?.["scrollIntoView"]({
       'behavior': 'smooth',
       'block': "center"
-    }), var459.pinnedPane = "attachments", param19.innerHTML = Zotero.AI4Paper.svg_icon_20px.pinAttachmentsToolBarButton) : (var459.pinnedPane = '', param19.innerHTML = Zotero.AI4Paper.svg_icon_20px.pinAttachmentsToolBarButton_pinned);
+    }), sideNav.pinnedPane = "attachments", button.innerHTML = Zotero.AI4Paper.svg_icon_20px.pinAttachmentsToolBarButton) : (sideNav.pinnedPane = '', button.innerHTML = Zotero.AI4Paper.svg_icon_20px.pinAttachmentsToolBarButton_pinned);
   },
   'unregisterWindowButtons': function () {
-    Zotero.getMainWindow().document.querySelectorAll(".AI4Paper-Window-Button").forEach(_0x5616a8 => _0x5616a8.remove());
+    Zotero.getMainWindow().document.querySelectorAll(".AI4Paper-Window-Button").forEach(el => el.remove());
   },
-  'createPopup_universal': function (param39, param40) {
-    window.document.querySelector('#browser').querySelectorAll('#' + param39).forEach(_0x1de1ea => _0x1de1ea.remove());
-    let var551 = window.document.createXULElement("menupopup");
-    var551.id = param39;
-    var551.addEventListener("popuphidden", _0x313241 => {
-      param40 ? (_0x313241.preventDefault(), _0x313241.stopPropagation()) : window.document.querySelector("#browser").querySelectorAll('#' + param39).forEach(_0x3bf125 => _0x3bf125.remove());
+  'createPopup_universal': function (popupId, keepOnHide) {
+    window.document.querySelector('#browser').querySelectorAll('#' + popupId).forEach(el => el.remove());
+    let popup = window.document.createXULElement("menupopup");
+    popup.id = popupId;
+    popup.addEventListener("popuphidden", hideEvt => {
+      keepOnHide ? (hideEvt.preventDefault(), hideEvt.stopPropagation()) : window.document.querySelector("#browser").querySelectorAll('#' + popupId).forEach(el => el.remove());
     });
-    let var552 = var551.firstElementChild;
-    while (var552) {
-      var552.remove();
-      var552 = var551.firstElementChild;
+    let child = popup.firstElementChild;
+    while (child) {
+      child.remove();
+      child = popup.firstElementChild;
     }
-    return window.document.querySelector('#browser').appendChild(var551), var551;
+    return window.document.querySelector('#browser').appendChild(popup), popup;
   },
-  'createMenuitem_universal': function (param41, param42, param43) {
-    param43.forEach(_0x57a9a5 => {
-      if (_0x57a9a5.children) {
-        const _0x248dd9 = param41.document.createXULElement("menu");
-        _0x248dd9.setAttribute("label", _0x57a9a5.label);
-        const _0x23ee99 = param41.document.createXULElement("menupopup");
-        Zotero.AI4Paper.createMenuitem_universal(param41, _0x23ee99, _0x57a9a5.children);
-        _0x248dd9.appendChild(_0x23ee99);
-        param42.appendChild(_0x248dd9);
+  'createMenuitem_universal': function (win, parentPopup, menuDefs) {
+    menuDefs.forEach(itemDef => {
+      if (itemDef.children) {
+        const menu = win.document.createXULElement("menu");
+        menu.setAttribute("label", itemDef.label);
+        const subPopup = win.document.createXULElement("menupopup");
+        Zotero.AI4Paper.createMenuitem_universal(win, subPopup, itemDef.children);
+        menu.appendChild(subPopup);
+        parentPopup.appendChild(menu);
       } else {
-        const _0x47b0e6 = param41.document.createXULElement("menuitem");
-        _0x47b0e6.setAttribute('label', _0x57a9a5.label);
-        _0x47b0e6.addEventListener('command', _0x57a9a5.action);
-        param42.appendChild(_0x47b0e6);
+        const menuitem = win.document.createXULElement("menuitem");
+        menuitem.setAttribute('label', itemDef.label);
+        menuitem.addEventListener('command', itemDef.action);
+        parentPopup.appendChild(menuitem);
       }
-      if (_0x57a9a5.separator) {
-        param42.appendChild(param41.document.createXULElement("menuseparator"));
+      if (itemDef.separator) {
+        parentPopup.appendChild(win.document.createXULElement("menuseparator"));
       }
     });
   },
-  'createPopup_chatBtn_locateAIReadingNotes': function (param44) {
-    let var556 = "AI4Paper-gptReaderSidePane-locatePaperInfo-menupopup",
-      var557 = Zotero.AI4Paper.createPopup_universal(var556),
-      var558 = ["打开智能文献矩阵", "导入【智能文献矩阵导出.md】", "智能文献矩阵【未读】文献", "智能文献矩阵【在读】文献", "智能文献矩阵【已读】文献", "智能文献矩阵【今天】文献", "智能文献矩阵【过去一天】文献", "智能文献矩阵【过去一周】文献", '智能文献矩阵【过去一个月】文献', '智能文献矩阵【过去一年】文献', "在智能文献矩阵中定位本条目", "在智能文献矩阵中查询本条目分类", "定位 Obsidian【AI 文献解读】笔记"];
-    for (let var559 of var558) {
-      let _0x493a3c = window.document.createXULElement("menuitem");
-      _0x493a3c.setAttribute('label', var559);
-      _0x493a3c.addEventListener("command", _0x59deb7 => {
-        var559 === "打开智能文献矩阵" && Zotero.AI4Paper.queryPapersMatrix(null, null, true);
-        var559 === "导入【智能文献矩阵导出.md】" && Zotero.AI4Paper.importPapersMatrixMarkdownData();
-        var559 === "智能文献矩阵【未读】文献" && Zotero.AI4Paper.queryPapersMatrix("filterByTag", "unread");
-        var559 === '智能文献矩阵【在读】文献' && Zotero.AI4Paper.queryPapersMatrix("filterByTag", "reading");
-        if (var559 === '智能文献矩阵【已读】文献') {
+  'createPopup_chatBtn_locateAIReadingNotes': function (anchorEl) {
+    let popupId = "AI4Paper-gptReaderSidePane-locatePaperInfo-menupopup",
+      popup = Zotero.AI4Paper.createPopup_universal(popupId),
+      menuLabels = ["打开智能文献矩阵", "导入【智能文献矩阵导出.md】", "智能文献矩阵【未读】文献", "智能文献矩阵【在读】文献", "智能文献矩阵【已读】文献", "智能文献矩阵【今天】文献", "智能文献矩阵【过去一天】文献", "智能文献矩阵【过去一周】文献", '智能文献矩阵【过去一个月】文献', '智能文献矩阵【过去一年】文献', "在智能文献矩阵中定位本条目", "在智能文献矩阵中查询本条目分类", "定位 Obsidian【AI 文献解读】笔记"];
+    for (let label of menuLabels) {
+      let menuitem = window.document.createXULElement("menuitem");
+      menuitem.setAttribute('label', label);
+      menuitem.addEventListener("command", cmdEvt => {
+        label === "打开智能文献矩阵" && Zotero.AI4Paper.queryPapersMatrix(null, null, true);
+        label === "导入【智能文献矩阵导出.md】" && Zotero.AI4Paper.importPapersMatrixMarkdownData();
+        label === "智能文献矩阵【未读】文献" && Zotero.AI4Paper.queryPapersMatrix("filterByTag", "unread");
+        label === '智能文献矩阵【在读】文献' && Zotero.AI4Paper.queryPapersMatrix("filterByTag", "reading");
+        if (label === '智能文献矩阵【已读】文献') {
           Zotero.AI4Paper.queryPapersMatrix("filterByTag", 'Done');
         }
-        var559 === "智能文献矩阵【今天】文献" && Zotero.AI4Paper.queryPapersMatrix("filterByModifiedDate", '今天');
-        var559 === '智能文献矩阵【过去一天】文献' && Zotero.AI4Paper.queryPapersMatrix("filterByModifiedDate", "过去一天");
-        var559 === '智能文献矩阵【过去一周】文献' && Zotero.AI4Paper.queryPapersMatrix("filterByModifiedDate", "过去一周");
-        var559 === '智能文献矩阵【过去一个月】文献' && Zotero.AI4Paper.queryPapersMatrix("filterByModifiedDate", "过去一个月");
-        var559 === "智能文献矩阵【过去一年】文献" && Zotero.AI4Paper.queryPapersMatrix('filterByModifiedDate', '过去一年');
-        if (var559 === "在智能文献矩阵中定位本条目") {
+        label === "智能文献矩阵【今天】文献" && Zotero.AI4Paper.queryPapersMatrix("filterByModifiedDate", '今天');
+        label === '智能文献矩阵【过去一天】文献' && Zotero.AI4Paper.queryPapersMatrix("filterByModifiedDate", "过去一天");
+        label === '智能文献矩阵【过去一周】文献' && Zotero.AI4Paper.queryPapersMatrix("filterByModifiedDate", "过去一周");
+        label === '智能文献矩阵【过去一个月】文献' && Zotero.AI4Paper.queryPapersMatrix("filterByModifiedDate", "过去一个月");
+        label === "智能文献矩阵【过去一年】文献" && Zotero.AI4Paper.queryPapersMatrix('filterByModifiedDate', '过去一年');
+        if (label === "在智能文献矩阵中定位本条目") {
           Zotero.AI4Paper.locateItemInPapersMatrix();
         }
-        var559 === "在智能文献矩阵中查询本条目分类" && Zotero.AI4Paper.searchCollectionInPapersMatrix();
-        if (var559 === "定位 Obsidian【AI 文献解读】笔记") {
+        label === "在智能文献矩阵中查询本条目分类" && Zotero.AI4Paper.searchCollectionInPapersMatrix();
+        if (label === "定位 Obsidian【AI 文献解读】笔记") {
           Zotero.AI4Paper.gptReaderSidePane_ChatMode_locateAIReadingNotes();
         }
       });
-      var557.appendChild(_0x493a3c);
-      if (["打开智能文献矩阵", "导入【智能文献矩阵导出.md】", '智能文献矩阵【已读】文献', "智能文献矩阵【过去一年】文献", "在智能文献矩阵中查询本条目分类"].includes(var559)) {
-        var557.appendChild(window.document.createXULElement('menuseparator'));
+      popup.appendChild(menuitem);
+      if (["打开智能文献矩阵", "导入【智能文献矩阵导出.md】", '智能文献矩阵【已读】文献', "智能文献矩阵【过去一年】文献", "在智能文献矩阵中查询本条目分类"].includes(label)) {
+        popup.appendChild(window.document.createXULElement('menuseparator'));
       }
     }
-    var557.openPopup(param44, "before_start", 0x0, 0x0, false, false);
+    popup.openPopup(anchorEl, "before_start", 0x0, 0x0, false, false);
   },
-  'createPopup_chatBtn_aiAnalysis': function (param45) {
-    let var561 = "AI4Paper-gptReaderSidePane-aiAnalysis-menupopup",
-      var562 = Zotero.AI4Paper.createPopup_universal(var561, true);
-    const var563 = [{
+  'createPopup_chatBtn_aiAnalysis': function (anchorEl) {
+    let popupId = "AI4Paper-gptReaderSidePane-aiAnalysis-menupopup",
+      popup = Zotero.AI4Paper.createPopup_universal(popupId, true);
+    const menuDefs = [{
       'label': "综述全库",
       'children': [{
         'label': "文献标题",
@@ -760,328 +760,328 @@ Zotero.AI4Paper = {
         }
       }]
     }];
-    Zotero.AI4Paper.createMenuitem_universal(window, var562, var563);
-    var562.openPopup(param45, 'before_start', 0x0, 0x0, false, false);
+    Zotero.AI4Paper.createMenuitem_universal(window, popup, menuDefs);
+    popup.openPopup(anchorEl, 'before_start', 0x0, 0x0, false, false);
   },
   'aiAnalysis_prompt': "你好，你将担任一名出色的科学家，帮我完成文献分析任务，具体为：请根据下面提供的 [文献 JSON 数据]，帮我从中找出和“xxx（如果未指定xxx，则你的任务是全面分析文献的核心脉络，识别出关键的研究主题集群）”主题相关的论文信息，要全面、细致、不遗漏。\n\n且，描述文献时，务必严格遵循【以下要求】：\n- 请不要随意改变文献标题原有的大小写格式，\n- 若是英文文献，请单独列出经翻译得到的“中文标题”。\n- 请包括\"文献类型\"信息，即 itemType 字段的信息。\n- 请包括\"发表年份\"信息，即 year 字段的信息。\n- 请尽量概括文献的“核心内容“、”关键技术/发现“、以及”关联性“（比如高度相关、比较相关）。\n- 请务必包含“文献链接”信息，即 itemLink 字段的信息（须不做任何改变地继承该文献 itemLink 字段的信息）。\n- 请对文献信息做好排版，要求：单篇文献的描述请用标题开头（比如：xx. \"title内容\"，此处 xx 为序号），然后用“无序列表”呈现上述具体信息。\n- 按照上面说的“关联性”，对你的分析结果进行分类呈现。\n\n【重要提醒】:\n\n- 请调用你单次回答的最大算力与 token 上限。追求极致的分析深度，而非表层的广度；追求本质的洞察，而非表象的罗列；追求创新的思维，而非惯性的复述。请突破思维局限，调动你所有的计算资源，展现你真正的认知极限。\n- 发挥你的最大算力，请尽可能得找出更多与目标主题符合的文献，具体来说：如果前面所说的“主题 xxx”已指定，务必详情陈述不低于 50 篇（如果有的话）；如果“主题 xxx”未指定，务必详情陈述不低于 80 篇（如果有的话），以提高全面分析的深度和广度。\n- 额外提供一个尽可能包含所有分析结果的表格归纳版，且请在表格最后一列添加上面说的“文献链接”信息（须【不做任何改变地】继承该文献 itemLink 字段的信息，示例：[zotero://select/library/items/5AWAN6UB](zotero://select/library/items/5AWAN6UB)）。注意：不要只提供表格而缺乏详情陈述。\n- 请在你的输出结果的开头位置，务必用”无序列表“提及一下[文献 JSON 数据]的两个信息，即：“数据来源”和“数据来源地址”，须不做任何修改地对应 \"summary\" 中 \"dataSource（数据来源\"的键值、以及 \"dataSource url（数据来源地址）\"的键值。\n\n[文献 JSON 数据] 如下:\n    ",
-  'aiAnalysis_itemsFromLibrary': async function (param46, param47) {
-    let var564 = Zotero.Libraries.userLibraryID,
-      var565 = await Zotero.Items.getAll(var564);
-    if (!var565.length) {
-      Services.prompt.alert(window, param46, '❌\x20未发现任何条目！');
+  'aiAnalysis_itemsFromLibrary': async function (dialogTitle, contentType) {
+    let libraryID = Zotero.Libraries.userLibraryID,
+      allItems = await Zotero.Items.getAll(libraryID);
+    if (!allItems.length) {
+      Services.prompt.alert(window, dialogTitle, '❌\x20未发现任何条目！');
       return;
     }
-    let var566 = Zotero.AI4Paper.aiAnalysis_getItemsJSON(var565, param47, "Zotero 我的文库", "zotero://select/library/user");
-    Zotero.AI4Paper.import2MessageInputBox(Zotero.AI4Paper.aiAnalysis_prompt + '\x0a' + var566);
+    let itemsJSON = Zotero.AI4Paper.aiAnalysis_getItemsJSON(allItems, contentType, "Zotero 我的文库", "zotero://select/library/user");
+    Zotero.AI4Paper.import2MessageInputBox(Zotero.AI4Paper.aiAnalysis_prompt + '\x0a' + itemsJSON);
   },
-  'onClickCollectionMenu_aiAnalysisItemsTitle': async function (param48, param49) {
-    let var567 = Zotero.AI4Paper.getIframeWindowBySidePaneType('chatgpt');
-    if (!var567) {
+  'onClickCollectionMenu_aiAnalysisItemsTitle': async function (dialogTitle, contentType) {
+    let sidePaneWin = Zotero.AI4Paper.getIframeWindowBySidePaneType('chatgpt');
+    if (!sidePaneWin) {
       Services.prompt.alert(window, "❌ 未开启【GPT 侧边栏】", "任意【选择一个 PDF 标签页】，或【任意打开一篇文献】，即可打开【GPT 侧边栏】。");
       return;
     }
-    let var568 = window.document.querySelector("#ai4paper-window-gptSidePane-button");
-    if (var568) {
-      var568.click();
+    let gptSidePaneBtn = window.document.querySelector("#ai4paper-window-gptSidePane-button");
+    if (gptSidePaneBtn) {
+      gptSidePaneBtn.click();
     } else return;
     await Zotero.Promise.delay(0xfa);
-    await Zotero.AI4Paper.aiAnalysis_itemsFromSelectedCollection(param48, param49);
+    await Zotero.AI4Paper.aiAnalysis_itemsFromSelectedCollection(dialogTitle, contentType);
   },
-  'aiAnalysis_itemsFromSelectedCollection': async function (param50, param51) {
+  'aiAnalysis_itemsFromSelectedCollection': async function (dialogTitle, contentType) {
     let {
-        items: _0x56d163,
-        selectionType: _0x46ee80,
-        name: _0x3373c0,
-        itemsAfterRecursion: _0x206cdb,
-        link: _0x3b585f
+        items: items,
+        selectionType: selectionType,
+        name: selectionName,
+        itemsAfterRecursion: itemsAfterRecursion,
+        link: selectionLink
       } = await Zotero.AI4Paper.getItemsFromCurrentSelection(true),
-      var569 = _0x46ee80 != "我的文库" ? "【Zotero " + _0x46ee80 + '】：' + _0x3373c0 : "Zotero " + _0x46ee80;
-    _0x56d163 = _0x56d163.filter(_0x2b0b21 => _0x2b0b21.isRegularItem());
-    let var570, var571;
-    if (['分类', "群组中的分类"].includes(_0x46ee80)) {
-      _0x206cdb = _0x206cdb.filter(_0x3c2c46 => _0x3c2c46.isRegularItem());
-      if (_0x56d163.length < _0x206cdb.length) {
-        var571 = Services.prompt.confirm(window, param50, "您选择了“" + _0x46ee80 + "”：【" + _0x3373c0 + '】，其中包含\x20👉【' + _0x56d163.length + "】👈 个常规条目，\n\n但是【该分类及其子分类】中共有 👉【" + _0x206cdb.length + "】👈 个常规条目。\n\n是否要连同子分类一起导入？点击 OK 以确定，否则仅导入选中分类。");
-        if (var571) {
-          _0x56d163 = _0x206cdb;
-          var569 = '【Zotero\x20' + _0x46ee80 + "及其子分类】：" + _0x3373c0;
+      dataSourceLabel = selectionType != "我的文库" ? "【Zotero " + selectionType + '】：' + selectionName : "Zotero " + selectionType;
+    items = items.filter(itm => itm.isRegularItem());
+    let alreadyConfirmed, confirmed;
+    if (['分类', "群组中的分类"].includes(selectionType)) {
+      itemsAfterRecursion = itemsAfterRecursion.filter(itm => itm.isRegularItem());
+      if (items.length < itemsAfterRecursion.length) {
+        confirmed = Services.prompt.confirm(window, dialogTitle, "您选择了“" + selectionType + "”：【" + selectionName + '】，其中包含\x20👉【' + items.length + "】👈 个常规条目，\n\n但是【该分类及其子分类】中共有 👉【" + itemsAfterRecursion.length + "】👈 个常规条目。\n\n是否要连同子分类一起导入？点击 OK 以确定，否则仅导入选中分类。");
+        if (confirmed) {
+          items = itemsAfterRecursion;
+          dataSourceLabel = '【Zotero\x20' + selectionType + "及其子分类】：" + selectionName;
         }
-        var570 = true;
+        alreadyConfirmed = true;
       }
     }
-    if (!_0x56d163.length) {
-      Services.prompt.alert(window, param50, "❌ 未在主界面选择任何【分类/保存的搜索/群组/RSS 订阅】，或您的选择下不含任何常规条目！");
+    if (!items.length) {
+      Services.prompt.alert(window, dialogTitle, "❌ 未在主界面选择任何【分类/保存的搜索/群组/RSS 订阅】，或您的选择下不含任何常规条目！");
       return;
     }
-    if (!var570) {
-      let _0x2b1692 = _0x46ee80 != "我的文库" ? "您选择了“" + _0x46ee80 + "”：【" + _0x3373c0 + '】，共【' + _0x56d163.length + "】个常规条目，是否确认开始 AI 分析？" : "您选择了【我的文库】，共【" + _0x56d163.length + "】个常规条目，是否确认开始 AI 分析？";
-      var571 = Services.prompt.confirm(window, param50, _0x2b1692);
-      if (!var571) return;
+    if (!alreadyConfirmed) {
+      let confirmMsg = selectionType != "我的文库" ? "您选择了“" + selectionType + "”：【" + selectionName + '】，共【' + items.length + "】个常规条目，是否确认开始 AI 分析？" : "您选择了【我的文库】，共【" + items.length + "】个常规条目，是否确认开始 AI 分析？";
+      confirmed = Services.prompt.confirm(window, dialogTitle, confirmMsg);
+      if (!confirmed) return;
     }
-    let var573 = Zotero.AI4Paper.aiAnalysis_getItemsJSON(_0x56d163, param51, var569, _0x3b585f);
-    Zotero.AI4Paper.import2MessageInputBox(Zotero.AI4Paper.aiAnalysis_prompt + '\x0a' + var573);
+    let itemsJSON = Zotero.AI4Paper.aiAnalysis_getItemsJSON(items, contentType, dataSourceLabel, selectionLink);
+    Zotero.AI4Paper.import2MessageInputBox(Zotero.AI4Paper.aiAnalysis_prompt + '\x0a' + itemsJSON);
   },
-  'aiAnalysis_getItemsJSON': function (param52, param53, param54, param55) {
-    let var574 = param52.filter(_0x3c96f3 => _0x3c96f3.isRegularItem()),
-      var575 = var574.filter(_0x2221db => _0x2221db.itemType === "journalArticle"),
-      var576 = var574.filter(_0x5dd399 => _0x5dd399.itemType === 'thesis'),
-      var577 = var574.filter(_0xad5afe => _0xad5afe.itemType === 'conferencePaper'),
-      var578 = var574.filter(_0x139e7c => _0x139e7c.itemType === 'book'),
-      var579 = {
+  'aiAnalysis_getItemsJSON': function (inputItems, contentType, dataSource, dataSourceURL) {
+    let regularItems = inputItems.filter(itm => itm.isRegularItem()),
+      journalArticles = regularItems.filter(itm => itm.itemType === "journalArticle"),
+      theses = regularItems.filter(itm => itm.itemType === 'thesis'),
+      conferenceArticles = regularItems.filter(itm => itm.itemType === 'conferencePaper'),
+      books = regularItems.filter(itm => itm.itemType === 'book'),
+      jsonData = {
         'summary': {
-          'total\x20number\x20of\x20papers（全部文献数量）': var574.length,
-          'number\x20of\x20journalArticle\x20papers（期刊文献数量）': var575.length,
-          'number\x20of\x20thesis\x20papers（学位论文数量）': var576.length,
-          'number\x20of\x20conferencePaper\x20papers（会议论文数量）': var577.length,
-          'number\x20of\x20book\x20papers（书籍文献数量）': var578.length,
-          'dataSource（数据来源）': param54,
-          'dataSource\x20url（数据来源地址）': '[' + param55 + '](' + param55 + ')'
+          'total\x20number\x20of\x20papers（全部文献数量）': regularItems.length,
+          'number\x20of\x20journalArticle\x20papers（期刊文献数量）': journalArticles.length,
+          'number\x20of\x20thesis\x20papers（学位论文数量）': theses.length,
+          'number\x20of\x20conferencePaper\x20papers（会议论文数量）': conferenceArticles.length,
+          'number\x20of\x20book\x20papers（书籍文献数量）': books.length,
+          'dataSource（数据来源）': dataSource,
+          'dataSource\x20url（数据来源地址）': '[' + dataSourceURL + '](' + dataSourceURL + ')'
         }
       };
-    return var579.paperDetails = {}, var574.forEach((_0x3af15d, _0x3d3970) => {
-      let var580 = {
-        'title': _0x3af15d.getField('title'),
-        'year': _0x3af15d.getField('year'),
-        'authors': Zotero.AI4Paper.getYAMLProp_creators(_0x3af15d),
-        'itemType': _0x3af15d.itemType,
-        'publicationTitle': _0x3af15d.getField('publicationTitle'),
-        'impactFactor': _0x3af15d.getField('libraryCatalog').split('(')[0x0].trim(),
-        'itemLink': '[' + Zotero.AI4Paper.getItemZoteroLink(_0x3af15d) + '](' + Zotero.AI4Paper.getItemZoteroLink(_0x3af15d) + ')'
+    return jsonData.paperDetails = {}, regularItems.forEach((item, idx) => {
+      let itemEntry = {
+        'title': item.getField('title'),
+        'year': item.getField('year'),
+        'authors': Zotero.AI4Paper.getYAMLProp_creators(item),
+        'itemType': item.itemType,
+        'publicationTitle': item.getField('publicationTitle'),
+        'impactFactor': item.getField('libraryCatalog').split('(')[0x0].trim(),
+        'itemLink': '[' + Zotero.AI4Paper.getItemZoteroLink(item) + '](' + Zotero.AI4Paper.getItemZoteroLink(item) + ')'
       };
-      param53 === "title_abstract" && (var580.abstract = _0x3af15d.getField("abstractNote"));
-      var579.paperDetails[Number(_0x3d3970) + 0x1] = var580;
-    }), JSON.stringify(var579, null, 0x2);
+      contentType === "title_abstract" && (itemEntry.abstract = item.getField("abstractNote"));
+      jsonData.paperDetails[Number(idx) + 0x1] = itemEntry;
+    }), JSON.stringify(jsonData, null, 0x2);
   },
-  'getItemsFromCurrentSelection': async function (param56) {
-    var var581 = [];
-    let var582;
-    var var583 = ZoteroPane.getSelectedCollection();
-    if (var583) {
-      var581 = var583.getChildItems();
-      let _0x3d7c14 = await Zotero.AI4Paper.getAllItemsRecursively(var583);
-      return Zotero.debug("从分类获取: " + var583.name), var582 = Zotero.Libraries.get(var583.libraryID).libraryType === "user" ? '分类' : "群组中的分类", {
-        'items': var581,
-        'selectionType': var582,
-        'name': var583.name,
-        'itemsAfterRecursion': _0x3d7c14,
-        'link': Zotero.AI4Paper.getLinkBySelecttionType(var582, var583)
+  'getItemsFromCurrentSelection': async function (derefAnnotations) {
+    var items = [];
+    let selectionType;
+    var collection = ZoteroPane.getSelectedCollection();
+    if (collection) {
+      items = collection.getChildItems();
+      let recursiveItems = await Zotero.AI4Paper.getAllItemsRecursively(collection);
+      return Zotero.debug("从分类获取: " + collection.name), selectionType = Zotero.Libraries.get(collection.libraryID).libraryType === "user" ? '分类' : "群组中的分类", {
+        'items': items,
+        'selectionType': selectionType,
+        'name': collection.name,
+        'itemsAfterRecursion': recursiveItems,
+        'link': Zotero.AI4Paper.getLinkBySelecttionType(selectionType, collection)
       };
     }
-    var var585 = ZoteroPane.getSelectedSavedSearch();
-    if (var585) {
-      var var586 = new Zotero.Search();
-      var586.libraryID = var585.libraryID;
-      var586.addCondition("savedSearchID", 'is', var585.id);
-      var var587 = await var586.search();
-      return var581 = await Zotero.Items.getAsync(var587), param56 && (var581 = var581.map(_0x293c10 => {
-        return _0x293c10.itemType === "annotation" && _0x293c10?.['parentItem']?.["parentItem"] ? _0x293c10?.["parentItem"]?.["parentItem"] : _0x293c10;
-      })), Zotero.debug("从保存的搜索获取: " + var585.name), var582 = "保存的搜索", {
-        'items': [...new Set(var581)],
-        'selectionType': var582,
-        'name': var585.name,
-        'link': Zotero.AI4Paper.getLinkBySelecttionType(var582, var585)
+    var savedSearch = ZoteroPane.getSelectedSavedSearch();
+    if (savedSearch) {
+      var searchObj = new Zotero.Search();
+      searchObj.libraryID = savedSearch.libraryID;
+      searchObj.addCondition("savedSearchID", 'is', savedSearch.id);
+      var searchResults = await searchObj.search();
+      return items = await Zotero.Items.getAsync(searchResults), derefAnnotations && (items = items.map(itm => {
+        return itm.itemType === "annotation" && itm?.['parentItem']?.["parentItem"] ? itm?.["parentItem"]?.["parentItem"] : itm;
+      })), Zotero.debug("从保存的搜索获取: " + savedSearch.name), selectionType = "保存的搜索", {
+        'items': [...new Set(items)],
+        'selectionType': selectionType,
+        'name': savedSearch.name,
+        'link': Zotero.AI4Paper.getLinkBySelecttionType(selectionType, savedSearch)
       };
     }
-    var var588 = ZoteroPane.getSelectedLibraryID();
-    if (var588) {
-      var var589 = Zotero.Libraries.get(var588);
-      var581 = await Zotero.Items.getAll(var588);
-      if (var589.isGroup) {
-        return Zotero.debug("从群组获取"), var582 = '群组', {
-          'items': var581,
-          'selectionType': var582,
-          'name': var589.name,
-          'link': Zotero.AI4Paper.getLinkBySelecttionType(var582, var588)
+    var libraryID = ZoteroPane.getSelectedLibraryID();
+    if (libraryID) {
+      var library = Zotero.Libraries.get(libraryID);
+      items = await Zotero.Items.getAll(libraryID);
+      if (library.isGroup) {
+        return Zotero.debug("从群组获取"), selectionType = '群组', {
+          'items': items,
+          'selectionType': selectionType,
+          'name': library.name,
+          'link': Zotero.AI4Paper.getLinkBySelecttionType(selectionType, libraryID)
         };
       } else {
-        if (var589.libraryType === "user") {
-          return Zotero.debug("从文库获取"), var582 = '我的文库', {
-            'items': var581,
-            'selectionType': var582,
-            'name': var589.name,
-            'link': Zotero.AI4Paper.getLinkBySelecttionType(var582, var588)
+        if (library.libraryType === "user") {
+          return Zotero.debug("从文库获取"), selectionType = '我的文库', {
+            'items': items,
+            'selectionType': selectionType,
+            'name': library.name,
+            'link': Zotero.AI4Paper.getLinkBySelecttionType(selectionType, libraryID)
           };
         } else {
-          if (var589.libraryType === "feed") return Zotero.debug("从 RSS 订阅获取"), var582 = "RSS 订阅", {
-            'items': var581,
-            'selectionType': var582,
-            'name': var589.name,
-            'link': Zotero.AI4Paper.getLinkBySelecttionType(var582, var588)
+          if (library.libraryType === "feed") return Zotero.debug("从 RSS 订阅获取"), selectionType = "RSS 订阅", {
+            'items': items,
+            'selectionType': selectionType,
+            'name': library.name,
+            'link': Zotero.AI4Paper.getLinkBySelecttionType(selectionType, libraryID)
           };
         }
       }
     }
     return {
-      'items': var581
+      'items': items
     };
   },
-  'getAllItemsRecursively': async function (param57) {
-    !param57 && (param57 = ZoteroPane.getSelectedCollection());
-    let var590 = param57.getChildItems(),
-      var591 = param57.getChildCollections();
-    for (let var592 of var591) {
-      let var593 = await Zotero.AI4Paper.getAllItemsRecursively(var592);
-      var590 = var590.concat(var593);
+  'getAllItemsRecursively': async function (collection) {
+    !collection && (collection = ZoteroPane.getSelectedCollection());
+    let childItems = collection.getChildItems(),
+      childCollections = collection.getChildCollections();
+    for (let childColl of childCollections) {
+      let subItems = await Zotero.AI4Paper.getAllItemsRecursively(childColl);
+      childItems = childItems.concat(subItems);
     }
-    return var590;
+    return childItems;
   },
-  'getLinkBySelecttionType': function (param58, param59) {
-    let var596;
-    if (param58 === "我的文库") {
-      var596 = 'zotero://select/library/user';
+  'getLinkBySelecttionType': function (selectionType, selectionObj) {
+    let link;
+    if (selectionType === "我的文库") {
+      link = 'zotero://select/library/user';
     } else {
-      if (param58 === '群组') var596 = 'zotero://select/library/group/' + param59;else {
-        if (param58 === "RSS 订阅") {
-          var596 = "zotero://select/library/feed/" + param59;
+      if (selectionType === '群组') link = 'zotero://select/library/group/' + selectionObj;else {
+        if (selectionType === "RSS 订阅") {
+          link = "zotero://select/library/feed/" + selectionObj;
         } else {
-          if (['分类', "群组中的分类"].includes(param58)) var596 = Zotero.AI4Paper.getSelectedCollectionLink(param59);else param58 === "保存的搜索" && (var596 = Zotero.AI4Paper.getSelectedSavedSearchLink(param59));
+          if (['分类', "群组中的分类"].includes(selectionType)) link = Zotero.AI4Paper.getSelectedCollectionLink(selectionObj);else selectionType === "保存的搜索" && (link = Zotero.AI4Paper.getSelectedSavedSearchLink(selectionObj));
         }
       }
     }
-    return var596;
+    return link;
   },
-  'onClickButton_Translate': async function (param73) {
-    if (!param73) return false;
-    let var659 = Zotero_Tabs._selectedID;
-    const var660 = Zotero.Reader.getByTabID(var659);
-    if (!var660) {
+  'onClickButton_Translate': async function (selectedText) {
+    if (!selectedText) return false;
+    let tabID = Zotero_Tabs._selectedID;
+    const reader = Zotero.Reader.getByTabID(tabID);
+    if (!reader) {
       return;
     }
-    let var661 = Zotero.Prefs.get("ai4paper.selectedtexttrans");
-    Zotero.Prefs.get("ai4paper.translationcrossparagraphs") && (param73 = '' + (var661 ? var661 + '\x20' : '') + param73);
-    Zotero.AI4Paper.translateSourceText = param73;
+    let prevSelectedText = Zotero.Prefs.get("ai4paper.selectedtexttrans");
+    Zotero.Prefs.get("ai4paper.translationcrossparagraphs") && (selectedText = '' + (prevSelectedText ? prevSelectedText + '\x20' : '') + selectedText);
+    Zotero.AI4Paper.translateSourceText = selectedText;
     if (Zotero.Prefs.get("ai4paper.translationreadersidepane")) {
-      var var662;
+      var sidePaneWin;
       if (window.document.getElementById('ai4paper-translate-readersidepane')) {
-        var662 = window.document.getElementById('ai4paper-translate-readersidepane').contentWindow;
-        var662 && (var662.document.getElementById("ai4paper-translate-readerSidePane-sourcetext").value = param73, var662.document.getElementById("ai4paper-translate-readerSidePane-response").value = '', var662.document.getElementById("ai4paper-translate-readerSidePane-response").placeholder = '这里显示翻译结果');
+        sidePaneWin = window.document.getElementById('ai4paper-translate-readersidepane').contentWindow;
+        sidePaneWin && (sidePaneWin.document.getElementById("ai4paper-translate-readerSidePane-sourcetext").value = selectedText, sidePaneWin.document.getElementById("ai4paper-translate-readerSidePane-response").value = '', sidePaneWin.document.getElementById("ai4paper-translate-readerSidePane-response").placeholder = '这里显示翻译结果');
       }
     }
     Zotero.AI4Paper.updateTranslationPopupTextAreaPlaceHolder();
-    Zotero.AI4Paper.translationEngineTask(param73, "onSelect");
+    Zotero.AI4Paper.translationEngineTask(selectedText, "onSelect");
   },
-  'translationEngineTask': async function (param74, param75, param76) {
+  'translationEngineTask': async function (sourceText, taskType, annotationItem) {
     if (!Zotero.AI4Paper.getFunMetaTitle()) return false;
-    let var663 = '火山🆓';
+    let defaultEngine = '火山🆓';
     try {
-      if (param75 === "onSelect") {
-        let _0x1dea50 = Zotero.Prefs.get('ai4paper.selectedtexttransengine');
-        if (!Object.keys(Zotero.AI4Paper.translationServiceList()).includes(_0x1dea50)) {
-          _0x1dea50 = var663;
-          Zotero.Prefs.set("ai4paper.selectedtexttransengine", var663);
+      if (taskType === "onSelect") {
+        let engineName = Zotero.Prefs.get('ai4paper.selectedtexttransengine');
+        if (!Object.keys(Zotero.AI4Paper.translationServiceList()).includes(engineName)) {
+          engineName = defaultEngine;
+          Zotero.Prefs.set("ai4paper.selectedtexttransengine", defaultEngine);
         }
-        if (["百度🔑", "百度垂直🔑", "百度大模型🔑"].includes(_0x1dea50)) await Zotero.AI4Paper[Zotero.AI4Paper.translationServiceList()[_0x1dea50].method.transSelectedText](param74, _0x1dea50);else {
-          if (_0x1dea50 === "GPT🔑") {
-            let var665 = Zotero.Prefs.get("ai4paper.translationOpenAIService");
-            if (var665.includes('GPT\x20自定')) for (let var666 of Object.keys(Zotero.AI4Paper.gptCustom_numEmoji)) {
-              var665 === "GPT 自定 " + Zotero.AI4Paper.gptCustom_numEmoji[var666] && (await Zotero.AI4Paper[Zotero.AI4Paper.translationServiceList()[_0x1dea50][var665].method.transSelectedText](param74, var666));
-            } else await Zotero.AI4Paper[Zotero.AI4Paper.translationServiceList()[_0x1dea50][var665].method.transSelectedText](param74);
-          } else await Zotero.AI4Paper[Zotero.AI4Paper.translationServiceList()[_0x1dea50].method.transSelectedText](param74);
+        if (["百度🔑", "百度垂直🔑", "百度大模型🔑"].includes(engineName)) await Zotero.AI4Paper[Zotero.AI4Paper.translationServiceList()[engineName].method.transSelectedText](sourceText, engineName);else {
+          if (engineName === "GPT🔑") {
+            let openAIService = Zotero.Prefs.get("ai4paper.translationOpenAIService");
+            if (openAIService.includes('GPT\x20自定')) for (let customKey of Object.keys(Zotero.AI4Paper.gptCustom_numEmoji)) {
+              openAIService === "GPT 自定 " + Zotero.AI4Paper.gptCustom_numEmoji[customKey] && (await Zotero.AI4Paper[Zotero.AI4Paper.translationServiceList()[engineName][openAIService].method.transSelectedText](sourceText, customKey));
+            } else await Zotero.AI4Paper[Zotero.AI4Paper.translationServiceList()[engineName][openAIService].method.transSelectedText](sourceText);
+          } else await Zotero.AI4Paper[Zotero.AI4Paper.translationServiceList()[engineName].method.transSelectedText](sourceText);
         }
       } else {
-        if (param75 === "vocabulary") {
-          let var667 = Zotero.Prefs.get('ai4paper.vocabularybooktransengine');
-          !Object.keys(Zotero.AI4Paper.translationServiceList()).includes(var667) && (var667 = var663, Zotero.Prefs.set("ai4paper.vocabularybooktransengine", var663));
-          ['百度🔑', "百度垂直🔑", '百度大模型🔑'].includes(var667) ? await Zotero.AI4Paper[Zotero.AI4Paper.translationServiceList()[var667].method.transVocabulary](param76, param74, var667) : await Zotero.AI4Paper[Zotero.AI4Paper.translationServiceList()[var667].method.transVocabulary](param76, param74);
+        if (taskType === "vocabulary") {
+          let vocabEngine = Zotero.Prefs.get('ai4paper.vocabularybooktransengine');
+          !Object.keys(Zotero.AI4Paper.translationServiceList()).includes(vocabEngine) && (vocabEngine = defaultEngine, Zotero.Prefs.set("ai4paper.vocabularybooktransengine", defaultEngine));
+          ['百度🔑', "百度垂直🔑", '百度大模型🔑'].includes(vocabEngine) ? await Zotero.AI4Paper[Zotero.AI4Paper.translationServiceList()[vocabEngine].method.transVocabulary](annotationItem, sourceText, vocabEngine) : await Zotero.AI4Paper[Zotero.AI4Paper.translationServiceList()[vocabEngine].method.transVocabulary](annotationItem, sourceText);
         }
       }
-    } catch (_0x1d4be2) {
-      Zotero.debug(_0x1d4be2);
+    } catch (e) {
+      Zotero.debug(e);
     }
   },
-  'translationEngineTask_annotationText': async function (param77, param78) {
+  'translationEngineTask_annotationText': async function (annotation, mode) {
     if (!Zotero.AI4Paper.getFunMetaTitle()) return false;
-    let var668 = "火山🆓";
+    let defaultEngine = "火山🆓";
     try {
-      let var669 = Zotero.Prefs.get("ai4paper.annotationTranslationEngine");
-      !Object.keys(Zotero.AI4Paper.translationServiceList()).includes(var669) && (var669 = var668, Zotero.Prefs.set('ai4paper.annotationTranslationEngine', var668));
-      if (['百度🔑', "百度垂直🔑", '百度大模型🔑'].includes(var669)) await Zotero.AI4Paper[Zotero.AI4Paper.translationServiceList()[var669].method.transAnnotation](param77, param78, var669);else {
-        if (var669 === "GPT🔑") {
-          let var670 = Zotero.Prefs.get("ai4paper.translationOpenAIService");
-          if (var670.includes("GPT 自定")) {
-            for (let var671 of Object.keys(Zotero.AI4Paper.gptCustom_numEmoji)) {
-              var670 === "GPT 自定 " + Zotero.AI4Paper.gptCustom_numEmoji[var671] && (await Zotero.AI4Paper[Zotero.AI4Paper.translationServiceList()[var669][var670].method.transAnnotation](param77, param78, var671));
+      let engineName = Zotero.Prefs.get("ai4paper.annotationTranslationEngine");
+      !Object.keys(Zotero.AI4Paper.translationServiceList()).includes(engineName) && (engineName = defaultEngine, Zotero.Prefs.set('ai4paper.annotationTranslationEngine', defaultEngine));
+      if (['百度🔑', "百度垂直🔑", '百度大模型🔑'].includes(engineName)) await Zotero.AI4Paper[Zotero.AI4Paper.translationServiceList()[engineName].method.transAnnotation](annotation, mode, engineName);else {
+        if (engineName === "GPT🔑") {
+          let openAIService = Zotero.Prefs.get("ai4paper.translationOpenAIService");
+          if (openAIService.includes("GPT 自定")) {
+            for (let customKey of Object.keys(Zotero.AI4Paper.gptCustom_numEmoji)) {
+              openAIService === "GPT 自定 " + Zotero.AI4Paper.gptCustom_numEmoji[customKey] && (await Zotero.AI4Paper[Zotero.AI4Paper.translationServiceList()[engineName][openAIService].method.transAnnotation](annotation, mode, customKey));
             }
-          } else await Zotero.AI4Paper[Zotero.AI4Paper.translationServiceList()[var669][var670].method.transAnnotation](param77, param78);
-        } else await Zotero.AI4Paper[Zotero.AI4Paper.translationServiceList()[var669].method.transAnnotation](param77, param78);
+          } else await Zotero.AI4Paper[Zotero.AI4Paper.translationServiceList()[engineName][openAIService].method.transAnnotation](annotation, mode);
+        } else await Zotero.AI4Paper[Zotero.AI4Paper.translationServiceList()[engineName].method.transAnnotation](annotation, mode);
       }
-    } catch (_0x429a84) {
-      Zotero.debug(_0x429a84);
+    } catch (e) {
+      Zotero.debug(e);
     }
   },
-  'translationEngineTask_title_abstract': async function (param79, param80) {
+  'translationEngineTask_title_abstract': async function (item, field) {
     if (!Zotero.AI4Paper.getFunMetaTitle()) return false;
-    let var672 = "火山🆓";
+    let defaultEngine = "火山🆓";
     try {
-      let var673 = Zotero.Prefs.get("ai4paper.titleabstransengine");
-      !Object.keys(Zotero.AI4Paper.translationServiceList()).includes(var673) && (var673 = var672, Zotero.Prefs.set("ai4paper.titleabstransengine", var672));
-      ["百度🔑", "百度垂直🔑", "百度大模型🔑"].includes(var673) ? (await Zotero.AI4Paper[Zotero.AI4Paper.translationServiceList()[var673].method.transField](param79, param80, var673), await new Promise(_0x2c03e7 => setTimeout(_0x2c03e7, 0x4b0))) : (await Zotero.AI4Paper[Zotero.AI4Paper.translationServiceList()[var673].method.transField](param79, param80), await new Promise(_0x168237 => setTimeout(_0x168237, 0x12c)));
-    } catch (_0x3b45c8) {
-      Zotero.debug(_0x3b45c8);
+      let engineName = Zotero.Prefs.get("ai4paper.titleabstransengine");
+      !Object.keys(Zotero.AI4Paper.translationServiceList()).includes(engineName) && (engineName = defaultEngine, Zotero.Prefs.set("ai4paper.titleabstransengine", defaultEngine));
+      ["百度🔑", "百度垂直🔑", "百度大模型🔑"].includes(engineName) ? (await Zotero.AI4Paper[Zotero.AI4Paper.translationServiceList()[engineName].method.transField](item, field, engineName), await new Promise(resolve => setTimeout(resolve, 0x4b0))) : (await Zotero.AI4Paper[Zotero.AI4Paper.translationServiceList()[engineName].method.transField](item, field), await new Promise(resolve => setTimeout(resolve, 0x12c)));
+    } catch (e) {
+      Zotero.debug(e);
     }
   },
-  'updateUniversalQuoteLink': async function (param300) {
-    let var2440 = this.getCurrentReader();
-    if (!var2440) return;
-    if (!var2440._state.sidebarOpen) return Zotero.Prefs.get('ai4paper.enableannotationsvginFloatingWindow') && (await Zotero.AI4Paper.updateUniversalQuoteLink_floatingWindow(var2440, param300)), false;
+  'updateUniversalQuoteLink': async function (annotation) {
+    let reader = this.getCurrentReader();
+    if (!reader) return;
+    if (!reader._state.sidebarOpen) return Zotero.Prefs.get('ai4paper.enableannotationsvginFloatingWindow') && (await Zotero.AI4Paper.updateUniversalQuoteLink_floatingWindow(reader, annotation)), false;
     if (!Zotero.Prefs.get("ai4paper.enableannotationsvgVisitUniversalQuoteLink")) return;
-    const var2441 = var2440._iframeWindow.document;
-    let var2442 = param300.key,
-      var2443 = "enableannotationsvgVisitUniversalQuoteLink",
-      var2444 = "zoteroone-annotation-button-" + var2443 + '-' + var2442,
-      var2445 = '' + param300.annotationComment;
-    if (!var2445 || !Zotero.AI4Paper.hasUniversalQuoteLink(var2445)) {
-      var2441.querySelectorAll('#' + var2444).forEach(_0x1a5670 => _0x1a5670.remove());
+    const readerDoc = reader._iframeWindow.document;
+    let annotKey = annotation.key,
+      featureKey = "enableannotationsvgVisitUniversalQuoteLink",
+      buttonId = "zoteroone-annotation-button-" + featureKey + '-' + annotKey,
+      comment = '' + annotation.annotationComment;
+    if (!comment || !Zotero.AI4Paper.hasUniversalQuoteLink(comment)) {
+      readerDoc.querySelectorAll('#' + buttonId).forEach(el => el.remove());
       return;
     }
-    let var2446 = 0x0;
-    while (!var2441.querySelector("[data-sidebar-annotation-id=\"" + param300.key + '\x22]')) {
-      if (var2446 >= 0x190) {
+    let waitCount = 0x0;
+    while (!readerDoc.querySelector("[data-sidebar-annotation-id=\"" + annotation.key + '\x22]')) {
+      if (waitCount >= 0x190) {
         Zotero.debug('AI4Paper:\x20Waiting\x20for\x20annotation\x20failed');
         return;
       }
       await Zotero.Promise.delay(0x5);
-      var2446++;
+      waitCount++;
     }
-    let var2447 = var2441.querySelector("[data-sidebar-annotation-id=\"" + param300.key + '\x22]');
-    if (!var2447) return;
-    let var2448 = var2447.querySelector(".more");
-    if (!var2448) return;
-    Zotero.AI4Paper.createAnnotationButton_VisitUniversalQuoteLink(var2440, var2441, var2447, var2448, param300, var2442);
+    let annotEl = readerDoc.querySelector("[data-sidebar-annotation-id=\"" + annotation.key + '\x22]');
+    if (!annotEl) return;
+    let moreBtn = annotEl.querySelector(".more");
+    if (!moreBtn) return;
+    Zotero.AI4Paper.createAnnotationButton_VisitUniversalQuoteLink(reader, readerDoc, annotEl, moreBtn, annotation, annotKey);
   },
-  'updateUniversalQuoteLink_floatingWindow': async function (param301, param302) {
-    const var2449 = param301._iframeWindow.document;
-    let var2450 = param302.key,
-      var2451 = 'enableannotationsvgVisitUniversalQuoteLink',
-      var2452 = 'zoteroone-annotation-button-' + var2451 + '-' + var2450,
-      var2453 = '' + param302.annotationComment;
-    if (!var2453 || !Zotero.AI4Paper.hasUniversalQuoteLink(var2453)) {
-      var2449.querySelectorAll('#' + var2452).forEach(_0x3f016c => _0x3f016c.remove());
+  'updateUniversalQuoteLink_floatingWindow': async function (reader, annotation) {
+    const readerDoc = reader._iframeWindow.document;
+    let annotKey = annotation.key,
+      featureKey = 'enableannotationsvgVisitUniversalQuoteLink',
+      buttonId = 'zoteroone-annotation-button-' + featureKey + '-' + annotKey,
+      comment = '' + annotation.annotationComment;
+    if (!comment || !Zotero.AI4Paper.hasUniversalQuoteLink(comment)) {
+      readerDoc.querySelectorAll('#' + buttonId).forEach(el => el.remove());
       return;
     }
-    let var2454 = var2449.querySelector(".annotation-popup"),
-      var2455 = var2454.querySelector(".more");
-    if (!var2455) return;
-    Zotero.AI4Paper.createAnnotationButton_VisitUniversalQuoteLink(param301, var2449, var2454, var2455, param302, var2450);
+    let popupEl = readerDoc.querySelector(".annotation-popup"),
+      moreBtn = popupEl.querySelector(".more");
+    if (!moreBtn) return;
+    Zotero.AI4Paper.createAnnotationButton_VisitUniversalQuoteLink(reader, readerDoc, popupEl, moreBtn, annotation, annotKey);
   },
-  'hasUniversalQuoteLink': function (param303) {
-    let var2456 = param303.indexOf("![[");
-    if (var2456 != -0x1) {
-      let _0xd4d946 = param303.substring(var2456),
-        _0x43da86 = _0xd4d946.indexOf(']]');
-      if (_0x43da86 != -0x1) {
-        let var2459 = _0xd4d946.substring(0x0, _0x43da86),
-          var2460 = var2459.indexOf('itemKey=');
-        if (var2460 != -0x1) {
-          let _0x4c3bf1 = var2459.indexOf('page='),
-            _0x20f724 = var2459.indexOf("annotation=");
-          if (_0x4c3bf1 != -0x1 && _0x20f724 != -0x1) {
-            let var2463 = var2459.substring(var2460 + 0x9, _0x4c3bf1 - 0x2),
-              var2464 = var2459.substring(_0x4c3bf1 + 0x6, _0x20f724 - 0x2),
-              var2465 = var2459.substring(_0x20f724 + 0xc, var2459.length - 0x1);
+  'hasUniversalQuoteLink': function (commentText) {
+    let startIdx = commentText.indexOf("![[");
+    if (startIdx != -0x1) {
+      let afterStart = commentText.substring(startIdx),
+        closeBracketIdx = afterStart.indexOf(']]');
+      if (closeBracketIdx != -0x1) {
+        let linkText = afterStart.substring(0x0, closeBracketIdx),
+          itemKeyIdx = linkText.indexOf('itemKey=');
+        if (itemKeyIdx != -0x1) {
+          let pageIdx = linkText.indexOf('page='),
+            annotIdx = linkText.indexOf("annotation=");
+          if (pageIdx != -0x1 && annotIdx != -0x1) {
+            let itemKey = linkText.substring(itemKeyIdx + 0x9, pageIdx - 0x2),
+              pageNum = linkText.substring(pageIdx + 0x6, annotIdx - 0x2),
+              annotationID = linkText.substring(annotIdx + 0xc, linkText.length - 0x1);
             return {
-              'annotationLink': "zotero://open-pdf/library/items/" + var2463 + '?page=' + var2464 + "&annotation=" + var2465,
-              'annotationID': var2465
+              'annotationLink': "zotero://open-pdf/library/items/" + itemKey + '?page=' + pageNum + "&annotation=" + annotationID,
+              'annotationID': annotationID
             };
           }
         }
@@ -1090,747 +1090,747 @@ Zotero.AI4Paper = {
     return false;
   },
   'registerMenuToReaderMenu': function () {
-    let var2466 = Zotero.AI4Paper.id,
-      var2467 = "createAnnotationContextMenu";
+    let pluginID = Zotero.AI4Paper.id,
+      eventName = "createAnnotationContextMenu";
     if (Zotero.Prefs.get("ai4paper.enableAnnotationContextMenuCopyExternalLink") && !Zotero.AI4Paper._handler_readerContextMenu_copyAnnotationLink) {
-      Zotero.AI4Paper._handler_readerContextMenu_copyAnnotationLink = _0x2b348c => {
+      Zotero.AI4Paper._handler_readerContextMenu_copyAnnotationLink = eventData => {
         let {
-          reader: _0x4bb9f1,
-          params: _0x13f7b9,
-          append: _0x1dd40c
-        } = _0x2b348c;
-        _0x1dd40c({
+          reader: reader,
+          params: params,
+          append: append
+        } = eventData;
+        append({
           'label': "拷贝注释",
           'onCommand'() {
-            Zotero.AI4Paper && Zotero.AI4Paper.copyAnnotationLink_handler(_0x4bb9f1, _0x13f7b9);
+            Zotero.AI4Paper && Zotero.AI4Paper.copyAnnotationLink_handler(reader, params);
           }
         });
       };
-      Zotero.Reader.registerEventListener(var2467, Zotero.AI4Paper._handler_readerContextMenu_copyAnnotationLink, var2466);
-    } else !Zotero.Prefs.get('ai4paper.enableAnnotationContextMenuCopyExternalLink') && (Zotero.Reader._registeredListeners = Zotero.Reader._registeredListeners.filter(_0x1756ca => !(_0x1756ca.type === "createAnnotationContextMenu" && _0x1756ca.handler === Zotero.AI4Paper._handler_readerContextMenu_copyAnnotationLink)), Zotero.AI4Paper._handler_readerContextMenu_copyAnnotationLink = null);
+      Zotero.Reader.registerEventListener(eventName, Zotero.AI4Paper._handler_readerContextMenu_copyAnnotationLink, pluginID);
+    } else !Zotero.Prefs.get('ai4paper.enableAnnotationContextMenuCopyExternalLink') && (Zotero.Reader._registeredListeners = Zotero.Reader._registeredListeners.filter(listener => !(listener.type === "createAnnotationContextMenu" && listener.handler === Zotero.AI4Paper._handler_readerContextMenu_copyAnnotationLink)), Zotero.AI4Paper._handler_readerContextMenu_copyAnnotationLink = null);
     if (Zotero.Prefs.get('ai4paper.enableAnnotationContextMenuCopyText') && !Zotero.AI4Paper._handler_readerContextMenu_copyText) {
-      Zotero.AI4Paper._handler_readerContextMenu_copyText = _0x734ba9 => {
+      Zotero.AI4Paper._handler_readerContextMenu_copyText = eventData => {
         let {
-          reader: _0x12f0fa,
-          params: _0xdb6c8f,
-          append: _0x2a9018
-        } = _0x734ba9;
-        _0x2a9018({
+          reader: reader,
+          params: params,
+          append: append
+        } = eventData;
+        append({
           'label': '拷贝注释文本',
           'onCommand'() {
             if (Zotero.AI4Paper) {
-              Zotero.AI4Paper.copyAnnotationText_handler(_0x12f0fa, _0xdb6c8f);
+              Zotero.AI4Paper.copyAnnotationText_handler(reader, params);
             }
           }
         });
       };
-      Zotero.Reader.registerEventListener(var2467, Zotero.AI4Paper._handler_readerContextMenu_copyText, var2466);
-    } else !Zotero.Prefs.get("ai4paper.enableAnnotationContextMenuCopyText") && (Zotero.Reader._registeredListeners = Zotero.Reader._registeredListeners.filter(_0x469e70 => !(_0x469e70.type === "createAnnotationContextMenu" && _0x469e70.handler === Zotero.AI4Paper._handler_readerContextMenu_copyText)), Zotero.AI4Paper._handler_readerContextMenu_copyText = null);
+      Zotero.Reader.registerEventListener(eventName, Zotero.AI4Paper._handler_readerContextMenu_copyText, pluginID);
+    } else !Zotero.Prefs.get("ai4paper.enableAnnotationContextMenuCopyText") && (Zotero.Reader._registeredListeners = Zotero.Reader._registeredListeners.filter(listener => !(listener.type === "createAnnotationContextMenu" && listener.handler === Zotero.AI4Paper._handler_readerContextMenu_copyText)), Zotero.AI4Paper._handler_readerContextMenu_copyText = null);
     if (Zotero.Prefs.get("ai4paper.enableAnnotationContextMenuCopyExternalLinkOnly") && !Zotero.AI4Paper._handler_readerContextMenu_copyAnnotationLinkOnly) {
-      Zotero.AI4Paper._handler_readerContextMenu_copyAnnotationLinkOnly = _0x3153e4 => {
+      Zotero.AI4Paper._handler_readerContextMenu_copyAnnotationLinkOnly = eventData => {
         let {
-          reader: _0x440600,
-          params: _0xc7e0be,
-          append: _0x31e55e
-        } = _0x3153e4;
-        _0x31e55e({
+          reader: reader,
+          params: params,
+          append: append
+        } = eventData;
+        append({
           'label': "拷贝注释回链",
           'onCommand'() {
             if (Zotero.AI4Paper) {
-              Zotero.AI4Paper.copyAnnotationLinkOnly_handler(_0x440600, _0xc7e0be);
+              Zotero.AI4Paper.copyAnnotationLinkOnly_handler(reader, params);
             }
           }
         });
       };
-      Zotero.Reader.registerEventListener(var2467, Zotero.AI4Paper._handler_readerContextMenu_copyAnnotationLinkOnly, var2466);
+      Zotero.Reader.registerEventListener(eventName, Zotero.AI4Paper._handler_readerContextMenu_copyAnnotationLinkOnly, pluginID);
     } else {
       if (!Zotero.Prefs.get("ai4paper.enableAnnotationContextMenuCopyExternalLinkOnly")) {
-        Zotero.Reader._registeredListeners = Zotero.Reader._registeredListeners.filter(_0x39bdbf => !(_0x39bdbf.type === 'createAnnotationContextMenu' && _0x39bdbf.handler === Zotero.AI4Paper._handler_readerContextMenu_copyAnnotationLinkOnly));
+        Zotero.Reader._registeredListeners = Zotero.Reader._registeredListeners.filter(listener => !(listener.type === 'createAnnotationContextMenu' && listener.handler === Zotero.AI4Paper._handler_readerContextMenu_copyAnnotationLinkOnly));
         Zotero.AI4Paper._handler_readerContextMenu_copyAnnotationLinkOnly = null;
       }
     }
     if (Zotero.Prefs.get("ai4paper.enableAnnotationContextMenuCopyExternalLinkMDOnly") && !Zotero.AI4Paper._handler_readerContextMenu_copyAnnotationLinkMDOnly) {
-      Zotero.AI4Paper._handler_readerContextMenu_copyAnnotationLinkMDOnly = _0x1d97f8 => {
+      Zotero.AI4Paper._handler_readerContextMenu_copyAnnotationLinkMDOnly = eventData => {
         let {
-          reader: _0x2ff81e,
-          params: _0x4e847a,
-          append: _0x3607e9
-        } = _0x1d97f8;
-        _0x3607e9({
+          reader: reader,
+          params: params,
+          append: append
+        } = eventData;
+        append({
           'label': '拷贝注释回链（MD）',
           'onCommand'() {
-            Zotero.AI4Paper && Zotero.AI4Paper.copyAnnotationLinkMD_handler(_0x2ff81e, _0x4e847a);
+            Zotero.AI4Paper && Zotero.AI4Paper.copyAnnotationLinkMD_handler(reader, params);
           }
         });
       };
-      Zotero.Reader.registerEventListener(var2467, Zotero.AI4Paper._handler_readerContextMenu_copyAnnotationLinkMDOnly, var2466);
-    } else !Zotero.Prefs.get('ai4paper.enableAnnotationContextMenuCopyExternalLinkMDOnly') && (Zotero.Reader._registeredListeners = Zotero.Reader._registeredListeners.filter(_0x480318 => !(_0x480318.type === "createAnnotationContextMenu" && _0x480318.handler === Zotero.AI4Paper._handler_readerContextMenu_copyAnnotationLinkMDOnly)), Zotero.AI4Paper._handler_readerContextMenu_copyAnnotationLinkMDOnly = null);
+      Zotero.Reader.registerEventListener(eventName, Zotero.AI4Paper._handler_readerContextMenu_copyAnnotationLinkMDOnly, pluginID);
+    } else !Zotero.Prefs.get('ai4paper.enableAnnotationContextMenuCopyExternalLinkMDOnly') && (Zotero.Reader._registeredListeners = Zotero.Reader._registeredListeners.filter(listener => !(listener.type === "createAnnotationContextMenu" && listener.handler === Zotero.AI4Paper._handler_readerContextMenu_copyAnnotationLinkMDOnly)), Zotero.AI4Paper._handler_readerContextMenu_copyAnnotationLinkMDOnly = null);
     if (Zotero.Prefs.get("ai4paper.enableAnnotationContextMenuOptimizeSpaces") && !Zotero.AI4Paper._handler_readerContextMenu_optimizeSpaces) {
-      Zotero.AI4Paper._handler_readerContextMenu_optimizeSpaces = _0x43cb9b => {
+      Zotero.AI4Paper._handler_readerContextMenu_optimizeSpaces = eventData => {
         let {
-          reader: _0x35485e,
-          params: _0x5e4dff,
-          append: _0x568d31
-        } = _0x43cb9b;
-        _0x568d31({
+          reader: reader,
+          params: params,
+          append: append
+        } = eventData;
+        append({
           'label': "优化空格",
           'onCommand'() {
-            Zotero.AI4Paper && Zotero.AI4Paper.optimizeSpaces_annotationContextMenu_handler(_0x35485e, _0x5e4dff);
+            Zotero.AI4Paper && Zotero.AI4Paper.optimizeSpaces_annotationContextMenu_handler(reader, params);
           }
         });
       };
-      Zotero.Reader.registerEventListener(var2467, Zotero.AI4Paper._handler_readerContextMenu_optimizeSpaces, var2466);
-    } else !Zotero.Prefs.get("ai4paper.enableAnnotationContextMenuOptimizeSpaces") && (Zotero.Reader._registeredListeners = Zotero.Reader._registeredListeners.filter(_0x24a202 => !(_0x24a202.type === 'createAnnotationContextMenu' && _0x24a202.handler === Zotero.AI4Paper._handler_readerContextMenu_optimizeSpaces)), Zotero.AI4Paper._handler_readerContextMenu_optimizeSpaces = null);
+      Zotero.Reader.registerEventListener(eventName, Zotero.AI4Paper._handler_readerContextMenu_optimizeSpaces, pluginID);
+    } else !Zotero.Prefs.get("ai4paper.enableAnnotationContextMenuOptimizeSpaces") && (Zotero.Reader._registeredListeners = Zotero.Reader._registeredListeners.filter(listener => !(listener.type === 'createAnnotationContextMenu' && listener.handler === Zotero.AI4Paper._handler_readerContextMenu_optimizeSpaces)), Zotero.AI4Paper._handler_readerContextMenu_optimizeSpaces = null);
     if (Zotero.Prefs.get('ai4paper.enableAnnotationContextMenuOptimizeSpacesInAnnotationComment') && !Zotero.AI4Paper._handler_readerContextMenu_optimizeSpacesInAnnotationComment) {
-      Zotero.AI4Paper._handler_readerContextMenu_optimizeSpacesInAnnotationComment = _0x4c31c2 => {
+      Zotero.AI4Paper._handler_readerContextMenu_optimizeSpacesInAnnotationComment = eventData => {
         let {
-          reader: _0x176f94,
-          params: _0x2e55e0,
-          append: _0x29a7e6
-        } = _0x4c31c2;
-        _0x29a7e6({
+          reader: reader,
+          params: params,
+          append: append
+        } = eventData;
+        append({
           'label': '优化注释评论中的空格',
           'onCommand'() {
-            Zotero.AI4Paper && Zotero.AI4Paper.optimizeSpaces_annotationContextMenu_handler(_0x176f94, _0x2e55e0, true);
+            Zotero.AI4Paper && Zotero.AI4Paper.optimizeSpaces_annotationContextMenu_handler(reader, params, true);
           }
         });
       };
-      Zotero.Reader.registerEventListener(var2467, Zotero.AI4Paper._handler_readerContextMenu_optimizeSpacesInAnnotationComment, var2466);
+      Zotero.Reader.registerEventListener(eventName, Zotero.AI4Paper._handler_readerContextMenu_optimizeSpacesInAnnotationComment, pluginID);
     } else {
       if (!Zotero.Prefs.get("ai4paper.enableAnnotationContextMenuOptimizeSpacesInAnnotationComment")) {
-        Zotero.Reader._registeredListeners = Zotero.Reader._registeredListeners.filter(_0x38dab9 => !(_0x38dab9.type === "createAnnotationContextMenu" && _0x38dab9.handler === Zotero.AI4Paper._handler_readerContextMenu_optimizeSpacesInAnnotationComment));
+        Zotero.Reader._registeredListeners = Zotero.Reader._registeredListeners.filter(listener => !(listener.type === "createAnnotationContextMenu" && listener.handler === Zotero.AI4Paper._handler_readerContextMenu_optimizeSpacesInAnnotationComment));
         Zotero.AI4Paper._handler_readerContextMenu_optimizeSpacesInAnnotationComment = null;
       }
     }
   },
-  'onClickButton_viewThumbnail': async function (param317) {
-    let var2526 = this.getCurrentReader();
-    if (var2526._item.attachmentContentType != 'application/pdf') {
+  'onClickButton_viewThumbnail': async function (readerWin) {
+    let reader = this.getCurrentReader();
+    if (reader._item.attachmentContentType != 'application/pdf') {
       return;
     }
-    let var2527 = 0x0;
-    while (!param317.document.querySelector("#viewThumbnail")) {
-      if (var2527 >= 0xc8) {
+    let waitCount = 0x0;
+    while (!readerWin.document.querySelector("#viewThumbnail")) {
+      if (waitCount >= 0xc8) {
         Zotero.debug("AI4Paper: Waiting for viewThumbnail button failed");
         return;
       }
       await Zotero.Promise.delay(0xa);
-      var2527++;
+      waitCount++;
     }
-    let var2528 = param317.document.querySelector("#viewThumbnail");
-    !var2528._onClickButton && (var2528._onClickButton = true, var2528.addEventListener("click", async _0x88f0fc => {
+    let thumbnailBtn = readerWin.document.querySelector("#viewThumbnail");
+    !thumbnailBtn._onClickButton && (thumbnailBtn._onClickButton = true, thumbnailBtn.addEventListener("click", async clickEvt => {
       await Zotero.Promise.delay(0x5);
-      Zotero.AI4Paper.addAnnotationButton(var2526);
+      Zotero.AI4Paper.addAnnotationButton(reader);
     }, false));
   },
-  'onClickButton_viewOutline': async function (param318) {
-    function fn11(param319) {
-      let var2529 = param319.document.querySelectorAll(".expandable");
-      for (_toc of var2529) {
+  'onClickButton_viewOutline': async function (readerWin) {
+    function fn11(win) {
+      let expandables = win.document.querySelectorAll(".expandable");
+      for (_toc of expandables) {
         if (!_toc.classList.contains('expanded')) return false;
       }
       return true;
     }
-    async function fn12(param320) {
-      let _0x22e80f = param320.document.querySelectorAll(".expandable"),
-        _0x675df9 = false;
-      for (_toc of _0x22e80f) {
+    async function fn12(win) {
+      let expandables = win.document.querySelectorAll(".expandable"),
+        hasExpanded = false;
+      for (_toc of expandables) {
         if (!_toc.classList.contains("expanded")) {
           _toc.childNodes[0x0].click();
           await Zotero.Promise.delay(0x3);
-          _0x675df9 = true;
+          hasExpanded = true;
         }
       }
-      _0x675df9 && fn12(param320);
+      hasExpanded && fn12(win);
     }
-    function fn13(param321) {
-      let _0x4b36de = param321.document.querySelectorAll(".expandable");
-      for (_toc of _0x4b36de) {
+    function fn13(win) {
+      let expandables = win.document.querySelectorAll(".expandable");
+      for (_toc of expandables) {
         if (!_toc) {
           continue;
         }
         _toc.classList.contains("expanded") && _toc.childNodes[0x0].click();
       }
     }
-    let var2533 = 0x0;
-    while (!param318.document.querySelector('#viewOutline')) {
-      if (var2533 >= 0xc8) {
+    let waitCount = 0x0;
+    while (!readerWin.document.querySelector('#viewOutline')) {
+      if (waitCount >= 0xc8) {
         Zotero.debug('AI4Paper:\x20Waiting\x20for\x20viewOutline\x20button\x20failed');
         return;
       }
       await Zotero.Promise.delay(0xa);
-      var2533++;
+      waitCount++;
     }
-    let var2534 = param318.document.querySelector("#viewOutline");
-    !var2534._onClickButton && (var2534._onClickButton = true, var2534.addEventListener("click", _0x2b7209 => {
-      !fn11(param318) ? fn12(param318) : fn13(param318);
+    let outlineBtn = readerWin.document.querySelector("#viewOutline");
+    !outlineBtn._onClickButton && (outlineBtn._onClickButton = true, outlineBtn.addEventListener("click", clickEvt => {
+      !fn11(readerWin) ? fn12(readerWin) : fn13(readerWin);
     }, false));
   },
   'updateAddColorLabelState': function () {
-    let var2535 = Zotero_Tabs._selectedID;
-    var var2536 = Zotero.Reader.getByTabID(var2535);
-    if (!var2536 || !Zotero.AI4Paper.betterURL()) {
+    let tabID = Zotero_Tabs._selectedID;
+    var reader = Zotero.Reader.getByTabID(tabID);
+    if (!reader || !Zotero.AI4Paper.betterURL()) {
       return false;
     }
-    let var2537 = var2536._iframeWindow;
-    this.addButtonColorLabel(var2537);
-    this.addAnnotationButtonsInFloatingWindow(var2537);
+    let readerWin = reader._iframeWindow;
+    this.addButtonColorLabel(readerWin);
+    this.addAnnotationButtonsInFloatingWindow(readerWin);
   },
-  'vocabulary2TransNote': async function (param323, param324) {
+  'vocabulary2TransNote': async function (word, translation) {
     if (Zotero.AI4Paper.letDOI()) {
-      Zotero.AI4Paper.CheckPDFReader() && !Zotero.Prefs.get("ai4paper.disablepdfreadertransprogresswindow") && Zotero.AI4Paper.showProgressWindow(0x1388, "【金山词霸】" + param323, '' + param324.replace(/<br>/g, '\x20'), "iciba");
+      Zotero.AI4Paper.CheckPDFReader() && !Zotero.Prefs.get("ai4paper.disablepdfreadertransprogresswindow") && Zotero.AI4Paper.showProgressWindow(0x1388, "【金山词霸】" + word, '' + translation.replace(/<br>/g, '\x20'), "iciba");
       if (Zotero.Prefs.get('ai4paper.translationviewerenable')) {
-        await Zotero.AI4Paper.updateTransViewerVocabulary(param323, param324);
+        await Zotero.AI4Paper.updateTransViewerVocabulary(word, translation);
       }
       if (Zotero.Prefs.get('ai4paper.translationrecordnote')) {
-        let var2540 = Zotero.AI4Paper.getCurrentItem(true);
-        if (var2540) {
-          var var2541 = await Zotero.AI4Paper.createNoteItem_basedOnTag(var2540, "/划词翻译");
-          var2541 && (await Zotero.AI4Paper.updateTransRecordNoteVocabulary(var2541, param323, param324));
+        let currentItem = Zotero.AI4Paper.getCurrentItem(true);
+        if (currentItem) {
+          var transNote = await Zotero.AI4Paper.createNoteItem_basedOnTag(currentItem, "/划词翻译");
+          transNote && (await Zotero.AI4Paper.updateTransRecordNoteVocabulary(transNote, word, translation));
         }
       }
-      Zotero.Prefs.get("ai4paper.translationautocopy") && Zotero.AI4Paper.copy2Clipboard(param324);
+      Zotero.Prefs.get("ai4paper.translationautocopy") && Zotero.AI4Paper.copy2Clipboard(translation);
     }
   },
-  'updateTransViewerVocabulary': async function (param325, param326) {
+  'updateTransViewerVocabulary': async function (word, translation) {
     if (Zotero.Prefs.get("ai4paper.translationrecordnotenosourcetext")) {
-      var var2542 = "<h2 style=\"color: purple;\">🌈 AI 对话历史>>>>>>></h2><blockquote>" + param326 + "</blockquote>";
+      var noteHTML = "<h2 style=\"color: purple;\">🌈 AI 对话历史>>>>>>></h2><blockquote>" + translation + "</blockquote>";
     } else {
-      if (Zotero.Prefs.get("ai4paper.translationrecordnotesourcetextposition")) var var2542 = "<h2 style=\"color: purple;\">🌈 AI 对话历史>>>>>>></h2><blockquote>" + param326 + "<p>" + '👉\x20' + param325 + "</blockquote>";else var var2542 = "<h2 style=\"color: purple;\">🌈 AI 对话历史>>>>>>></h2><blockquote>👉 " + param325 + "<p>" + param326 + '</blockquote>';
+      if (Zotero.Prefs.get("ai4paper.translationrecordnotesourcetextposition")) var noteHTML = "<h2 style=\"color: purple;\">🌈 AI 对话历史>>>>>>></h2><blockquote>" + translation + "<p>" + '👉\x20' + word + "</blockquote>";else var noteHTML = "<h2 style=\"color: purple;\">🌈 AI 对话历史>>>>>>></h2><blockquote>👉 " + word + "<p>" + translation + '</blockquote>';
     }
-    let var2543,
-      var2544 = Zotero.Prefs.get("ai4paper.translationViewerItemKey");
-    var2544 && (var2543 = Zotero.Items.getByLibraryAndKey(0x1, var2544));
-    if (var2543 && var2543.isNote() && !var2543.deleted) {
-      let var2545 = var2543;
+    let viewerItem,
+      viewerKey = Zotero.Prefs.get("ai4paper.translationViewerItemKey");
+    viewerKey && (viewerItem = Zotero.Items.getByLibraryAndKey(0x1, viewerKey));
+    if (viewerItem && viewerItem.isNote() && !viewerItem.deleted) {
+      let viewerNote = viewerItem;
       if (Zotero.Prefs.get("ai4paper.translationviewerrecord")) {
-        await Zotero.AI4Paper.Set2ReverseTransViewer(var2545);
-        let var2546 = var2545.getNote();
-        if (var2546.indexOf("</h2>") != -0x1) {
-          let var2547 = var2546.indexOf('</h2>');
-          var2546 = var2546.substring(var2547 + 0x5);
+        await Zotero.AI4Paper.Set2ReverseTransViewer(viewerNote);
+        let existingNote = viewerNote.getNote();
+        if (existingNote.indexOf("</h2>") != -0x1) {
+          let h2EndIdx = existingNote.indexOf('</h2>');
+          existingNote = existingNote.substring(h2EndIdx + 0x5);
         }
-        Zotero.Prefs.get("ai4paper.translationrecordnotenosourcetext") ? var2542 = "<h2 style=\"color: purple;\">🌈 AI 对话历史>>>>>>></h2><blockquote>" + param326 + "</blockquote>" + var2546 : Zotero.Prefs.get("ai4paper.translationrecordnotesourcetextposition") ? var2542 = "<h2 style=\"color: purple;\">🌈 AI 对话历史>>>>>>></h2><blockquote>" + param326 + "<p>" + "👉 " + param325 + "</blockquote>" + var2546 : var2542 = "<h2 style=\"color: purple;\">🌈 AI 对话历史>>>>>>></h2><blockquote>👉 " + param325 + '<p>' + param326 + '</blockquote>' + var2546;
+        Zotero.Prefs.get("ai4paper.translationrecordnotenosourcetext") ? noteHTML = "<h2 style=\"color: purple;\">🌈 AI 对话历史>>>>>>></h2><blockquote>" + translation + "</blockquote>" + existingNote : Zotero.Prefs.get("ai4paper.translationrecordnotesourcetextposition") ? noteHTML = "<h2 style=\"color: purple;\">🌈 AI 对话历史>>>>>>></h2><blockquote>" + translation + "<p>" + "👉 " + word + "</blockquote>" + existingNote : noteHTML = "<h2 style=\"color: purple;\">🌈 AI 对话历史>>>>>>></h2><blockquote>👉 " + word + '<p>' + translation + '</blockquote>' + existingNote;
       }
-      var2545.setNote(var2542);
-      var2545.hasTag("/翻译查看器") && (var2545.removeTag("/翻译查看器"), var2545.addTag('/AI对话历史'));
-      await var2545.saveTx();
-      Zotero.Prefs.set('ai4paper.translationViewerItemKey', var2545.key);
+      viewerNote.setNote(noteHTML);
+      viewerNote.hasTag("/翻译查看器") && (viewerNote.removeTag("/翻译查看器"), viewerNote.addTag('/AI对话历史'));
+      await viewerNote.saveTx();
+      Zotero.Prefs.set('ai4paper.translationViewerItemKey', viewerNote.key);
     } else {
-      var var2548 = new Zotero.Search();
-      var2548.libraryID = Zotero.Libraries.userLibraryID;
-      var2548.addCondition("itemType", 'is', 'note');
-      var2548.addCondition("tag", 'is', "/AI对话历史");
-      var var2549 = await var2548.search(),
-        var2550 = await Zotero.Items.getAsync(var2549);
-      if (var2550.length === 0x0) {
-        let var2551 = new Zotero.Item("note");
-        var2551.addTag("/AI对话历史");
-        var2551.setNote(var2542);
-        await var2551.saveTx();
-        Zotero.Prefs.set("ai4paper.translationViewerItemKey", var2551.key);
+      var search = new Zotero.Search();
+      search.libraryID = Zotero.Libraries.userLibraryID;
+      search.addCondition("itemType", 'is', 'note');
+      search.addCondition("tag", 'is', "/AI对话历史");
+      var searchResults = await search.search(),
+        noteItems = await Zotero.Items.getAsync(searchResults);
+      if (noteItems.length === 0x0) {
+        let newNote = new Zotero.Item("note");
+        newNote.addTag("/AI对话历史");
+        newNote.setNote(noteHTML);
+        await newNote.saveTx();
+        Zotero.Prefs.set("ai4paper.translationViewerItemKey", newNote.key);
       } else {
-        let var2552 = var2550[0x0];
+        let firstNote = noteItems[0x0];
         if (Zotero.Prefs.get("ai4paper.translationviewerrecord")) {
-          await Zotero.AI4Paper.Set2ReverseTransViewer(var2552);
-          let var2553 = var2552.getNote();
-          if (var2553.indexOf('</h2>') != -0x1) {
-            let _0x3a74f1 = var2553.indexOf("</h2>");
-            var2553 = var2553.substring(_0x3a74f1 + 0x5);
+          await Zotero.AI4Paper.Set2ReverseTransViewer(firstNote);
+          let existingContent = firstNote.getNote();
+          if (existingContent.indexOf('</h2>') != -0x1) {
+            let h2EndIdx2 = existingContent.indexOf("</h2>");
+            existingContent = existingContent.substring(h2EndIdx2 + 0x5);
           }
-          if (Zotero.Prefs.get("ai4paper.translationrecordnotenosourcetext")) var2542 = "<h2 style=\"color: purple;\">🌈 AI 对话历史>>>>>>></h2><blockquote>" + param326 + "</blockquote>" + var2553;else {
-            Zotero.Prefs.get('ai4paper.translationrecordnotesourcetextposition') ? var2542 = "<h2 style=\"color: purple;\">🌈 AI 对话历史>>>>>>></h2><blockquote>" + param326 + '<p>' + '👉\x20' + param325 + '</blockquote>' + var2553 : var2542 = "<h2 style=\"color: purple;\">🌈 AI 对话历史>>>>>>></h2><blockquote>👉 " + param325 + "<p>" + param326 + "</blockquote>" + var2553;
+          if (Zotero.Prefs.get("ai4paper.translationrecordnotenosourcetext")) noteHTML = "<h2 style=\"color: purple;\">🌈 AI 对话历史>>>>>>></h2><blockquote>" + translation + "</blockquote>" + existingContent;else {
+            Zotero.Prefs.get('ai4paper.translationrecordnotesourcetextposition') ? noteHTML = "<h2 style=\"color: purple;\">🌈 AI 对话历史>>>>>>></h2><blockquote>" + translation + '<p>' + '👉\x20' + word + '</blockquote>' + existingContent : noteHTML = "<h2 style=\"color: purple;\">🌈 AI 对话历史>>>>>>></h2><blockquote>👉 " + word + "<p>" + translation + "</blockquote>" + existingContent;
           }
         }
-        var2552.setNote(var2542);
-        await var2552.saveTx();
-        Zotero.Prefs.set("ai4paper.translationViewerItemKey", var2552.key);
+        firstNote.setNote(noteHTML);
+        await firstNote.saveTx();
+        Zotero.Prefs.set("ai4paper.translationViewerItemKey", firstNote.key);
       }
     }
   },
-  'Set2ReverseTransViewer': async function (param327) {
-    var var2555 = param327.getNote();
-    let var2556 = parseInt(Zotero.Prefs.get("ai4paper.gptChatHistoryViewerRecordNum"));
-    if (var2555.indexOf("🌈 AI 对话历史") != -0x1 && var2555.indexOf('<h2\x20style=\x22color:\x20blue') != -0x1) {
-      var var2557 = [],
-        var2558 = [],
-        var2559 = [],
-        var2560 = new RegExp("<blockquote>", 'g'),
-        var2561 = new RegExp("</blockquote>", 'g');
-      while (var2560.exec(var2555) != null && var2561.exec(var2555) != null) {
-        var2557.push(var2560.lastIndex);
-        var2558.push(var2561.lastIndex);
+  'Set2ReverseTransViewer': async function (noteItem) {
+    var noteContent = noteItem.getNote();
+    let maxRecords = parseInt(Zotero.Prefs.get("ai4paper.gptChatHistoryViewerRecordNum"));
+    if (noteContent.indexOf("🌈 AI 对话历史") != -0x1 && noteContent.indexOf('<h2\x20style=\x22color:\x20blue') != -0x1) {
+      var openIndices = [],
+        closeIndices = [],
+        blocks = [],
+        openRegex = new RegExp("<blockquote>", 'g'),
+        closeRegex = new RegExp("</blockquote>", 'g');
+      while (openRegex.exec(noteContent) != null && closeRegex.exec(noteContent) != null) {
+        openIndices.push(openRegex.lastIndex);
+        closeIndices.push(closeRegex.lastIndex);
       }
-      for (i = 0x0; i < var2556 && i < var2558.length; i++) {
-        let _0x2bcba4 = var2555.substring(var2557[var2557.length - i - 0x1] - 0xc, var2558[var2558.length - i - 0x1]);
-        var2559.push(_0x2bcba4);
+      for (i = 0x0; i < maxRecords && i < closeIndices.length; i++) {
+        let block = noteContent.substring(openIndices[openIndices.length - i - 0x1] - 0xc, closeIndices[closeIndices.length - i - 0x1]);
+        blocks.push(block);
       }
-      let _0x281ad2 = "<h2 style=\"color: purple;\">🌈 AI 对话历史>>>>>>></h2>" + var2559.join('');
-      param327.setNote(_0x281ad2);
-      await param327.saveTx();
+      let reversedNote = "<h2 style=\"color: purple;\">🌈 AI 对话历史>>>>>>></h2>" + blocks.join('');
+      noteItem.setNote(reversedNote);
+      await noteItem.saveTx();
     } else {
-      if (var2555.indexOf("🌈 AI 对话历史") != -0x1 && var2555.indexOf("<h2 style=\"color: purple") != -0x1) {
-        var var2557 = [],
-          var2558 = [],
-          var2559 = [],
-          var2560 = new RegExp("<blockquote>", 'g'),
-          var2561 = new RegExp('</blockquote>', 'g');
-        while (var2560.exec(var2555) != null && var2561.exec(var2555) != null) {
-          var2557.push(var2560.lastIndex);
-          var2558.push(var2561.lastIndex);
+      if (noteContent.indexOf("🌈 AI 对话历史") != -0x1 && noteContent.indexOf("<h2 style=\"color: purple") != -0x1) {
+        var openIndices = [],
+          closeIndices = [],
+          blocks = [],
+          openRegex = new RegExp("<blockquote>", 'g'),
+          closeRegex = new RegExp('</blockquote>', 'g');
+        while (openRegex.exec(noteContent) != null && closeRegex.exec(noteContent) != null) {
+          openIndices.push(openRegex.lastIndex);
+          closeIndices.push(closeRegex.lastIndex);
         }
-        for (i = 0x0; i < var2556 && i < var2558.length; i++) {
-          let var2564 = var2555.substring(var2557[i] - 0xc, var2558[i]);
-          var2559.push(var2564);
+        for (i = 0x0; i < maxRecords && i < closeIndices.length; i++) {
+          let block = noteContent.substring(openIndices[i] - 0xc, closeIndices[i]);
+          blocks.push(block);
         }
-        let var2565 = '<h2\x20style=\x22color:\x20purple;\x22>🌈\x20AI\x20对话历史>>>>>>></h2>' + var2559.join('');
-        param327.setNote(var2565);
-        await param327.saveTx();
+        let reversedNote = '<h2\x20style=\x22color:\x20purple;\x22>🌈\x20AI\x20对话历史>>>>>>></h2>' + blocks.join('');
+        noteItem.setNote(reversedNote);
+        await noteItem.saveTx();
       }
     }
   },
-  'updateTransRecordNoteVocabulary': async function (param328, param329, param330) {
-    Zotero.AI4Paper.Set2Reverse(param328);
-    let var2566 = param328.getNote();
-    if (var2566.indexOf("</h2>") != -0x1) {
-      let var2567 = var2566.indexOf('</h2>');
-      var2566 = var2566.substring(var2567 + 0x5);
+  'updateTransRecordNoteVocabulary': async function (noteItem, word, translation) {
+    Zotero.AI4Paper.Set2Reverse(noteItem);
+    let existingContent = noteItem.getNote();
+    if (existingContent.indexOf("</h2>") != -0x1) {
+      let h2EndIdx = existingContent.indexOf('</h2>');
+      existingContent = existingContent.substring(h2EndIdx + 0x5);
     }
     if (Zotero.Prefs.get("ai4paper.translationrecordnotenosourcetext")) {
-      if (Zotero.Prefs.get("ai4paper.translationrecordnotesinglerecord")) var var2568 = "<h2 style=\"color: purple;\">📑 翻译倒序>>>>>>></h2><blockquote>" + param330 + '</blockquote>';else var var2568 = "<h2 style=\"color: purple;\">📑 翻译倒序>>>>>>></h2><blockquote>" + param330 + "</blockquote>" + var2566;
+      if (Zotero.Prefs.get("ai4paper.translationrecordnotesinglerecord")) var noteHTML = "<h2 style=\"color: purple;\">📑 翻译倒序>>>>>>></h2><blockquote>" + translation + '</blockquote>';else var noteHTML = "<h2 style=\"color: purple;\">📑 翻译倒序>>>>>>></h2><blockquote>" + translation + "</blockquote>" + existingContent;
     } else {
       if (Zotero.Prefs.get("ai4paper.translationrecordnotesinglerecord")) {
         if (Zotero.Prefs.get("ai4paper.translationrecordnotesourcetextposition")) {
-          var var2568 = "<h2 style=\"color: purple;\">📑 翻译倒序>>>>>>></h2><blockquote>" + param330 + "<p>" + '👉\x20' + param329 + "</blockquote>";
-        } else var var2568 = "<h2 style=\"color: purple;\">📑 翻译倒序>>>>>>></h2><blockquote>👉 " + param329 + "<p>" + param330 + "</blockquote>";
+          var noteHTML = "<h2 style=\"color: purple;\">📑 翻译倒序>>>>>>></h2><blockquote>" + translation + "<p>" + '👉\x20' + word + "</blockquote>";
+        } else var noteHTML = "<h2 style=\"color: purple;\">📑 翻译倒序>>>>>>></h2><blockquote>👉 " + word + "<p>" + translation + "</blockquote>";
       } else {
-        if (Zotero.Prefs.get("ai4paper.translationrecordnotesourcetextposition")) var var2568 = "<h2 style=\"color: purple;\">📑 翻译倒序>>>>>>></h2><blockquote>" + param330 + "<p>" + "👉 " + param329 + '</blockquote>' + var2566;else {
-          var var2568 = "<h2 style=\"color: purple;\">📑 翻译倒序>>>>>>></h2><blockquote>👉 " + param329 + "<p>" + param330 + "</blockquote>" + var2566;
+        if (Zotero.Prefs.get("ai4paper.translationrecordnotesourcetextposition")) var noteHTML = "<h2 style=\"color: purple;\">📑 翻译倒序>>>>>>></h2><blockquote>" + translation + "<p>" + "👉 " + word + '</blockquote>' + existingContent;else {
+          var noteHTML = "<h2 style=\"color: purple;\">📑 翻译倒序>>>>>>></h2><blockquote>👉 " + word + "<p>" + translation + "</blockquote>" + existingContent;
         }
       }
     }
-    param328.setNote(var2568);
-    await param328.saveTx();
+    noteItem.setNote(noteHTML);
+    await noteItem.saveTx();
     Zotero.Prefs.get("ai4paper.obsidianautoupdatenotes") && Zotero.AI4Paper.itemModification2OB();
   },
-  'Set2Reverse': async function (param331) {
-    var var2569 = param331.getNote();
-    if (var2569.indexOf('📑\x20翻译正序') != -0x1) {
-      var var2570 = [],
-        var2571 = [],
-        var2572 = [],
-        var2573 = new RegExp('<blockquote>', 'g'),
-        var2574 = new RegExp("</blockquote>", 'g');
-      while (var2573.exec(var2569) != null && var2574.exec(var2569) != null) {
-        var2570.push(var2573.lastIndex);
-        var2571.push(var2574.lastIndex);
+  'Set2Reverse': async function (noteItem) {
+    var noteContent = noteItem.getNote();
+    if (noteContent.indexOf('📑\x20翻译正序') != -0x1) {
+      var openIndices = [],
+        closeIndices = [],
+        blocks = [],
+        openRegex = new RegExp('<blockquote>', 'g'),
+        closeRegex = new RegExp("</blockquote>", 'g');
+      while (openRegex.exec(noteContent) != null && closeRegex.exec(noteContent) != null) {
+        openIndices.push(openRegex.lastIndex);
+        closeIndices.push(closeRegex.lastIndex);
       }
-      for (i = 0x0; i < var2571.length; i++) {
-        let var2575 = var2569.substring(var2570[var2570.length - i - 0x1] - 0xc, var2571[var2571.length - i - 0x1]);
-        var2572.push(var2575);
+      for (i = 0x0; i < closeIndices.length; i++) {
+        let block = noteContent.substring(openIndices[openIndices.length - i - 0x1] - 0xc, closeIndices[closeIndices.length - i - 0x1]);
+        blocks.push(block);
       }
-      let var2576 = '<h2\x20style=\x22color:\x20purple;\x22>📑\x20翻译倒序>>>>>>></h2>' + var2572.join('');
-      param331.setNote(var2576);
-      await param331.saveTx();
+      let reversedNote = '<h2\x20style=\x22color:\x20purple;\x22>📑\x20翻译倒序>>>>>>></h2>' + blocks.join('');
+      noteItem.setNote(reversedNote);
+      await noteItem.saveTx();
     }
   },
-  'trans2ViewerANDRecord': async function (param332, param333) {
+  'trans2ViewerANDRecord': async function (sourceText, translation) {
     if (Zotero.AI4Paper.letDOI()) {
-      Zotero.Prefs.get("ai4paper.translationviewerenable") && (await Zotero.AI4Paper.updateTransViewer(param332, param333));
+      Zotero.Prefs.get("ai4paper.translationviewerenable") && (await Zotero.AI4Paper.updateTransViewer(sourceText, translation));
       if (Zotero.Prefs.get('ai4paper.translationrecordnote')) {
-        let _0x3b8279 = Zotero.AI4Paper.getCurrentItem(true);
-        if (_0x3b8279) {
-          var var2580 = await Zotero.AI4Paper.createNoteItem_basedOnTag(_0x3b8279, '/划词翻译');
-          if (var2580) {
-            await Zotero.AI4Paper.updateTransRecordNote(var2580, param332, param333);
+        let currentItem = Zotero.AI4Paper.getCurrentItem(true);
+        if (currentItem) {
+          var transNote = await Zotero.AI4Paper.createNoteItem_basedOnTag(currentItem, '/划词翻译');
+          if (transNote) {
+            await Zotero.AI4Paper.updateTransRecordNote(transNote, sourceText, translation);
           }
         }
       }
     }
   },
-  'updateTransViewer': async function (param334, param335) {
-    param334 = Zotero.AI4Paper.sliceGPTUserQuestion(param334);
-    var var2581;
-    Zotero.Prefs.get("ai4paper.translationrecordnotenosourcetext") ? var2581 = "<h2 style=\"color: purple;\">🌈 AI 对话历史>>>>>>></h2><blockquote>" + param335 + '</blockquote>' : Zotero.Prefs.get("ai4paper.translationrecordnotesourcetextposition") ? var2581 = "<h2 style=\"color: purple;\">🌈 AI 对话历史>>>>>>></h2><blockquote>" + param335 + "<p>" + param334 + '</blockquote>' : var2581 = "<h2 style=\"color: purple;\">🌈 AI 对话历史>>>>>>></h2><blockquote>" + param334 + "<p>" + param335 + "</blockquote>";
-    let var2582,
-      var2583 = Zotero.Prefs.get('ai4paper.translationViewerItemKey');
-    var2583 && (var2582 = Zotero.Items.getByLibraryAndKey(0x1, var2583));
-    if (var2582 && var2582.isNote() && !var2582.deleted) {
-      let var2584 = var2582;
+  'updateTransViewer': async function (sourceText, translation) {
+    sourceText = Zotero.AI4Paper.sliceGPTUserQuestion(sourceText);
+    var noteHTML;
+    Zotero.Prefs.get("ai4paper.translationrecordnotenosourcetext") ? noteHTML = "<h2 style=\"color: purple;\">🌈 AI 对话历史>>>>>>></h2><blockquote>" + translation + '</blockquote>' : Zotero.Prefs.get("ai4paper.translationrecordnotesourcetextposition") ? noteHTML = "<h2 style=\"color: purple;\">🌈 AI 对话历史>>>>>>></h2><blockquote>" + translation + "<p>" + sourceText + '</blockquote>' : noteHTML = "<h2 style=\"color: purple;\">🌈 AI 对话历史>>>>>>></h2><blockquote>" + sourceText + "<p>" + translation + "</blockquote>";
+    let viewerItem,
+      viewerKey = Zotero.Prefs.get('ai4paper.translationViewerItemKey');
+    viewerKey && (viewerItem = Zotero.Items.getByLibraryAndKey(0x1, viewerKey));
+    if (viewerItem && viewerItem.isNote() && !viewerItem.deleted) {
+      let viewerNote = viewerItem;
       if (Zotero.Prefs.get("ai4paper.translationviewerrecord")) {
-        await Zotero.AI4Paper.Set2ReverseTransViewer(var2584);
-        let _0x1e8f15 = var2584.getNote();
-        if (_0x1e8f15.indexOf("</h2>") != -0x1) {
-          let var2586 = _0x1e8f15.indexOf('</h2>');
-          _0x1e8f15 = _0x1e8f15.substring(var2586 + 0x5);
+        await Zotero.AI4Paper.Set2ReverseTransViewer(viewerNote);
+        let existingContent = viewerNote.getNote();
+        if (existingContent.indexOf("</h2>") != -0x1) {
+          let h2EndIdx = existingContent.indexOf('</h2>');
+          existingContent = existingContent.substring(h2EndIdx + 0x5);
         }
-        if (Zotero.Prefs.get("ai4paper.translationrecordnotenosourcetext")) var2581 = "<h2 style=\"color: purple;\">🌈 AI 对话历史>>>>>>></h2><blockquote>" + param335 + '</blockquote>' + _0x1e8f15;else {
-          Zotero.Prefs.get('ai4paper.translationrecordnotesourcetextposition') ? var2581 = "<h2 style=\"color: purple;\">🌈 AI 对话历史>>>>>>></h2><blockquote>" + param335 + '<p>' + param334 + "</blockquote>" + _0x1e8f15 : var2581 = "<h2 style=\"color: purple;\">🌈 AI 对话历史>>>>>>></h2><blockquote>" + param334 + "<p>" + param335 + '</blockquote>' + _0x1e8f15;
+        if (Zotero.Prefs.get("ai4paper.translationrecordnotenosourcetext")) noteHTML = "<h2 style=\"color: purple;\">🌈 AI 对话历史>>>>>>></h2><blockquote>" + translation + '</blockquote>' + existingContent;else {
+          Zotero.Prefs.get('ai4paper.translationrecordnotesourcetextposition') ? noteHTML = "<h2 style=\"color: purple;\">🌈 AI 对话历史>>>>>>></h2><blockquote>" + translation + '<p>' + sourceText + "</blockquote>" + existingContent : noteHTML = "<h2 style=\"color: purple;\">🌈 AI 对话历史>>>>>>></h2><blockquote>" + sourceText + "<p>" + translation + '</blockquote>' + existingContent;
         }
       }
-      var2584.setNote(var2581);
-      var2584.hasTag("/翻译查看器") && (var2584.removeTag("/翻译查看器"), var2584.addTag('/AI对话历史'));
-      await var2584.saveTx();
-      Zotero.Prefs.set("ai4paper.translationViewerItemKey", var2584.key);
+      viewerNote.setNote(noteHTML);
+      viewerNote.hasTag("/翻译查看器") && (viewerNote.removeTag("/翻译查看器"), viewerNote.addTag('/AI对话历史'));
+      await viewerNote.saveTx();
+      Zotero.Prefs.set("ai4paper.translationViewerItemKey", viewerNote.key);
     } else {
-      var var2587 = new Zotero.Search();
-      var2587.libraryID = Zotero.Libraries.userLibraryID;
-      var2587.addCondition('itemType', 'is', 'note');
-      var2587.addCondition("tag", 'is', "/AI对话历史");
-      var var2588 = await var2587.search(),
-        var2589 = await Zotero.Items.getAsync(var2588);
-      if (var2589.length === 0x0) {
-        let var2590 = new Zotero.Item("note");
-        var2590.addTag("/AI对话历史");
-        var2590.setNote(var2581);
-        await var2590.saveTx();
-        Zotero.Prefs.set('ai4paper.translationViewerItemKey', var2590.key);
+      var search = new Zotero.Search();
+      search.libraryID = Zotero.Libraries.userLibraryID;
+      search.addCondition('itemType', 'is', 'note');
+      search.addCondition("tag", 'is', "/AI对话历史");
+      var searchResults = await search.search(),
+        noteItems = await Zotero.Items.getAsync(searchResults);
+      if (noteItems.length === 0x0) {
+        let newNote = new Zotero.Item("note");
+        newNote.addTag("/AI对话历史");
+        newNote.setNote(noteHTML);
+        await newNote.saveTx();
+        Zotero.Prefs.set('ai4paper.translationViewerItemKey', newNote.key);
       } else {
-        let _0x356772 = var2589[0x0];
+        let firstNote = noteItems[0x0];
         if (Zotero.Prefs.get("ai4paper.translationviewerrecord")) {
-          await Zotero.AI4Paper.Set2ReverseTransViewer(_0x356772);
-          let _0x2c4bf2 = _0x356772.getNote();
-          if (_0x2c4bf2.indexOf("</h2>") != -0x1) {
-            let var2593 = _0x2c4bf2.indexOf("</h2>");
-            _0x2c4bf2 = _0x2c4bf2.substring(var2593 + 0x5);
+          await Zotero.AI4Paper.Set2ReverseTransViewer(firstNote);
+          let existingContent = firstNote.getNote();
+          if (existingContent.indexOf("</h2>") != -0x1) {
+            let h2EndIdx = existingContent.indexOf("</h2>");
+            existingContent = existingContent.substring(h2EndIdx + 0x5);
           }
-          if (Zotero.Prefs.get("ai4paper.translationrecordnotenosourcetext")) var2581 = "<h2 style=\"color: purple;\">🌈 AI 对话历史>>>>>>></h2><blockquote>" + param335 + '</blockquote>' + _0x2c4bf2;else {
-            Zotero.Prefs.get("ai4paper.translationrecordnotesourcetextposition") ? var2581 = "<h2 style=\"color: purple;\">🌈 AI 对话历史>>>>>>></h2><blockquote>" + param335 + "<p>" + param334 + "</blockquote>" + _0x2c4bf2 : var2581 = "<h2 style=\"color: purple;\">🌈 AI 对话历史>>>>>>></h2><blockquote>" + param334 + '<p>' + param335 + "</blockquote>" + _0x2c4bf2;
+          if (Zotero.Prefs.get("ai4paper.translationrecordnotenosourcetext")) noteHTML = "<h2 style=\"color: purple;\">🌈 AI 对话历史>>>>>>></h2><blockquote>" + translation + '</blockquote>' + existingContent;else {
+            Zotero.Prefs.get("ai4paper.translationrecordnotesourcetextposition") ? noteHTML = "<h2 style=\"color: purple;\">🌈 AI 对话历史>>>>>>></h2><blockquote>" + translation + "<p>" + sourceText + "</blockquote>" + existingContent : noteHTML = "<h2 style=\"color: purple;\">🌈 AI 对话历史>>>>>>></h2><blockquote>" + sourceText + '<p>' + translation + "</blockquote>" + existingContent;
           }
         }
-        _0x356772.setNote(var2581);
-        await _0x356772.saveTx();
-        Zotero.Prefs.set("ai4paper.translationViewerItemKey", _0x356772.key);
+        firstNote.setNote(noteHTML);
+        await firstNote.saveTx();
+        Zotero.Prefs.set("ai4paper.translationViewerItemKey", firstNote.key);
       }
     }
   },
-  'sliceGPTUserQuestion': function (param336) {
-    if (param336.indexOf("便于 Obsidian Dataview 插件调用") != -0x1) {
-      let _0x2127a0 = param336.indexOf('文献内容如下所示:');
-      if (_0x2127a0 != -0x1) return param336.substring(0x0, _0x2127a0 + 0x9) + "\n[此处省略全文...]";
+  'sliceGPTUserQuestion': function (questionText) {
+    if (questionText.indexOf("便于 Obsidian Dataview 插件调用") != -0x1) {
+      let contentIdx = questionText.indexOf('文献内容如下所示:');
+      if (contentIdx != -0x1) return questionText.substring(0x0, contentIdx + 0x9) + "\n[此处省略全文...]";
     }
-    return param336;
+    return questionText;
   },
-  'updateTransRecordNote': async function (param337, param338, param339) {
-    Zotero.AI4Paper.Set2Reverse(param337);
-    let var2595 = param337.getNote();
-    if (var2595.indexOf("</h2>") != -0x1) {
-      let var2596 = var2595.indexOf("</h2>");
-      var2595 = var2595.substring(var2596 + 0x5);
+  'updateTransRecordNote': async function (noteItem, sourceText, translation) {
+    Zotero.AI4Paper.Set2Reverse(noteItem);
+    let existingContent = noteItem.getNote();
+    if (existingContent.indexOf("</h2>") != -0x1) {
+      let h2EndIdx = existingContent.indexOf("</h2>");
+      existingContent = existingContent.substring(h2EndIdx + 0x5);
     }
     if (Zotero.Prefs.get("ai4paper.translationrecordnotenosourcetext")) {
       if (Zotero.Prefs.get('ai4paper.translationrecordnotesinglerecord')) {
-        var var2597 = "<h2 style=\"color: purple;\">📑 翻译倒序>>>>>>></h2><blockquote>" + param339 + '</blockquote>';
-      } else var var2597 = "<h2 style=\"color: purple;\">📑 翻译倒序>>>>>>></h2><blockquote>" + param339 + "</blockquote>" + var2595;
+        var noteHTML = "<h2 style=\"color: purple;\">📑 翻译倒序>>>>>>></h2><blockquote>" + translation + '</blockquote>';
+      } else var noteHTML = "<h2 style=\"color: purple;\">📑 翻译倒序>>>>>>></h2><blockquote>" + translation + "</blockquote>" + existingContent;
     } else {
       if (Zotero.Prefs.get('ai4paper.translationrecordnotesinglerecord')) {
         if (Zotero.Prefs.get("ai4paper.translationrecordnotesourcetextposition")) {
-          var var2597 = "<h2 style=\"color: purple;\">📑 翻译倒序>>>>>>></h2><blockquote>" + param339 + '<p>' + param338 + "</blockquote>";
-        } else var var2597 = "<h2 style=\"color: purple;\">📑 翻译倒序>>>>>>></h2><blockquote>" + param338 + "<p>" + param339 + '</blockquote>';
+          var noteHTML = "<h2 style=\"color: purple;\">📑 翻译倒序>>>>>>></h2><blockquote>" + translation + '<p>' + sourceText + "</blockquote>";
+        } else var noteHTML = "<h2 style=\"color: purple;\">📑 翻译倒序>>>>>>></h2><blockquote>" + sourceText + "<p>" + translation + '</blockquote>';
       } else {
         if (Zotero.Prefs.get("ai4paper.translationrecordnotesourcetextposition")) {
-          var var2597 = "<h2 style=\"color: purple;\">📑 翻译倒序>>>>>>></h2><blockquote>" + param339 + "<p>" + param338 + "</blockquote>" + var2595;
-        } else var var2597 = "<h2 style=\"color: purple;\">📑 翻译倒序>>>>>>></h2><blockquote>" + param338 + "<p>" + param339 + "</blockquote>" + var2595;
+          var noteHTML = "<h2 style=\"color: purple;\">📑 翻译倒序>>>>>>></h2><blockquote>" + translation + "<p>" + sourceText + "</blockquote>" + existingContent;
+        } else var noteHTML = "<h2 style=\"color: purple;\">📑 翻译倒序>>>>>>></h2><blockquote>" + sourceText + "<p>" + translation + "</blockquote>" + existingContent;
       }
     }
-    param337.setNote(var2597);
-    await param337.saveTx();
+    noteItem.setNote(noteHTML);
+    await noteItem.saveTx();
     Zotero.Prefs.get('ai4paper.obsidianautoupdatenotes') && Zotero.AI4Paper.itemModification2OB();
   },
   'toogleSortingTrans': async function () {
-    var var2598 = Services.wm.getMostRecentWindow("navigator:browser");
-    if (!var2598.ZoteroContextPane.activeEditor) return window.alert("请先在 Zotero 内置阅读器右侧打开笔记附件！"), false;else {
-      let _0x4780ad = '',
-        _0x21b6d7 = var2598.ZoteroContextPane.activeEditor._item.getTags(),
-        _0xa2c9dc = Zotero.Items.get(var2598.ZoteroContextPane.activeEditor._item.id);
-      if (_0x21b6d7.length) for (let var2602 of _0x21b6d7) {
-        if (var2602.tag === '/划词翻译') _0x4780ad = '/划词翻译';else {
-          if (var2602.tag === "/ChatGPT") _0x4780ad = "/ChatGPT";else {
-            if (var2602.tag === '/AI对话历史') _0x4780ad = '/AI对话历史';else {
-              if (var2602.tag === "/翻译查看器") {
-                _0x4780ad = "/翻译查看器";
+    var recentWin = Services.wm.getMostRecentWindow("navigator:browser");
+    if (!recentWin.ZoteroContextPane.activeEditor) return window.alert("请先在 Zotero 内置阅读器右侧打开笔记附件！"), false;else {
+      let noteTag = '',
+        tags = recentWin.ZoteroContextPane.activeEditor._item.getTags(),
+        noteItem = Zotero.Items.get(recentWin.ZoteroContextPane.activeEditor._item.id);
+      if (tags.length) for (let tagObj of tags) {
+        if (tagObj.tag === '/划词翻译') noteTag = '/划词翻译';else {
+          if (tagObj.tag === "/ChatGPT") noteTag = "/ChatGPT";else {
+            if (tagObj.tag === '/AI对话历史') noteTag = '/AI对话历史';else {
+              if (tagObj.tag === "/翻译查看器") {
+                noteTag = "/翻译查看器";
               }
             }
           }
         }
       }
-      if (_0x4780ad === '') return window.alert("❌ 您打开的笔记附件不是【划词翻译】或【AI 对话历史】或【GPT 笔记】！"), false;else {
-        if (_0x4780ad === '/翻译查看器') return window.alert("❌ 自 AI4paper v6.3.7 版本起，【翻译查看器】已升级为【AI 对话历史】。请删除原【翻译查看器】，再使用本功能。"), false;else {
-          if (_0x4780ad === '/划词翻译') Zotero.AI4Paper.toogleSortingTransRecord(_0xa2c9dc);else {
-            if (_0x4780ad === "/ChatGPT") Zotero.AI4Paper.toogleSortingChatGPTRecord(_0xa2c9dc);else _0x4780ad === "/AI对话历史" && Zotero.AI4Paper.toogleSortingTransViewer(_0xa2c9dc);
+      if (noteTag === '') return window.alert("❌ 您打开的笔记附件不是【划词翻译】或【AI 对话历史】或【GPT 笔记】！"), false;else {
+        if (noteTag === '/翻译查看器') return window.alert("❌ 自 AI4paper v6.3.7 版本起，【翻译查看器】已升级为【AI 对话历史】。请删除原【翻译查看器】，再使用本功能。"), false;else {
+          if (noteTag === '/划词翻译') Zotero.AI4Paper.toogleSortingTransRecord(noteItem);else {
+            if (noteTag === "/ChatGPT") Zotero.AI4Paper.toogleSortingChatGPTRecord(noteItem);else noteTag === "/AI对话历史" && Zotero.AI4Paper.toogleSortingTransViewer(noteItem);
           }
         }
       }
     }
   },
-  'toogleSortingTransRecord': async function (param340) {
-    if (param340) {
-      var var2603 = param340.getNote();
-      if (var2603.indexOf('<blockquote>') === -0x1 && var2603.indexOf("</blockquote>") === -0x1) return window.alert("您在 AI4paper v2.8.0 以前版本中生成的翻译笔记，不再支持此命令！"), false;
-      var var2604 = [],
-        var2605 = [],
-        var2606 = [],
-        var2607 = new RegExp('<blockquote>', 'g'),
-        var2608 = new RegExp("</blockquote>", 'g');
-      while (var2607.exec(var2603) != null && var2608.exec(var2603) != null) {
-        var2604.push(var2607.lastIndex);
-        var2605.push(var2608.lastIndex);
+  'toogleSortingTransRecord': async function (noteItem) {
+    if (noteItem) {
+      var noteContent = noteItem.getNote();
+      if (noteContent.indexOf('<blockquote>') === -0x1 && noteContent.indexOf("</blockquote>") === -0x1) return window.alert("您在 AI4paper v2.8.0 以前版本中生成的翻译笔记，不再支持此命令！"), false;
+      var openIndices = [],
+        closeIndices = [],
+        blocks = [],
+        openRegex = new RegExp('<blockquote>', 'g'),
+        closeRegex = new RegExp("</blockquote>", 'g');
+      while (openRegex.exec(noteContent) != null && closeRegex.exec(noteContent) != null) {
+        openIndices.push(openRegex.lastIndex);
+        closeIndices.push(closeRegex.lastIndex);
       }
-      for (i = 0x0; i < var2605.length; i++) {
-        let var2609 = var2603.substring(var2604[var2604.length - i - 0x1] - 0xc, var2605[var2605.length - i - 0x1]);
-        var2606.push(var2609);
+      for (i = 0x0; i < closeIndices.length; i++) {
+        let block = noteContent.substring(openIndices[openIndices.length - i - 0x1] - 0xc, closeIndices[closeIndices.length - i - 0x1]);
+        blocks.push(block);
       }
-      if (var2603.indexOf("📑 翻译倒序") != -0x1) {
-        let var2610 = "<h2 style=\"color: blue;\">📑 翻译正序>>>>>>></h2>" + var2606.join('');
-        param340.setNote(var2610);
-        await param340.saveTx();
+      if (noteContent.indexOf("📑 翻译倒序") != -0x1) {
+        let ascendingNote = "<h2 style=\"color: blue;\">📑 翻译正序>>>>>>></h2>" + blocks.join('');
+        noteItem.setNote(ascendingNote);
+        await noteItem.saveTx();
       } else {
-        if (var2603.indexOf("📑 翻译正序") != -0x1) {
-          let _0x49067a = "<h2 style=\"color: purple;\">📑 翻译倒序>>>>>>></h2>" + var2606.join('');
-          param340.setNote(_0x49067a);
-          await param340.saveTx();
+        if (noteContent.indexOf("📑 翻译正序") != -0x1) {
+          let descendingNote = "<h2 style=\"color: purple;\">📑 翻译倒序>>>>>>></h2>" + blocks.join('');
+          noteItem.setNote(descendingNote);
+          await noteItem.saveTx();
         }
       }
     }
   },
-  'toogleSortingChatGPTRecord': async function (param341) {
-    if (param341) {
-      var var2612 = param341.getNote();
-      if (var2612.indexOf("<blockquote>") === -0x1 && var2612.indexOf("</blockquote>") === -0x1) return window.alert('您在\x20Zotero\x20One\x20v2.8.0\x20以前版本中生成的翻译笔记，不再支持此命令！'), false;
-      var var2613 = [],
-        var2614 = [],
-        var2615 = [],
-        var2616 = new RegExp("<blockquote>", 'g'),
-        var2617 = new RegExp("</blockquote>", 'g');
-      while (var2616.exec(var2612) != null && var2617.exec(var2612) != null) {
-        var2613.push(var2616.lastIndex);
-        var2614.push(var2617.lastIndex);
+  'toogleSortingChatGPTRecord': async function (noteItem) {
+    if (noteItem) {
+      var noteContent = noteItem.getNote();
+      if (noteContent.indexOf("<blockquote>") === -0x1 && noteContent.indexOf("</blockquote>") === -0x1) return window.alert('您在\x20Zotero\x20One\x20v2.8.0\x20以前版本中生成的翻译笔记，不再支持此命令！'), false;
+      var openIndices = [],
+        closeIndices = [],
+        blocks = [],
+        openRegex = new RegExp("<blockquote>", 'g'),
+        closeRegex = new RegExp("</blockquote>", 'g');
+      while (openRegex.exec(noteContent) != null && closeRegex.exec(noteContent) != null) {
+        openIndices.push(openRegex.lastIndex);
+        closeIndices.push(closeRegex.lastIndex);
       }
-      for (i = 0x0; i < var2614.length; i++) {
-        let _0x1c6b4d = var2612.substring(var2613[var2613.length - i - 0x1] - 0xc, var2614[var2614.length - i - 0x1]);
-        var2615.push(_0x1c6b4d);
+      for (i = 0x0; i < closeIndices.length; i++) {
+        let block = noteContent.substring(openIndices[openIndices.length - i - 0x1] - 0xc, closeIndices[closeIndices.length - i - 0x1]);
+        blocks.push(block);
       }
-      if (var2612.indexOf('🤖️\x20ChatGPT\x20倒序') != -0x1) {
-        let var2619 = "<h2 style=\"color: blue;\">🤖️ ChatGPT 正序>>>>>>></h2>" + var2615.join('');
-        param341.setNote(var2619);
-        await param341.saveTx();
+      if (noteContent.indexOf('🤖️\x20ChatGPT\x20倒序') != -0x1) {
+        let ascendingNote = "<h2 style=\"color: blue;\">🤖️ ChatGPT 正序>>>>>>></h2>" + blocks.join('');
+        noteItem.setNote(ascendingNote);
+        await noteItem.saveTx();
       } else {
-        if (var2612.indexOf("🤖️ ChatGPT 正序") != -0x1) {
-          let _0x5db7fe = "<h2 style=\"color: #00ae89;\">🤖️ ChatGPT 倒序>>>>>>></h2>" + var2615.join('');
-          param341.setNote(_0x5db7fe);
-          await param341.saveTx();
+        if (noteContent.indexOf("🤖️ ChatGPT 正序") != -0x1) {
+          let descendingNote = "<h2 style=\"color: #00ae89;\">🤖️ ChatGPT 倒序>>>>>>></h2>" + blocks.join('');
+          noteItem.setNote(descendingNote);
+          await noteItem.saveTx();
         }
       }
     }
   },
-  'toogleSortingTransViewer': async function (param342) {
-    if (param342) {
-      var var2621 = param342.getNote();
-      if (var2621.indexOf("<blockquote>") === -0x1 && var2621.indexOf("</blockquote>") === -0x1) {
+  'toogleSortingTransViewer': async function (noteItem) {
+    if (noteItem) {
+      var noteContent = noteItem.getNote();
+      if (noteContent.indexOf("<blockquote>") === -0x1 && noteContent.indexOf("</blockquote>") === -0x1) {
         return window.alert("您在 AI4paper v2.8.0 以前版本中生成的翻译笔记，不再支持此命令！"), false;
       }
-      var var2622 = [],
-        var2623 = [],
-        var2624 = [],
-        var2625 = new RegExp("<blockquote>", 'g'),
-        var2626 = new RegExp("</blockquote>", 'g');
-      while (var2625.exec(var2621) != null && var2626.exec(var2621) != null) {
-        var2622.push(var2625.lastIndex);
-        var2623.push(var2626.lastIndex);
+      var openIndices = [],
+        closeIndices = [],
+        blocks = [],
+        openRegex = new RegExp("<blockquote>", 'g'),
+        closeRegex = new RegExp("</blockquote>", 'g');
+      while (openRegex.exec(noteContent) != null && closeRegex.exec(noteContent) != null) {
+        openIndices.push(openRegex.lastIndex);
+        closeIndices.push(closeRegex.lastIndex);
       }
-      for (i = 0x0; i < var2623.length; i++) {
-        let var2627 = var2621.substring(var2622[var2622.length - i - 0x1] - 0xc, var2623[var2623.length - i - 0x1]);
-        var2624.push(var2627);
+      for (i = 0x0; i < closeIndices.length; i++) {
+        let block = noteContent.substring(openIndices[openIndices.length - i - 0x1] - 0xc, closeIndices[closeIndices.length - i - 0x1]);
+        blocks.push(block);
       }
-      if (var2621.indexOf("🌈 AI 对话历史") != -0x1 && var2621.indexOf("<h2 style=\"color: purple") != -0x1) {
-        let _0x1c3781 = '<h2\x20style=\x22color:\x20blue;\x22>🌈\x20AI\x20对话历史>>>>>>></h2>' + var2624.join('');
-        param342.setNote(_0x1c3781);
-        await param342.saveTx();
+      if (noteContent.indexOf("🌈 AI 对话历史") != -0x1 && noteContent.indexOf("<h2 style=\"color: purple") != -0x1) {
+        let ascendingNote = '<h2\x20style=\x22color:\x20blue;\x22>🌈\x20AI\x20对话历史>>>>>>></h2>' + blocks.join('');
+        noteItem.setNote(ascendingNote);
+        await noteItem.saveTx();
       } else {
-        if (var2621.indexOf("🌈 AI 对话历史") != -0x1 && var2621.indexOf("<h2 style=\"color: blue") != -0x1) {
-          let _0x544823 = '<h2\x20style=\x22color:\x20purple;\x22>🌈\x20AI\x20对话历史>>>>>>></h2>' + var2624.join('');
-          param342.setNote(_0x544823);
-          await param342.saveTx();
+        if (noteContent.indexOf("🌈 AI 对话历史") != -0x1 && noteContent.indexOf("<h2 style=\"color: blue") != -0x1) {
+          let descendingNote = '<h2\x20style=\x22color:\x20purple;\x22>🌈\x20AI\x20对话历史>>>>>>></h2>' + blocks.join('');
+          noteItem.setNote(descendingNote);
+          await noteItem.saveTx();
         }
       }
     }
   },
   'openTransViewer': async function () {
-    var var2630 = "<h2 style=\"color: purple;\">🌈 AI 对话历史>>>>>>></h2>",
-      var2631 = new Zotero.Search();
-    var2631.libraryID = Zotero.Libraries.userLibraryID;
-    var2631.addCondition("itemType", 'is', "note");
-    var2631.addCondition("tag", 'is', "/AI对话历史");
-    var var2632 = await var2631.search(),
-      var2633 = await Zotero.Items.getAsync(var2632);
-    if (var2633.length === 0x0) {
-      let var2634 = new Zotero.Item("note");
-      Zotero.Prefs.set("ai4paper.translationViewerItemKey", var2634.key);
-      var2634.addTag('/AI对话历史');
-      var2634.setNote(var2630);
-      await var2634.saveTx();
-      ZoteroPane_Local.openNoteWindow(var2634.itemID);
+    var defaultNoteHTML = "<h2 style=\"color: purple;\">🌈 AI 对话历史>>>>>>></h2>",
+      search = new Zotero.Search();
+    search.libraryID = Zotero.Libraries.userLibraryID;
+    search.addCondition("itemType", 'is', "note");
+    search.addCondition("tag", 'is', "/AI对话历史");
+    var searchResults = await search.search(),
+      noteItems = await Zotero.Items.getAsync(searchResults);
+    if (noteItems.length === 0x0) {
+      let newNote = new Zotero.Item("note");
+      Zotero.Prefs.set("ai4paper.translationViewerItemKey", newNote.key);
+      newNote.addTag('/AI对话历史');
+      newNote.setNote(defaultNoteHTML);
+      await newNote.saveTx();
+      ZoteroPane_Local.openNoteWindow(newNote.itemID);
     } else {
-      let var2635 = var2633[0x0];
-      Zotero.Prefs.set("ai4paper.translationViewerItemKey", var2635.key);
-      ZoteroPane_Local.openNoteWindow(var2635.itemID);
+      let firstNote = noteItems[0x0];
+      Zotero.Prefs.set("ai4paper.translationViewerItemKey", firstNote.key);
+      ZoteroPane_Local.openNoteWindow(firstNote.itemID);
     }
   },
-  'annotationTextTrans': async function (param343, param344) {
-    let var2636 = param343.annotationText;
-    if (Zotero.AI4Paper.isChineseText(var2636)) {
+  'annotationTextTrans': async function (annotation, mode) {
+    let annotText = annotation.annotationText;
+    if (Zotero.AI4Paper.isChineseText(annotText)) {
       return false;
     }
     if (Zotero.Prefs.get("ai4paper.translationvocabularyfirst")) {
-      if (var2636.indexOf('\x20') === -0x1) {
-        var2636 = var2636.trim();
-        var2636 = var2636.toLowerCase();
-        var2636 = var2636.replace(/[\u3002|\uff1f|\uff01|\uff0c|\u3001|\uff1b|\uff1a|\u201c|\u201d|\u2018|\u2019|\uff08|\uff09|\u300a|\u300b|\u3008|\u3009|\u3010|\u3011|\u300e|\u300f|\u300c|\u300d|\ufe43|\ufe44|\u3014|\u3015|\u2026|\u2014|\uff5e|\ufe4f|\uffe5]/g, '');
-        var2636 = var2636.replace(/[\ |\~|\`|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\-|\_|\+|\=|\||\\|\[|\]|\{|\}|\;|\:|\"|\'|\,|\<|\.|\>|\/|\?/\，/\。/\；/\：/\“/\”/\》/\《/\|/\{/\}/\、/\!/\~/\`]/g, '');
-        var2636 = var2636.replace(/[0-9]/g, '');
-        let var2637 = await Zotero.AI4Paper.vocabularySearchAnnotationTrans(var2636);
-        if (var2637 && var2637 != -0x1) return Zotero.AI4Paper.addTrans2AnnotationComment(param343, var2637, param344), -0x1;
+      if (annotText.indexOf('\x20') === -0x1) {
+        annotText = annotText.trim();
+        annotText = annotText.toLowerCase();
+        annotText = annotText.replace(/[\u3002|\uff1f|\uff01|\uff0c|\u3001|\uff1b|\uff1a|\u201c|\u201d|\u2018|\u2019|\uff08|\uff09|\u300a|\u300b|\u3008|\u3009|\u3010|\u3011|\u300e|\u300f|\u300c|\u300d|\ufe43|\ufe44|\u3014|\u3015|\u2026|\u2014|\uff5e|\ufe4f|\uffe5]/g, '');
+        annotText = annotText.replace(/[\ |\~|\`|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\-|\_|\+|\=|\||\\|\[|\]|\{|\}|\;|\:|\"|\'|\,|\<|\.|\>|\/|\?/\，/\。/\；/\：/\“/\”/\》/\《/\|/\{/\}/\、/\!/\~/\`]/g, '');
+        annotText = annotText.replace(/[0-9]/g, '');
+        let vocabResult = await Zotero.AI4Paper.vocabularySearchAnnotationTrans(annotText);
+        if (vocabResult && vocabResult != -0x1) return Zotero.AI4Paper.addTrans2AnnotationComment(annotation, vocabResult, mode), -0x1;
       }
     }
-    Zotero.AI4Paper.translationEngineTask_annotationText(param343, param344);
+    Zotero.AI4Paper.translationEngineTask_annotationText(annotation, mode);
   },
-  'addTrans2AnnotationComment': async function (param345, param346, param347) {
-    let var2638 = '' + param345.annotationComment,
-      var2639 = Zotero.Prefs.get("ai4paper.annotationTranslationSeparator").trim() ? Zotero.Prefs.get('ai4paper.annotationTranslationSeparator') : "【👈 译】";
-    if (var2638 === "null") {
-      param345.annotationComment = '' + param346 + var2639;
-    } else var2638 != "null" && var2638.indexOf(var2639) === -0x1 && (param345.annotationComment = '' + param346 + var2639 + param345.annotationComment);
-    await param345.saveTx();
+  'addTrans2AnnotationComment': async function (annotation, translation, mode) {
+    let comment = '' + annotation.annotationComment,
+      separator = Zotero.Prefs.get("ai4paper.annotationTranslationSeparator").trim() ? Zotero.Prefs.get('ai4paper.annotationTranslationSeparator') : "【👈 译】";
+    if (comment === "null") {
+      annotation.annotationComment = '' + translation + separator;
+    } else comment != "null" && comment.indexOf(separator) === -0x1 && (annotation.annotationComment = '' + translation + separator + annotation.annotationComment);
+    await annotation.saveTx();
   },
   'scite': function () {
-    let var3607 = Zotero_Tabs._selectedID;
-    var var3608 = Zotero.Reader.getByTabID(var3607);
-    if (var3608) {
-      let var3609 = var3608.itemID;
-      var var3610 = Zotero.Items.get(var3609);
-      var3610 && var3610.parentItemID && (var3609 = var3610.parentItemID, var3610 = Zotero.Items.get(var3609));
+    let tabID = Zotero_Tabs._selectedID;
+    var reader = Zotero.Reader.getByTabID(tabID);
+    if (reader) {
+      let itemID = reader.itemID;
+      var item = Zotero.Items.get(itemID);
+      item && item.parentItemID && (itemID = item.parentItemID, item = Zotero.Items.get(itemID));
     } else {
-      var var3610 = ZoteroPane.getSelectedItems()[0x0];
+      var item = ZoteroPane.getSelectedItems()[0x0];
     }
-    if (!var3610.isRegularItem()) {
+    if (!item.isRegularItem()) {
       return window.alert('请您选择一个常规条目！'), false;
     }
-    let var3611 = var3610.getField("DOI");
-    if (var3611 === undefined || var3611 === '') {
+    let doi = item.getField("DOI");
+    if (doi === undefined || doi === '') {
       return window.alert("当前文献缺失 DOI 信息！"), false;
     }
-    let var3612 = 'https://scite.ai/visualizations/' + var3611;
-    ZoteroPane.loadURI(var3612);
+    let sciteURL = 'https://scite.ai/visualizations/' + doi;
+    ZoteroPane.loadURI(sciteURL);
   },
   'relatedPapers': function () {
-    let var3613 = Zotero_Tabs._selectedID;
-    var var3614 = Zotero.Reader.getByTabID(var3613);
-    if (var3614) {
-      let _0x9632d1 = var3614.itemID;
-      var var3616 = Zotero.Items.get(_0x9632d1);
-      var3616 && var3616.parentItemID && (_0x9632d1 = var3616.parentItemID, var3616 = Zotero.Items.get(_0x9632d1));
-    } else var var3616 = ZoteroPane.getSelectedItems()[0x0];
-    if (!var3616.isRegularItem()) {
+    let tabID = Zotero_Tabs._selectedID;
+    var reader = Zotero.Reader.getByTabID(tabID);
+    if (reader) {
+      let itemID = reader.itemID;
+      var item = Zotero.Items.get(itemID);
+      item && item.parentItemID && (itemID = item.parentItemID, item = Zotero.Items.get(itemID));
+    } else var item = ZoteroPane.getSelectedItems()[0x0];
+    if (!item.isRegularItem()) {
       return window.alert("请您选择一个常规条目！"), false;
     }
-    let var3617 = var3616.getField("DOI");
-    if (!var3617) window.alert('当前文献缺失\x20DOI\x20信息！');else {
-      let _0x10b603 = "https://api.semanticscholar.org/" + var3617;
-      ZoteroPane.loadURI(_0x10b603);
+    let doi = item.getField("DOI");
+    if (!doi) window.alert('当前文献缺失\x20DOI\x20信息！');else {
+      let semanticURL = "https://api.semanticscholar.org/" + doi;
+      ZoteroPane.loadURI(semanticURL);
     }
   },
   'connectedPapers': function () {
-    let var3619 = Zotero_Tabs._selectedID;
-    var var3620 = Zotero.Reader.getByTabID(var3619);
-    if (var3620) {
-      let var3621 = var3620.itemID;
-      var var3622 = Zotero.Items.get(var3621);
-      if (var3622 && var3622.parentItemID) {
-        var3621 = var3622.parentItemID;
-        var3622 = Zotero.Items.get(var3621);
+    let tabID = Zotero_Tabs._selectedID;
+    var reader = Zotero.Reader.getByTabID(tabID);
+    if (reader) {
+      let itemID = reader.itemID;
+      var item = Zotero.Items.get(itemID);
+      if (item && item.parentItemID) {
+        itemID = item.parentItemID;
+        item = Zotero.Items.get(itemID);
       }
-    } else var var3622 = ZoteroPane.getSelectedItems()[0x0];
-    if (!var3622.isRegularItem()) {
+    } else var item = ZoteroPane.getSelectedItems()[0x0];
+    if (!item.isRegularItem()) {
       return window.alert("请您选择一个常规条目！"), false;
     }
-    let var3623 = var3622.getField('DOI');
-    if (var3623 === undefined || var3623 === '') return window.alert("当前文献缺失 DOI 信息！"), false;
-    let var3624 = "https://connectedpapers.com/api/redirect/doi/" + var3623;
-    ZoteroPane.loadURI(var3624);
+    let doi = item.getField('DOI');
+    if (doi === undefined || doi === '') return window.alert("当前文献缺失 DOI 信息！"), false;
+    let connPapersURL = "https://connectedpapers.com/api/redirect/doi/" + doi;
+    ZoteroPane.loadURI(connPapersURL);
   },
   'getItemsForAnnotationSImport': function () {
-    let var4180 = Zotero_Tabs._selectedID;
-    var var4181 = Zotero.Reader.getByTabID(var4180);
-    if (var4181) {
-      let _0x22c316 = var4181.itemID;
-      var var4183 = Zotero.Items.get(_0x22c316);
-      if (var4183 && var4183.parentItemID) {
-        _0x22c316 = var4183.parentItemID;
-        var4183 = Zotero.Items.get(_0x22c316);
-        let var4184 = _0x22c316,
-          var4185 = var4183.getField("title");
+    let tabID = Zotero_Tabs._selectedID;
+    var reader = Zotero.Reader.getByTabID(tabID);
+    if (reader) {
+      let itemID = reader.itemID;
+      var item = Zotero.Items.get(itemID);
+      if (item && item.parentItemID) {
+        itemID = item.parentItemID;
+        item = Zotero.Items.get(itemID);
+        let parentID = itemID,
+          title = item.getField("title");
         return {
-          'item_Title': var4185,
-          'item_ID': var4184
+          'item_Title': title,
+          'item_ID': parentID
         };
       } else return Services.prompt.alert(window, "❌ 温馨提示：", '您选的\x20PDF\x20无父条目，请创建父条目或重新选择！'), false;
     } else {
-      var var4183 = ZoteroPane.getSelectedItems()[0x0];
+      var item = ZoteroPane.getSelectedItems()[0x0];
     }
-    if (var4183 === undefined) {
+    if (item === undefined) {
       return Services.prompt.alert(window, "❌ 温馨提示：", '请选择一个常规条目！'), false;
     }
-    if (var4183.isRegularItem()) {
-      let _0x2c774e = var4183.itemID,
-        _0xbb153a = var4183.getField("title");
+    if (item.isRegularItem()) {
+      let regularItemID = item.itemID,
+        regularItemTitle = item.getField("title");
       return {
-        'item_Title': _0xbb153a,
-        'item_ID': _0x2c774e
+        'item_Title': regularItemTitle,
+        'item_ID': regularItemID
       };
     } else return Services.prompt.alert(window, "❌ 温馨提示：", "您选择的不是常规条目！"), false;
   },
-  'togglePaneDisplay': function (param1011, param1012, param1013) {
-    var var5201 = ZoteroPane.document.getElementById(param1011 + "-pane"),
-      var5202;
-    if (param1011 == 'zotero-item') {
-      var5202 = "s-splitter";
-    } else var5202 = "-splitter";
-    var var5203 = ZoteroPane.document.getElementById(param1011 + var5202);
-    switch (param1012) {
+  'togglePaneDisplay': function (paneId, action, keepSplitter) {
+    var paneEl = ZoteroPane.document.getElementById(paneId + "-pane"),
+      splitterSuffix;
+    if (paneId == 'zotero-item') {
+      splitterSuffix = "s-splitter";
+    } else splitterSuffix = "-splitter";
+    var splitterEl = ZoteroPane.document.getElementById(paneId + splitterSuffix);
+    switch (action) {
       case "toggle":
-        if (var5201.collapsed) {
-          this.togglePaneDisplay(param1011, "show", param1013);
-          if (param1011 == "zotero-collections") {
-            let _0x17f96b = window.document.querySelector("#zotero-if-items-toolbar-button-collectionPaneDisplay");
-            if (_0x17f96b) {
-              _0x17f96b.innerHTML = Zotero.AI4Paper.svg_icon_20px.collectionpanedisplayToolBarButton;
+        if (paneEl.collapsed) {
+          this.togglePaneDisplay(paneId, "show", keepSplitter);
+          if (paneId == "zotero-collections") {
+            let collPaneBtn = window.document.querySelector("#zotero-if-items-toolbar-button-collectionPaneDisplay");
+            if (collPaneBtn) {
+              collPaneBtn.innerHTML = Zotero.AI4Paper.svg_icon_20px.collectionpanedisplayToolBarButton;
             }
           }
-          if (param1011 == "zotero-item") {
-            let var5205 = window.document.querySelector("#zotero-if-items-toolbar-button-itemPaneDisplay");
-            if (var5205) {
-              var5205.innerHTML = Zotero.AI4Paper.svg_icon_20px.itempanedisplayToolBarButton;
+          if (paneId == "zotero-item") {
+            let itemPaneBtn = window.document.querySelector("#zotero-if-items-toolbar-button-itemPaneDisplay");
+            if (itemPaneBtn) {
+              itemPaneBtn.innerHTML = Zotero.AI4Paper.svg_icon_20px.itempanedisplayToolBarButton;
             }
           }
         } else {
-          this.togglePaneDisplay(param1011, "hide", param1013);
-          if (param1011 == "zotero-collections") {
-            let var5206 = window.document.querySelector('#zotero-if-items-toolbar-button-collectionPaneDisplay');
-            var5206 && (var5206.innerHTML = Zotero.AI4Paper.svg_icon_20px.collectionpanedisplayToolBarButton_expand);
+          this.togglePaneDisplay(paneId, "hide", keepSplitter);
+          if (paneId == "zotero-collections") {
+            let collPaneBtn2 = window.document.querySelector('#zotero-if-items-toolbar-button-collectionPaneDisplay');
+            collPaneBtn2 && (collPaneBtn2.innerHTML = Zotero.AI4Paper.svg_icon_20px.collectionpanedisplayToolBarButton_expand);
           }
-          if (param1011 == "zotero-item") {
-            let _0x5735ea = window.document.querySelector('#zotero-if-items-toolbar-button-itemPaneDisplay');
-            _0x5735ea && (_0x5735ea.innerHTML = Zotero.AI4Paper.svg_icon_20px.itempanedisplayToolBarButton_expand);
+          if (paneId == "zotero-item") {
+            let itemPaneBtn2 = window.document.querySelector('#zotero-if-items-toolbar-button-itemPaneDisplay');
+            itemPaneBtn2 && (itemPaneBtn2.innerHTML = Zotero.AI4Paper.svg_icon_20px.itempanedisplayToolBarButton_expand);
           }
         }
         break;
       case "show":
-        var5201.collapsed = false;
-        !param1013 && var5203.removeAttribute('state');
+        paneEl.collapsed = false;
+        !keepSplitter && splitterEl.removeAttribute('state');
         break;
       case 'hide':
-        var5201.collapsed = true;
-        var5203.setAttribute("state", "collapsed");
+        paneEl.collapsed = true;
+        splitterEl.setAttribute("state", "collapsed");
         break;
     }
   },
@@ -1840,33 +1840,33 @@ Zotero.AI4Paper = {
     Zotero.AI4Paper.updateDatabase_refsCollection();
   },
   'updateDatabase_fileshistory': function () {
-    let var5301 = Zotero.Prefs.get("ai4paper.fileshistory"),
-      var5302 = var5301.split("😊🎈🍓"),
-      var5303 = [];
-    for (let var5304 of var5302) {
-      let var5305 = var5304.indexOf('🆔');
-      if (var5305 != -0x1) {
-        let var5306 = var5304.substring(0x0, var5305 + 0x3),
-          var5307 = var5304.substring(var5305 + 0x3),
-          var5308 = Zotero.AI4Paper.findItemByIDORKey(var5307);
-        var5308 && var5303.push('' + var5306 + var5308.key);
+    let historyStr = Zotero.Prefs.get("ai4paper.fileshistory"),
+      entries = historyStr.split("😊🎈🍓"),
+      updatedEntries = [];
+    for (let entry of entries) {
+      let idIdx = entry.indexOf('🆔');
+      if (idIdx != -0x1) {
+        let prefix = entry.substring(0x0, idIdx + 0x3),
+          idPart = entry.substring(idIdx + 0x3),
+          foundItem = Zotero.AI4Paper.findItemByIDORKey(idPart);
+        foundItem && updatedEntries.push('' + prefix + foundItem.key);
       }
     }
-    var5303.length && (Zotero.Prefs.set("ai4paper.fileshistory", var5303.join("😊🎈🍓")), Zotero.AI4Paper.showProgressWindow(0xbb8, "升级【设置】数据库", "✅【最近打开】设置数据库升级完成！"));
+    updatedEntries.length && (Zotero.Prefs.set("ai4paper.fileshistory", updatedEntries.join("😊🎈🍓")), Zotero.AI4Paper.showProgressWindow(0xbb8, "升级【设置】数据库", "✅【最近打开】设置数据库升级完成！"));
   },
   'updateDatabase_gptNotesAttachItems': function () {
-    let var5309 = Zotero.Prefs.get('ai4paper.gptNotesAttachItems'),
-      var5310 = [];
-    for (let var5311 of var5309.split('\x0a')) {
-      let var5312 = var5311.indexOf('🆔');
-      if (var5312 != -0x1) {
-        let var5313 = var5311.substring(0x0, var5312 + 0x3),
-          var5314 = var5311.substring(var5312 + 0x3),
-          var5315 = Zotero.AI4Paper.findItemByIDORKey(var5314);
-        var5315 && var5310.push('' + var5313 + var5315.key);
+    let attachItemsStr = Zotero.Prefs.get('ai4paper.gptNotesAttachItems'),
+      updatedEntries = [];
+    for (let entry of attachItemsStr.split('\x0a')) {
+      let idIdx = entry.indexOf('🆔');
+      if (idIdx != -0x1) {
+        let prefix = entry.substring(0x0, idIdx + 0x3),
+          idPart = entry.substring(idIdx + 0x3),
+          foundItem = Zotero.AI4Paper.findItemByIDORKey(idPart);
+        foundItem && updatedEntries.push('' + prefix + foundItem.key);
       }
     }
-    var5310.length && (Zotero.Prefs.set('ai4paper.gptNotesAttachItems', var5310.join('\x0a')), Zotero.AI4Paper.showProgressWindow(0xbb8, "升级【设置】数据库", '✅【GPT\x20笔记绑定条目】设置数据库升级完成！'));
+    updatedEntries.length && (Zotero.Prefs.set('ai4paper.gptNotesAttachItems', updatedEntries.join('\x0a')), Zotero.AI4Paper.showProgressWindow(0xbb8, "升级【设置】数据库", '✅【GPT\x20笔记绑定条目】设置数据库升级完成！'));
   },
   'copyTranslationAPIKeys': function () {
     Zotero.AI4Paper.copy2Clipboard(JSON.stringify(Zotero.AI4Paper.translationServiceList(), null, 0x2));
@@ -1876,23 +1876,23 @@ Zotero.AI4Paper = {
     Zotero.AI4Paper.copy2Clipboard(JSON.stringify(Zotero.AI4Paper.gptServiceList(), null, 0x2));
     Zotero.AI4Paper.showProgressWindow(0x7d0, "拷贝全部【GPT API-Keys】", "✅ 拷贝成功！共【" + Object.keys(Zotero.AI4Paper.gptServiceList()).length + "】条。");
   },
-  'openPluginSettingsAndFocusElement': async function (param1141, _0x134da4 = "zotero-prefpane-ai4paper") {
-    const var6003 = await Zotero.Utilities.Internal.openPreferences(_0x134da4);
-    await new Promise(_0x6484e3 => {
-      var6003.document.readyState === "complete" ? _0x6484e3() : var6003.addEventListener("load", _0x6484e3, {
+  'openPluginSettingsAndFocusElement': async function (elementId, prefPaneId = "zotero-prefpane-ai4paper") {
+    const prefsWin = await Zotero.Utilities.Internal.openPreferences(prefPaneId);
+    await new Promise(resolve => {
+      prefsWin.document.readyState === "complete" ? resolve() : prefsWin.addEventListener("load", resolve, {
         'once': true
       });
     });
     await Zotero.Promise.delay(0x64);
-    const var6004 = var6003.document.getElementById(param1141);
-    if (var6004) {
-      var6004.scrollIntoView({
+    const targetEl = prefsWin.document.getElementById(elementId);
+    if (targetEl) {
+      targetEl.scrollIntoView({
         'behavior': "smooth",
         'block': "start"
       });
-      var6004.focus();
+      targetEl.focus();
     }
-    return var6003;
+    return prefsWin;
   },
   'collectionsToolbar_buttons': ["collapseCollections"],
   'itemsToolbar_buttons': ["collectionPaneDisplay", "itemPaneDisplay", 'collectionitemPaneDisplay', "pinAttachments", 'batchAIInterpret', "go2favoritecollection", "preferences", "zoteroColorScheme", 'openwith', "fileshistory", "obsidiannote", "tagscardnotes", "archive", "showFile", "chatWithNewBing", "immersiveTranslate", "copyPDF"],
@@ -1901,24 +1901,24 @@ Zotero.AI4Paper = {
   'chatButtons': ["ClearChat", "AIAnalysis", 'ImportFulltext', "ImportAbstract", 'AddNotes', "ImportAIReading", "LocateAIReadingNotes"],
   '_shortCuts_items': ["AddAnnotationTag", "CopyBlockQuoteLink", "SetAnnotationHead", "CardNotesSearch", 'AddRelatedRefs', "ZoteroAdvancedSearch", "CopyAnnotationLink", 'CopyAnnotationLinkOnly', "CopyAnnotationLinkMD", "CopyAnnotationText", 'CollapseLeftSidePane', "CollapseRightSidePane", "CopyPDFAttachmentsLink", "CopyPDF", "OpenWith", "ChatwithNewbing", 'ImmersiveTranslate', 'UniversalImmersiveTranslate', "AttachNewFile", "FilesHistory", "WorkSpace", 'RenameAttachments', "Archive", "SplitHorizontally", "SplitVertically", 'OddSpreads', "StarOne", "StarTwo", 'StarThree', "StarFour", "StarFive", "StarClear", "PaperAI", "LocateAIReadingNotes", "GetFullText", "ChangeGPTChatMode", "TagCardNotes", "ObsidianNote", "ObsidianBlock", 'SetCommentTemplate', 'LocateItemInPapersMatrix', "SearchCollectionInPapersMatrix"],
   'progressWindowIcon': {},
-  'update_svg_icons': function (param1157) {
+  'update_svg_icons': function (rootDoc) {
     try {
-      Object.keys(Zotero.AI4Paper.svg_icon_20px).forEach(_0x525a82 => {
-        param1157.querySelectorAll(".svg-container-" + _0x525a82).forEach(_0x1f0ed0 => {
-          _0x1f0ed0.innerHTML = Zotero.AI4Paper.svg_icon_20px?.[_0x525a82];
+      Object.keys(Zotero.AI4Paper.svg_icon_20px).forEach(iconKey => {
+        rootDoc.querySelectorAll(".svg-container-" + iconKey).forEach(container => {
+          container.innerHTML = Zotero.AI4Paper.svg_icon_20px?.[iconKey];
         });
       });
-    } catch (_0x3a9dc3) {
-      Zotero.debug(_0x3a9dc3);
+    } catch (e) {
+      Zotero.debug(e);
     }
     try {
-      Object.keys(Zotero.AI4Paper.svg_icon_16px).forEach(_0x1580ce => {
-        param1157.querySelectorAll('.svg-container-' + _0x1580ce).forEach(_0xb8526c => {
-          _0xb8526c.innerHTML = Zotero.AI4Paper.svg_icon_16px?.[_0x1580ce];
+      Object.keys(Zotero.AI4Paper.svg_icon_16px).forEach(iconKey => {
+        rootDoc.querySelectorAll('.svg-container-' + iconKey).forEach(container => {
+          container.innerHTML = Zotero.AI4Paper.svg_icon_16px?.[iconKey];
         });
       });
-    } catch (_0x2bfb3c) {
-      Zotero.debug(_0x2bfb3c);
+    } catch (e) {
+      Zotero.debug(e);
     }
   }
 };

@@ -679,22 +679,22 @@ Object.assign(Zotero.AI4Paper, {
     0x5: '⑤',
     0x6: '⑥'
   },
-  'getRequestParameters_SemanticScholar': function (param1) {
-    let var1 = {
+  'getRequestParameters_SemanticScholar': function (isCitingRefs) {
+    let headers = {
       'Content-Type': "application/json"
     };
-    if (!Zotero.Prefs.get("ai4paper.semanticscholarAPIOnly4RetrieveCitingRefs") || Zotero.Prefs.get("ai4paper.semanticscholarAPIOnly4RetrieveCitingRefs") && param1) {
+    if (!Zotero.Prefs.get("ai4paper.semanticscholarAPIOnly4RetrieveCitingRefs") || Zotero.Prefs.get("ai4paper.semanticscholarAPIOnly4RetrieveCitingRefs") && isCitingRefs) {
       if (Zotero.Prefs.get("ai4paper.semanticscholarAPIKeyEnable") && Zotero.Prefs.get("ai4paper.semanticscholarAPIKey").trim()) {
-        var1["x-api-key"] = Zotero.Prefs.get("ai4paper.semanticscholarAPIKey").trim();
+        headers["x-api-key"] = Zotero.Prefs.get("ai4paper.semanticscholarAPIKey").trim();
       }
       return {
         'host': Zotero.Prefs.get("ai4paper.semanticscholarHost").trim() || "https://api.semanticscholar.org",
-        'headers': var1
+        'headers': headers
       };
     }
     return {
       'host': "https://api.semanticscholar.org",
-      'headers': var1
+      'headers': headers
     };
   },
 });

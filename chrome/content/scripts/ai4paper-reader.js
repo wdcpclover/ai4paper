@@ -3,1651 +3,1651 @@
 // reader buttons, button state toggles, iframe/background events
 Object.assign(Zotero.AI4Paper, {
   'collapseLeftSidePane': function () {
-    let var389 = Zotero_Tabs._selectedID,
-      var390 = Zotero.Reader.getByTabID(var389);
-    var390 ? Zotero.AI4Paper.collapseReaderSideBar() : Zotero.AI4Paper.collapseCollectionPane_byShortCuts();
+    let tabID7 = Zotero_Tabs._selectedID,
+      reader8 = Zotero.Reader.getByTabID(tabID7);
+    reader8 ? Zotero.AI4Paper.collapseReaderSideBar() : Zotero.AI4Paper.collapseCollectionPane_byShortCuts();
   },
   'collapseRightSidePane': function () {
-    let var391 = Zotero_Tabs._selectedID,
-      var392 = Zotero.Reader.getByTabID(var391);
-    if (var392) {
+    let tabID8 = Zotero_Tabs._selectedID,
+      reader9 = Zotero.Reader.getByTabID(tabID8);
+    if (reader9) {
       Zotero.AI4Paper.collapseReaderContextPane();
     } else Zotero.AI4Paper.collapseItemPane_byShortCuts();
   },
   'collapseReaderSideBar': function () {
-    let var393 = Zotero_Tabs._selectedID,
-      var394 = Zotero.Reader.getByTabID(var393);
-    if (!var394) return;
-    let var395 = var394._iframeWindow,
-      var396 = var395.document.querySelector(".toolbar-button.sidebar-toggle");
-    var396 && var396.click();
+    let tabID9 = Zotero_Tabs._selectedID,
+      reader10 = Zotero.Reader.getByTabID(tabID9);
+    if (!reader10) return;
+    let iframeWin7 = reader10._iframeWindow,
+      elem78 = iframeWin7.document.querySelector(".toolbar-button.sidebar-toggle");
+    elem78 && elem78.click();
   },
   'collapseReaderContextPane': function () {
-    let var397 = Zotero_Tabs._selectedID,
-      var398 = Zotero.Reader.getByTabID(var397);
-    if (!var398) return;
-    let var399 = var398._iframeWindow,
-      var400;
-    Zotero.AI4Paper.isZoteroVersion(0x7) ? var400 = var399.document.querySelector('.toolbar-button.context-pane-toggle') : var400 = window.document.querySelector('[data-l10n-id=\x22toggle-context-pane\x22]');
-    var400 && var400.click();
+    let tabID10 = Zotero_Tabs._selectedID,
+      reader11 = Zotero.Reader.getByTabID(tabID10);
+    if (!reader11) return;
+    let iframeWin8 = reader11._iframeWindow,
+      local22;
+    Zotero.AI4Paper.isZoteroVersion(0x7) ? local22 = iframeWin8.document.querySelector('.toolbar-button.context-pane-toggle') : local22 = window.document.querySelector('[data-l10n-id=\x22toggle-context-pane\x22]');
+    local22 && local22.click();
   },
   'unregisterReaderButtons': function () {
-    let var460 = Zotero.getMainWindow().Zotero_Tabs._tabs;
-    for (let var461 of var460) {
-      if (var461.id != 'zotero-pane') {
-        let _0x23d382 = var461.id,
-          _0xaedd99 = Zotero.Reader.getByTabID(_0x23d382);
-        if (!_0xaedd99) {
+    let local23 = Zotero.getMainWindow().Zotero_Tabs._tabs;
+    for (let i5 of local23) {
+      if (i5.id != 'zotero-pane') {
+        let local2 = i5.id,
+          reader = Zotero.Reader.getByTabID(local2);
+        if (!reader) {
           continue;
         }
-        const _0x2d7448 = _0xaedd99._iframeWindow.document;
-        _0x2d7448.querySelectorAll(".AI4Paper-Reader-Buttons").forEach(_0x32a581 => _0x32a581.remove());
-        _0x2d7448.querySelectorAll(".divider-before-toolbarButton").forEach(_0x1dee07 => _0x1dee07.remove());
-        _0x2d7448.querySelectorAll('#AI4Paper-viewButton-imagesView').forEach(_0x2ee24f => _0x2ee24f.remove());
-        Zotero.AI4Paper.removeReaderBackgroundColor(_0xaedd99._iframeWindow);
+        const iframeWin = reader._iframeWindow.document;
+        iframeWin.querySelectorAll(".AI4Paper-Reader-Buttons").forEach(el => el.remove());
+        iframeWin.querySelectorAll(".divider-before-toolbarButton").forEach(el => el.remove());
+        iframeWin.querySelectorAll('#AI4Paper-viewButton-imagesView').forEach(el => el.remove());
+        Zotero.AI4Paper.removeReaderBackgroundColor(reader._iframeWindow);
       }
     }
   },
-  'removeReaderPopupElements': function (param20) {
-    param20.document.querySelectorAll(".ai4paper-popup-element").forEach(_0x19a04b => _0x19a04b.remove());
+  'removeReaderPopupElements': function (param) {
+    param.document.querySelectorAll(".ai4paper-popup-element").forEach(el => el.remove());
   },
-  'removeReaderBackgroundColor': function (param21) {
-    param21.document.querySelectorAll("iframe")[0x0]?.["contentWindow"]["document"]['head']["querySelectorAll"]("#eyes-protection-color")["forEach"](_0x184b2d => _0x184b2d.remove());
-    param21.document.querySelectorAll("iframe")[0x1]?.["contentWindow"]["document"]['head']["querySelectorAll"]("#eyes-protection-color")["forEach"](_0x1fa1b6 => _0x1fa1b6.remove());
+  'removeReaderBackgroundColor': function (readerWin) {
+    readerWin.document.querySelectorAll("iframe")[0x0]?.["contentWindow"]["document"]['head']["querySelectorAll"]("#eyes-protection-color")["forEach"](el => el.remove());
+    readerWin.document.querySelectorAll("iframe")[0x1]?.["contentWindow"]["document"]['head']["querySelectorAll"]("#eyes-protection-color")["forEach"](el => el.remove());
   },
-  'unregisterReaderSidePanes': function (param22) {
-    for (let var465 of param22) {
-      window.document.querySelector('.AI4Paper-' + var465 + "SidePane-vbox")?.["remove"]();
-      window.document.querySelector("#ai4paper-window-" + var465 + "SidePane-button")?.["remove"]();
-      window.document.querySelector("#ai4paper-notesSection-" + var465 + "SidePane-button")?.["remove"]();
+  'unregisterReaderSidePanes': function (readerWin2) {
+    for (let i6 of readerWin2) {
+      window.document.querySelector('.AI4Paper-' + i6 + "SidePane-vbox")?.["remove"]();
+      window.document.querySelector("#ai4paper-window-" + i6 + "SidePane-button")?.["remove"]();
+      window.document.querySelector("#ai4paper-notesSection-" + i6 + "SidePane-button")?.["remove"]();
     }
-    param22.length && (Zotero.AI4Paper.showZoteroNotesSection(), window.document.querySelectorAll(".AI4Paper-SidePane-vbox").forEach(_0x517616 => _0x517616.hidden = true));
+    readerWin2.length && (Zotero.AI4Paper.showZoteroNotesSection(), window.document.querySelectorAll(".AI4Paper-SidePane-vbox").forEach(el => el.hidden = true));
     if (!window.document.querySelector('.AI4Paper-SidePane-vbox')) {
-      let var466 = window.document.querySelector(".AI4Paper-Nav-Buttons-DIV"),
-        var467 = window.document.querySelector("[data-l10n-id=\"context-notes-search\"]");
-      var466?.["after"](var467);
-      var466?.['remove']();
+      let elem79 = window.document.querySelector(".AI4Paper-Nav-Buttons-DIV"),
+        elem80 = window.document.querySelector("[data-l10n-id=\"context-notes-search\"]");
+      elem79?.["after"](elem80);
+      elem79?.['remove']();
     }
   },
   'addReaderElementsOnStartup': async function () {
     if (Zotero_Tabs._selectedID == "zotero-pane") return;
-    let var500 = 0x0;
+    let local24 = 0x0;
     while (!Zotero.Reader.getByTabID(Zotero_Tabs._selectedID)) {
-      if (var500 >= 0x5dc) {
+      if (local24 >= 0x5dc) {
         Zotero.debug('ZoteroOne:\x20Waiting\x20for\x20reader\x20failed');
         return;
       }
       await Zotero.Promise.delay(0x5);
-      var500++;
+      local24++;
     }
-    let var501 = Zotero_Tabs._selectedID,
-      var502 = Zotero.Reader.getByTabID(var501);
-    (Zotero.Prefs.get("ai4paper.translationreadersidepane") || Zotero.Prefs.get('ai4paper.gptviewReaderSidepane')) && Zotero.AI4Paper.addReaderSidePane(var501);
-    Zotero.AI4Paper.addReaderButtonInit(var502);
+    let tabID11 = Zotero_Tabs._selectedID,
+      reader12 = Zotero.Reader.getByTabID(tabID11);
+    (Zotero.Prefs.get("ai4paper.translationreadersidepane") || Zotero.Prefs.get('ai4paper.gptviewReaderSidepane')) && Zotero.AI4Paper.addReaderSidePane(tabID11);
+    Zotero.AI4Paper.addReaderButtonInit(reader12);
     Zotero.AI4Paper.addAnnotationButtonInit();
   },
-  'addReaderSidePane': async function (param37) {
+  'addReaderSidePane': async function (tabID) {
     if (Zotero.Prefs.get("ai4paper.activationkeyverifyresult") != Zotero.Utilities.Internal.md5(Zotero.Prefs.get('ai4paper.timestringencoded'))) return -0x1;
-    const var503 = Zotero.Reader.getByTabID(param37);
-    let var504 = Zotero.AI4Paper.betterURL();
-    if (!var503 || !var504) {
+    const reader13 = Zotero.Reader.getByTabID(tabID);
+    let result7 = Zotero.AI4Paper.betterURL();
+    if (!reader13 || !result7) {
       return;
     }
     await Zotero.uiReadyPromise;
-    await var503._initPromise;
-    await var503._waitForReader();
-    let var505 = 0x0;
+    await reader13._initPromise;
+    await reader13._waitForReader();
+    let local25 = 0x0;
     while (!window.document.querySelector("context-notes-list")) {
-      if (var505 >= 0x1f4) {
+      if (local25 >= 0x1f4) {
         Zotero.debug("AI4Paper: Waiting for reader failed");
         return;
       }
       await Zotero.Promise.delay(0xa);
-      var505++;
+      local25++;
     }
-    let var506 = window.document.querySelector("context-notes-list");
-    if (Zotero.Prefs.get("ai4paper.translationreadersidepane") && var506 && !window.document.querySelector("#ai4paper-translate-readersidepane")) {
-      let _0x4c5241 = window.document.createXULElement('iframe');
-      _0x4c5241.id = 'ai4paper-translate-readersidepane';
-      _0x4c5241.setAttribute("flex", '1');
-      let _0x1fd95a = window.screen.height >= 0x3e8 ? 0xa4 : 0xa0;
-      _0x4c5241.style.minHeight = window.screen.height - _0x1fd95a + 'px';
-      _0x4c5241.src = "chrome://ai4paper/content/selectionDialog/translateSidePane.html";
-      let _0x128266 = window.document.createXULElement("menupopup");
-      for (let var510 of Object.keys(Zotero.AI4Paper.translationServiceList())) {
-        let _0x437bfc = window.document.createXULElement('menuitem');
-        _0x437bfc.label = var510;
-        _0x128266.appendChild(_0x437bfc);
+    let elem81 = window.document.querySelector("context-notes-list");
+    if (Zotero.Prefs.get("ai4paper.translationreadersidepane") && elem81 && !window.document.querySelector("#ai4paper-translate-readersidepane")) {
+      let elem26 = window.document.createXULElement('iframe');
+      elem26.id = 'ai4paper-translate-readersidepane';
+      elem26.setAttribute("flex", '1');
+      let local = window.screen.height >= 0x3e8 ? 0xa4 : 0xa0;
+      elem26.style.minHeight = window.screen.height - local + 'px';
+      elem26.src = "chrome://ai4paper/content/selectionDialog/translateSidePane.html";
+      let elem2 = window.document.createXULElement("menupopup");
+      for (let i7 of Object.keys(Zotero.AI4Paper.translationServiceList())) {
+        let elem21 = window.document.createXULElement('menuitem');
+        elem21.label = i7;
+        elem2.appendChild(elem21);
       }
-      let _0x1eaed2 = window.document.createXULElement("checkbox");
-      _0x1eaed2.id = 'ai4paper-button-enable-auto-translate';
-      _0x1eaed2.setAttribute('label', "划词翻译");
-      _0x1eaed2.setAttribute("native", true);
-      _0x1eaed2.style.fontSize = "13px";
-      _0x1eaed2.addEventListener("command", _0x4c0c2b => {
-        Zotero.Prefs.set("ai4paper.selectedtexttransenable", _0x4c0c2b.target.checked);
+      let elem6 = window.document.createXULElement("checkbox");
+      elem6.id = 'ai4paper-button-enable-auto-translate';
+      elem6.setAttribute('label', "划词翻译");
+      elem6.setAttribute("native", true);
+      elem6.style.fontSize = "13px";
+      elem6.addEventListener("command", evt => {
+        Zotero.Prefs.set("ai4paper.selectedtexttransenable", evt.target.checked);
         Zotero.AI4Paper.updateReaderButtonStateInit();
         return;
       });
-      let _0xf62d89 = window.document.createXULElement("checkbox");
-      _0xf62d89.id = "ai4paper-button-enable-words-first";
-      _0xf62d89.setAttribute("label", '查词');
-      _0xf62d89.setAttribute("native", true);
-      _0xf62d89.style.fontSize = "13px";
-      _0xf62d89.addEventListener("command", _0x26e912 => {
-        Zotero.Prefs.set("ai4paper.translationvocabularyfirst", _0x26e912.target.checked);
+      let elem33 = window.document.createXULElement("checkbox");
+      elem33.id = "ai4paper-button-enable-words-first";
+      elem33.setAttribute("label", '查词');
+      elem33.setAttribute("native", true);
+      elem33.style.fontSize = "13px";
+      elem33.addEventListener("command", evt => {
+        Zotero.Prefs.set("ai4paper.translationvocabularyfirst", evt.target.checked);
         return;
       });
-      let _0x32d924 = window.document.createXULElement("checkbox");
-      _0x32d924.id = "ai4paper-button-enable-concat";
-      _0x32d924.setAttribute('label', '拼接');
-      _0x32d924.setAttribute("native", true);
-      _0x32d924.style.fontSize = "13px";
-      _0x32d924.addEventListener('command', _0x24d8e0 => {
-        Zotero.Prefs.set("ai4paper.translationcrossparagraphs", _0x24d8e0.target.checked);
+      let elem15 = window.document.createXULElement("checkbox");
+      elem15.id = "ai4paper-button-enable-concat";
+      elem15.setAttribute('label', '拼接');
+      elem15.setAttribute("native", true);
+      elem15.style.fontSize = "13px";
+      elem15.addEventListener('command', evt => {
+        Zotero.Prefs.set("ai4paper.translationcrossparagraphs", evt.target.checked);
         return;
       });
-      let _0x23d266 = window.document.createXULElement("menulist");
-      _0x23d266.id = "ai4paper-translate-engine-list";
-      Zotero.AI4Paper.isZoteroVersion() ? (_0x23d266.setAttribute("native", true), _0x23d266.setAttribute('style', 'font-size:\x2013px;padding:\x203px;margin-right:\x2010px')) : _0x23d266.setAttribute('style', "font-size: 13px;box-shadow: 0 0 1px rgba(0, 0, 0, 0.5);border-radius: 5px;padding: 3px;margin-right: 10px");
-      _0x23d266.addEventListener("command", _0x3c2fdb => {
-        let var516 = _0x3c2fdb.target.label;
-        Zotero.Prefs.set('ai4paper.selectedtexttransengine', var516);
+      let elem11 = window.document.createXULElement("menulist");
+      elem11.id = "ai4paper-translate-engine-list";
+      Zotero.AI4Paper.isZoteroVersion() ? (elem11.setAttribute("native", true), elem11.setAttribute('style', 'font-size:\x2013px;padding:\x203px;margin-right:\x2010px')) : elem11.setAttribute('style', "font-size: 13px;box-shadow: 0 0 1px rgba(0, 0, 0, 0.5);border-radius: 5px;padding: 3px;margin-right: 10px");
+      elem11.addEventListener("command", evt => {
+        let local26 = evt.target.label;
+        Zotero.Prefs.set('ai4paper.selectedtexttransengine', local26);
         return;
       });
-      _0x23d266.appendChild(_0x128266);
-      let _0x26f050 = window.document.createXULElement("hbox");
-      _0x26f050.setAttribute("align", "center");
-      _0x26f050.setAttribute("flex", '1');
-      _0x26f050.style.overflowX = "hidden";
-      _0x26f050.appendChild(_0x23d266);
-      _0x26f050.appendChild(_0x1eaed2);
-      _0x26f050.appendChild(_0xf62d89);
-      _0x26f050.appendChild(_0x32d924);
-      let _0x2cdbd8 = window.document.createXULElement("div");
-      _0x2cdbd8.setAttribute('style', "display: block;height: 5px;");
-      _0x2cdbd8.style.overflowY = "hidden";
-      let _0x4fb5a7 = window.document.createElement("input");
-      _0x4fb5a7.setAttribute('type', "text");
-      _0x4fb5a7.id = "navigator-translateSidePane";
-      _0x4fb5a7.style.opacity = 0x0;
-      _0x2cdbd8.appendChild(_0x4fb5a7);
-      let _0x24387c = window.document.createXULElement("vbox");
-      _0x24387c.setAttribute('class', 'zotero-box\x20AI4Paper-translateSidePane-vbox\x20AI4Paper-SidePane-vbox');
-      _0x24387c.appendChild(_0x2cdbd8);
-      _0x24387c.appendChild(_0x26f050);
-      _0x24387c.appendChild(_0x4c5241);
-      var506.prepend(_0x24387c);
+      elem11.appendChild(elem2);
+      let elem13 = window.document.createXULElement("hbox");
+      elem13.setAttribute("align", "center");
+      elem13.setAttribute("flex", '1');
+      elem13.style.overflowX = "hidden";
+      elem13.appendChild(elem11);
+      elem13.appendChild(elem6);
+      elem13.appendChild(elem33);
+      elem13.appendChild(elem15);
+      let elem14 = window.document.createXULElement("div");
+      elem14.setAttribute('style', "display: block;height: 5px;");
+      elem14.style.overflowY = "hidden";
+      let elem27 = window.document.createElement("input");
+      elem27.setAttribute('type', "text");
+      elem27.id = "navigator-translateSidePane";
+      elem27.style.opacity = 0x0;
+      elem14.appendChild(elem27);
+      let elem12 = window.document.createXULElement("vbox");
+      elem12.setAttribute('class', 'zotero-box\x20AI4Paper-translateSidePane-vbox\x20AI4Paper-SidePane-vbox');
+      elem12.appendChild(elem14);
+      elem12.appendChild(elem13);
+      elem12.appendChild(elem26);
+      elem81.prepend(elem12);
       Zotero.AI4Paper.addSidePaneNavButtons_Window("translate");
     }
-    if (Zotero.Prefs.get("ai4paper.gptviewReaderSidepane") && var506 && !window.document.querySelector('#ai4paper-chatgpt-readersidepane')) {
-      let var521 = window.document.createXULElement("iframe");
-      var521.id = "ai4paper-chatgpt-readersidepane";
-      var521.setAttribute("flex", '1');
-      var521.style.minHeight = Zotero.AI4Paper.calculate_iframeHeight() + 'px';
-      Zotero.Prefs.get("ai4paper.gptContinuesChatMode") ? var521.src = 'chrome://ai4paper/content/selectionDialog/gptChatUI.html' : var521.src = "chrome://ai4paper/content/selectionDialog/gptReaderSidePane.html";
-      let var522 = window.document.createXULElement('div');
-      var522.classList.add("container-section");
-      var522.setAttribute("style", 'display:\x20block;height:\x205px;');
-      var522.style.overflowY = "hidden";
-      let var523 = window.document.createElement('input');
-      var523.setAttribute("type", "text");
-      var523.id = 'navigator-gptSidePane';
-      var523.style.opacity = 0x0;
-      var522.appendChild(var523);
-      let var524 = window.document.createXULElement("vbox");
-      var524.setAttribute("class", "zotero-box AI4Paper-gptSidePane-vbox AI4Paper-SidePane-vbox");
-      var524.appendChild(var522);
-      let var525 = window.document.createElement("div");
-      var525.classList.add('container-section');
-      var525.style.display = "flex";
-      var525.style.justifyContent = "space-between";
-      var525.style.alignItems = "center";
-      var525.style.marginTop = '5px';
-      var525.style.marginBottom = '5px';
-      var525.style.marginRight = '5px';
-      var525.style.marginLeft = "5px";
-      let var526 = window.document.createXULElement('hbox');
-      var526.setAttribute("align", "center");
-      var526.style.overflowX = "hidden";
-      function fn1(param38) {
-        param38.style.marginRight = "6px";
-        param38.style.width = "16px";
-        param38.style.height = "16px";
-        param38.style.padding = "4px 4px";
-        param38.style.borderRadius = '6px';
-        param38.onmouseover = function () {
-          let _0x22974d = Zotero.getMainWindow()?.["matchMedia"]("(prefers-color-scheme: dark)")["matches"],
-            _0x36109a = !_0x22974d ? "#e6e6e6" : "#474747";
-          this.style.backgroundColor = _0x36109a;
+    if (Zotero.Prefs.get("ai4paper.gptviewReaderSidepane") && elem81 && !window.document.querySelector('#ai4paper-chatgpt-readersidepane')) {
+      let elem82 = window.document.createXULElement("iframe");
+      elem82.id = "ai4paper-chatgpt-readersidepane";
+      elem82.setAttribute("flex", '1');
+      elem82.style.minHeight = Zotero.AI4Paper.calculate_iframeHeight() + 'px';
+      Zotero.Prefs.get("ai4paper.gptContinuesChatMode") ? elem82.src = 'chrome://ai4paper/content/selectionDialog/gptChatUI.html' : elem82.src = "chrome://ai4paper/content/selectionDialog/gptReaderSidePane.html";
+      let elem83 = window.document.createXULElement('div');
+      elem83.classList.add("container-section");
+      elem83.setAttribute("style", 'display:\x20block;height:\x205px;');
+      elem83.style.overflowY = "hidden";
+      let elem84 = window.document.createElement('input');
+      elem84.setAttribute("type", "text");
+      elem84.id = 'navigator-gptSidePane';
+      elem84.style.opacity = 0x0;
+      elem83.appendChild(elem84);
+      let elem85 = window.document.createXULElement("vbox");
+      elem85.setAttribute("class", "zotero-box AI4Paper-gptSidePane-vbox AI4Paper-SidePane-vbox");
+      elem85.appendChild(elem83);
+      let elem86 = window.document.createElement("div");
+      elem86.classList.add('container-section');
+      elem86.style.display = "flex";
+      elem86.style.justifyContent = "space-between";
+      elem86.style.alignItems = "center";
+      elem86.style.marginTop = '5px';
+      elem86.style.marginBottom = '5px';
+      elem86.style.marginRight = '5px';
+      elem86.style.marginLeft = "5px";
+      let elem87 = window.document.createXULElement('hbox');
+      elem87.setAttribute("align", "center");
+      elem87.style.overflowX = "hidden";
+      function localFn(button) {
+        button.style.marginRight = "6px";
+        button.style.width = "16px";
+        button.style.height = "16px";
+        button.style.padding = "4px 4px";
+        button.style.borderRadius = '6px';
+        button.onmouseover = function () {
+          let isDark = Zotero.getMainWindow()?.["matchMedia"]("(prefers-color-scheme: dark)")["matches"],
+            local4 = !isDark ? "#e6e6e6" : "#474747";
+          this.style.backgroundColor = local4;
         };
-        param38.onmouseout = function () {
+        button.onmouseout = function () {
           this.style.backgroundColor = '';
         };
       }
-      let var529 = window.document.createElement("div");
-      var529.id = "chatgpt-readerSidePane-clear-icon";
-      var529.innerHTML = Zotero.AI4Paper.svg_icon_16px.addNewChat;
-      var529.title = "创建新对话";
-      fn1(var529);
-      var529.addEventListener('click', _0x3ae665 => {
+      let elem88 = window.document.createElement("div");
+      elem88.id = "chatgpt-readerSidePane-clear-icon";
+      elem88.innerHTML = Zotero.AI4Paper.svg_icon_16px.addNewChat;
+      elem88.title = "创建新对话";
+      localFn(elem88);
+      elem88.addEventListener('click', evt => {
         Zotero.AI4Paper.gptReaderSidePane_clearChat();
       });
-      var526.appendChild(var529);
-      let var530 = window.document.createElement("div");
-      var530.id = "chatgpt-readerSidePane-aiAnalysis-icon";
-      var530.innerHTML = Zotero.AI4Paper.svg_icon_16px.ai_16px;
-      var530.title = "AI 分析";
-      fn1(var530);
-      var530.onclick = _0x4d1199 => {
-        Zotero.AI4Paper.createPopup_chatBtn_aiAnalysis(var530);
+      elem87.appendChild(elem88);
+      let elem89 = window.document.createElement("div");
+      elem89.id = "chatgpt-readerSidePane-aiAnalysis-icon";
+      elem89.innerHTML = Zotero.AI4Paper.svg_icon_16px.ai_16px;
+      elem89.title = "AI 分析";
+      localFn(elem89);
+      elem89.onclick = evt => {
+        Zotero.AI4Paper.createPopup_chatBtn_aiAnalysis(elem89);
       };
-      var526.appendChild(var530);
-      let var531 = window.document.createElement("div");
-      var531.id = "chatgpt-readerSidePane-fulltext-icon";
-      var531.innerHTML = Zotero.AI4Paper.svg_icon_16px.fulltext;
-      var531.title = "导入 PDF 全文";
-      fn1(var531);
-      var531.addEventListener('click', _0x246c25 => {
+      elem87.appendChild(elem89);
+      let elem90 = window.document.createElement("div");
+      elem90.id = "chatgpt-readerSidePane-fulltext-icon";
+      elem90.innerHTML = Zotero.AI4Paper.svg_icon_16px.fulltext;
+      elem90.title = "导入 PDF 全文";
+      localFn(elem90);
+      elem90.addEventListener('click', evt => {
         Zotero.AI4Paper.gptReaderSidePane_getFullText();
       });
-      var531.addEventListener("pointerdown", _0x39bd63 => {
-        _0x39bd63.button == 0x2 && Zotero.AI4Paper.aiAnalysis_PDFsFromSelection();
+      elem90.addEventListener("pointerdown", evt => {
+        evt.button == 0x2 && Zotero.AI4Paper.aiAnalysis_PDFsFromSelection();
       }, false);
-      var526.appendChild(var531);
-      let var532 = window.document.createElement("div");
-      var532.id = 'chatgpt-readerSidePane-abstract-icon';
-      var532.innerHTML = Zotero.AI4Paper.svg_icon_16px.abstract;
-      var532.title = "导入摘要";
-      fn1(var532);
-      var532.addEventListener("click", _0x3fe780 => {
+      elem87.appendChild(elem90);
+      let elem91 = window.document.createElement("div");
+      elem91.id = 'chatgpt-readerSidePane-abstract-icon';
+      elem91.innerHTML = Zotero.AI4Paper.svg_icon_16px.abstract;
+      elem91.title = "导入摘要";
+      localFn(elem91);
+      elem91.addEventListener("click", evt => {
         Zotero.AI4Paper.gptReaderSidePane_getAbstract();
       });
-      var526.appendChild(var532);
-      let var533 = window.document.createElement("div");
-      var533.id = 'chatgpt-readerSidePane-addtonote-icon';
-      var533.innerHTML = Zotero.AI4Paper.svg_icon_16px.addGPTNote;
-      var533.title = "添加到笔记";
-      fn1(var533);
-      var533.addEventListener('click', _0x5a07e3 => {
+      elem87.appendChild(elem91);
+      let elem92 = window.document.createElement("div");
+      elem92.id = 'chatgpt-readerSidePane-addtonote-icon';
+      elem92.innerHTML = Zotero.AI4Paper.svg_icon_16px.addGPTNote;
+      elem92.title = "添加到笔记";
+      localFn(elem92);
+      elem92.addEventListener('click', evt => {
         !Zotero.Prefs.get('ai4paper.gptContinuesChatMode') && Zotero.AI4Paper.gptReaderSidePane_addChatGPTNoteInit();
       });
-      var526.appendChild(var533);
-      let var534 = window.document.createElement("div");
-      var534.id = "chatgpt-readerSidePane-importAIReading-icon";
-      var534.innerHTML = Zotero.AI4Paper.svg_icon_16px.importAIReading;
-      var534.title = "导入外部【AI 文献解读】笔记";
-      fn1(var534);
-      var534.addEventListener("click", _0x2a1a91 => {
+      elem87.appendChild(elem92);
+      let elem93 = window.document.createElement("div");
+      elem93.id = "chatgpt-readerSidePane-importAIReading-icon";
+      elem93.innerHTML = Zotero.AI4Paper.svg_icon_16px.importAIReading;
+      elem93.title = "导入外部【AI 文献解读】笔记";
+      localFn(elem93);
+      elem93.addEventListener("click", evt => {
         Zotero.AI4Paper.openDialogByType_modal("importAIReading");
       });
-      var534.addEventListener("pointerdown", _0x126eae => {
-        _0x126eae.button == 0x2 && Zotero.AI4Paper.importChat(true);
+      elem93.addEventListener("pointerdown", evt => {
+        evt.button == 0x2 && Zotero.AI4Paper.importChat(true);
       }, false);
-      var526.appendChild(var534);
-      let var535 = window.document.createElement("div");
-      var535.id = "chatgpt-readerSidePane-locateAIReadingNotes-icon";
-      var535.innerHTML = Zotero.AI4Paper.svg_icon_16px.locateAIReadingNotes;
-      var535.title = "定位 Obsidian【AI 文献解读】笔记";
-      fn1(var535);
-      var535.addEventListener("mousedown", _0x405767 => {
-        if (_0x405767.button === 0x0) Zotero.AI4Paper.createPopup_chatBtn_locateAIReadingNotes(var535);else _0x405767.button === 0x2 && Zotero.AI4Paper.gptReaderSidePane_ChatMode_locateAIReadingNotes();
+      elem87.appendChild(elem93);
+      let elem94 = window.document.createElement("div");
+      elem94.id = "chatgpt-readerSidePane-locateAIReadingNotes-icon";
+      elem94.innerHTML = Zotero.AI4Paper.svg_icon_16px.locateAIReadingNotes;
+      elem94.title = "定位 Obsidian【AI 文献解读】笔记";
+      localFn(elem94);
+      elem94.addEventListener("mousedown", evt => {
+        if (evt.button === 0x0) Zotero.AI4Paper.createPopup_chatBtn_locateAIReadingNotes(elem94);else evt.button === 0x2 && Zotero.AI4Paper.gptReaderSidePane_ChatMode_locateAIReadingNotes();
       });
-      var526.appendChild(var535);
-      let var536 = window.document.createElement("div");
-      var536.id = "chatgpt-readerSidePane-prefs-icon";
-      var536.innerHTML = Zotero.AI4Paper.svg_icon_16px.prefs_16px;
-      var536.title = "GPT 侧边栏设置";
-      fn1(var536);
-      var536.addEventListener("click", _0x24de34 => {
+      elem87.appendChild(elem94);
+      let elem95 = window.document.createElement("div");
+      elem95.id = "chatgpt-readerSidePane-prefs-icon";
+      elem95.innerHTML = Zotero.AI4Paper.svg_icon_16px.prefs_16px;
+      elem95.title = "GPT 侧边栏设置";
+      localFn(elem95);
+      elem95.addEventListener("click", evt => {
         Zotero.AI4Paper.openDialogByType("gptReaderSidePanePrefs");
       });
-      var526.appendChild(var536);
-      let var537 = window.document.createElement("div");
-      var537.id = 'chatgpt-readerSidePane-send-icon';
-      var537.innerHTML = Zotero.AI4Paper.svg_icon_20px.send;
-      var537.title = '发送';
-      var537.hidden = Zotero.Prefs.get("ai4paper.gptContinuesChatMode");
-      var537.style.marginRight = '13px';
-      var537.style.width = "20px";
-      var537.style.height = '20px';
-      var537.style.padding = "4px 4px";
-      var537.style.borderRadius = "6px";
-      var537.onmouseover = function () {
-        let var538 = Zotero.getMainWindow()?.['matchMedia']('(prefers-color-scheme:\x20dark)')["matches"],
-          var539 = !var538 ? '#e6e6e6' : "#545454";
-        this.style.backgroundColor = var539;
+      elem87.appendChild(elem95);
+      let elem96 = window.document.createElement("div");
+      elem96.id = 'chatgpt-readerSidePane-send-icon';
+      elem96.innerHTML = Zotero.AI4Paper.svg_icon_20px.send;
+      elem96.title = '发送';
+      elem96.hidden = Zotero.Prefs.get("ai4paper.gptContinuesChatMode");
+      elem96.style.marginRight = '13px';
+      elem96.style.width = "20px";
+      elem96.style.height = '20px';
+      elem96.style.padding = "4px 4px";
+      elem96.style.borderRadius = "6px";
+      elem96.onmouseover = function () {
+        let isDark2 = Zotero.getMainWindow()?.['matchMedia']('(prefers-color-scheme:\x20dark)')["matches"],
+          local27 = !isDark2 ? '#e6e6e6' : "#545454";
+        this.style.backgroundColor = local27;
       };
-      var537.onmouseout = function () {
+      elem96.onmouseout = function () {
         this.style.backgroundColor = '';
       };
-      var537.onclick = () => Zotero.AI4Paper.gptReaderSidePane_send();
-      var525.appendChild(var526);
-      var525.appendChild(var537);
-      var524.appendChild(var525);
-      let var540 = window.document.createXULElement("div");
-      var540.id = "chatgpt-readerSidePane-user-icon";
-      var540.innerHTML = Zotero.AI4Paper.svg_icon_20px.user;
-      var540.style.transform = "scale(1.2)";
-      var540.setAttribute("tooltiptext", Zotero.Prefs.get('ai4paper.gptContinuesChatMode') ? "复位提问模板" : "清空问答区");
-      var540.style.display = 'flex';
-      var540.style.marginLeft = "5px";
-      var540.style.marginRight = "5px";
-      var540.addEventListener("click", _0x20f52b => {
-        if (_0x20f52b.shiftKey || _0x20f52b.button === 0x2) {
+      elem96.onclick = () => Zotero.AI4Paper.gptReaderSidePane_send();
+      elem86.appendChild(elem87);
+      elem86.appendChild(elem96);
+      elem85.appendChild(elem86);
+      let elem97 = window.document.createXULElement("div");
+      elem97.id = "chatgpt-readerSidePane-user-icon";
+      elem97.innerHTML = Zotero.AI4Paper.svg_icon_20px.user;
+      elem97.style.transform = "scale(1.2)";
+      elem97.setAttribute("tooltiptext", Zotero.Prefs.get('ai4paper.gptContinuesChatMode') ? "复位提问模板" : "清空问答区");
+      elem97.style.display = 'flex';
+      elem97.style.marginLeft = "5px";
+      elem97.style.marginRight = "5px";
+      elem97.addEventListener("click", evt => {
+        if (evt.shiftKey || evt.button === 0x2) {
           Zotero.AI4Paper.copy2Clipboard(Zotero.AI4Paper.getSelectedPromptFromList());
           Zotero.AI4Paper.showProgressWindow(0x7d0, '✅\x20提示词已拷贝【Zotero\x20One】', "成功拷贝选中的提示词。");
           return;
         }
         Zotero.AI4Paper.gptReaderSidePane_clearPrompt();
       });
-      let var541 = window.document.createXULElement('menupopup');
-      var541.style.width = "30%";
-      var541.id = "ai4paper-chatgpt-readerSidePane-chatgpt-prompt-template";
-      let var542 = window.document.createXULElement('menuitem');
-      var542.label = '无';
-      var542.value = '无';
-      var542.setAttribute("tooltiptext", '无');
-      var541.appendChild(var542);
-      let var543 = window.document.createXULElement("menulist");
-      var543.id = "ai4paper-chatgpt-readerSidePane-chatgpt-prompt-template-menulist";
+      let elem98 = window.document.createXULElement('menupopup');
+      elem98.style.width = "30%";
+      elem98.id = "ai4paper-chatgpt-readerSidePane-chatgpt-prompt-template";
+      let elem99 = window.document.createXULElement('menuitem');
+      elem99.label = '无';
+      elem99.value = '无';
+      elem99.setAttribute("tooltiptext", '无');
+      elem98.appendChild(elem99);
+      let elem100 = window.document.createXULElement("menulist");
+      elem100.id = "ai4paper-chatgpt-readerSidePane-chatgpt-prompt-template-menulist";
       if (Zotero.AI4Paper.isZoteroVersion()) {
-        var543.setAttribute('native', true);
-        var543.setAttribute("style", "width: 85%;font-size: 13px;padding: 3px;margin-right: 10px");
+        elem100.setAttribute('native', true);
+        elem100.setAttribute("style", "width: 85%;font-size: 13px;padding: 3px;margin-right: 10px");
       } else {
-        var543.setAttribute("style", "width: 85%;font-size: 13px;box-shadow: 0 0 1px rgba(0, 0, 0, 0.5);border-radius: 5px;padding: 3px;margin-right: 10px");
+        elem100.setAttribute("style", "width: 85%;font-size: 13px;box-shadow: 0 0 1px rgba(0, 0, 0, 0.5);border-radius: 5px;padding: 3px;margin-right: 10px");
       }
-      var543.addEventListener("command", _0x2971d6 => {
-        Zotero.Prefs.set('ai4paper.chatgptprompttemplate', _0x2971d6.target.label);
+      elem100.addEventListener("command", evt => {
+        Zotero.Prefs.set('ai4paper.chatgptprompttemplate', evt.target.label);
         return;
       });
-      var543.appendChild(var541);
-      var525 = window.document.createElement("div");
-      var525.classList.add("container-section");
-      var525.style.display = "flex";
-      var525.style.alignItems = "center";
-      var525.style.marginBottom = "3px";
-      var525.appendChild(var540);
-      var525.appendChild(var543);
-      var524.appendChild(var525);
-      var524.appendChild(var521);
-      var525 = window.document.createElement("div");
-      var525.classList.add("container-section");
-      var525.style.display = "flex";
-      var525.style.justifyContent = 'space-between';
-      var525.style.alignItems = "center";
-      var525.style.marginTop = "5px";
-      var525.style.marginBottom = '20px';
-      var525.style.marginRight = '8px';
-      var525.style.marginLeft = "5px";
-      var525.style.paddingLeft = '1px';
-      var525.style.paddingRight = "0px";
-      var525.style.paddingTop = "3px";
-      var525.style.paddingBottom = '3px';
-      var525.style.borderRadius = '6px';
-      var525.style.boxShadow = "0 0 1px #8a8a8a";
-      let var544 = window.document.createXULElement("label");
-      var544.value = "服务:";
-      var525.appendChild(var544);
-      var541 = window.document.createXULElement("menupopup");
-      var541.id = "ai4paper-chatgpt-readerSidePane-chatgpt-service";
-      for (let var545 of Object.keys(Zotero.AI4Paper.gptServiceList())) {
-        let var546 = window.document.createXULElement("menuitem");
-        var546.label = var545;
-        var546.value = var545;
-        var546.setAttribute('tooltiptext', var545);
-        Zotero.AI4Paper.gptReaderSidePane_setServiceTooltiptext(var546, var545);
-        var541.appendChild(var546);
+      elem100.appendChild(elem98);
+      elem86 = window.document.createElement("div");
+      elem86.classList.add("container-section");
+      elem86.style.display = "flex";
+      elem86.style.alignItems = "center";
+      elem86.style.marginBottom = "3px";
+      elem86.appendChild(elem97);
+      elem86.appendChild(elem100);
+      elem85.appendChild(elem86);
+      elem85.appendChild(elem82);
+      elem86 = window.document.createElement("div");
+      elem86.classList.add("container-section");
+      elem86.style.display = "flex";
+      elem86.style.justifyContent = 'space-between';
+      elem86.style.alignItems = "center";
+      elem86.style.marginTop = "5px";
+      elem86.style.marginBottom = '20px';
+      elem86.style.marginRight = '8px';
+      elem86.style.marginLeft = "5px";
+      elem86.style.paddingLeft = '1px';
+      elem86.style.paddingRight = "0px";
+      elem86.style.paddingTop = "3px";
+      elem86.style.paddingBottom = '3px';
+      elem86.style.borderRadius = '6px';
+      elem86.style.boxShadow = "0 0 1px #8a8a8a";
+      let elem101 = window.document.createXULElement("label");
+      elem101.value = "服务:";
+      elem86.appendChild(elem101);
+      elem98 = window.document.createXULElement("menupopup");
+      elem98.id = "ai4paper-chatgpt-readerSidePane-chatgpt-service";
+      for (let i8 of Object.keys(Zotero.AI4Paper.gptServiceList())) {
+        let elem102 = window.document.createXULElement("menuitem");
+        elem102.label = i8;
+        elem102.value = i8;
+        elem102.setAttribute('tooltiptext', i8);
+        Zotero.AI4Paper.gptReaderSidePane_setServiceTooltiptext(elem102, i8);
+        elem98.appendChild(elem102);
       }
-      var543 = window.document.createXULElement("menulist");
-      var543.id = "ai4paper-chatgpt-readerSidePane-chatgpt-service-menulist";
+      elem100 = window.document.createXULElement("menulist");
+      elem100.id = "ai4paper-chatgpt-readerSidePane-chatgpt-service-menulist";
       if (Zotero.AI4Paper.isZoteroVersion()) {
-        var543.setAttribute("native", true);
-        var543.setAttribute("style", "width: 30%;font-size: 11px;padding: 3px;margin-right: 10px");
+        elem100.setAttribute("native", true);
+        elem100.setAttribute("style", "width: 30%;font-size: 11px;padding: 3px;margin-right: 10px");
       } else {
-        var543.setAttribute("style", "width: 30%;font-size: 11px;box-shadow: 0 0 1px rgba(0, 0, 0, 0.5);border-radius: 5px;padding: 3px;margin-right: 10px");
+        elem100.setAttribute("style", "width: 30%;font-size: 11px;box-shadow: 0 0 1px rgba(0, 0, 0, 0.5);border-radius: 5px;padding: 3px;margin-right: 10px");
       }
-      var543.addEventListener("command", _0x529ca0 => {
-        Zotero.Prefs.set("ai4paper.gptservice", _0x529ca0.target.label);
+      elem100.addEventListener("command", evt => {
+        Zotero.Prefs.set("ai4paper.gptservice", evt.target.label);
         return;
       });
-      var543.appendChild(var541);
-      var525.appendChild(var543);
-      var544 = window.document.createXULElement("label");
-      var544.value = "模型:";
-      var525.appendChild(var544);
-      var541 = window.document.createXULElement("menupopup");
-      var541.id = "ai4paper-chatgpt-readerSidePane-chatgpt-model";
-      for (let var547 of Zotero.AI4Paper.gptModelList) {
-        let var548 = window.document.createXULElement('menuitem');
-        var548.label = var547;
-        var548.value = var547;
-        var548.setAttribute("tooltiptext", var547);
-        var541.appendChild(var548);
+      elem100.appendChild(elem98);
+      elem86.appendChild(elem100);
+      elem101 = window.document.createXULElement("label");
+      elem101.value = "模型:";
+      elem86.appendChild(elem101);
+      elem98 = window.document.createXULElement("menupopup");
+      elem98.id = "ai4paper-chatgpt-readerSidePane-chatgpt-model";
+      for (let i9 of Zotero.AI4Paper.gptModelList) {
+        let elem103 = window.document.createXULElement('menuitem');
+        elem103.label = i9;
+        elem103.value = i9;
+        elem103.setAttribute("tooltiptext", i9);
+        elem98.appendChild(elem103);
       }
-      var543 = window.document.createXULElement("menulist");
-      var543.id = "ai4paper-chatgpt-readerSidePane-chatgpt-model-menulist";
-      Zotero.AI4Paper.isZoteroVersion() ? (var543.setAttribute("native", true), var543.setAttribute("style", "width: 50%;font-size: 11px;padding: 3px;margin-right: 10px")) : var543.setAttribute('style', 'width:\x2050%;font-size:\x2011px;box-shadow:\x200\x200\x201px\x20rgba(0,\x200,\x200,\x200.5);border-radius:\x205px;padding:\x203px;margin-right:\x2010px');
-      var543.addEventListener('command', _0x48a093 => {
-        Zotero.Prefs.set('ai4paper.gptmodel', _0x48a093.target.label);
+      elem100 = window.document.createXULElement("menulist");
+      elem100.id = "ai4paper-chatgpt-readerSidePane-chatgpt-model-menulist";
+      Zotero.AI4Paper.isZoteroVersion() ? (elem100.setAttribute("native", true), elem100.setAttribute("style", "width: 50%;font-size: 11px;padding: 3px;margin-right: 10px")) : elem100.setAttribute('style', 'width:\x2050%;font-size:\x2011px;box-shadow:\x200\x200\x201px\x20rgba(0,\x200,\x200,\x200.5);border-radius:\x205px;padding:\x203px;margin-right:\x2010px');
+      elem100.addEventListener('command', evt => {
+        Zotero.Prefs.set('ai4paper.gptmodel', evt.target.label);
         return;
       });
-      var543.appendChild(var541);
-      var525.appendChild(var543);
-      var524.appendChild(var525);
-      let var549 = window.document.querySelector(".AI4Paper-translateSidePane-vbox");
-      var549 ? var549.after(var524) : var506.prepend(var524);
+      elem100.appendChild(elem98);
+      elem86.appendChild(elem100);
+      elem85.appendChild(elem86);
+      let elem104 = window.document.querySelector(".AI4Paper-translateSidePane-vbox");
+      elem104 ? elem104.after(elem85) : elem81.prepend(elem85);
       Zotero.AI4Paper.addSidePaneNavButtons_Window("gpt");
       if (Zotero.Prefs.get("ai4paper.gptContinuesChatMode")) {
         Zotero.AI4Paper.gptReaderSidePane_ChatMode_changeUILayout();
       }
     }
     Zotero.AI4Paper.clickEventListner_SideNavNotes('add');
-    let var550 = window.document.querySelectorAll(".AI4Paper-SidePane-vbox");
-    var550.length && (Zotero.AI4Paper.addSidePaneNavButtons_NotesSection(var550[var550.length - 0x1]), Zotero.AI4Paper.hiddenZoteroNotesSection());
+    let elem105 = window.document.querySelectorAll(".AI4Paper-SidePane-vbox");
+    elem105.length && (Zotero.AI4Paper.addSidePaneNavButtons_NotesSection(elem105[elem105.length - 0x1]), Zotero.AI4Paper.hiddenZoteroNotesSection());
     Zotero.AI4Paper.autoFocusReaderSidePane();
   },
   'autoFocusReaderSidePane': function () {
-    let var597 = Zotero_Tabs._selectedID;
-    const var598 = Zotero.Reader.getByTabID(var597);
-    if (!var598) return;
-    let var599 = window.document.querySelector(".notes-pane-deck"),
-      var600 = var599?.["parentNode"];
-    if (var599 && var600) {
-      let var601 = Zotero.Prefs.get("ai4paper.autofocussidepane");
-      if (var601 === '翻译' && window.document.querySelector(".AI4Paper-translateSidePane-vbox")) {
-        if (var600.getAttribute("selectedIndex") === 0x1 && var599.selectedPanel.getAttribute("selectedIndex") === 0x0 && !window.document.querySelector(".AI4Paper-translateSidePane-vbox").hidden) {
+    let tabID12 = Zotero_Tabs._selectedID;
+    const reader14 = Zotero.Reader.getByTabID(tabID12);
+    if (!reader14) return;
+    let elem106 = window.document.querySelector(".notes-pane-deck"),
+      local28 = elem106?.["parentNode"];
+    if (elem106 && local28) {
+      let prefVal2 = Zotero.Prefs.get("ai4paper.autofocussidepane");
+      if (prefVal2 === '翻译' && window.document.querySelector(".AI4Paper-translateSidePane-vbox")) {
+        if (local28.getAttribute("selectedIndex") === 0x1 && elem106.selectedPanel.getAttribute("selectedIndex") === 0x0 && !window.document.querySelector(".AI4Paper-translateSidePane-vbox").hidden) {
           return;
         }
         Zotero.AI4Paper.focusReaderSidePane('translate');
       } else {
-        if (var601 === "GPT" && window.document.querySelector(".AI4Paper-gptSidePane-vbox")) {
-          if (var600.getAttribute("selectedIndex") === 0x1 && var599.selectedPanel.getAttribute("selectedIndex") === 0x0 && !window.document.querySelector(".AI4Paper-gptSidePane-vbox").hidden) return;
+        if (prefVal2 === "GPT" && window.document.querySelector(".AI4Paper-gptSidePane-vbox")) {
+          if (local28.getAttribute("selectedIndex") === 0x1 && elem106.selectedPanel.getAttribute("selectedIndex") === 0x0 && !window.document.querySelector(".AI4Paper-gptSidePane-vbox").hidden) return;
           Zotero.AI4Paper.focusReaderSidePane("gpt");
         }
       }
     }
   },
-  'addSidePaneNavButtons_NotesSection': function (param60) {
+  'addSidePaneNavButtons_NotesSection': function (lastSidePaneVbox) {
     if (!window.document.querySelector(".AI4Paper-Nav-Buttons-DIV")) {
-      let var602 = window.document.querySelector("[data-l10n-id=\"context-notes-search\"]"),
-        var603,
-        var604 = window.document.createElement("div");
-      var604.setAttribute('class', 'AI4Paper-Nav-Buttons-DIV');
-      var604.style.display = "flex";
-      var604.style.justifyContent = "center";
-      var604.style.alignItems = "center";
-      var604.style.marginTop = '5px';
-      var604.style.marginBottom = "5px";
-      var604.style.marginRight = "8px";
-      var604.style.marginLeft = "5px";
-      var604.style.paddingLeft = "1px";
-      var604.style.paddingRight = "0px";
-      var604.style.paddingTop = '3px';
-      var604.style.paddingBottom = "3px";
-      window.document.querySelector(".AI4Paper-translateSidePane-vbox") && !window.document.querySelector("#ai4paper-notesSection-translateSidePane-button") && (var603 = window.document.createElement('button'), var603.id = 'ai4paper-notesSection-translateSidePane-button', var603.setAttribute('class', "AI4Paper-Window-Button"), var603.textContent = '翻译', var603.style.marginLeft = '5px', var603.style.marginRight = "5px", var603.onclick = () => {
+      let elem107 = window.document.querySelector("[data-l10n-id=\"context-notes-search\"]"),
+        local29,
+        elem108 = window.document.createElement("div");
+      elem108.setAttribute('class', 'AI4Paper-Nav-Buttons-DIV');
+      elem108.style.display = "flex";
+      elem108.style.justifyContent = "center";
+      elem108.style.alignItems = "center";
+      elem108.style.marginTop = '5px';
+      elem108.style.marginBottom = "5px";
+      elem108.style.marginRight = "8px";
+      elem108.style.marginLeft = "5px";
+      elem108.style.paddingLeft = "1px";
+      elem108.style.paddingRight = "0px";
+      elem108.style.paddingTop = '3px';
+      elem108.style.paddingBottom = "3px";
+      window.document.querySelector(".AI4Paper-translateSidePane-vbox") && !window.document.querySelector("#ai4paper-notesSection-translateSidePane-button") && (local29 = window.document.createElement('button'), local29.id = 'ai4paper-notesSection-translateSidePane-button', local29.setAttribute('class', "AI4Paper-Window-Button"), local29.textContent = '翻译', local29.style.marginLeft = '5px', local29.style.marginRight = "5px", local29.onclick = () => {
         Zotero.AI4Paper.expandReaderContextPane();
         Zotero.AI4Paper.focusReaderSidePane("translate");
-      }, var603.addEventListener('contextmenu', () => {
+      }, local29.addEventListener('contextmenu', () => {
         Zotero.AI4Paper.openDialogByType('translateSidePanePrefs');
-      }, false), var604.appendChild(var603));
-      window.document.querySelector(".AI4Paper-gptSidePane-vbox") && !window.document.querySelector("#ai4paper-notesSection-gptSidePane-button") && (var603 = window.document.createElement("button"), var603.id = 'ai4paper-notesSection-gptSidePane-button', var603.setAttribute("class", "AI4Paper-Window-Button"), var603.textContent = "GPT", var603.style.marginLeft = "5px", var603.style.marginRight = '5px', var603.onclick = _0x33c86d => {
-        _0x33c86d.shiftKey ? Zotero.AI4Paper.gptReaderSidePane_ChatMode_scrollBottom() : (Zotero.AI4Paper.expandReaderContextPane(), Zotero.AI4Paper.focusReaderSidePane("gpt"));
-      }, var603.addEventListener('contextmenu', () => {
+      }, false), elem108.appendChild(local29));
+      window.document.querySelector(".AI4Paper-gptSidePane-vbox") && !window.document.querySelector("#ai4paper-notesSection-gptSidePane-button") && (local29 = window.document.createElement("button"), local29.id = 'ai4paper-notesSection-gptSidePane-button', local29.setAttribute("class", "AI4Paper-Window-Button"), local29.textContent = "GPT", local29.style.marginLeft = "5px", local29.style.marginRight = '5px', local29.onclick = evt => {
+        evt.shiftKey ? Zotero.AI4Paper.gptReaderSidePane_ChatMode_scrollBottom() : (Zotero.AI4Paper.expandReaderContextPane(), Zotero.AI4Paper.focusReaderSidePane("gpt"));
+      }, local29.addEventListener('contextmenu', () => {
         Zotero.AI4Paper.openDialogByType("gptReaderSidePanePrefs");
-      }, false), var604.appendChild(var603));
-      var603 = window.document.createElement("button");
-      var603.id = "ai4paper-notesSection-notes-button";
-      var603.setAttribute("class", "AI4Paper-Window-Button");
-      var603.textContent = '笔记';
-      var603.title = '右击已返回上次打开的笔记';
-      var603.style.marginLeft = '5px';
-      var603.style.marginRight = '5px';
-      var603.onclick = () => {
+      }, false), elem108.appendChild(local29));
+      local29 = window.document.createElement("button");
+      local29.id = "ai4paper-notesSection-notes-button";
+      local29.setAttribute("class", "AI4Paper-Window-Button");
+      local29.textContent = '笔记';
+      local29.title = '右击已返回上次打开的笔记';
+      local29.style.marginLeft = '5px';
+      local29.style.marginRight = '5px';
+      local29.onclick = () => {
         Zotero.AI4Paper._notesNavButtonClicked = true;
         Zotero.AI4Paper.showZoteroNotesSection();
-        window.document.querySelectorAll(".AI4Paper-SidePane-vbox").forEach(_0x5947ea => _0x5947ea.hidden = true);
-        let _0x996e67 = window.document.querySelector("[data-pane=\"context-all-notes\"]")?.["querySelector"](".twisty");
-        _0x996e67?.["focus"]();
-        _0x996e67.scrollIntoView({
+        window.document.querySelectorAll(".AI4Paper-SidePane-vbox").forEach(el => el.hidden = true);
+        let elem32 = window.document.querySelector("[data-pane=\"context-all-notes\"]")?.["querySelector"](".twisty");
+        elem32?.["focus"]();
+        elem32.scrollIntoView({
           'behavior': "smooth",
           'block': "center"
         });
       };
-      var603.addEventListener("contextmenu", () => {
-        let var606 = window.document.querySelector("context-notes-list");
-        var606 && var606.querySelectorAll("note-row").forEach(_0x3a27ec => {
-          if (_0x3a27ec.note && _0x3a27ec.note.id && Zotero.AI4Paper._noteItem_ReturnButtonClick) {
-            let _0x4cb476 = Zotero.Items.get(_0x3a27ec.note.id);
-            _0x4cb476 && _0x4cb476.key === Zotero.AI4Paper._noteItem_ReturnButtonClick.key && _0x3a27ec.click();
+      local29.addEventListener("contextmenu", () => {
+        let elem109 = window.document.querySelector("context-notes-list");
+        elem109 && elem109.querySelectorAll("note-row").forEach(el => {
+          if (el.note && el.note.id && Zotero.AI4Paper._noteItem_ReturnButtonClick) {
+            let item = Zotero.Items.get(el.note.id);
+            item && item.key === Zotero.AI4Paper._noteItem_ReturnButtonClick.key && el.click();
           }
         });
       }, false);
-      var604.appendChild(var603);
-      var602?.['after'](var604);
-      param60?.["parentNode"]["insertBefore"](var602, param60.nextSibling);
+      elem108.appendChild(local29);
+      elem107?.['after'](elem108);
+      lastSidePaneVbox?.["parentNode"]["insertBefore"](elem107, lastSidePaneVbox.nextSibling);
     } else {
-      let var608 = window.document.querySelector(".AI4Paper-Nav-Buttons-DIV");
+      let elem110 = window.document.querySelector(".AI4Paper-Nav-Buttons-DIV");
       if (window.document.querySelector(".AI4Paper-translateSidePane-vbox") && !window.document.querySelector("#ai4paper-notesSection-translateSidePane-button")) {
-        let _0x18b10a = window.document.createElement("button");
-        _0x18b10a.id = 'ai4paper-notesSection-translateSidePane-button';
-        _0x18b10a.setAttribute('class', "AI4Paper-Window-Button");
-        _0x18b10a.textContent = '翻译';
-        _0x18b10a.style.marginLeft = "5px";
-        _0x18b10a.style.marginRight = '5px';
-        _0x18b10a.onclick = () => {
+        let elem4 = window.document.createElement("button");
+        elem4.id = 'ai4paper-notesSection-translateSidePane-button';
+        elem4.setAttribute('class', "AI4Paper-Window-Button");
+        elem4.textContent = '翻译';
+        elem4.style.marginLeft = "5px";
+        elem4.style.marginRight = '5px';
+        elem4.onclick = () => {
           Zotero.AI4Paper.expandReaderContextPane();
           Zotero.AI4Paper.focusReaderSidePane("translate");
         };
-        var608.prepend(_0x18b10a);
+        elem110.prepend(elem4);
       }
       if (window.document.querySelector('.AI4Paper-gptSidePane-vbox') && !window.document.querySelector("#ai4paper-notesSection-gptSidePane-button")) {
-        let var610 = window.document.createElement("button");
-        var610.id = "ai4paper-notesSection-gptSidePane-button";
-        var610.setAttribute("class", 'AI4Paper-Window-Button');
-        var610.textContent = "GPT";
-        var610.style.marginLeft = "5px";
-        var610.style.marginRight = "5px";
-        var610.onclick = () => {
+        let elem111 = window.document.createElement("button");
+        elem111.id = "ai4paper-notesSection-gptSidePane-button";
+        elem111.setAttribute("class", 'AI4Paper-Window-Button');
+        elem111.textContent = "GPT";
+        elem111.style.marginLeft = "5px";
+        elem111.style.marginRight = "5px";
+        elem111.onclick = () => {
           Zotero.AI4Paper.expandReaderContextPane();
           Zotero.AI4Paper.focusReaderSidePane("gpt");
         };
-        let var611 = window.document.querySelector("#ai4paper-notesSection-translateSidePane-button");
-        var611 ? var611.after(var610) : var608.prepend(var610);
+        let elem112 = window.document.querySelector("#ai4paper-notesSection-translateSidePane-button");
+        elem112 ? elem112.after(elem111) : elem110.prepend(elem111);
       }
     }
   },
-  'addSidePaneNavButtons_Window': function (param61) {
-    let var612 = window.document.querySelector('#zotero-tb-tabs-menu');
-    if (var612) {
-      if (param61 === 'translate' && !window.document.querySelector('#ai4paper-window-translateSidePane-button')) {
-        let _0x5d2115 = var612.cloneNode(true);
-        _0x5d2115.id = 'ai4paper-window-translateSidePane-button';
-        _0x5d2115.setAttribute("command", '');
-        _0x5d2115.setAttribute("oncommand", '');
-        _0x5d2115.setAttribute("class", 'zotero-tb-button\x20AI4Paper-Window-Button');
-        _0x5d2115.setAttribute("tooltiptext", '翻译侧边栏');
-        _0x5d2115.setAttribute("data-l10n-id", '');
-        _0x5d2115.innerHTML = Zotero.AI4Paper.svg_icon_20px.translationreadersidepane;
-        _0x5d2115.onclick = () => {
+  'addSidePaneNavButtons_Window': function (paneType) {
+    let elem113 = window.document.querySelector('#zotero-tb-tabs-menu');
+    if (elem113) {
+      if (paneType === 'translate' && !window.document.querySelector('#ai4paper-window-translateSidePane-button')) {
+        let clone3 = elem113.cloneNode(true);
+        clone3.id = 'ai4paper-window-translateSidePane-button';
+        clone3.setAttribute("command", '');
+        clone3.setAttribute("oncommand", '');
+        clone3.setAttribute("class", 'zotero-tb-button\x20AI4Paper-Window-Button');
+        clone3.setAttribute("tooltiptext", '翻译侧边栏');
+        clone3.setAttribute("data-l10n-id", '');
+        clone3.innerHTML = Zotero.AI4Paper.svg_icon_20px.translationreadersidepane;
+        clone3.onclick = () => {
           Zotero.AI4Paper.expandReaderContextPane();
           Zotero.AI4Paper.focusReaderSidePane("translate");
         };
-        let _0x48ad4a = window.document.querySelector('#ai4paper-window-gptSidePane-button');
-        if (_0x48ad4a) {
-          _0x48ad4a.before(_0x5d2115);
+        let elem25 = window.document.querySelector('#ai4paper-window-gptSidePane-button');
+        if (elem25) {
+          elem25.before(clone3);
         } else {
-          var612.before(_0x5d2115);
+          elem113.before(clone3);
         }
       } else {
-        if (param61 === 'gpt' && !window.document.querySelector('#ai4paper-window-gptSidePane-button')) {
-          let var615 = var612.cloneNode(true);
-          var615.id = "ai4paper-window-gptSidePane-button";
-          var615.setAttribute("command", '');
-          var615.setAttribute("oncommand", '');
-          var615.setAttribute("class", "zotero-tb-button AI4Paper-Window-Button");
-          var615.setAttribute("tooltiptext", "GPT 侧边栏");
-          var615.setAttribute("data-l10n-id", '');
-          var615.innerHTML = Zotero.AI4Paper.svg_icon_20px.gptviewReaderSidepane;
-          var615.onclick = _0x5b5794 => {
-            if (_0x5b5794.button == 0x2) {
+        if (paneType === 'gpt' && !window.document.querySelector('#ai4paper-window-gptSidePane-button')) {
+          let clone7 = elem113.cloneNode(true);
+          clone7.id = "ai4paper-window-gptSidePane-button";
+          clone7.setAttribute("command", '');
+          clone7.setAttribute("oncommand", '');
+          clone7.setAttribute("class", "zotero-tb-button AI4Paper-Window-Button");
+          clone7.setAttribute("tooltiptext", "GPT 侧边栏");
+          clone7.setAttribute("data-l10n-id", '');
+          clone7.innerHTML = Zotero.AI4Paper.svg_icon_20px.gptviewReaderSidepane;
+          clone7.onclick = evt => {
+            if (evt.button == 0x2) {
               Zotero.AI4Paper.openDialogByType("chatHistory", true);
               return;
             }
-            if (_0x5b5794.shiftKey) {
+            if (evt.shiftKey) {
               Zotero.AI4Paper.openDialogByType("batchAIInterpret", true);
               return;
             }
             Zotero.AI4Paper.expandReaderContextPane();
             Zotero.AI4Paper.focusReaderSidePane("gpt");
           };
-          let var616 = window.document.querySelector('#ai4paper-window-translateSidePane-button');
-          var616 ? var616.after(var615) : var612.before(var615);
+          let elem114 = window.document.querySelector('#ai4paper-window-translateSidePane-button');
+          elem114 ? elem114.after(clone7) : elem113.before(clone7);
         }
       }
     }
   },
-  'focusReaderSidePane': async function (param62) {
+  'focusReaderSidePane': async function (sidePaneType) {
     try {
-      if (param62) {
+      if (sidePaneType) {
         if (Zotero_Tabs._selectedID === 'zotero-pane') try {
           Zotero.getMainWindow().Zotero_Tabs._tabs.length > 0x1 && (Zotero_Tabs.select(Zotero.getMainWindow().Zotero_Tabs._tabs[0x1].id, true), await Zotero.Promise.delay(0x14));
-        } catch (_0x102ec6) {
-          Zotero.debug(_0x102ec6);
+        } catch (e) {
+          Zotero.debug(e);
         }
-        let _0x218b78 = window.document.querySelector(".notes-pane-deck"),
-          _0x5b3a66 = _0x218b78.parentNode;
-        if (_0x218b78 && _0x5b3a66) {
-          if (_0x218b78.selectedPanel.selectedIndex != 0x0) {
-            _0x5b3a66.selectedIndex = 0x1;
-            let var619 = Services.wm.getMostRecentWindow("navigator:browser"),
-              var620 = var619.ZoteroContextPane.activeEditor;
-            if (var620) {
-              Zotero.AI4Paper._noteItem_ReturnButtonClick = var620.item;
+        let elem8 = window.document.querySelector(".notes-pane-deck"),
+          local7 = elem8.parentNode;
+        if (elem8 && local7) {
+          if (elem8.selectedPanel.selectedIndex != 0x0) {
+            local7.selectedIndex = 0x1;
+            let local30 = Services.wm.getMostRecentWindow("navigator:browser"),
+              local31 = local30.ZoteroContextPane.activeEditor;
+            if (local31) {
+              Zotero.AI4Paper._noteItem_ReturnButtonClick = local31.item;
             }
           }
         }
         Zotero.AI4Paper.selectNotesListPane();
-        let _0x4dd6d0 = window.document.getElementById("navigator-" + param62 + "SidePane");
-        if (_0x4dd6d0) {
-          window.document.querySelector(".AI4Paper-" + param62 + "SidePane-vbox").hidden = false;
-          let var622 = param62 === 'translate' ? "gpt" : "translate",
-            var623 = window.document.querySelector(".AI4Paper-" + var622 + "SidePane-vbox");
-          var623 && (var623.hidden = true);
-          _0x4dd6d0.focus();
-          _0x4dd6d0.scrollIntoView({
+        let doc = window.document.getElementById("navigator-" + sidePaneType + "SidePane");
+        if (doc) {
+          window.document.querySelector(".AI4Paper-" + sidePaneType + "SidePane-vbox").hidden = false;
+          let local32 = sidePaneType === 'translate' ? "gpt" : "translate",
+            elem115 = window.document.querySelector(".AI4Paper-" + local32 + "SidePane-vbox");
+          elem115 && (elem115.hidden = true);
+          doc.focus();
+          doc.scrollIntoView({
             'behavior': "smooth",
             'block': "start"
           });
           Zotero.AI4Paper.hiddenZoteroNotesSection();
         }
       }
-    } catch (_0x78bc72) {
-      window.alert(_0x78bc72);
+    } catch (e) {
+      window.alert(e);
     }
   },
   'addEventListener_focusZoteroContextAllNotes': async function () {
-    let var624 = window.document.querySelectorAll("[data-l10n-id=\"sidenav-notes\"][data-pane=\"context-notes\"][tooltiptext=\"Notes\"]")[0x1];
-    var624 && !var624.getAttribute('clickEventListner_added') && (var624.setAttribute("clickEventListner_added", true), var624.addEventListener('mousedown', function (param63) {
-      if (param63.button === 0x2) {
-        let var625 = Services.wm.getMostRecentWindow("navigator:browser");
-        if (var625.ZoteroContextPane.activeEditor) {
-          let _0x3aab11 = window.document.querySelector(".zotero-tb-note-return");
-          _0x3aab11?.["click"]();
+    let elem116 = window.document.querySelectorAll("[data-l10n-id=\"sidenav-notes\"][data-pane=\"context-notes\"][tooltiptext=\"Notes\"]")[0x1];
+    elem116 && !elem116.getAttribute('clickEventListner_added') && (elem116.setAttribute("clickEventListner_added", true), elem116.addEventListener('mousedown', function (arg) {
+      if (arg.button === 0x2) {
+        let local33 = Services.wm.getMostRecentWindow("navigator:browser");
+        if (local33.ZoteroContextPane.activeEditor) {
+          let elem18 = window.document.querySelector(".zotero-tb-note-return");
+          elem18?.["click"]();
         }
-        let var627 = window.document.querySelector('[data-pane=\x22context-all-notes\x22]').querySelector(".twisty");
-        var627 && (Zotero.AI4Paper.showZoteroNotesSection(), window.document.querySelectorAll('.AI4Paper-SidePane-vbox').forEach(_0x47e3f5 => _0x47e3f5.hidden = true), var627.focus(), var627.scrollIntoView({
+        let elem117 = window.document.querySelector('[data-pane=\x22context-all-notes\x22]').querySelector(".twisty");
+        elem117 && (Zotero.AI4Paper.showZoteroNotesSection(), window.document.querySelectorAll('.AI4Paper-SidePane-vbox').forEach(el => el.hidden = true), elem117.focus(), elem117.scrollIntoView({
           'behavior': "smooth",
           'block': 'center'
         }));
       }
     }, false));
   },
-  'clickEventListner_SideNavNotes': function (param64) {
-    if (param64 === "add" && !Zotero.AI4Paper._pointerdownHandler_SideNavNotes) {
-      Zotero.AI4Paper._pointerdownHandler_SideNavNotes = function (param65) {
-        if (param65.button === 0x0 && param65.target) {
-          if (param65.target.getAttribute("data-l10n-id") === 'sidenav-notes' && param65.target.getAttribute("data-pane") === "context-notes") {
-            if (param65.target.closest("#zotero-context-pane-sidenav")) {
+  'clickEventListner_SideNavNotes': function (action) {
+    if (action === "add" && !Zotero.AI4Paper._pointerdownHandler_SideNavNotes) {
+      Zotero.AI4Paper._pointerdownHandler_SideNavNotes = function (arg2) {
+        if (arg2.button === 0x0 && arg2.target) {
+          if (arg2.target.getAttribute("data-l10n-id") === 'sidenav-notes' && arg2.target.getAttribute("data-pane") === "context-notes") {
+            if (arg2.target.closest("#zotero-context-pane-sidenav")) {
               Zotero.AI4Paper._notesNavButtonClicked = true;
               Zotero.AI4Paper.showZoteroNotesSection();
-              let var628 = ["translate", 'gpt'];
-              for (let var629 of var628) {
-                let var630 = window.document.querySelector('.AI4Paper-' + var629 + "SidePane-vbox");
-                var630 && (var630.hidden = true);
+              let arr3 = ["translate", 'gpt'];
+              for (let i10 of arr3) {
+                let elem118 = window.document.querySelector('.AI4Paper-' + i10 + "SidePane-vbox");
+                elem118 && (elem118.hidden = true);
               }
             }
           }
         }
       };
       window.document.addEventListener('pointerdown', Zotero.AI4Paper._pointerdownHandler_SideNavNotes);
-    } else param64 === "remove" && window.document.removeEventListener("pointerdown", Zotero.AI4Paper._pointerdownHandler_SideNavNotes);
-    if (param64 === "add" && !Zotero.AI4Paper._mousedownHandler_ReturnButton) {
-      Zotero.AI4Paper._mousedownHandler_ReturnButton = function (param66) {
-        if (param66.button === 0x0 && param66.target) {
-          if (param66.target.classList.contains('zotero-tb-note-return')) {
-            let var631 = Services.wm.getMostRecentWindow("navigator:browser");
-            if (var631?.['ZoteroContextPane']["activeEditor"]) {
-              Zotero.AI4Paper._noteItem_ReturnButtonClick = var631.ZoteroContextPane.activeEditor.item;
+    } else action === "remove" && window.document.removeEventListener("pointerdown", Zotero.AI4Paper._pointerdownHandler_SideNavNotes);
+    if (action === "add" && !Zotero.AI4Paper._mousedownHandler_ReturnButton) {
+      Zotero.AI4Paper._mousedownHandler_ReturnButton = function (evt) {
+        if (evt.button === 0x0 && evt.target) {
+          if (evt.target.classList.contains('zotero-tb-note-return')) {
+            let local34 = Services.wm.getMostRecentWindow("navigator:browser");
+            if (local34?.['ZoteroContextPane']["activeEditor"]) {
+              Zotero.AI4Paper._noteItem_ReturnButtonClick = local34.ZoteroContextPane.activeEditor.item;
             }
           }
         }
       };
       window.document.addEventListener("mousedown", Zotero.AI4Paper._mousedownHandler_ReturnButton);
-    } else param64 === "remove" && window.document.removeEventListener('mousedown', Zotero.AI4Paper._mousedownHandler_ReturnButton);
+    } else action === "remove" && window.document.removeEventListener('mousedown', Zotero.AI4Paper._mousedownHandler_ReturnButton);
   },
   'showZoteroNotesSection': function () {
-    let var632 = window.document.querySelector("context-notes-list");
-    var632?.["childNodes"]["forEach"](_0x514cfc => {
-      !_0x514cfc.classList.contains('AI4Paper-SidePane-vbox') && (_0x514cfc.hidden = false);
+    let elem119 = window.document.querySelector("context-notes-list");
+    elem119?.["childNodes"]["forEach"](el => {
+      !el.classList.contains('AI4Paper-SidePane-vbox') && (el.hidden = false);
     });
-    if (var632) {
-      var632.parentNode.style.overflowY = "auto";
+    if (elem119) {
+      elem119.parentNode.style.overflowY = "auto";
     }
   },
   'hiddenZoteroNotesSection': async function () {
-    let var633 = window.document.querySelector("context-notes-list");
-    var633?.["childNodes"]["forEach"](_0x4d7f9d => {
-      !_0x4d7f9d.classList.contains("AI4Paper-SidePane-vbox") && (_0x4d7f9d.hidden = true);
+    let elem120 = window.document.querySelector("context-notes-list");
+    elem120?.["childNodes"]["forEach"](el => {
+      !el.classList.contains("AI4Paper-SidePane-vbox") && (el.hidden = true);
     });
-    if (var633) {
-      var633.parentNode.style.overflowY = "hidden";
+    if (elem120) {
+      elem120.parentNode.style.overflowY = "hidden";
     }
     Zotero.AI4Paper._notesNavButtonClicked = false;
-    let var634 = 0x0,
-      var635 = false;
-    while (!var635) {
-      if (var634 >= 0x1f4) {
+    let local35 = 0x0,
+      local36 = false;
+    while (!local36) {
+      if (local35 >= 0x1f4) {
         Zotero.debug("AI4Paper: 非启动时加载笔记列表。");
         return;
       }
-      var633 = window.document.querySelector("context-notes-list");
-      var633.childNodes.forEach(_0x811207 => {
-        if (_0x811207.classList) {
-          if (!_0x811207.classList.contains("AI4Paper-SidePane-vbox") && !_0x811207.hidden) {
-            !Zotero.AI4Paper._notesNavButtonClicked && (_0x811207.hidden = true, var635 = true);
+      elem120 = window.document.querySelector("context-notes-list");
+      elem120.childNodes.forEach(el => {
+        if (el.classList) {
+          if (!el.classList.contains("AI4Paper-SidePane-vbox") && !el.hidden) {
+            !Zotero.AI4Paper._notesNavButtonClicked && (el.hidden = true, local36 = true);
           }
         }
       });
       await Zotero.Promise.delay(0xa);
-      var634++;
+      local35++;
     }
   },
   'selectNotesListPane': function () {
-    let var636 = window.document.querySelector('.notes-pane-deck'),
-      var637 = var636.parentNode;
-    var637.selectedIndex = 0x1;
-    var636.selectedPanel.selectedIndex = 0x0;
+    let elem121 = window.document.querySelector('.notes-pane-deck'),
+      local37 = elem121.parentNode;
+    local37.selectedIndex = 0x1;
+    elem121.selectedPanel.selectedIndex = 0x0;
   },
   'expandReaderContextPane': function () {
-    let var638 = Zotero_Tabs._selectedID;
-    var var639 = Zotero.Reader.getByTabID(var638);
-    if (!var639) return;
-    let var640 = var639._iframeWindow;
-    window.document.getElementById('zotero-context-pane').collapsed && var640.document.querySelector('.context-pane-toggle')?.["click"]();
+    let tabID13 = Zotero_Tabs._selectedID;
+    var reader15 = Zotero.Reader.getByTabID(tabID13);
+    if (!reader15) return;
+    let iframeWin9 = reader15._iframeWindow;
+    window.document.getElementById('zotero-context-pane').collapsed && iframeWin9.document.querySelector('.context-pane-toggle')?.["click"]();
   },
-  'gptReaderSidePane_recordScrollTop': function (param67) {
+  'gptReaderSidePane_recordScrollTop': function (tabID) {
     try {
-      let var641 = Zotero.AI4Paper.getIframeWindowBySidePaneType('chatgpt');
-      if (!var641) return false;
-      const var642 = var641.document.getElementById("chat-container");
-      if (param67 === "zotero-pane") {
-        var641._savedContScrollTop = '' + Zotero.AI4Paper._savedContScrollTop;
-        var641._marker4ScrollTop = true;
-      } else !var641._gptStreamRunning && var641._marker4ScrollTop && (Zotero.AI4Paper.updateChatGPTReaderSidePane(), var642.scrollTop = var641._savedContScrollTop, var641._marker4ScrollTop = false);
-    } catch (_0x22646b) {
-      Zotero.debug(_0x22646b);
+      let result8 = Zotero.AI4Paper.getIframeWindowBySidePaneType('chatgpt');
+      if (!result8) return false;
+      const doc12 = result8.document.getElementById("chat-container");
+      if (tabID === "zotero-pane") {
+        result8._savedContScrollTop = '' + Zotero.AI4Paper._savedContScrollTop;
+        result8._marker4ScrollTop = true;
+      } else !result8._gptStreamRunning && result8._marker4ScrollTop && (Zotero.AI4Paper.updateChatGPTReaderSidePane(), doc12.scrollTop = result8._savedContScrollTop, result8._marker4ScrollTop = false);
+    } catch (e) {
+      Zotero.debug(e);
     }
   },
   'updateTranslateReaderSidePane': function () {
     if (!Zotero.Prefs.get("ai4paper.translationreadersidepane")) {
       return false;
     }
-    var var643;
+    var local38;
     if (window.document.getElementById("ai4paper-translate-readersidepane")) {
-      var643 = window.document.getElementById("ai4paper-translate-readersidepane").contentWindow;
+      local38 = window.document.getElementById("ai4paper-translate-readersidepane").contentWindow;
     } else return false;
-    if (!var643) {
+    if (!local38) {
       return;
     }
     window.document.querySelector("#ai4paper-translate-engine-list").selectedIndex = Object.keys(Zotero.AI4Paper.translationServiceList()).indexOf(Zotero.Prefs.get("ai4paper.selectedtexttransengine"));
     window.document.querySelector("#ai4paper-button-enable-auto-translate").checked = Zotero.Prefs.get("ai4paper.selectedtexttransenable");
     window.document.querySelector("#ai4paper-button-enable-words-first").checked = Zotero.Prefs.get("ai4paper.translationvocabularyfirst");
     window.document.querySelector('#ai4paper-button-enable-concat').checked = Zotero.Prefs.get('ai4paper.translationcrossparagraphs');
-    var643.document.getElementById("ai4paper-translate-readerSidePane-sourcetext").value = Zotero.AI4Paper.translateSourceText;
-    var643.document.getElementById("ai4paper-translate-readerSidePane-response").value = Zotero.AI4Paper.translateResponse;
-    var643.document.getElementById('ai4paper-translate-readerSidePane-sourcetext').style.fontSize = Zotero.Prefs.get("ai4paper.translatesidepanefontsize");
-    var643.document.getElementById("ai4paper-translate-readerSidePane-response").style.fontSize = Zotero.Prefs.get("ai4paper.translatesidepanefontsize");
-    var643.document.getElementById("ai4paper-translate-readerSidePane-sourcetext").style.lineHeight = Zotero.Prefs.get('ai4paper.translatesidepanelineheight');
-    var643.document.getElementById("ai4paper-translate-readerSidePane-response").style.lineHeight = Zotero.Prefs.get("ai4paper.translatesidepanelineheight");
+    local38.document.getElementById("ai4paper-translate-readerSidePane-sourcetext").value = Zotero.AI4Paper.translateSourceText;
+    local38.document.getElementById("ai4paper-translate-readerSidePane-response").value = Zotero.AI4Paper.translateResponse;
+    local38.document.getElementById('ai4paper-translate-readerSidePane-sourcetext').style.fontSize = Zotero.Prefs.get("ai4paper.translatesidepanefontsize");
+    local38.document.getElementById("ai4paper-translate-readerSidePane-response").style.fontSize = Zotero.Prefs.get("ai4paper.translatesidepanefontsize");
+    local38.document.getElementById("ai4paper-translate-readerSidePane-sourcetext").style.lineHeight = Zotero.Prefs.get('ai4paper.translatesidepanelineheight');
+    local38.document.getElementById("ai4paper-translate-readerSidePane-response").style.lineHeight = Zotero.Prefs.get("ai4paper.translatesidepanelineheight");
     if (Zotero.AI4Paper.vocabularyreviewmode === 'true') {
-      var643.document.getElementById("ai4paper-translate-readerSidePane-vocaulary-review").checked = true;
-      var643.document.getElementById("ai4paper-translate-readerSidePane-vocabulary-next").style.display = "inline";
-      var643.document.getElementById("translate-readerSidePane-vocabulary-words-locate").style.display = "inline";
-      Zotero.Prefs.get('ai4paper.vocabularyreviewgiveinterpretation') ? var643.document.getElementById("ai4paper-translate-readerSidePane-vocabulary-interpretation").style.display = "none" : var643.document.getElementById('ai4paper-translate-readerSidePane-vocabulary-interpretation').style.display = "inline";
+      local38.document.getElementById("ai4paper-translate-readerSidePane-vocaulary-review").checked = true;
+      local38.document.getElementById("ai4paper-translate-readerSidePane-vocabulary-next").style.display = "inline";
+      local38.document.getElementById("translate-readerSidePane-vocabulary-words-locate").style.display = "inline";
+      Zotero.Prefs.get('ai4paper.vocabularyreviewgiveinterpretation') ? local38.document.getElementById("ai4paper-translate-readerSidePane-vocabulary-interpretation").style.display = "none" : local38.document.getElementById('ai4paper-translate-readerSidePane-vocabulary-interpretation').style.display = "inline";
     } else {
-      var643.document.getElementById("ai4paper-translate-readerSidePane-vocaulary-review").checked = false;
-      var643.document.getElementById('ai4paper-translate-readerSidePane-vocabulary-next').style.display = 'none';
-      var643.document.getElementById('ai4paper-translate-readerSidePane-vocabulary-interpretation').style.display = "none";
-      var643.document.getElementById("translate-readerSidePane-vocabulary-words-locate").style.display = "none";
+      local38.document.getElementById("ai4paper-translate-readerSidePane-vocaulary-review").checked = false;
+      local38.document.getElementById('ai4paper-translate-readerSidePane-vocabulary-next').style.display = 'none';
+      local38.document.getElementById('ai4paper-translate-readerSidePane-vocabulary-interpretation').style.display = "none";
+      local38.document.getElementById("translate-readerSidePane-vocabulary-words-locate").style.display = "none";
     }
     Zotero.AI4Paper.translateReaderSidePane_exchangeSourceResponseArea();
   },
   'initTranslateReaderSidePane': function () {
-    let var644 = Zotero_Tabs._selectedID;
-    const var645 = Zotero.Reader.getByTabID(var644);
-    if (!var645) {
+    let tabID14 = Zotero_Tabs._selectedID;
+    const reader16 = Zotero.Reader.getByTabID(tabID14);
+    if (!reader16) {
       return;
     }
     if (!Zotero.Prefs.get('ai4paper.translationreadersidepane')) return false;
-    var var646;
-    if (window.document.getElementById("ai4paper-translate-readersidepane")) var646 = window.document.getElementById('ai4paper-translate-readersidepane').contentWindow;else return false;
-    if (!var646) return;
+    var local39;
+    if (window.document.getElementById("ai4paper-translate-readersidepane")) local39 = window.document.getElementById('ai4paper-translate-readersidepane').contentWindow;else return false;
+    if (!local39) return;
     window.document.querySelector("#ai4paper-translate-engine-list").selectedIndex = Object.keys(Zotero.AI4Paper.translationServiceList()).indexOf(Zotero.Prefs.get('ai4paper.selectedtexttransengine'));
     window.document.querySelector("#ai4paper-button-enable-auto-translate").checked = Zotero.Prefs.get("ai4paper.selectedtexttransenable");
     window.document.querySelector("#ai4paper-button-enable-words-first").checked = Zotero.Prefs.get("ai4paper.translationvocabularyfirst");
     window.document.querySelector("#ai4paper-button-enable-concat").checked = Zotero.Prefs.get("ai4paper.translationcrossparagraphs");
-    var646.document.getElementById("ai4paper-translate-readerSidePane-sourcetext").value = Zotero.AI4Paper.translateSourceText;
-    var646.document.getElementById('ai4paper-translate-readerSidePane-response').value = Zotero.AI4Paper.translateResponse;
-    var646.document.getElementById("ai4paper-translate-readerSidePane-sourcetext").style.fontSize = Zotero.Prefs.get("ai4paper.translatesidepanefontsize");
-    var646.document.getElementById('ai4paper-translate-readerSidePane-response').style.fontSize = Zotero.Prefs.get("ai4paper.translatesidepanefontsize");
-    Zotero.AI4Paper.vocabularyreviewmode === "true" ? (var646.document.getElementById("ai4paper-translate-readerSidePane-vocaulary-review").checked = true, var646.document.getElementById("ai4paper-translate-readerSidePane-vocabulary-next").style.display = "inline", var646.document.getElementById("translate-readerSidePane-vocabulary-words-locate").style.display = "inline", Zotero.Prefs.get("ai4paper.vocabularyreviewgiveinterpretation") ? var646.document.getElementById("ai4paper-translate-readerSidePane-vocabulary-interpretation").style.display = 'none' : var646.document.getElementById("ai4paper-translate-readerSidePane-vocabulary-interpretation").style.display = "inline") : (var646.document.getElementById("ai4paper-translate-readerSidePane-vocaulary-review").checked = false, var646.document.getElementById("ai4paper-translate-readerSidePane-vocabulary-next").style.display = 'none', var646.document.getElementById("ai4paper-translate-readerSidePane-vocabulary-interpretation").style.display = "none", var646.document.getElementById("translate-readerSidePane-vocabulary-words-locate").style.display = 'none');
+    local39.document.getElementById("ai4paper-translate-readerSidePane-sourcetext").value = Zotero.AI4Paper.translateSourceText;
+    local39.document.getElementById('ai4paper-translate-readerSidePane-response').value = Zotero.AI4Paper.translateResponse;
+    local39.document.getElementById("ai4paper-translate-readerSidePane-sourcetext").style.fontSize = Zotero.Prefs.get("ai4paper.translatesidepanefontsize");
+    local39.document.getElementById('ai4paper-translate-readerSidePane-response').style.fontSize = Zotero.Prefs.get("ai4paper.translatesidepanefontsize");
+    Zotero.AI4Paper.vocabularyreviewmode === "true" ? (local39.document.getElementById("ai4paper-translate-readerSidePane-vocaulary-review").checked = true, local39.document.getElementById("ai4paper-translate-readerSidePane-vocabulary-next").style.display = "inline", local39.document.getElementById("translate-readerSidePane-vocabulary-words-locate").style.display = "inline", Zotero.Prefs.get("ai4paper.vocabularyreviewgiveinterpretation") ? local39.document.getElementById("ai4paper-translate-readerSidePane-vocabulary-interpretation").style.display = 'none' : local39.document.getElementById("ai4paper-translate-readerSidePane-vocabulary-interpretation").style.display = "inline") : (local39.document.getElementById("ai4paper-translate-readerSidePane-vocaulary-review").checked = false, local39.document.getElementById("ai4paper-translate-readerSidePane-vocabulary-next").style.display = 'none', local39.document.getElementById("ai4paper-translate-readerSidePane-vocabulary-interpretation").style.display = "none", local39.document.getElementById("translate-readerSidePane-vocabulary-words-locate").style.display = 'none');
   },
   'refreshTranslateReaderSidePane': function () {
-    let var647 = Zotero_Tabs._selectedID;
-    const var648 = Zotero.Reader.getByTabID(var647);
-    if (!var648) return;
+    let tabID15 = Zotero_Tabs._selectedID;
+    const reader17 = Zotero.Reader.getByTabID(tabID15);
+    if (!reader17) return;
     if (!Zotero.Prefs.get('ai4paper.translationreadersidepane')) return false;
-    var var649;
+    var local40;
     if (window.document.getElementById("ai4paper-translate-readersidepane")) {
-      var649 = window.document.getElementById("ai4paper-translate-readersidepane").contentWindow;
+      local40 = window.document.getElementById("ai4paper-translate-readersidepane").contentWindow;
     } else {
       return false;
     }
-    if (!var649) return;
+    if (!local40) return;
     window.document.querySelector('#ai4paper-translate-engine-list').selectedIndex = Object.keys(Zotero.AI4Paper.translationServiceList()).indexOf(Zotero.Prefs.get("ai4paper.selectedtexttransengine"));
     window.document.querySelector("#ai4paper-button-enable-auto-translate").checked = Zotero.Prefs.get('ai4paper.selectedtexttransenable');
     window.document.querySelector("#ai4paper-button-enable-words-first").checked = Zotero.Prefs.get("ai4paper.translationvocabularyfirst");
     window.document.querySelector("#ai4paper-button-enable-concat").checked = Zotero.Prefs.get('ai4paper.translationcrossparagraphs');
-    var649.document.getElementById("ai4paper-translate-readerSidePane-sourcetext").value = Zotero.AI4Paper.translateSourceText;
-    var649.document.getElementById("ai4paper-translate-readerSidePane-response").value = Zotero.AI4Paper.translateResponse;
-    var649.document.getElementById("ai4paper-translate-readerSidePane-sourcetext").style.fontSize = Zotero.Prefs.get("ai4paper.translatesidepanefontsize");
-    var649.document.getElementById("ai4paper-translate-readerSidePane-response").style.fontSize = Zotero.Prefs.get("ai4paper.translatesidepanefontsize");
+    local40.document.getElementById("ai4paper-translate-readerSidePane-sourcetext").value = Zotero.AI4Paper.translateSourceText;
+    local40.document.getElementById("ai4paper-translate-readerSidePane-response").value = Zotero.AI4Paper.translateResponse;
+    local40.document.getElementById("ai4paper-translate-readerSidePane-sourcetext").style.fontSize = Zotero.Prefs.get("ai4paper.translatesidepanefontsize");
+    local40.document.getElementById("ai4paper-translate-readerSidePane-response").style.fontSize = Zotero.Prefs.get("ai4paper.translatesidepanefontsize");
     if (Zotero.AI4Paper.vocabularyreviewmode === "true") {
-      var649.document.getElementById("ai4paper-translate-readerSidePane-vocaulary-review").checked = true;
-      var649.document.getElementById("ai4paper-translate-readerSidePane-vocabulary-next").style.display = "inline";
-      var649.document.getElementById("translate-readerSidePane-vocabulary-words-locate").style.display = "inline";
+      local40.document.getElementById("ai4paper-translate-readerSidePane-vocaulary-review").checked = true;
+      local40.document.getElementById("ai4paper-translate-readerSidePane-vocabulary-next").style.display = "inline";
+      local40.document.getElementById("translate-readerSidePane-vocabulary-words-locate").style.display = "inline";
       if (Zotero.Prefs.get("ai4paper.vocabularyreviewgiveinterpretation")) {
-        var649.document.getElementById('ai4paper-translate-readerSidePane-vocabulary-interpretation').style.display = "none";
-      } else var649.document.getElementById("ai4paper-translate-readerSidePane-vocabulary-interpretation").style.display = 'inline';
+        local40.document.getElementById('ai4paper-translate-readerSidePane-vocabulary-interpretation').style.display = "none";
+      } else local40.document.getElementById("ai4paper-translate-readerSidePane-vocabulary-interpretation").style.display = 'inline';
     } else {
-      var649.document.getElementById('ai4paper-translate-readerSidePane-vocaulary-review').checked = false;
-      var649.document.getElementById("ai4paper-translate-readerSidePane-vocabulary-next").style.display = "none";
-      var649.document.getElementById('ai4paper-translate-readerSidePane-vocabulary-interpretation').style.display = "none";
-      var649.document.getElementById("translate-readerSidePane-vocabulary-words-locate").style.display = 'none';
+      local40.document.getElementById('ai4paper-translate-readerSidePane-vocaulary-review').checked = false;
+      local40.document.getElementById("ai4paper-translate-readerSidePane-vocabulary-next").style.display = "none";
+      local40.document.getElementById('ai4paper-translate-readerSidePane-vocabulary-interpretation').style.display = "none";
+      local40.document.getElementById("translate-readerSidePane-vocabulary-words-locate").style.display = 'none';
     }
   },
-  'isReaderSidePaneExist': function (param68, param69) {
-    !param69 && (param69 = Zotero_Tabs._selectedID);
-    Zotero.AI4Paper.gptReaderSidePane_recordScrollTop(param69);
-    const var650 = Zotero.Reader.getByTabID(param69);
-    if (!var650) return;
-    !window.document.getElementById("ai4paper-" + param68 + "-readersidepane") && Zotero.AI4Paper.addReaderSidePane(param69);
+  'isReaderSidePaneExist': function (sidePaneName, currentTabID) {
+    !currentTabID && (currentTabID = Zotero_Tabs._selectedID);
+    Zotero.AI4Paper.gptReaderSidePane_recordScrollTop(currentTabID);
+    const reader18 = Zotero.Reader.getByTabID(currentTabID);
+    if (!reader18) return;
+    !window.document.getElementById("ai4paper-" + sidePaneName + "-readersidepane") && Zotero.AI4Paper.addReaderSidePane(currentTabID);
   },
-  'translateReaderSidePane_showErrorMessage': function (param70) {
-    Zotero.AI4Paper.updateTranslationPopupTextArea(param70);
+  'translateReaderSidePane_showErrorMessage': function (errorMsg) {
+    Zotero.AI4Paper.updateTranslationPopupTextArea(errorMsg);
     if (!Zotero.Prefs.get("ai4paper.translationreadersidepane")) {
       return false;
     }
     Zotero.AI4Paper.focusReaderSidePane("translate");
-    var var651;
-    if (window.document.getElementById("ai4paper-translate-readersidepane")) var651 = window.document.getElementById("ai4paper-translate-readersidepane").contentWindow;else return false;
-    if (!var651) return;
-    var651.document.getElementById("ai4paper-translate-readerSidePane-response").value = param70;
-    var651.document.getElementById("ai4paper-translate-readerSidePane-response").placeholder = "这里显示翻译结果";
-    var651.document.getElementById("ai4paper-translate-readerSidePane-response").style.boxShadow = '0\x200\x201px\x20rgba(0,\x200,\x200,\x200.5)';
-    Zotero.AI4Paper.translateResponse = param70;
+    var local41;
+    if (window.document.getElementById("ai4paper-translate-readersidepane")) local41 = window.document.getElementById("ai4paper-translate-readersidepane").contentWindow;else return false;
+    if (!local41) return;
+    local41.document.getElementById("ai4paper-translate-readerSidePane-response").value = errorMsg;
+    local41.document.getElementById("ai4paper-translate-readerSidePane-response").placeholder = "这里显示翻译结果";
+    local41.document.getElementById("ai4paper-translate-readerSidePane-response").style.boxShadow = '0\x200\x201px\x20rgba(0,\x200,\x200,\x200.5)';
+    Zotero.AI4Paper.translateResponse = errorMsg;
   },
-  'translateReaderSidePane_setUIHeight': function (param71, param72) {
+  'translateReaderSidePane_setUIHeight': function (sourceHeight, responseHeight) {
     if (!Zotero.Prefs.get('ai4paper.translationreadersidepane')) return false;
-    var var652;
-    if (window.document.getElementById("ai4paper-translate-readersidepane")) var652 = window.document.getElementById("ai4paper-translate-readersidepane").contentWindow;else return false;
-    if (!var652) return;
-    Zotero.Prefs.get("ai4paper.translateEnableCustomUIHeight") ? (var652.document.getElementById('ai4paper-translate-readerSidePane-sourcetext').style.height = Zotero.Prefs.get("ai4paper.translateCustomSourceTextAreaHeight") + 'px', var652.document.getElementById('ai4paper-translate-readerSidePane-response').style.height = Zotero.Prefs.get('ai4paper.translateCustomResponseAreaHeight') + 'px') : (var652.document.getElementById('ai4paper-translate-readerSidePane-sourcetext').style.height = param71 + 'px', var652.document.getElementById("ai4paper-translate-readerSidePane-response").style.height = param72 + 'px');
+    var local42;
+    if (window.document.getElementById("ai4paper-translate-readersidepane")) local42 = window.document.getElementById("ai4paper-translate-readersidepane").contentWindow;else return false;
+    if (!local42) return;
+    Zotero.Prefs.get("ai4paper.translateEnableCustomUIHeight") ? (local42.document.getElementById('ai4paper-translate-readerSidePane-sourcetext').style.height = Zotero.Prefs.get("ai4paper.translateCustomSourceTextAreaHeight") + 'px', local42.document.getElementById('ai4paper-translate-readerSidePane-response').style.height = Zotero.Prefs.get('ai4paper.translateCustomResponseAreaHeight') + 'px') : (local42.document.getElementById('ai4paper-translate-readerSidePane-sourcetext').style.height = sourceHeight + 'px', local42.document.getElementById("ai4paper-translate-readerSidePane-response").style.height = responseHeight + 'px');
   },
   'translateReaderSidePane_exchangeSourceResponseArea': function () {
-    let var653 = Zotero_Tabs._selectedID;
-    const var654 = Zotero.Reader.getByTabID(var653);
-    if (!var654) return;
+    let tabID16 = Zotero_Tabs._selectedID;
+    const reader19 = Zotero.Reader.getByTabID(tabID16);
+    if (!reader19) return;
     if (!Zotero.Prefs.get("ai4paper.translationreadersidepane")) {
       return false;
     }
-    var var655;
-    if (window.document.getElementById("ai4paper-translate-readersidepane")) var655 = window.document.getElementById('ai4paper-translate-readersidepane').contentWindow;else {
+    var local43;
+    if (window.document.getElementById("ai4paper-translate-readersidepane")) local43 = window.document.getElementById('ai4paper-translate-readersidepane').contentWindow;else {
       return false;
     }
-    if (!var655) return;
-    let var656 = var655.document.getElementById('ai4paper-translate-readerSidePane-sourcetext'),
-      var657 = var655.document.getElementById("ai4paper-translate-readerSidePane-response"),
-      var658 = var656.nextElementSibling;
-    var658 && (var658.querySelector("#ai4paper-translate-readerSidePane-prefs") ? Zotero.Prefs.get("ai4paper.translatesidepaneExchangeSourceResponseArea") && (var657.after(var656), var657.parentNode.prepend(var657)) : !Zotero.Prefs.get('ai4paper.translatesidepaneExchangeSourceResponseArea') && (var656.after(var657), var656.parentNode.prepend(var656)));
+    if (!local43) return;
+    let doc13 = local43.document.getElementById('ai4paper-translate-readerSidePane-sourcetext'),
+      doc14 = local43.document.getElementById("ai4paper-translate-readerSidePane-response"),
+      local44 = doc13.nextElementSibling;
+    local44 && (local44.querySelector("#ai4paper-translate-readerSidePane-prefs") ? Zotero.Prefs.get("ai4paper.translatesidepaneExchangeSourceResponseArea") && (doc14.after(doc13), doc14.parentNode.prepend(doc14)) : !Zotero.Prefs.get('ai4paper.translatesidepaneExchangeSourceResponseArea') && (doc13.after(doc14), doc13.parentNode.prepend(doc13)));
   },
-  'addReaderButtonInit': async function (param214) {
-    if (!param214 || !Zotero.AI4Paper.betterURL()) return false;
-    await param214._initPromise;
-    await param214._waitForReader();
-    let var1887 = param214._iframeWindow,
-      var1888 = 0x0;
-    while (!var1887.document.querySelector(".center")) {
-      if (var1888 >= 0x1f4) {
+  'addReaderButtonInit': async function (reader) {
+    if (!reader || !Zotero.AI4Paper.betterURL()) return false;
+    await reader._initPromise;
+    await reader._waitForReader();
+    let iframeWin3 = reader._iframeWindow,
+      local9 = 0x0;
+    while (!iframeWin3.document.querySelector(".center")) {
+      if (local9 >= 0x1f4) {
         Zotero.debug("AI4Paper: Waiting for reader failed");
         return;
       }
       await Zotero.Promise.delay(0x5);
-      var1888++;
+      local9++;
     }
-    switch (var1887.document.readyState) {
+    switch (iframeWin3.document.readyState) {
       case "uninitialized":
         {
           setTimeout(() => {
-            var1887.document.onreadystatechange = () => Zotero.AI4Paper.addReaderButton(var1887);
-            Zotero.AI4Paper.waitForIframeReady(var1887);
+            iframeWin3.document.onreadystatechange = () => Zotero.AI4Paper.addReaderButton(iframeWin3);
+            Zotero.AI4Paper.waitForIframeReady(iframeWin3);
             return;
           }, 0x1f4);
           return;
         }
       case "complete":
         {
-          Zotero.AI4Paper.addReaderButton(var1887);
-          Zotero.AI4Paper.waitForIframeReady(var1887);
+          Zotero.AI4Paper.addReaderButton(iframeWin3);
+          Zotero.AI4Paper.waitForIframeReady(iframeWin3);
         }
     }
   },
   'updateReaderButtonStateInit': async function () {
-    let var1889 = Zotero_Tabs._selectedID;
-    var var1890 = Zotero.Reader.getByTabID(var1889);
-    if (!var1890) return false;
+    let tabID = Zotero_Tabs._selectedID;
+    var reader2 = Zotero.Reader.getByTabID(tabID);
+    if (!reader2) return false;
     await Zotero.uiReadyPromise;
-    await var1890._waitForReader();
-    let var1891 = var1890._iframeWindow;
-    Zotero.AI4Paper.updateReaderButtonState(var1891);
+    await reader2._waitForReader();
+    let iframeWin4 = reader2._iframeWindow;
+    Zotero.AI4Paper.updateReaderButtonState(iframeWin4);
   },
-  'addReaderButton': function (param215) {
+  'addReaderButton': function (iframeWin) {
     if (Zotero.Prefs.get("ai4paper.activationkeyverifyresult") != Zotero.Utilities.Internal.md5(Zotero.Prefs.get("ai4paper.timestringencoded"))) {
       return -0x1;
     }
-    const var1892 = param215.document.querySelector(".center");
-    let var1893 = param215.document.querySelector(".toolbar-button.find"),
-      var1894 = Zotero.AI4Paper.betterURL();
-    if (!var1894) {
+    const elem34 = iframeWin.document.querySelector(".center");
+    let elem35 = iframeWin.document.querySelector(".toolbar-button.find"),
+      result2 = Zotero.AI4Paper.betterURL();
+    if (!result2) {
       return;
     }
-    if (Zotero.Prefs.get("ai4paper.enablesvgobsidiannote") && !param215.document.getElementById("AI4Paper: Obsidian Note")) {
-      let _0x223b12 = param215.document.createElement("button");
-      _0x223b12.setAttribute('id', "AI4Paper: Obsidian Note");
-      _0x223b12.setAttribute("class", "toolbar-button AI4Paper-Reader-Buttons AI4Paper-center-toolbarButton");
-      _0x223b12.setAttribute("title", "Obsidian Note");
-      _0x223b12.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgobsidiannote;
-      _0x223b12.onclick = () => {
+    if (Zotero.Prefs.get("ai4paper.enablesvgobsidiannote") && !iframeWin.document.getElementById("AI4Paper: Obsidian Note")) {
+      let elem9 = iframeWin.document.createElement("button");
+      elem9.setAttribute('id', "AI4Paper: Obsidian Note");
+      elem9.setAttribute("class", "toolbar-button AI4Paper-Reader-Buttons AI4Paper-center-toolbarButton");
+      elem9.setAttribute("title", "Obsidian Note");
+      elem9.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgobsidiannote;
+      elem9.onclick = () => {
         Zotero.AI4Paper.obsidianNote();
       };
-      var1892?.["prepend"](_0x223b12);
-    } else !Zotero.Prefs.get("ai4paper.enablesvgobsidiannote") && param215.document.getElementById('AI4Paper:\x20Obsidian\x20Note') && param215.document.getElementById('AI4Paper:\x20Obsidian\x20Note').remove();
-    if (Zotero.Prefs.get("ai4paper.enablesvgopenwith") && !param215.document.getElementById('AI4Paper:\x20Open\x20With')) {
-      let _0x57bacb = param215.document.createElement("button");
-      _0x57bacb.setAttribute('id', "AI4Paper: Open With");
-      _0x57bacb.setAttribute("class", "toolbar-button AI4Paper-Reader-Buttons AI4Paper-center-toolbarButton");
-      _0x57bacb.setAttribute("title", 'Open\x20With');
-      _0x57bacb.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgopenwith;
-      _0x57bacb.onclick = _0x52d199 => {
-        if (_0x52d199.shiftKey) {
-          Zotero.AI4Paper.openwith_buildPopup(_0x57bacb);
+      elem34?.["prepend"](elem9);
+    } else !Zotero.Prefs.get("ai4paper.enablesvgobsidiannote") && iframeWin.document.getElementById('AI4Paper:\x20Obsidian\x20Note') && iframeWin.document.getElementById('AI4Paper:\x20Obsidian\x20Note').remove();
+    if (Zotero.Prefs.get("ai4paper.enablesvgopenwith") && !iframeWin.document.getElementById('AI4Paper:\x20Open\x20With')) {
+      let elem30 = iframeWin.document.createElement("button");
+      elem30.setAttribute('id', "AI4Paper: Open With");
+      elem30.setAttribute("class", "toolbar-button AI4Paper-Reader-Buttons AI4Paper-center-toolbarButton");
+      elem30.setAttribute("title", 'Open\x20With');
+      elem30.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgopenwith;
+      elem30.onclick = evt => {
+        if (evt.shiftKey) {
+          Zotero.AI4Paper.openwith_buildPopup(elem30);
         } else {
           Zotero.AI4Paper.openwith(0x1);
         }
       };
-      _0x57bacb.addEventListener("pointerdown", _0x5650db => {
-        if (_0x5650db.button == 0x2) {
+      elem30.addEventListener("pointerdown", evt => {
+        if (evt.button == 0x2) {
           Zotero.AI4Paper.openwith(0x2);
         }
       }, false);
-      var1892?.["prepend"](_0x57bacb);
-    } else !Zotero.Prefs.get("ai4paper.enablesvgopenwith") && param215.document.getElementById("AI4Paper: Open With") && param215.document.getElementById("AI4Paper: Open With").remove();
-    if (Zotero.Prefs.get("ai4paper.enablesvgconnectedpapers") && !param215.document.getElementById("AI4Paper: Connected Papers")) {
-      let _0x22daf6 = param215.document.createElement('button');
-      _0x22daf6.setAttribute('id', 'AI4Paper:\x20Connected\x20Papers');
-      _0x22daf6.setAttribute('class', 'toolbar-button\x20AI4Paper-Reader-Buttons\x20AI4Paper-center-toolbarButton');
-      _0x22daf6.setAttribute("title", "Connected Papers");
-      _0x22daf6.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgconnectedpapers;
-      _0x22daf6.onclick = () => {
+      elem34?.["prepend"](elem30);
+    } else !Zotero.Prefs.get("ai4paper.enablesvgopenwith") && iframeWin.document.getElementById("AI4Paper: Open With") && iframeWin.document.getElementById("AI4Paper: Open With").remove();
+    if (Zotero.Prefs.get("ai4paper.enablesvgconnectedpapers") && !iframeWin.document.getElementById("AI4Paper: Connected Papers")) {
+      let elem10 = iframeWin.document.createElement('button');
+      elem10.setAttribute('id', 'AI4Paper:\x20Connected\x20Papers');
+      elem10.setAttribute('class', 'toolbar-button\x20AI4Paper-Reader-Buttons\x20AI4Paper-center-toolbarButton');
+      elem10.setAttribute("title", "Connected Papers");
+      elem10.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgconnectedpapers;
+      elem10.onclick = () => {
         Zotero.AI4Paper.connectedPapers();
       };
-      var1892?.["prepend"](_0x22daf6);
-    } else !Zotero.Prefs.get("ai4paper.enablesvgconnectedpapers") && param215.document.getElementById('AI4Paper:\x20Connected\x20Papers') && param215.document.getElementById("AI4Paper: Connected Papers").remove();
-    if (Zotero.Prefs.get('ai4paper.enablesvgscite') && !param215.document.getElementById("AI4Paper: Scite")) {
-      let _0x13500d = param215.document.createElement('button');
-      _0x13500d.setAttribute('id', "AI4Paper: Scite");
-      _0x13500d.setAttribute("class", "toolbar-button AI4Paper-Reader-Buttons AI4Paper-center-toolbarButton");
-      _0x13500d.setAttribute('title', "Scite");
-      _0x13500d.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgscite;
-      _0x13500d.onclick = () => {
+      elem34?.["prepend"](elem10);
+    } else !Zotero.Prefs.get("ai4paper.enablesvgconnectedpapers") && iframeWin.document.getElementById('AI4Paper:\x20Connected\x20Papers') && iframeWin.document.getElementById("AI4Paper: Connected Papers").remove();
+    if (Zotero.Prefs.get('ai4paper.enablesvgscite') && !iframeWin.document.getElementById("AI4Paper: Scite")) {
+      let elem3 = iframeWin.document.createElement('button');
+      elem3.setAttribute('id', "AI4Paper: Scite");
+      elem3.setAttribute("class", "toolbar-button AI4Paper-Reader-Buttons AI4Paper-center-toolbarButton");
+      elem3.setAttribute('title', "Scite");
+      elem3.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgscite;
+      elem3.onclick = () => {
         Zotero.AI4Paper.scite();
       };
-      var1892?.['prepend'](_0x13500d);
+      elem34?.['prepend'](elem3);
     } else {
-      if (!Zotero.Prefs.get('ai4paper.enablesvgscite') && param215.document.getElementById("AI4Paper: Scite")) {
-        param215.document.getElementById("AI4Paper: Scite").remove();
+      if (!Zotero.Prefs.get('ai4paper.enablesvgscite') && iframeWin.document.getElementById("AI4Paper: Scite")) {
+        iframeWin.document.getElementById("AI4Paper: Scite").remove();
       }
     }
-    if (Zotero.Prefs.get("ai4paper.enablesvgRelatedPapers") && !param215.document.getElementById("AI4Paper: RelatedPapers")) {
-      let var1899 = param215.document.createElement("button");
-      var1899.setAttribute('id', 'AI4Paper:\x20RelatedPapers');
-      var1899.setAttribute("class", "toolbar-button AI4Paper-Reader-Buttons AI4Paper-center-toolbarButton");
-      var1899.setAttribute("title", "相关文献");
-      var1899.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgRelatedPapers;
-      var1899.onclick = () => {
+    if (Zotero.Prefs.get("ai4paper.enablesvgRelatedPapers") && !iframeWin.document.getElementById("AI4Paper: RelatedPapers")) {
+      let elem36 = iframeWin.document.createElement("button");
+      elem36.setAttribute('id', 'AI4Paper:\x20RelatedPapers');
+      elem36.setAttribute("class", "toolbar-button AI4Paper-Reader-Buttons AI4Paper-center-toolbarButton");
+      elem36.setAttribute("title", "相关文献");
+      elem36.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgRelatedPapers;
+      elem36.onclick = () => {
         Zotero.AI4Paper.relatedPapers();
       };
-      var1892?.["prepend"](var1899);
-    } else !Zotero.Prefs.get('ai4paper.enablesvgRelatedPapers') && param215.document.getElementById('AI4Paper:\x20RelatedPapers') && param215.document.getElementById('AI4Paper:\x20RelatedPapers').remove();
-    if (Zotero.Prefs.get("ai4paper.enablesvgrefs") && !param215.document.getElementById("AI4Paper: Refs")) {
-      let _0x3306be = param215.document.createElement("button");
-      _0x3306be.setAttribute('id', 'AI4Paper:\x20Refs');
-      _0x3306be.setAttribute("class", "toolbar-button AI4Paper-Reader-Buttons AI4Paper-center-toolbarButton");
-      _0x3306be.setAttribute("title", "抓取参考文献");
-      _0x3306be.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgrefs;
-      _0x3306be.onclick = () => {
+      elem34?.["prepend"](elem36);
+    } else !Zotero.Prefs.get('ai4paper.enablesvgRelatedPapers') && iframeWin.document.getElementById('AI4Paper:\x20RelatedPapers') && iframeWin.document.getElementById('AI4Paper:\x20RelatedPapers').remove();
+    if (Zotero.Prefs.get("ai4paper.enablesvgrefs") && !iframeWin.document.getElementById("AI4Paper: Refs")) {
+      let elem16 = iframeWin.document.createElement("button");
+      elem16.setAttribute('id', 'AI4Paper:\x20Refs');
+      elem16.setAttribute("class", "toolbar-button AI4Paper-Reader-Buttons AI4Paper-center-toolbarButton");
+      elem16.setAttribute("title", "抓取参考文献");
+      elem16.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgrefs;
+      elem16.onclick = () => {
         Zotero.AI4Paper.updateReferences();
       };
-      var1892?.["prepend"](_0x3306be);
-    } else !Zotero.Prefs.get('ai4paper.enablesvgrefs') && param215.document.getElementById("AI4Paper: Refs") && param215.document.getElementById('AI4Paper:\x20Refs').remove();
-    if (Zotero.Prefs.get("ai4paper.enablesvgciting") && !param215.document.getElementById("AI4Paper: Citing")) {
-      let var1901 = param215.document.createElement("button");
-      var1901.setAttribute('id', "AI4Paper: Citing");
-      var1901.setAttribute("class", "toolbar-button AI4Paper-Reader-Buttons AI4Paper-center-toolbarButton");
-      var1901.setAttribute('title', "抓取施引文献");
-      var1901.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgciting;
-      var1901.onclick = () => {
+      elem34?.["prepend"](elem16);
+    } else !Zotero.Prefs.get('ai4paper.enablesvgrefs') && iframeWin.document.getElementById("AI4Paper: Refs") && iframeWin.document.getElementById('AI4Paper:\x20Refs').remove();
+    if (Zotero.Prefs.get("ai4paper.enablesvgciting") && !iframeWin.document.getElementById("AI4Paper: Citing")) {
+      let elem37 = iframeWin.document.createElement("button");
+      elem37.setAttribute('id', "AI4Paper: Citing");
+      elem37.setAttribute("class", "toolbar-button AI4Paper-Reader-Buttons AI4Paper-center-toolbarButton");
+      elem37.setAttribute('title', "抓取施引文献");
+      elem37.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgciting;
+      elem37.onclick = () => {
         Zotero.AI4Paper.updateCitingReferences();
       };
-      var1892?.['prepend'](var1901);
+      elem34?.['prepend'](elem37);
     } else {
-      if (!Zotero.Prefs.get("ai4paper.enablesvgciting") && param215.document.getElementById("AI4Paper: Citing")) {
-        param215.document.getElementById("AI4Paper: Citing").remove();
+      if (!Zotero.Prefs.get("ai4paper.enablesvgciting") && iframeWin.document.getElementById("AI4Paper: Citing")) {
+        iframeWin.document.getElementById("AI4Paper: Citing").remove();
       }
     }
-    if (Zotero.Prefs.get("ai4paper.enablesvghandtool") && !param215.document.getElementById("AI4Paper: HandTool")) {
-      let var1902 = param215.document.createElement("button");
-      var1902.setAttribute('id', 'AI4Paper:\x20HandTool');
-      var1902.setAttribute('class', "toolbar-button AI4Paper-Reader-Buttons AI4Paper-center-toolbarButton");
-      var1902.setAttribute('title', '手形工具');
-      var1902.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvghandtool;
-      var1902.onclick = () => {
-        const var1903 = Zotero.AI4Paper.getCurrentReader();
-        var1903 && var1903.toggleHandTool();
+    if (Zotero.Prefs.get("ai4paper.enablesvghandtool") && !iframeWin.document.getElementById("AI4Paper: HandTool")) {
+      let elem38 = iframeWin.document.createElement("button");
+      elem38.setAttribute('id', 'AI4Paper:\x20HandTool');
+      elem38.setAttribute('class', "toolbar-button AI4Paper-Reader-Buttons AI4Paper-center-toolbarButton");
+      elem38.setAttribute('title', '手形工具');
+      elem38.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvghandtool;
+      elem38.onclick = () => {
+        const result3 = Zotero.AI4Paper.getCurrentReader();
+        result3 && result3.toggleHandTool();
       };
-      var1892?.["prepend"](var1902);
+      elem34?.["prepend"](elem38);
     } else {
-      if (!Zotero.Prefs.get('ai4paper.enablesvghandtool') && param215.document.getElementById("AI4Paper: HandTool")) {
-        param215.document.getElementById("AI4Paper: HandTool").remove();
+      if (!Zotero.Prefs.get('ai4paper.enablesvghandtool') && iframeWin.document.getElementById("AI4Paper: HandTool")) {
+        iframeWin.document.getElementById("AI4Paper: HandTool").remove();
       }
     }
-    if (Zotero.Prefs.get("ai4paper.enablesvgpagerotate2right") && !param215.document.getElementById("AI4Paper: Page Rotate Clockwise")) {
-      let _0x42516e = param215.document.createElement('button');
-      _0x42516e.setAttribute('id', 'AI4Paper:\x20Page\x20Rotate\x20Clockwise');
-      _0x42516e.setAttribute('class', "toolbar-button AI4Paper-Reader-Buttons AI4Paper-center-toolbarButton");
-      _0x42516e.setAttribute("title", "单页右转");
-      _0x42516e.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgpagerotate2right;
-      _0x42516e.onclick = () => {
-        const var1905 = Zotero.AI4Paper.getCurrentReader();
-        var1905 && (var1905.rotatePageRight(), Zotero.AI4Paper.OnRotateMenuItemClick());
+    if (Zotero.Prefs.get("ai4paper.enablesvgpagerotate2right") && !iframeWin.document.getElementById("AI4Paper: Page Rotate Clockwise")) {
+      let elem19 = iframeWin.document.createElement('button');
+      elem19.setAttribute('id', 'AI4Paper:\x20Page\x20Rotate\x20Clockwise');
+      elem19.setAttribute('class', "toolbar-button AI4Paper-Reader-Buttons AI4Paper-center-toolbarButton");
+      elem19.setAttribute("title", "单页右转");
+      elem19.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgpagerotate2right;
+      elem19.onclick = () => {
+        const result4 = Zotero.AI4Paper.getCurrentReader();
+        result4 && (result4.rotatePageRight(), Zotero.AI4Paper.OnRotateMenuItemClick());
       };
-      var1892?.["prepend"](_0x42516e);
-    } else !Zotero.Prefs.get("ai4paper.enablesvgpagerotate2right") && param215.document.getElementById("AI4Paper: Page Rotate Clockwise") && param215.document.getElementById("AI4Paper: Page Rotate Clockwise").remove();
-    if (Zotero.Prefs.get('ai4paper.enablesvgpagerotate2left') && !param215.document.getElementById("AI4Paper: Page Rotate Counterclockwise")) {
-      let _0x463850 = param215.document.createElement("button");
-      _0x463850.setAttribute('id', "AI4Paper: Page Rotate Counterclockwise");
-      _0x463850.setAttribute("class", "toolbar-button AI4Paper-Reader-Buttons AI4Paper-center-toolbarButton");
-      _0x463850.setAttribute("title", "单页左转");
-      _0x463850.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgpagerotate2left;
-      _0x463850.onclick = () => {
-        const var1907 = Zotero.AI4Paper.getCurrentReader();
-        var1907 && (var1907.rotatePageLeft(), Zotero.AI4Paper.OnRotateMenuItemClick());
+      elem34?.["prepend"](elem19);
+    } else !Zotero.Prefs.get("ai4paper.enablesvgpagerotate2right") && iframeWin.document.getElementById("AI4Paper: Page Rotate Clockwise") && iframeWin.document.getElementById("AI4Paper: Page Rotate Clockwise").remove();
+    if (Zotero.Prefs.get('ai4paper.enablesvgpagerotate2left') && !iframeWin.document.getElementById("AI4Paper: Page Rotate Counterclockwise")) {
+      let elem24 = iframeWin.document.createElement("button");
+      elem24.setAttribute('id', "AI4Paper: Page Rotate Counterclockwise");
+      elem24.setAttribute("class", "toolbar-button AI4Paper-Reader-Buttons AI4Paper-center-toolbarButton");
+      elem24.setAttribute("title", "单页左转");
+      elem24.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgpagerotate2left;
+      elem24.onclick = () => {
+        const result5 = Zotero.AI4Paper.getCurrentReader();
+        result5 && (result5.rotatePageLeft(), Zotero.AI4Paper.OnRotateMenuItemClick());
       };
-      var1892?.["prepend"](_0x463850);
-    } else !Zotero.Prefs.get("ai4paper.enablesvgpagerotate2left") && param215.document.getElementById("AI4Paper: Page Rotate Counterclockwise") && param215.document.getElementById("AI4Paper: Page Rotate Counterclockwise").remove();
-    if (Zotero.Prefs.get("ai4paper.enablesvgsplithorizontally") && !param215.document.getElementById("AI4Paper: Split Horizontally")) {
-      let var1908 = param215.document.createElement("button");
-      var1908.setAttribute('id', 'AI4Paper:\x20Split\x20Horizontally');
-      var1908.setAttribute("class", 'toolbar-button\x20AI4Paper-Reader-Buttons\x20AI4Paper-center-toolbarButton');
-      var1908.setAttribute("title", "水平分栏");
-      var1908.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgsplithorizontally;
-      var1908.onclick = () => {
+      elem34?.["prepend"](elem24);
+    } else !Zotero.Prefs.get("ai4paper.enablesvgpagerotate2left") && iframeWin.document.getElementById("AI4Paper: Page Rotate Counterclockwise") && iframeWin.document.getElementById("AI4Paper: Page Rotate Counterclockwise").remove();
+    if (Zotero.Prefs.get("ai4paper.enablesvgsplithorizontally") && !iframeWin.document.getElementById("AI4Paper: Split Horizontally")) {
+      let elem39 = iframeWin.document.createElement("button");
+      elem39.setAttribute('id', 'AI4Paper:\x20Split\x20Horizontally');
+      elem39.setAttribute("class", 'toolbar-button\x20AI4Paper-Reader-Buttons\x20AI4Paper-center-toolbarButton');
+      elem39.setAttribute("title", "水平分栏");
+      elem39.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgsplithorizontally;
+      elem39.onclick = () => {
         window.document.getElementById("view-menuitem-split-horizontally").click();
       };
-      var1892?.["prepend"](var1908);
-    } else !Zotero.Prefs.get('ai4paper.enablesvgsplithorizontally') && param215.document.getElementById("AI4Paper: Split Horizontally") && param215.document.getElementById("AI4Paper: Split Horizontally").remove();
-    if (Zotero.Prefs.get("ai4paper.enablesvgsplitvertically") && !param215.document.getElementById("AI4Paper: Split Vertically")) {
-      let _0x211e95 = param215.document.createElement('button');
-      _0x211e95.setAttribute('id', "AI4Paper: Split Vertically");
-      _0x211e95.setAttribute('class', "toolbar-button AI4Paper-Reader-Buttons AI4Paper-center-toolbarButton");
-      _0x211e95.setAttribute('title', "垂直分栏");
-      _0x211e95.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgsplitvertically;
-      _0x211e95.onclick = () => {
+      elem34?.["prepend"](elem39);
+    } else !Zotero.Prefs.get('ai4paper.enablesvgsplithorizontally') && iframeWin.document.getElementById("AI4Paper: Split Horizontally") && iframeWin.document.getElementById("AI4Paper: Split Horizontally").remove();
+    if (Zotero.Prefs.get("ai4paper.enablesvgsplitvertically") && !iframeWin.document.getElementById("AI4Paper: Split Vertically")) {
+      let elem7 = iframeWin.document.createElement('button');
+      elem7.setAttribute('id', "AI4Paper: Split Vertically");
+      elem7.setAttribute('class', "toolbar-button AI4Paper-Reader-Buttons AI4Paper-center-toolbarButton");
+      elem7.setAttribute('title', "垂直分栏");
+      elem7.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgsplitvertically;
+      elem7.onclick = () => {
         window.document.getElementById("view-menuitem-split-vertically").click();
       };
-      var1892?.["prepend"](_0x211e95);
-    } else !Zotero.Prefs.get("ai4paper.enablesvgsplitvertically") && param215.document.getElementById("AI4Paper: Split Vertically") && param215.document.getElementById('AI4Paper:\x20Split\x20Vertically').remove();
-    if (Zotero.Prefs.get("ai4paper.enablesvgZoomPageHeight") && !param215.document.getElementById("AI4Paper: ZoomPageHeight")) {
-      let var1910 = param215.document.createElement('button');
-      var1910.setAttribute('id', 'AI4Paper:\x20ZoomPageHeight');
-      var1910.setAttribute("class", "toolbar-button AI4Paper-Reader-Buttons AI4Paper-center-toolbarButton");
-      var1910.setAttribute("title", '适应页面高度');
-      var1910.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgZoomPageHeight;
-      var1910.onclick = () => {
+      elem34?.["prepend"](elem7);
+    } else !Zotero.Prefs.get("ai4paper.enablesvgsplitvertically") && iframeWin.document.getElementById("AI4Paper: Split Vertically") && iframeWin.document.getElementById('AI4Paper:\x20Split\x20Vertically').remove();
+    if (Zotero.Prefs.get("ai4paper.enablesvgZoomPageHeight") && !iframeWin.document.getElementById("AI4Paper: ZoomPageHeight")) {
+      let elem40 = iframeWin.document.createElement('button');
+      elem40.setAttribute('id', 'AI4Paper:\x20ZoomPageHeight');
+      elem40.setAttribute("class", "toolbar-button AI4Paper-Reader-Buttons AI4Paper-center-toolbarButton");
+      elem40.setAttribute("title", '适应页面高度');
+      elem40.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgZoomPageHeight;
+      elem40.onclick = () => {
         window.document.getElementById("view-menuitem-zoom-page-height").click();
       };
-      var1892?.["prepend"](var1910);
+      elem34?.["prepend"](elem40);
     } else {
-      if (!Zotero.Prefs.get("ai4paper.enablesvgZoomPageHeight") && param215.document.getElementById("AI4Paper: ZoomPageHeight")) {
-        param215.document.getElementById('AI4Paper:\x20ZoomPageHeight').remove();
+      if (!Zotero.Prefs.get("ai4paper.enablesvgZoomPageHeight") && iframeWin.document.getElementById("AI4Paper: ZoomPageHeight")) {
+        iframeWin.document.getElementById('AI4Paper:\x20ZoomPageHeight').remove();
       }
     }
-    if (Zotero.Prefs.get("ai4paper.enablesvgOddSpreads") && !param215.document.getElementById("AI4Paper: OddSpreads")) {
-      let var1911 = param215.document.createElement("button");
-      var1911.setAttribute('id', "AI4Paper: OddSpreads");
-      var1911.setAttribute('class', 'toolbar-button\x20AI4Paper-Reader-Buttons\x20AI4Paper-center-toolbarButton');
-      var1911.setAttribute('title', "奇数分布");
-      var1911.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgOddSpreads;
-      var1911.onclick = () => {
+    if (Zotero.Prefs.get("ai4paper.enablesvgOddSpreads") && !iframeWin.document.getElementById("AI4Paper: OddSpreads")) {
+      let elem41 = iframeWin.document.createElement("button");
+      elem41.setAttribute('id', "AI4Paper: OddSpreads");
+      elem41.setAttribute('class', 'toolbar-button\x20AI4Paper-Reader-Buttons\x20AI4Paper-center-toolbarButton');
+      elem41.setAttribute('title', "奇数分布");
+      elem41.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgOddSpreads;
+      elem41.onclick = () => {
         Zotero.AI4Paper.oddSpreads_byShortCuts();
       };
-      var1892?.["prepend"](var1911);
-    } else !Zotero.Prefs.get("ai4paper.enablesvgOddSpreads") && param215.document.getElementById("AI4Paper: OddSpreads") && param215.document.getElementById("AI4Paper: OddSpreads").remove();
-    if (Zotero.Prefs.get("ai4paper.enablesvgfileshistory") && !param215.document.getElementById('AI4Paper:\x20Files\x20History')) {
-      let var1912 = param215.document.createElement('button');
-      var1912.setAttribute('id', "AI4Paper: Files History");
-      var1912.setAttribute("class", "toolbar-button AI4Paper-Reader-Buttons AI4Paper-center-toolbarButton");
-      var1912.setAttribute("title", "最近打开");
-      var1912.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgfileshistory;
-      var1912.onclick = _0x116705 => {
-        _0x116705.shiftKey ? Zotero.AI4Paper.openWorkSpaceWindow() : Zotero.AI4Paper.openDialog_filesHistory();
+      elem34?.["prepend"](elem41);
+    } else !Zotero.Prefs.get("ai4paper.enablesvgOddSpreads") && iframeWin.document.getElementById("AI4Paper: OddSpreads") && iframeWin.document.getElementById("AI4Paper: OddSpreads").remove();
+    if (Zotero.Prefs.get("ai4paper.enablesvgfileshistory") && !iframeWin.document.getElementById('AI4Paper:\x20Files\x20History')) {
+      let elem42 = iframeWin.document.createElement('button');
+      elem42.setAttribute('id', "AI4Paper: Files History");
+      elem42.setAttribute("class", "toolbar-button AI4Paper-Reader-Buttons AI4Paper-center-toolbarButton");
+      elem42.setAttribute("title", "最近打开");
+      elem42.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgfileshistory;
+      elem42.onclick = evt => {
+        evt.shiftKey ? Zotero.AI4Paper.openWorkSpaceWindow() : Zotero.AI4Paper.openDialog_filesHistory();
       };
-      var1912.addEventListener("pointerdown", _0x799c4b => {
-        _0x799c4b.button == 0x2 && Zotero.AI4Paper.createTabsAsWorkSpace();
+      elem42.addEventListener("pointerdown", evt => {
+        evt.button == 0x2 && Zotero.AI4Paper.createTabsAsWorkSpace();
       }, false);
-      var1892?.["prepend"](var1912);
+      elem34?.["prepend"](elem42);
     } else {
-      if (!Zotero.Prefs.get('ai4paper.enablesvgfileshistory') && param215.document.getElementById("AI4Paper: Files History")) {
-        param215.document.getElementById('AI4Paper:\x20Files\x20History').remove();
+      if (!Zotero.Prefs.get('ai4paper.enablesvgfileshistory') && iframeWin.document.getElementById("AI4Paper: Files History")) {
+        iframeWin.document.getElementById('AI4Paper:\x20Files\x20History').remove();
       }
     }
-    if (Zotero.Prefs.get("ai4paper.enablesvgcardnotes") && !param215.document.getElementById("AI4Paper: Tag CardNotes")) {
-      let var1913 = param215.document.createElement("button");
-      var1913.setAttribute('id', "AI4Paper: Tag CardNotes");
-      var1913.setAttribute("class", 'toolbar-button\x20AI4Paper-Reader-Buttons\x20AI4Paper-center-toolbarButton');
-      var1913.setAttribute("title", "标签管理器");
-      var1913.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgcardnotes;
-      var1913.onclick = () => {
+    if (Zotero.Prefs.get("ai4paper.enablesvgcardnotes") && !iframeWin.document.getElementById("AI4Paper: Tag CardNotes")) {
+      let elem43 = iframeWin.document.createElement("button");
+      elem43.setAttribute('id', "AI4Paper: Tag CardNotes");
+      elem43.setAttribute("class", 'toolbar-button\x20AI4Paper-Reader-Buttons\x20AI4Paper-center-toolbarButton');
+      elem43.setAttribute("title", "标签管理器");
+      elem43.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgcardnotes;
+      elem43.onclick = () => {
         Zotero.AI4Paper.openDialog_tagsManager();
       };
-      var1892?.["prepend"](var1913);
-    } else !Zotero.Prefs.get("ai4paper.enablesvgcardnotes") && param215.document.getElementById("AI4Paper: Tag CardNotes") && param215.document.getElementById("AI4Paper: Tag CardNotes").remove();
-    if (Zotero.Prefs.get("ai4paper.enablesvgchatwithnewbing") && !param215.document.getElementById('AI4Paper:\x20Chat\x20with\x20NewBing')) {
-      let var1914 = param215.document.createElement("button");
-      var1914.setAttribute('id', "AI4Paper: Chat with NewBing");
-      var1914.setAttribute("class", "toolbar-button AI4Paper-Reader-Buttons AI4Paper-center-toolbarButton");
-      var1914.setAttribute("title", "Chat with NewBing");
-      var1914.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgchatwithnewbing;
-      var1914.onclick = () => {
+      elem34?.["prepend"](elem43);
+    } else !Zotero.Prefs.get("ai4paper.enablesvgcardnotes") && iframeWin.document.getElementById("AI4Paper: Tag CardNotes") && iframeWin.document.getElementById("AI4Paper: Tag CardNotes").remove();
+    if (Zotero.Prefs.get("ai4paper.enablesvgchatwithnewbing") && !iframeWin.document.getElementById('AI4Paper:\x20Chat\x20with\x20NewBing')) {
+      let elem44 = iframeWin.document.createElement("button");
+      elem44.setAttribute('id', "AI4Paper: Chat with NewBing");
+      elem44.setAttribute("class", "toolbar-button AI4Paper-Reader-Buttons AI4Paper-center-toolbarButton");
+      elem44.setAttribute("title", "Chat with NewBing");
+      elem44.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgchatwithnewbing;
+      elem44.onclick = () => {
         Zotero.AI4Paper.chatWithNewBing();
       };
-      var1892?.["prepend"](var1914);
-    } else !Zotero.Prefs.get('ai4paper.enablesvgchatwithnewbing') && param215.document.getElementById("AI4Paper: Chat with NewBing") && param215.document.getElementById("AI4Paper: Chat with NewBing").remove();
-    if (Zotero.Prefs.get('ai4paper.enablesvgimmersiveTranslate') && !param215.document.getElementById("AI4Paper: Immersive Translate")) {
-      let _0x1076a3 = param215.document.createElement("button");
-      _0x1076a3.setAttribute('id', 'AI4Paper:\x20Immersive\x20Translate');
-      _0x1076a3.setAttribute("class", "toolbar-button AI4Paper-Reader-Buttons AI4Paper-center-toolbarButton");
-      _0x1076a3.setAttribute("title", "打开沉浸式翻译");
-      _0x1076a3.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgimmersiveTranslate;
-      _0x1076a3.onclick = () => {
+      elem34?.["prepend"](elem44);
+    } else !Zotero.Prefs.get('ai4paper.enablesvgchatwithnewbing') && iframeWin.document.getElementById("AI4Paper: Chat with NewBing") && iframeWin.document.getElementById("AI4Paper: Chat with NewBing").remove();
+    if (Zotero.Prefs.get('ai4paper.enablesvgimmersiveTranslate') && !iframeWin.document.getElementById("AI4Paper: Immersive Translate")) {
+      let elem = iframeWin.document.createElement("button");
+      elem.setAttribute('id', 'AI4Paper:\x20Immersive\x20Translate');
+      elem.setAttribute("class", "toolbar-button AI4Paper-Reader-Buttons AI4Paper-center-toolbarButton");
+      elem.setAttribute("title", "打开沉浸式翻译");
+      elem.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgimmersiveTranslate;
+      elem.onclick = () => {
         Zotero.AI4Paper.openImmersiveTranslate();
       };
-      _0x1076a3.addEventListener("pointerdown", _0x2d0769 => {
-        _0x2d0769.button == 0x2 && Zotero.AI4Paper.openUniversalImmersiveTranslate();
+      elem.addEventListener("pointerdown", evt => {
+        evt.button == 0x2 && Zotero.AI4Paper.openUniversalImmersiveTranslate();
       }, false);
-      var1892?.["prepend"](_0x1076a3);
-    } else !Zotero.Prefs.get("ai4paper.enablesvgimmersiveTranslate") && param215.document.getElementById("AI4Paper: Immersive Translate") && param215.document.getElementById("AI4Paper: Immersive Translate").remove();
-    if (Zotero.Prefs.get('ai4paper.enablesvgCopyPDF') && !param215.document.getElementById("AI4Paper: Copy PDF")) {
-      let var1916 = param215.document.createElement("button");
-      var1916.setAttribute('id', "AI4Paper: Copy PDF");
-      var1916.setAttribute("class", "toolbar-button AI4Paper-Reader-Buttons AI4Paper-center-toolbarButton");
-      var1916.setAttribute("title", "拷贝 PDF");
-      var1916.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgCopyPDF;
-      var1916.onclick = _0x5cde49 => {
-        _0x5cde49.shiftKey ? Zotero.AI4Paper.openwith() : Zotero.AI4Paper.copyPDF();
+      elem34?.["prepend"](elem);
+    } else !Zotero.Prefs.get("ai4paper.enablesvgimmersiveTranslate") && iframeWin.document.getElementById("AI4Paper: Immersive Translate") && iframeWin.document.getElementById("AI4Paper: Immersive Translate").remove();
+    if (Zotero.Prefs.get('ai4paper.enablesvgCopyPDF') && !iframeWin.document.getElementById("AI4Paper: Copy PDF")) {
+      let elem45 = iframeWin.document.createElement("button");
+      elem45.setAttribute('id', "AI4Paper: Copy PDF");
+      elem45.setAttribute("class", "toolbar-button AI4Paper-Reader-Buttons AI4Paper-center-toolbarButton");
+      elem45.setAttribute("title", "拷贝 PDF");
+      elem45.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgCopyPDF;
+      elem45.onclick = evt => {
+        evt.shiftKey ? Zotero.AI4Paper.openwith() : Zotero.AI4Paper.copyPDF();
       };
-      var1916.addEventListener("pointerdown", _0x20f03a => {
-        _0x20f03a.button == 0x2 && Zotero.AI4Paper.openwith();
+      elem45.addEventListener("pointerdown", evt => {
+        evt.button == 0x2 && Zotero.AI4Paper.openwith();
       }, false);
-      var1892?.['prepend'](var1916);
-    } else !Zotero.Prefs.get("ai4paper.enablesvgCopyPDF") && param215.document.getElementById("AI4Paper: Copy PDF") && param215.document.getElementById('AI4Paper:\x20Copy\x20PDF').remove();
-    if (Zotero.Prefs.get("ai4paper.enablesvgeyesprotection") && !param215.document.getElementById("AI4Paper: Eyes Protection")) {
-      let var1917 = param215.document.createElement("button");
-      var1917.setAttribute('id', "AI4Paper: Eyes Protection");
-      var1917.setAttribute("class", "toolbar-button AI4Paper-Reader-Buttons");
-      var1917.setAttribute('title', '护眼模式');
-      Zotero.Prefs.get('ai4paper.eyesprotectioncolorenable') ? var1917.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgeyesprotection : var1917.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgeyesprotection_off;
-      var1917.onclick = _0x40f8eb => {
-        if (_0x40f8eb.shiftKey && Zotero.AI4Paper.isZoteroVersion(0x7)) {
+      elem34?.['prepend'](elem45);
+    } else !Zotero.Prefs.get("ai4paper.enablesvgCopyPDF") && iframeWin.document.getElementById("AI4Paper: Copy PDF") && iframeWin.document.getElementById('AI4Paper:\x20Copy\x20PDF').remove();
+    if (Zotero.Prefs.get("ai4paper.enablesvgeyesprotection") && !iframeWin.document.getElementById("AI4Paper: Eyes Protection")) {
+      let elem46 = iframeWin.document.createElement("button");
+      elem46.setAttribute('id', "AI4Paper: Eyes Protection");
+      elem46.setAttribute("class", "toolbar-button AI4Paper-Reader-Buttons");
+      elem46.setAttribute('title', '护眼模式');
+      Zotero.Prefs.get('ai4paper.eyesprotectioncolorenable') ? elem46.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgeyesprotection : elem46.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgeyesprotection_off;
+      elem46.onclick = evt => {
+        if (evt.shiftKey && Zotero.AI4Paper.isZoteroVersion(0x7)) {
           Zotero.Prefs.set("reader.contentDarkMode", !Zotero.Prefs.get("reader.contentDarkMode"));
-        } else Zotero.AI4Paper.toggleEyesButtonState(param215);
+        } else Zotero.AI4Paper.toggleEyesButtonState(iframeWin);
       };
-      var1917.addEventListener("pointerdown", _0x43c4bb => {
-        if (_0x43c4bb.button == 0x2) {
+      elem46.addEventListener("pointerdown", evt => {
+        if (evt.button == 0x2) {
           Zotero.AI4Paper.changeZoteroDarkANDLightMode();
         }
       }, false);
-      var1893?.["before"](var1917);
-    } else !Zotero.Prefs.get("ai4paper.enablesvgeyesprotection") && param215.document.getElementById("AI4Paper: Eyes Protection") && param215.document.getElementById("AI4Paper: Eyes Protection").remove();
-    if (Zotero.Prefs.get('ai4paper.enablesvgopentransviewer') && !param215.document.getElementById("AI4Paper: Open TransViewer")) {
-      let var1918 = param215.document.createElement("button");
-      var1918.setAttribute('id', "AI4Paper: Open TransViewer");
-      var1918.setAttribute("class", "toolbar-button AI4Paper-Reader-Buttons");
-      var1918.setAttribute("title", "打开【AI 对话历史】");
-      var1918.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgopentransviewer;
-      var1918.onclick = () => {
+      elem35?.["before"](elem46);
+    } else !Zotero.Prefs.get("ai4paper.enablesvgeyesprotection") && iframeWin.document.getElementById("AI4Paper: Eyes Protection") && iframeWin.document.getElementById("AI4Paper: Eyes Protection").remove();
+    if (Zotero.Prefs.get('ai4paper.enablesvgopentransviewer') && !iframeWin.document.getElementById("AI4Paper: Open TransViewer")) {
+      let elem47 = iframeWin.document.createElement("button");
+      elem47.setAttribute('id', "AI4Paper: Open TransViewer");
+      elem47.setAttribute("class", "toolbar-button AI4Paper-Reader-Buttons");
+      elem47.setAttribute("title", "打开【AI 对话历史】");
+      elem47.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgopentransviewer;
+      elem47.onclick = () => {
         Zotero.AI4Paper.openTransViewer();
       };
-      var1893?.['before'](var1918);
-    } else !Zotero.Prefs.get("ai4paper.enablesvgopentransviewer") && param215.document.getElementById('AI4Paper:\x20Open\x20TransViewer') && param215.document.getElementById("AI4Paper: Open TransViewer").remove();
-    if (Zotero.Prefs.get('ai4paper.enablesvgautotransenable') && !param215.document.getElementById('AI4Paper:\x20Auto\x20Trans\x20Switch')) {
-      let _0x4381b2 = param215.document.createElement("button");
-      _0x4381b2.setAttribute('id', "AI4Paper: Auto Trans Switch");
-      _0x4381b2.setAttribute('class', "toolbar-button AI4Paper-Reader-Buttons");
-      _0x4381b2.setAttribute("title", "划词翻译开关");
-      if (Zotero.Prefs.get("ai4paper.selectedtexttransenable")) _0x4381b2.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgautotransenable;else {
-        _0x4381b2.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgautotransenable_off;
+      elem35?.['before'](elem47);
+    } else !Zotero.Prefs.get("ai4paper.enablesvgopentransviewer") && iframeWin.document.getElementById('AI4Paper:\x20Open\x20TransViewer') && iframeWin.document.getElementById("AI4Paper: Open TransViewer").remove();
+    if (Zotero.Prefs.get('ai4paper.enablesvgautotransenable') && !iframeWin.document.getElementById('AI4Paper:\x20Auto\x20Trans\x20Switch')) {
+      let elem22 = iframeWin.document.createElement("button");
+      elem22.setAttribute('id', "AI4Paper: Auto Trans Switch");
+      elem22.setAttribute('class', "toolbar-button AI4Paper-Reader-Buttons");
+      elem22.setAttribute("title", "划词翻译开关");
+      if (Zotero.Prefs.get("ai4paper.selectedtexttransenable")) elem22.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgautotransenable;else {
+        elem22.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgautotransenable_off;
       }
-      _0x4381b2.onclick = () => {
-        Zotero.AI4Paper.toggleAutoTransButtonState(param215);
+      elem22.onclick = () => {
+        Zotero.AI4Paper.toggleAutoTransButtonState(iframeWin);
       };
-      var1893?.['before'](_0x4381b2);
-    } else !Zotero.Prefs.get("ai4paper.enablesvgautotransenable") && param215.document.getElementById('AI4Paper:\x20Auto\x20Trans\x20Switch') && param215.document.getElementById('AI4Paper:\x20Auto\x20Trans\x20Switch').remove();
-    if (Zotero.Prefs.get("ai4paper.enablesvgobnotesautoenable") && !param215.document.getElementById("AI4Paper: Obsidian Notes Auto Update Switch")) {
-      let _0x58df2 = param215.document.createElement("button");
-      _0x58df2.setAttribute('id', "AI4Paper: Obsidian Notes Auto Update Switch");
-      _0x58df2.setAttribute("class", "toolbar-button AI4Paper-Reader-Buttons");
-      _0x58df2.setAttribute("title", "Obsidian Note 自动模式开关");
+      elem35?.['before'](elem22);
+    } else !Zotero.Prefs.get("ai4paper.enablesvgautotransenable") && iframeWin.document.getElementById('AI4Paper:\x20Auto\x20Trans\x20Switch') && iframeWin.document.getElementById('AI4Paper:\x20Auto\x20Trans\x20Switch').remove();
+    if (Zotero.Prefs.get("ai4paper.enablesvgobnotesautoenable") && !iframeWin.document.getElementById("AI4Paper: Obsidian Notes Auto Update Switch")) {
+      let elem31 = iframeWin.document.createElement("button");
+      elem31.setAttribute('id', "AI4Paper: Obsidian Notes Auto Update Switch");
+      elem31.setAttribute("class", "toolbar-button AI4Paper-Reader-Buttons");
+      elem31.setAttribute("title", "Obsidian Note 自动模式开关");
       if (Zotero.Prefs.get("ai4paper.obsidianautoupdatenotes")) {
-        _0x58df2.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgobnotesautoenable;
+        elem31.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgobnotesautoenable;
       } else {
-        _0x58df2.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgobnotesautoenable_off;
+        elem31.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgobnotesautoenable_off;
       }
-      _0x58df2.setAttribute("style", "height: 20px; width: 32px; margin-right: 3px; margin-left: 3px");
-      _0x58df2.onclick = () => {
-        Zotero.AI4Paper.toggleObAutoNoteButtonState(param215);
+      elem31.setAttribute("style", "height: 20px; width: 32px; margin-right: 3px; margin-left: 3px");
+      elem31.onclick = () => {
+        Zotero.AI4Paper.toggleObAutoNoteButtonState(iframeWin);
       };
-      var1893?.["before"](_0x58df2);
-    } else !Zotero.Prefs.get("ai4paper.enablesvgobnotesautoenable") && param215.document.getElementById("AI4Paper: Obsidian Notes Auto Update Switch") && param215.document.getElementById('AI4Paper:\x20Obsidian\x20Notes\x20Auto\x20Update\x20Switch').remove();
-    if (Zotero.Prefs.get('ai4paper.enablesvgzoteropreferences') && !param215.document.getElementById('AI4Paper:\x20Zotero\x20Preferences')) {
-      let var1921 = param215.document.createElement("button");
-      var1921.setAttribute('id', "AI4Paper: Zotero Preferences");
-      var1921.setAttribute('class', "toolbar-button AI4Paper-Reader-Buttons");
-      var1921.setAttribute("title", "Zotero 首选项");
-      var1921.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgzoteropreferences;
-      var1921.onclick = () => {
+      elem35?.["before"](elem31);
+    } else !Zotero.Prefs.get("ai4paper.enablesvgobnotesautoenable") && iframeWin.document.getElementById("AI4Paper: Obsidian Notes Auto Update Switch") && iframeWin.document.getElementById('AI4Paper:\x20Obsidian\x20Notes\x20Auto\x20Update\x20Switch').remove();
+    if (Zotero.Prefs.get('ai4paper.enablesvgzoteropreferences') && !iframeWin.document.getElementById('AI4Paper:\x20Zotero\x20Preferences')) {
+      let elem48 = iframeWin.document.createElement("button");
+      elem48.setAttribute('id', "AI4Paper: Zotero Preferences");
+      elem48.setAttribute('class', "toolbar-button AI4Paper-Reader-Buttons");
+      elem48.setAttribute("title", "Zotero 首选项");
+      elem48.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgzoteropreferences;
+      elem48.onclick = () => {
         Zotero.Utilities.Internal.openPreferences("zotero-prefpane-ai4paper");
       };
-      var1893?.['before'](var1921);
-    } else !Zotero.Prefs.get('ai4paper.enablesvgzoteropreferences') && param215.document.getElementById('AI4Paper:\x20Zotero\x20Preferences') && param215.document.getElementById("AI4Paper: Zotero Preferences").remove();
-    if (Zotero.Prefs.get("ai4paper.enablesvgshowinmylibrary") && !param215.document.getElementById("AI4Paper: Show in My Llibrary")) {
-      let var1922 = param215.document.createElement("button");
-      var1922.setAttribute('id', "AI4Paper: Show in My Llibrary");
-      var1922.setAttribute('class', "toolbar-button AI4Paper-Reader-Buttons");
-      var1922.setAttribute("title", '在文库中显示');
-      var1922.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgshowinmylibrary;
-      var1922.onclick = () => {
+      elem35?.['before'](elem48);
+    } else !Zotero.Prefs.get('ai4paper.enablesvgzoteropreferences') && iframeWin.document.getElementById('AI4Paper:\x20Zotero\x20Preferences') && iframeWin.document.getElementById("AI4Paper: Zotero Preferences").remove();
+    if (Zotero.Prefs.get("ai4paper.enablesvgshowinmylibrary") && !iframeWin.document.getElementById("AI4Paper: Show in My Llibrary")) {
+      let elem49 = iframeWin.document.createElement("button");
+      elem49.setAttribute('id', "AI4Paper: Show in My Llibrary");
+      elem49.setAttribute('class', "toolbar-button AI4Paper-Reader-Buttons");
+      elem49.setAttribute("title", '在文库中显示');
+      elem49.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgshowinmylibrary;
+      elem49.onclick = () => {
         Zotero.AI4Paper.showItemInCollection(Zotero.AI4Paper.getCurrentItem());
       };
-      var1893?.["before"](var1922);
-    } else !Zotero.Prefs.get("ai4paper.enablesvgshowinmylibrary") && param215.document.getElementById('AI4Paper:\x20Show\x20in\x20My\x20Llibrary') && param215.document.getElementById('AI4Paper:\x20Show\x20in\x20My\x20Llibrary').remove();
-    if (Zotero.Prefs.get('ai4paper.enablesvgshowfile') && !param215.document.getElementById('AI4Paper:\x20Show\x20File')) {
-      let var1923 = param215.document.createElement("button");
-      var1923.setAttribute('id', "AI4Paper: Show File");
-      var1923.setAttribute("class", 'toolbar-button\x20AI4Paper-Reader-Buttons');
-      var1923.setAttribute("title", "打开文件位置");
-      var1923.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgshowfile;
-      var1923.onclick = () => {
+      elem35?.["before"](elem49);
+    } else !Zotero.Prefs.get("ai4paper.enablesvgshowinmylibrary") && iframeWin.document.getElementById('AI4Paper:\x20Show\x20in\x20My\x20Llibrary') && iframeWin.document.getElementById('AI4Paper:\x20Show\x20in\x20My\x20Llibrary').remove();
+    if (Zotero.Prefs.get('ai4paper.enablesvgshowfile') && !iframeWin.document.getElementById('AI4Paper:\x20Show\x20File')) {
+      let elem50 = iframeWin.document.createElement("button");
+      elem50.setAttribute('id', "AI4Paper: Show File");
+      elem50.setAttribute("class", 'toolbar-button\x20AI4Paper-Reader-Buttons');
+      elem50.setAttribute("title", "打开文件位置");
+      elem50.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgshowfile;
+      elem50.onclick = () => {
         Zotero.AI4Paper.showFile();
       };
-      var1893?.["before"](var1923);
-    } else !Zotero.Prefs.get("ai4paper.enablesvgshowfile") && param215.document.getElementById("AI4Paper: Show File") && param215.document.getElementById('AI4Paper:\x20Show\x20File').remove();
-    if (Zotero.Prefs.get("ai4paper.enablesvgtransnotesort") && !param215.document.getElementById("AI4Paper: Trans Note Sort")) {
-      let var1924 = param215.document.createElement("button");
-      var1924.setAttribute('id', "AI4Paper: Trans Note Sort");
-      var1924.setAttribute("class", "toolbar-button AI4Paper-Reader-Buttons");
-      var1924.setAttribute("title", "切换翻译记录排序");
-      var1924.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgtransnotesort;
-      var1924.onclick = () => {
+      elem35?.["before"](elem50);
+    } else !Zotero.Prefs.get("ai4paper.enablesvgshowfile") && iframeWin.document.getElementById("AI4Paper: Show File") && iframeWin.document.getElementById('AI4Paper:\x20Show\x20File').remove();
+    if (Zotero.Prefs.get("ai4paper.enablesvgtransnotesort") && !iframeWin.document.getElementById("AI4Paper: Trans Note Sort")) {
+      let elem51 = iframeWin.document.createElement("button");
+      elem51.setAttribute('id', "AI4Paper: Trans Note Sort");
+      elem51.setAttribute("class", "toolbar-button AI4Paper-Reader-Buttons");
+      elem51.setAttribute("title", "切换翻译记录排序");
+      elem51.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgtransnotesort;
+      elem51.onclick = () => {
         Zotero.AI4Paper.toogleSortingTrans();
       };
-      var1893?.["before"](var1924);
-    } else !Zotero.Prefs.get("ai4paper.enablesvgtransnotesort") && param215.document.getElementById('AI4Paper:\x20Trans\x20Note\x20Sort') && param215.document.getElementById("AI4Paper: Trans Note Sort").remove();
-    if (Zotero.Prefs.get('ai4paper.enablesvgarchive') && !param215.document.getElementById("AI4Paper: Archive")) {
-      let var1925 = param215.document.createElement("button");
-      var1925.setAttribute('id', "AI4Paper: Archive");
-      var1925.setAttribute("class", "toolbar-button AI4Paper-Reader-Buttons");
-      var1925.setAttribute('title', '归档');
-      var1925.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgarchive;
-      var1925.onclick = () => {
+      elem35?.["before"](elem51);
+    } else !Zotero.Prefs.get("ai4paper.enablesvgtransnotesort") && iframeWin.document.getElementById('AI4Paper:\x20Trans\x20Note\x20Sort') && iframeWin.document.getElementById("AI4Paper: Trans Note Sort").remove();
+    if (Zotero.Prefs.get('ai4paper.enablesvgarchive') && !iframeWin.document.getElementById("AI4Paper: Archive")) {
+      let elem52 = iframeWin.document.createElement("button");
+      elem52.setAttribute('id', "AI4Paper: Archive");
+      elem52.setAttribute("class", "toolbar-button AI4Paper-Reader-Buttons");
+      elem52.setAttribute('title', '归档');
+      elem52.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgarchive;
+      elem52.onclick = () => {
         Zotero.AI4Paper.archiveSelectedItems();
       };
-      var1893?.['before'](var1925);
-    } else !Zotero.Prefs.get("ai4paper.enablesvgarchive") && param215.document.getElementById("AI4Paper: Archive") && param215.document.getElementById("AI4Paper: Archive").remove();
-    if (Zotero.Prefs.get('ai4paper.enablesvgPaperAI')) Zotero.AI4Paper.addReaderMenuButton_paperAI(param215, var1893);else !Zotero.Prefs.get("ai4paper.enablesvgPaperAI") && param215.document.getElementById("AI4Paper: PaperAI") && param215.document.getElementById("AI4Paper: PaperAI").remove();
-    if (Zotero.Prefs.get("ai4paper.enablesvgCardNotesSearch") && !param215.document.getElementById("AI4Paper: CardNotesSearch")) {
-      let _0x3335ad = param215.document.createElement('button');
-      _0x3335ad.setAttribute('id', 'AI4Paper:\x20CardNotesSearch');
-      _0x3335ad.setAttribute("class", 'toolbar-button\x20AI4Paper-Reader-Buttons\x20AI4Paper-centerRight-toolbarButton');
-      _0x3335ad.setAttribute("title", '卡片笔记搜索');
-      _0x3335ad.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgCardNotesSearch;
-      _0x3335ad.onclick = async _0x13a427 => {
-        if (_0x13a427.shiftKey) Zotero.getMainWindow().ZoteroPane_Local.openAdvancedSearchWindow();else {
-          let var1927 = window.document.querySelector(".AI4Paper-CardNotes-Search");
-          if (!var1927) {
-            var1927 = window.document.createXULElement("panel");
-            var1927.setAttribute("class", "AI4Paper-CardNotes-Search");
-            var1927.setAttribute("type", "arrow");
-            var1927.addEventListener("popupshown", _0x10e483 => {
+      elem35?.['before'](elem52);
+    } else !Zotero.Prefs.get("ai4paper.enablesvgarchive") && iframeWin.document.getElementById("AI4Paper: Archive") && iframeWin.document.getElementById("AI4Paper: Archive").remove();
+    if (Zotero.Prefs.get('ai4paper.enablesvgPaperAI')) Zotero.AI4Paper.addReaderMenuButton_paperAI(iframeWin, elem35);else !Zotero.Prefs.get("ai4paper.enablesvgPaperAI") && iframeWin.document.getElementById("AI4Paper: PaperAI") && iframeWin.document.getElementById("AI4Paper: PaperAI").remove();
+    if (Zotero.Prefs.get("ai4paper.enablesvgCardNotesSearch") && !iframeWin.document.getElementById("AI4Paper: CardNotesSearch")) {
+      let elem17 = iframeWin.document.createElement('button');
+      elem17.setAttribute('id', 'AI4Paper:\x20CardNotesSearch');
+      elem17.setAttribute("class", 'toolbar-button\x20AI4Paper-Reader-Buttons\x20AI4Paper-centerRight-toolbarButton');
+      elem17.setAttribute("title", '卡片笔记搜索');
+      elem17.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgCardNotesSearch;
+      elem17.onclick = async evt => {
+        if (evt.shiftKey) Zotero.getMainWindow().ZoteroPane_Local.openAdvancedSearchWindow();else {
+          let elem53 = window.document.querySelector(".AI4Paper-CardNotes-Search");
+          if (!elem53) {
+            elem53 = window.document.createXULElement("panel");
+            elem53.setAttribute("class", "AI4Paper-CardNotes-Search");
+            elem53.setAttribute("type", "arrow");
+            elem53.addEventListener("popupshown", cb => {
               window.document.querySelector("#CardNotes-SearchBox") && window.document.querySelector("#CardNotes-SearchBox").focus();
             });
-            let var1928 = window.document.createXULElement("vbox"),
-              var1929 = window.document.createElement("textarea");
-            var1929.id = "CardNotes-SearchBox";
-            var1929.style = "padding: 5px;overflow-y: auto;overflow-x: hidden;";
-            var1929.style.width = "350px";
-            var1929.style.height = "20px";
-            var1929.onkeydown = _0x57ccc9 => {
-              if (!_0x57ccc9.shiftKey && !_0x57ccc9.ctrlKey && !_0x57ccc9.altKey && !_0x57ccc9.metaKey && _0x57ccc9.keyCode === 0xd) {
-                _0x57ccc9.returnValue = false;
-                if (_0x57ccc9.preventDefault) {
-                  _0x57ccc9.preventDefault();
+            let elem54 = window.document.createXULElement("vbox"),
+              elem55 = window.document.createElement("textarea");
+            elem55.id = "CardNotes-SearchBox";
+            elem55.style = "padding: 5px;overflow-y: auto;overflow-x: hidden;";
+            elem55.style.width = "350px";
+            elem55.style.height = "20px";
+            elem55.onkeydown = evt => {
+              if (!evt.shiftKey && !evt.ctrlKey && !evt.altKey && !evt.metaKey && evt.keyCode === 0xd) {
+                evt.returnValue = false;
+                if (evt.preventDefault) {
+                  evt.preventDefault();
                 }
-                let var1930 = var1929.value.trim(),
-                  var1931 = window.document.getElementById('CardNotes-SearchBox-2nd').value.trim();
+                let local10 = elem55.value.trim(),
+                  doc2 = window.document.getElementById('CardNotes-SearchBox-2nd').value.trim();
                 if (!window.document.getElementById("enableTwoKeyWordsMode").twoKeywords) {
-                  if (var1930 === '' && var1929.placeholder === '') {
+                  if (local10 === '' && elem55.placeholder === '') {
                     return false;
-                  } else var1930 === '' && var1929.placeholder != '' && (var1930 = var1929.placeholder);
-                  var1930 && (Zotero.AI4Paper.searchCardNotes(var1930), Zotero.AI4Paper.lastCardNotesSearchInput = var1930, Zotero.AI4Paper.updateCardNotesSearchHistory(var1930));
+                  } else local10 === '' && elem55.placeholder != '' && (local10 = elem55.placeholder);
+                  local10 && (Zotero.AI4Paper.searchCardNotes(local10), Zotero.AI4Paper.lastCardNotesSearchInput = local10, Zotero.AI4Paper.updateCardNotesSearchHistory(local10));
                 } else {
-                  if (var1930 && window.document.getElementById("enableTwoKeyWordsMode").twoKeywords && !var1931) {
-                    Zotero.AI4Paper.searchCardNotes(var1930);
-                    Zotero.AI4Paper.lastCardNotesSearchInput = var1930;
-                    Zotero.AI4Paper.updateCardNotesSearchHistory(var1930);
+                  if (local10 && window.document.getElementById("enableTwoKeyWordsMode").twoKeywords && !doc2) {
+                    Zotero.AI4Paper.searchCardNotes(local10);
+                    Zotero.AI4Paper.lastCardNotesSearchInput = local10;
+                    Zotero.AI4Paper.updateCardNotesSearchHistory(local10);
                   } else {
-                    if (!var1930 && window.document.getElementById("enableTwoKeyWordsMode").twoKeywords && var1931) {
-                      Zotero.AI4Paper.searchCardNotes(var1931);
-                      Zotero.AI4Paper.lastCardNotesSearchInput = var1931;
-                      Zotero.AI4Paper.updateCardNotesSearchHistory(var1931);
+                    if (!local10 && window.document.getElementById("enableTwoKeyWordsMode").twoKeywords && doc2) {
+                      Zotero.AI4Paper.searchCardNotes(doc2);
+                      Zotero.AI4Paper.lastCardNotesSearchInput = doc2;
+                      Zotero.AI4Paper.updateCardNotesSearchHistory(doc2);
                     } else {
-                      if (window.document.getElementById("enableTwoKeyWordsMode").twoKeywords && var1930 && var1931) {
-                        let var1932 = window.document.getElementById("conditions-radiogroup").value === '与' ? "AND:AND" : "OR:OR",
-                          var1933 = var1930 + '\x20' + var1932 + '\x20' + var1931;
-                        Zotero.AI4Paper.searchCardNotes(var1933);
-                        Zotero.AI4Paper.lastCardNotesSearchInput = var1930;
-                        Zotero.AI4Paper.updateCardNotesSearchHistory(var1930);
+                      if (window.document.getElementById("enableTwoKeyWordsMode").twoKeywords && local10 && doc2) {
+                        let doc3 = window.document.getElementById("conditions-radiogroup").value === '与' ? "AND:AND" : "OR:OR",
+                          local11 = local10 + '\x20' + doc3 + '\x20' + doc2;
+                        Zotero.AI4Paper.searchCardNotes(local11);
+                        Zotero.AI4Paper.lastCardNotesSearchInput = local10;
+                        Zotero.AI4Paper.updateCardNotesSearchHistory(local10);
                       }
                     }
                   }
                 }
               }
-              _0x57ccc9.shiftKey && !_0x57ccc9.ctrlKey && !_0x57ccc9.altKey && !_0x57ccc9.metaKey && _0x57ccc9.keyCode === 0xd && (_0x57ccc9.returnValue = false, _0x57ccc9.preventDefault && _0x57ccc9.preventDefault(), Zotero.AI4Paper.cardNotesSearchButton_webSearch('metaso'));
+              evt.shiftKey && !evt.ctrlKey && !evt.altKey && !evt.metaKey && evt.keyCode === 0xd && (evt.returnValue = false, evt.preventDefault && evt.preventDefault(), Zotero.AI4Paper.cardNotesSearchButton_webSearch('metaso'));
             };
-            var1929.oncontextmenu = _0x47cb79 => {
-              _0x47cb79.preventDefault && _0x47cb79.preventDefault();
-              let var1934 = Zotero.Prefs.get("ai4paper.cardNotesSearchHistory").split("😊🎈🍓");
-              if (var1934.length === 0x1 && var1934[0x0] === '') return;
-              let var1935 = window.document.querySelector("#browser").querySelector("#AI4Paper-CardNotes-SearchBox-ContextMenu-menupopup");
-              !var1935 && (var1935 = window.document.createXULElement("menupopup"), var1935.id = 'AI4Paper-CardNotes-SearchBox-ContextMenu-menupopup', window.document.querySelector("#browser")?.["appendChild"](var1935));
-              let var1936 = var1935.firstElementChild;
-              while (var1936) {
-                var1936.remove();
-                var1936 = var1935.firstElementChild;
+            elem55.oncontextmenu = cb => {
+              cb.preventDefault && cb.preventDefault();
+              let parts4 = Zotero.Prefs.get("ai4paper.cardNotesSearchHistory").split("😊🎈🍓");
+              if (parts4.length === 0x1 && parts4[0x0] === '') return;
+              let elem56 = window.document.querySelector("#browser").querySelector("#AI4Paper-CardNotes-SearchBox-ContextMenu-menupopup");
+              !elem56 && (elem56 = window.document.createXULElement("menupopup"), elem56.id = 'AI4Paper-CardNotes-SearchBox-ContextMenu-menupopup', window.document.querySelector("#browser")?.["appendChild"](elem56));
+              let local12 = elem56.firstElementChild;
+              while (local12) {
+                local12.remove();
+                local12 = elem56.firstElementChild;
               }
-              for (let var1937 of var1934) {
-                let _0x265ae9 = var1937,
-                  _0x425956 = window.document.createXULElement("menuitem");
-                var1937.length > 0x1e && (var1937 = var1937.substring(0x0, 0x1d) + "...");
-                _0x425956.setAttribute("label", var1937);
-                _0x425956.setAttribute("tooltiptext", _0x265ae9);
-                _0x425956.addEventListener("command", () => {
-                  if (_0x265ae9.indexOf("AND:AND") != -0x1 && window.document.getElementById("enableTwoKeyWordsMode").twoKeywords) {
-                    let var1940 = _0x265ae9.split("AND:AND");
-                    if (var1940[0x0].trim()) {
-                      window.document.getElementById("CardNotes-SearchBox").value = var1940[0x0].trim();
+              for (let i of parts4) {
+                let local3 = i,
+                  elem20 = window.document.createXULElement("menuitem");
+                i.length > 0x1e && (i = i.substring(0x0, 0x1d) + "...");
+                elem20.setAttribute("label", i);
+                elem20.setAttribute("tooltiptext", local3);
+                elem20.addEventListener("command", () => {
+                  if (local3.indexOf("AND:AND") != -0x1 && window.document.getElementById("enableTwoKeyWordsMode").twoKeywords) {
+                    let parts5 = local3.split("AND:AND");
+                    if (parts5[0x0].trim()) {
+                      window.document.getElementById("CardNotes-SearchBox").value = parts5[0x0].trim();
                     }
-                    var1940[0x1].trim() && (window.document.getElementById('CardNotes-SearchBox-2nd').value = var1940[0x1].trim());
+                    parts5[0x1].trim() && (window.document.getElementById('CardNotes-SearchBox-2nd').value = parts5[0x1].trim());
                     window.document.getElementById("conditions-radiogroup").value = '与';
                   } else {
-                    if (_0x265ae9.indexOf("OR:OR") != -0x1 && window.document.getElementById("enableTwoKeyWordsMode").twoKeywords) {
-                      let _0x12593a = _0x265ae9.split("OR:OR");
-                      _0x12593a[0x0].trim() && (window.document.getElementById("CardNotes-SearchBox").value = _0x12593a[0x0].trim());
-                      _0x12593a[0x1].trim() && (window.document.getElementById("CardNotes-SearchBox-2nd").value = _0x12593a[0x1].trim());
+                    if (local3.indexOf("OR:OR") != -0x1 && window.document.getElementById("enableTwoKeyWordsMode").twoKeywords) {
+                      let parts = local3.split("OR:OR");
+                      parts[0x0].trim() && (window.document.getElementById("CardNotes-SearchBox").value = parts[0x0].trim());
+                      parts[0x1].trim() && (window.document.getElementById("CardNotes-SearchBox-2nd").value = parts[0x1].trim());
                       window.document.getElementById("conditions-radiogroup").value = '或';
                     } else {
-                      var1929.value = _0x265ae9;
+                      elem55.value = local3;
                     }
                   }
                 });
-                var1935.appendChild(_0x425956);
+                elem56.appendChild(elem20);
               }
-              var1935.openPopup(var1929, "after_start", 0x0, 0x3, false, false);
+              elem56.openPopup(elem55, "after_start", 0x0, 0x3, false, false);
             };
-            let var1942 = window.document.createElement("textarea");
-            var1942.id = "CardNotes-SearchBox-2nd";
-            var1942.style = "display: none;margin-top: 15px;padding: 5px;overflow-y: auto;overflow-x: hidden;";
-            var1942.style.width = "350px";
-            var1942.style.height = "20px";
-            var1942.onkeydown = _0x4675b8 => {
-              if (!_0x4675b8.shiftKey && !_0x4675b8.ctrlKey && !_0x4675b8.altKey && !_0x4675b8.metaKey && _0x4675b8.keyCode === 0xd) {
-                _0x4675b8.returnValue = false;
-                _0x4675b8.preventDefault && _0x4675b8.preventDefault();
-                let var1943 = window.document.getElementById("CardNotes-SearchBox").value.trim(),
-                  var1944 = var1942.value.trim();
-                if (var1944 && !var1943) {
-                  Zotero.AI4Paper.searchCardNotes(var1944);
-                  Zotero.AI4Paper.lastCardNotesSearchInput = var1944;
-                  Zotero.AI4Paper.updateCardNotesSearchHistory(var1944);
+            let elem57 = window.document.createElement("textarea");
+            elem57.id = "CardNotes-SearchBox-2nd";
+            elem57.style = "display: none;margin-top: 15px;padding: 5px;overflow-y: auto;overflow-x: hidden;";
+            elem57.style.width = "350px";
+            elem57.style.height = "20px";
+            elem57.onkeydown = evt => {
+              if (!evt.shiftKey && !evt.ctrlKey && !evt.altKey && !evt.metaKey && evt.keyCode === 0xd) {
+                evt.returnValue = false;
+                evt.preventDefault && evt.preventDefault();
+                let doc4 = window.document.getElementById("CardNotes-SearchBox").value.trim(),
+                  local13 = elem57.value.trim();
+                if (local13 && !doc4) {
+                  Zotero.AI4Paper.searchCardNotes(local13);
+                  Zotero.AI4Paper.lastCardNotesSearchInput = local13;
+                  Zotero.AI4Paper.updateCardNotesSearchHistory(local13);
                 } else {
-                  if (!var1944 && var1943) {
-                    Zotero.AI4Paper.searchCardNotes(var1943);
-                    Zotero.AI4Paper.lastCardNotesSearchInput = var1943;
-                    Zotero.AI4Paper.updateCardNotesSearchHistory(var1943);
+                  if (!local13 && doc4) {
+                    Zotero.AI4Paper.searchCardNotes(doc4);
+                    Zotero.AI4Paper.lastCardNotesSearchInput = doc4;
+                    Zotero.AI4Paper.updateCardNotesSearchHistory(doc4);
                   } else {
-                    if (var1943 && var1944) {
-                      let var1945 = window.document.getElementById("conditions-radiogroup").value === '与' ? "AND:AND" : "OR:OR",
-                        var1946 = var1943 + '\x20' + var1945 + '\x20' + var1944;
-                      Zotero.AI4Paper.searchCardNotes(var1946);
-                      Zotero.AI4Paper.lastCardNotesSearchInput = var1946;
-                      Zotero.AI4Paper.updateCardNotesSearchHistory(var1946);
+                    if (doc4 && local13) {
+                      let doc5 = window.document.getElementById("conditions-radiogroup").value === '与' ? "AND:AND" : "OR:OR",
+                        local14 = doc4 + '\x20' + doc5 + '\x20' + local13;
+                      Zotero.AI4Paper.searchCardNotes(local14);
+                      Zotero.AI4Paper.lastCardNotesSearchInput = local14;
+                      Zotero.AI4Paper.updateCardNotesSearchHistory(local14);
                     }
                   }
                 }
               }
-              if (_0x4675b8.shiftKey && !_0x4675b8.ctrlKey && !_0x4675b8.altKey && !_0x4675b8.metaKey && _0x4675b8.keyCode === 0xd) {
-                _0x4675b8.returnValue = false;
-                _0x4675b8.preventDefault && _0x4675b8.preventDefault();
+              if (evt.shiftKey && !evt.ctrlKey && !evt.altKey && !evt.metaKey && evt.keyCode === 0xd) {
+                evt.returnValue = false;
+                evt.preventDefault && evt.preventDefault();
               }
             };
-            var1942.oncontextmenu = _0x1daf07 => {
-              _0x1daf07.preventDefault && _0x1daf07.preventDefault();
-              let var1947 = Zotero.Prefs.get("ai4paper.cardNotesSearchHistory").split('😊🎈🍓');
-              if (var1947.length === 0x1 && var1947[0x0] === '') {
+            elem57.oncontextmenu = cb => {
+              cb.preventDefault && cb.preventDefault();
+              let parts6 = Zotero.Prefs.get("ai4paper.cardNotesSearchHistory").split('😊🎈🍓');
+              if (parts6.length === 0x1 && parts6[0x0] === '') {
                 return;
               }
-              let var1948 = window.document.querySelector('#browser').querySelector("#AI4Paper-CardNotes-SearchBox-ContextMenu-menupopup");
-              if (!var1948) {
-                var1948 = window.document.createXULElement("menupopup");
-                var1948.id = "AI4Paper-CardNotes-SearchBox-ContextMenu-menupopup";
-                window.document.querySelector("#browser")?.["appendChild"](var1948);
+              let elem58 = window.document.querySelector('#browser').querySelector("#AI4Paper-CardNotes-SearchBox-ContextMenu-menupopup");
+              if (!elem58) {
+                elem58 = window.document.createXULElement("menupopup");
+                elem58.id = "AI4Paper-CardNotes-SearchBox-ContextMenu-menupopup";
+                window.document.querySelector("#browser")?.["appendChild"](elem58);
               }
-              let var1949 = var1948.firstElementChild;
-              while (var1949) {
-                var1949.remove();
-                var1949 = var1948.firstElementChild;
+              let local15 = elem58.firstElementChild;
+              while (local15) {
+                local15.remove();
+                local15 = elem58.firstElementChild;
               }
-              for (let var1950 of var1947) {
-                let var1951 = var1950,
-                  var1952 = window.document.createXULElement('menuitem');
-                var1950.length > 0x1e && (var1950 = var1950.substring(0x0, 0x1d) + "...");
-                var1952.setAttribute("label", var1950);
-                var1952.setAttribute("tooltiptext", var1951);
-                var1952.addEventListener('command', () => {
-                  if (var1951.indexOf('AND:AND') != -0x1 && window.document.getElementById("enableTwoKeyWordsMode").twoKeywords) {
-                    let _0x38a1e5 = var1951.split("AND:AND");
-                    _0x38a1e5[0x0].trim() && (window.document.getElementById("CardNotes-SearchBox").value = _0x38a1e5[0x0].trim());
-                    _0x38a1e5[0x1].trim() && (window.document.getElementById("CardNotes-SearchBox-2nd").value = _0x38a1e5[0x1].trim());
+              for (let i2 of parts6) {
+                let local16 = i2,
+                  elem59 = window.document.createXULElement('menuitem');
+                i2.length > 0x1e && (i2 = i2.substring(0x0, 0x1d) + "...");
+                elem59.setAttribute("label", i2);
+                elem59.setAttribute("tooltiptext", local16);
+                elem59.addEventListener('command', () => {
+                  if (local16.indexOf('AND:AND') != -0x1 && window.document.getElementById("enableTwoKeyWordsMode").twoKeywords) {
+                    let parts3 = local16.split("AND:AND");
+                    parts3[0x0].trim() && (window.document.getElementById("CardNotes-SearchBox").value = parts3[0x0].trim());
+                    parts3[0x1].trim() && (window.document.getElementById("CardNotes-SearchBox-2nd").value = parts3[0x1].trim());
                     window.document.getElementById("conditions-radiogroup").value = '与';
                   } else {
-                    if (var1951.indexOf("OR:OR") != -0x1 && window.document.getElementById("enableTwoKeyWordsMode").twoKeywords) {
-                      let _0x14ed9d = var1951.split("OR:OR");
-                      if (_0x14ed9d[0x0].trim()) {
-                        window.document.getElementById("CardNotes-SearchBox").value = _0x14ed9d[0x0].trim();
+                    if (local16.indexOf("OR:OR") != -0x1 && window.document.getElementById("enableTwoKeyWordsMode").twoKeywords) {
+                      let parts2 = local16.split("OR:OR");
+                      if (parts2[0x0].trim()) {
+                        window.document.getElementById("CardNotes-SearchBox").value = parts2[0x0].trim();
                       }
-                      _0x14ed9d[0x1].trim() && (window.document.getElementById("CardNotes-SearchBox-2nd").value = _0x14ed9d[0x1].trim());
+                      parts2[0x1].trim() && (window.document.getElementById("CardNotes-SearchBox-2nd").value = parts2[0x1].trim());
                       window.document.getElementById("conditions-radiogroup").value = '或';
-                    } else var1942.value = var1951;
+                    } else elem57.value = local16;
                   }
                 });
-                var1948.appendChild(var1952);
+                elem58.appendChild(elem59);
               }
-              var1948.openPopup(var1942, "after_start", 0x0, 0x3, false, false);
+              elem58.openPopup(elem57, "after_start", 0x0, 0x3, false, false);
             };
-            let var1955 = window.document.createElement('div');
-            var1955.id = "enableTwoKeyWordsMode";
-            var1955.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgobnotesautoenable_off;
-            var1955.twoKeywords = false;
-            var1955.style = "width: 30px;display: grid;place-items: center;";
-            var1955.title = "双关键词搜索";
-            var1955.onclick = _0x13c321 => {
-              _0x13c321.stopPropagation();
-              !var1955.twoKeywords ? (var1955.innerHTML = Zotero.AI4Paper.svg_icon_20px.on_orange, var1955.twoKeywords = true, window.document.getElementById("CardNotes-SearchBox-2nd").style.display = '', window.document.getElementById("conditions-radiogroup").style.display = '') : (var1955.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgobnotesautoenable_off, var1955.twoKeywords = false, window.document.getElementById("CardNotes-SearchBox-2nd").style.display = "none", window.document.getElementById("conditions-radiogroup").style.display = "none");
+            let elem60 = window.document.createElement('div');
+            elem60.id = "enableTwoKeyWordsMode";
+            elem60.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgobnotesautoenable_off;
+            elem60.twoKeywords = false;
+            elem60.style = "width: 30px;display: grid;place-items: center;";
+            elem60.title = "双关键词搜索";
+            elem60.onclick = evt => {
+              evt.stopPropagation();
+              !elem60.twoKeywords ? (elem60.innerHTML = Zotero.AI4Paper.svg_icon_20px.on_orange, elem60.twoKeywords = true, window.document.getElementById("CardNotes-SearchBox-2nd").style.display = '', window.document.getElementById("conditions-radiogroup").style.display = '') : (elem60.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgobnotesautoenable_off, elem60.twoKeywords = false, window.document.getElementById("CardNotes-SearchBox-2nd").style.display = "none", window.document.getElementById("conditions-radiogroup").style.display = "none");
             };
-            let var1956 = window.document.createElement("div");
-            var1956.innerHTML = Zotero.AI4Paper.svg_icon_16px.help;
-            var1956.style = "width: 16px;height: 16px;margin-left: 10px;vertical-align:middle";
-            var1956.title = "帮助文档";
-            var1956.onclick = _0x3d11c8 => {
+            let elem61 = window.document.createElement("div");
+            elem61.innerHTML = Zotero.AI4Paper.svg_icon_16px.help;
+            elem61.style = "width: 16px;height: 16px;margin-left: 10px;vertical-align:middle";
+            elem61.title = "帮助文档";
+            elem61.onclick = evt => {
               ZoteroPane.loadURI("https://www.yuque.com/qnscholar/zotero-one/kav7sf3h4702wzq8?singleDoc# 《阅读器按钮【卡片笔记搜索】使用技巧》");
             };
-            function fn3(param216) {
-              param216.style = "transform: scale(0.8);width: 20px;height: 20px;margin-left: 15px;vertical-align:middle;transition: transform 0.125s ease;";
-              param216.onmouseover = function () {
+            function localFn2(icon) {
+              icon.style = "transform: scale(0.8);width: 20px;height: 20px;margin-left: 15px;vertical-align:middle;transition: transform 0.125s ease;";
+              icon.onmouseover = function () {
                 this.style.transform = 'scale(0.96)';
               };
-              param216.onmouseout = function () {
+              icon.onmouseout = function () {
                 this.style.transform = "scale(0.8)";
               };
             }
-            let var1957 = window.document.createElement("div");
-            var1957.innerHTML = Zotero.AI4Paper.svg_icon_20px.matrix;
-            var1957.title = "智能文献矩阵搜索";
-            fn3(var1957);
-            var1957.onclick = _0x390d0e => {
+            let elem62 = window.document.createElement("div");
+            elem62.innerHTML = Zotero.AI4Paper.svg_icon_20px.matrix;
+            elem62.title = "智能文献矩阵搜索";
+            localFn2(elem62);
+            elem62.onclick = evt => {
               Zotero.AI4Paper.cardNotesSearchButton_webSearch("matrix");
             };
-            let var1958 = window.document.createElement("div");
-            var1958.innerHTML = Zotero.AI4Paper.svg_icon_20px.metaso;
-            var1958.title = "秘塔 AI 搜索";
-            fn3(var1958);
-            var1958.onclick = _0x19c67f => {
+            let elem63 = window.document.createElement("div");
+            elem63.innerHTML = Zotero.AI4Paper.svg_icon_20px.metaso;
+            elem63.title = "秘塔 AI 搜索";
+            localFn2(elem63);
+            elem63.onclick = evt => {
               Zotero.AI4Paper.cardNotesSearchButton_webSearch("metaso");
             };
-            let var1959 = window.document.createElement("div");
-            var1959.innerHTML = Zotero.AI4Paper.svg_icon_20px.google;
-            var1959.title = '谷歌';
-            fn3(var1959);
-            var1959.onclick = _0x118a50 => {
+            let elem64 = window.document.createElement("div");
+            elem64.innerHTML = Zotero.AI4Paper.svg_icon_20px.google;
+            elem64.title = '谷歌';
+            localFn2(elem64);
+            elem64.onclick = evt => {
               Zotero.AI4Paper.cardNotesSearchButton_webSearch("google");
             };
-            let var1960 = window.document.createElement("div");
-            var1960.innerHTML = Zotero.AI4Paper.svg_icon_20px.google_scholar;
-            var1960.title = "谷歌学术";
-            fn3(var1960);
-            var1960.onclick = _0x5d5907 => {
+            let elem65 = window.document.createElement("div");
+            elem65.innerHTML = Zotero.AI4Paper.svg_icon_20px.google_scholar;
+            elem65.title = "谷歌学术";
+            localFn2(elem65);
+            elem65.onclick = evt => {
               Zotero.AI4Paper.cardNotesSearchButton_webSearch('googlescholar');
             };
-            let var1961 = window.document.createElement("div");
-            var1961.innerHTML = Zotero.AI4Paper.svg_icon_20px.scihub;
-            var1961.title = "SciHub";
-            fn3(var1961);
-            var1961.onclick = _0x3bf031 => {
+            let elem66 = window.document.createElement("div");
+            elem66.innerHTML = Zotero.AI4Paper.svg_icon_20px.scihub;
+            elem66.title = "SciHub";
+            localFn2(elem66);
+            elem66.onclick = evt => {
               Zotero.AI4Paper.cardNotesSearchButton_webSearch("scihub");
             };
-            let var1962 = window.document.createXULElement("hbox");
-            var1962.style.alignItems = "center";
-            var1962.style.display = "flex";
-            var1962.style.marginTop = '15px';
-            var1962.appendChild(var1955);
-            var1962.appendChild(var1956);
-            var1962.appendChild(var1957);
-            var1962.appendChild(var1958);
-            var1962.appendChild(var1959);
-            var1962.appendChild(var1960);
-            var1962.appendChild(var1961);
-            let var1963 = window.document.createXULElement("radiogroup");
-            var1963.id = "conditions-radiogroup";
-            var1963.setAttribute("orient", "horizontal");
-            var1963.style = "display: none;margin-top: 10px";
-            let var1964 = window.document.createXULElement("radio");
-            var1964.setAttribute('label', '与');
-            var1964.setAttribute('value', '与');
-            var1963.appendChild(var1964);
-            var1964 = window.document.createXULElement('radio');
-            var1964.setAttribute("label", '或');
-            var1964.setAttribute("value", '或');
-            var1963.appendChild(var1964);
-            var1928.appendChild(var1929);
-            var1928.appendChild(var1942);
-            var1928.appendChild(var1962);
-            var1928.appendChild(var1963);
-            var1927.appendChild(var1928);
-            window.document.querySelector('#browser')?.['appendChild'](var1927);
+            let elem67 = window.document.createXULElement("hbox");
+            elem67.style.alignItems = "center";
+            elem67.style.display = "flex";
+            elem67.style.marginTop = '15px';
+            elem67.appendChild(elem60);
+            elem67.appendChild(elem61);
+            elem67.appendChild(elem62);
+            elem67.appendChild(elem63);
+            elem67.appendChild(elem64);
+            elem67.appendChild(elem65);
+            elem67.appendChild(elem66);
+            let elem68 = window.document.createXULElement("radiogroup");
+            elem68.id = "conditions-radiogroup";
+            elem68.setAttribute("orient", "horizontal");
+            elem68.style = "display: none;margin-top: 10px";
+            let elem69 = window.document.createXULElement("radio");
+            elem69.setAttribute('label', '与');
+            elem69.setAttribute('value', '与');
+            elem68.appendChild(elem69);
+            elem69 = window.document.createXULElement('radio');
+            elem69.setAttribute("label", '或');
+            elem69.setAttribute("value", '或');
+            elem68.appendChild(elem69);
+            elem54.appendChild(elem55);
+            elem54.appendChild(elem57);
+            elem54.appendChild(elem67);
+            elem54.appendChild(elem68);
+            elem53.appendChild(elem54);
+            window.document.querySelector('#browser')?.['appendChild'](elem53);
           }
           window.document.querySelector('#CardNotes-SearchBox') && (window.document.querySelector("#CardNotes-SearchBox").placeholder = Zotero.AI4Paper.lastCardNotesSearchInput.trim());
-          var1927.openPopup(_0x3335ad, "after_start", 0x10, -0x2, false, false);
+          elem53.openPopup(elem17, "after_start", 0x10, -0x2, false, false);
         }
       };
-      _0x3335ad.addEventListener("pointerdown", _0x3b78d9 => {
-        _0x3b78d9.button == 0x2 && Zotero.AI4Paper.openDialog_tagsManager();
+      elem17.addEventListener("pointerdown", evt => {
+        evt.button == 0x2 && Zotero.AI4Paper.openDialog_tagsManager();
       }, false);
-      let _0x539921 = param215.document.querySelector('.toolbar-button.toolbar-dropdown-button');
-      _0x539921?.["after"](_0x3335ad);
-      let _0x564821 = param215.document.querySelector(".divider");
-      if (_0x564821) {
-        let _0x2803fa = _0x564821.cloneNode(true);
-        _0x2803fa.setAttribute('id', "divider-before-toolbarButton-CardNotesSearch");
-        _0x2803fa.classList.toggle("divider-before-toolbarButton", true);
-        _0x3335ad?.['before'](_0x2803fa);
+      let elem28 = iframeWin.document.querySelector('.toolbar-button.toolbar-dropdown-button');
+      elem28?.["after"](elem17);
+      let elem29 = iframeWin.document.querySelector(".divider");
+      if (elem29) {
+        let clone = elem29.cloneNode(true);
+        clone.setAttribute('id', "divider-before-toolbarButton-CardNotesSearch");
+        clone.classList.toggle("divider-before-toolbarButton", true);
+        elem17?.['before'](clone);
       }
-    } else !Zotero.Prefs.get("ai4paper.enablesvgCardNotesSearch") && param215.document.getElementById('AI4Paper:\x20CardNotesSearch') && (param215.document.getElementById("AI4Paper: CardNotesSearch").remove(), param215.document.querySelectorAll("#divider-before-toolbarButton-CardNotesSearch").forEach(_0x45189a => _0x45189a.remove()));
-    if (Zotero.Prefs.get('ai4paper.enablesvggo2favoritecollection')) Zotero.AI4Paper.addReaderMenuButton_go2FavoriteCollection(param215);else !Zotero.Prefs.get("ai4paper.enablesvggo2favoritecollection") && param215.document.getElementById("AI4Paper: go2FavoriteCollection") && (param215.document.getElementById("AI4Paper: go2FavoriteCollection").remove(), param215.document.querySelectorAll("#divider-before-toolbarButton-go2FavoriteCollection").forEach(_0x5babec => _0x5babec.remove()));
-    if (param215.document.querySelectorAll('.AI4Paper-center-toolbarButton').length) {
-      if (param215.document.querySelectorAll('#divider-for-ai4paper-center-toolbarButtons').length === 0x0) {
-        let _0x43d555 = param215.document.querySelector(".divider");
-        if (_0x43d555) {
-          let _0x449e4d = _0x43d555.cloneNode(true);
-          _0x449e4d.id = "divider-for-ai4paper-center-toolbarButtons";
-          _0x449e4d.classList.toggle("divider-before-toolbarButton", true);
-          let _0x190baa = param215.document.querySelector('.toolbar-button.highlight');
-          _0x190baa?.["before"](_0x449e4d);
+    } else !Zotero.Prefs.get("ai4paper.enablesvgCardNotesSearch") && iframeWin.document.getElementById('AI4Paper:\x20CardNotesSearch') && (iframeWin.document.getElementById("AI4Paper: CardNotesSearch").remove(), iframeWin.document.querySelectorAll("#divider-before-toolbarButton-CardNotesSearch").forEach(el => el.remove()));
+    if (Zotero.Prefs.get('ai4paper.enablesvggo2favoritecollection')) Zotero.AI4Paper.addReaderMenuButton_go2FavoriteCollection(iframeWin);else !Zotero.Prefs.get("ai4paper.enablesvggo2favoritecollection") && iframeWin.document.getElementById("AI4Paper: go2FavoriteCollection") && (iframeWin.document.getElementById("AI4Paper: go2FavoriteCollection").remove(), iframeWin.document.querySelectorAll("#divider-before-toolbarButton-go2FavoriteCollection").forEach(el => el.remove()));
+    if (iframeWin.document.querySelectorAll('.AI4Paper-center-toolbarButton').length) {
+      if (iframeWin.document.querySelectorAll('#divider-for-ai4paper-center-toolbarButtons').length === 0x0) {
+        let elem23 = iframeWin.document.querySelector(".divider");
+        if (elem23) {
+          let clone2 = elem23.cloneNode(true);
+          clone2.id = "divider-for-ai4paper-center-toolbarButtons";
+          clone2.classList.toggle("divider-before-toolbarButton", true);
+          let elem5 = iframeWin.document.querySelector('.toolbar-button.highlight');
+          elem5?.["before"](clone2);
         }
       }
-    } else param215.document.querySelectorAll("#divider-for-ai4paper-center-toolbarButtons").forEach(_0x14a643 => _0x14a643.remove());
-    Zotero.AI4Paper.addViewButtons(param215);
+    } else iframeWin.document.querySelectorAll("#divider-for-ai4paper-center-toolbarButtons").forEach(el => el.remove());
+    Zotero.AI4Paper.addViewButtons(iframeWin);
   },
-  'updateReaderButtonState': async function (param255) {
-    let var2098 = param255.document.getElementById("AI4Paper: Obsidian Notes Auto Update Switch");
+  'updateReaderButtonState': async function (iframeWinArg) {
+    let doc6 = iframeWinArg.document.getElementById("AI4Paper: Obsidian Notes Auto Update Switch");
     if (Zotero.Prefs.get("ai4paper.obsidianautoupdatenotes")) {
-      var2098 && (var2098.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgobnotesautoenable);
-    } else var2098 && (var2098.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgobnotesautoenable_off);
-    let var2099 = param255.document.getElementById("AI4Paper: Auto Trans Switch");
-    Zotero.Prefs.get('ai4paper.selectedtexttransenable') ? var2099 && (var2099.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgautotransenable) : var2099 && (var2099.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgautotransenable_off);
-    let var2100 = param255.document.getElementById("AI4Paper: Eyes Protection");
-    Zotero.Prefs.get("ai4paper.eyesprotectioncolorenable") ? var2100 && (var2100.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgeyesprotection) : var2100 && (var2100.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgeyesprotection_off);
+      doc6 && (doc6.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgobnotesautoenable);
+    } else doc6 && (doc6.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgobnotesautoenable_off);
+    let doc7 = iframeWinArg.document.getElementById("AI4Paper: Auto Trans Switch");
+    Zotero.Prefs.get('ai4paper.selectedtexttransenable') ? doc7 && (doc7.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgautotransenable) : doc7 && (doc7.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgautotransenable_off);
+    let doc8 = iframeWinArg.document.getElementById("AI4Paper: Eyes Protection");
+    Zotero.Prefs.get("ai4paper.eyesprotectioncolorenable") ? doc8 && (doc8.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgeyesprotection) : doc8 && (doc8.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgeyesprotection_off);
   },
-  'toggleEyesButtonState': async function (param256) {
-    let var2101 = param256.document.getElementById('AI4Paper:\x20Eyes\x20Protection');
+  'toggleEyesButtonState': async function (readerIframeWin) {
+    let doc9 = readerIframeWin.document.getElementById('AI4Paper:\x20Eyes\x20Protection');
     if (Zotero.Prefs.get("ai4paper.eyesprotectioncolorselectwindow")) {
       if (Zotero.Prefs.get("ai4paper.eyesprotectioncolor") === '自定义' && !Zotero.Prefs.get("ai4paper.eyesprotectioncolorcodeisok")) {
         return window.alert("您开启了自定义护眼色模式，但输入的护眼色代码无效，请前往【AI4paper 首选项 --> 拓展 --> 护眼色】重新设置！"), false;
       }
-      let _0x165862 = Zotero.AI4Paper.openDialogByType_modal("selectBackGroundColor");
-      if (!_0x165862) {
+      let result = Zotero.AI4Paper.openDialogByType_modal("selectBackGroundColor");
+      if (!result) {
         return false;
       } else {
-        if (_0x165862 === "default") {
+        if (result === "default") {
           Zotero.Prefs.set("ai4paper.eyesprotectioncolorenable", false);
-          var2101.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgeyesprotection_off;
+          doc9.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgeyesprotection_off;
         } else {
           Zotero.Prefs.set("ai4paper.eyesprotectioncolorenable", true);
-          var2101.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgeyesprotection;
-          if (_0x165862 === "mungbean_green") Zotero.Prefs.set('ai4paper.eyesprotectioncolor', "豆沙绿");else {
-            if (_0x165862 === "matcha_green") Zotero.Prefs.set("ai4paper.eyesprotectioncolor", '抹茶绿');else {
-              if (_0x165862 === 'grass_green') Zotero.Prefs.set("ai4paper.eyesprotectioncolor", "青草绿");else {
-                if (_0x165862 === 'almond_yellow') {
+          doc9.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgeyesprotection;
+          if (result === "mungbean_green") Zotero.Prefs.set('ai4paper.eyesprotectioncolor', "豆沙绿");else {
+            if (result === "matcha_green") Zotero.Prefs.set("ai4paper.eyesprotectioncolor", '抹茶绿');else {
+              if (result === 'grass_green') Zotero.Prefs.set("ai4paper.eyesprotectioncolor", "青草绿");else {
+                if (result === 'almond_yellow') {
                   Zotero.Prefs.set("ai4paper.eyesprotectioncolor", "杏仁黄");
                 } else {
-                  if (_0x165862 === 'autumnleaf_brown') Zotero.Prefs.set('ai4paper.eyesprotectioncolor', '秋叶褐');else {
-                    if (_0x165862 === "crimson_red") Zotero.Prefs.set('ai4paper.eyesprotectioncolor', "胭脂红");else {
-                      if (_0x165862 === "ocean_blue") Zotero.Prefs.set("ai4paper.eyesprotectioncolor", "海天蓝");else {
-                        if (_0x165862 === 'gauze_purple') Zotero.Prefs.set("ai4paper.eyesprotectioncolor", "葛巾紫");else {
-                          if (_0x165862 === 'aurora_grey') Zotero.Prefs.set("ai4paper.eyesprotectioncolor", "极光灰");else {
-                            if (_0x165862 === 'ivory_white') {
+                  if (result === 'autumnleaf_brown') Zotero.Prefs.set('ai4paper.eyesprotectioncolor', '秋叶褐');else {
+                    if (result === "crimson_red") Zotero.Prefs.set('ai4paper.eyesprotectioncolor', "胭脂红");else {
+                      if (result === "ocean_blue") Zotero.Prefs.set("ai4paper.eyesprotectioncolor", "海天蓝");else {
+                        if (result === 'gauze_purple') Zotero.Prefs.set("ai4paper.eyesprotectioncolor", "葛巾紫");else {
+                          if (result === 'aurora_grey') Zotero.Prefs.set("ai4paper.eyesprotectioncolor", "极光灰");else {
+                            if (result === 'ivory_white') {
                               Zotero.Prefs.set("ai4paper.eyesprotectioncolor", "象牙白");
-                            } else _0x165862 === "custom" && Zotero.Prefs.set("ai4paper.eyesprotectioncolor", '自定义');
+                            } else result === "custom" && Zotero.Prefs.set("ai4paper.eyesprotectioncolor", '自定义');
                           }
                         }
                       }
@@ -1658,65 +1658,65 @@ Object.assign(Zotero.AI4Paper, {
             }
           }
         }
-        return Zotero.AI4Paper.setPDFBackGroundColor(param256), true;
+        return Zotero.AI4Paper.setPDFBackGroundColor(readerIframeWin), true;
       }
     }
-    Zotero.Prefs.get("ai4paper.eyesprotectioncolorenable") ? (Zotero.Prefs.set("ai4paper.eyesprotectioncolorenable", false), var2101.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgeyesprotection_off, Zotero.AI4Paper.setPDFBackGroundColor(param256)) : (Zotero.Prefs.set('ai4paper.eyesprotectioncolorenable', true), var2101.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgeyesprotection, Zotero.AI4Paper.setPDFBackGroundColor(param256));
+    Zotero.Prefs.get("ai4paper.eyesprotectioncolorenable") ? (Zotero.Prefs.set("ai4paper.eyesprotectioncolorenable", false), doc9.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgeyesprotection_off, Zotero.AI4Paper.setPDFBackGroundColor(readerIframeWin)) : (Zotero.Prefs.set('ai4paper.eyesprotectioncolorenable', true), doc9.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgeyesprotection, Zotero.AI4Paper.setPDFBackGroundColor(readerIframeWin));
   },
-  'toggleObAutoNoteButtonState': async function (param257) {
-    let var2103 = param257.document.getElementById("AI4Paper: Obsidian Notes Auto Update Switch");
-    Zotero.Prefs.get('ai4paper.obsidianautoupdatenotes') ? (Zotero.Prefs.set("ai4paper.obsidianautoupdatenotes", false), var2103.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgobnotesautoenable_off) : (Zotero.Prefs.set('ai4paper.obsidianautoupdatenotes', true), var2103.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgobnotesautoenable);
+  'toggleObAutoNoteButtonState': async function (obIframeWin) {
+    let doc10 = obIframeWin.document.getElementById("AI4Paper: Obsidian Notes Auto Update Switch");
+    Zotero.Prefs.get('ai4paper.obsidianautoupdatenotes') ? (Zotero.Prefs.set("ai4paper.obsidianautoupdatenotes", false), doc10.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgobnotesautoenable_off) : (Zotero.Prefs.set('ai4paper.obsidianautoupdatenotes', true), doc10.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgobnotesautoenable);
   },
-  'toggleAutoTransButtonState': async function (param258) {
-    let var2104 = param258.document.getElementById("AI4Paper: Auto Trans Switch");
-    Zotero.Prefs.get('ai4paper.selectedtexttransenable') ? (Zotero.Prefs.set("ai4paper.selectedtexttransenable", false), var2104.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgautotransenable_off) : (Zotero.Prefs.set("ai4paper.selectedtexttransenable", true), var2104.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgautotransenable);
+  'toggleAutoTransButtonState': async function (iframeWin2) {
+    let doc11 = iframeWin2.document.getElementById("AI4Paper: Auto Trans Switch");
+    Zotero.Prefs.get('ai4paper.selectedtexttransenable') ? (Zotero.Prefs.set("ai4paper.selectedtexttransenable", false), doc11.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgautotransenable_off) : (Zotero.Prefs.set("ai4paper.selectedtexttransenable", true), doc11.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgautotransenable);
     Zotero.AI4Paper.updateTranslateReaderSidePane();
   },
-  'waitForIframeReady': async function (param259) {
-    let var2105 = param259.document.querySelectorAll("iframe")[0x0].contentWindow;
-    switch (var2105.document.readyState) {
+  'waitForIframeReady': async function (parentIframeWin) {
+    let elem70 = parentIframeWin.document.querySelectorAll("iframe")[0x0].contentWindow;
+    switch (elem70.document.readyState) {
       case "uninitialized":
         {
-          let var2106 = 0x0;
-          while (var2105.document.readyState === "uninitialized") {
-            if (var2106 >= 0x1f4) return;
+          let local17 = 0x0;
+          while (elem70.document.readyState === "uninitialized") {
+            if (local17 >= 0x1f4) return;
             await Zotero.Promise.delay(0xa);
-            var2106++;
+            local17++;
           }
-          Zotero.AI4Paper.setPDFBackGroundColor(param259);
-          Zotero.AI4Paper.addButtonColorLabel(param259);
-          Zotero.AI4Paper.addAnnotationButtonsInFloatingWindow(param259);
-          Zotero.AI4Paper.onSidebarToggle(param259);
-          Zotero.AI4Paper.onClickButton_viewAnnotations(param259);
-          Zotero.AI4Paper.onClickButton_viewOutline(param259);
+          Zotero.AI4Paper.setPDFBackGroundColor(parentIframeWin);
+          Zotero.AI4Paper.addButtonColorLabel(parentIframeWin);
+          Zotero.AI4Paper.addAnnotationButtonsInFloatingWindow(parentIframeWin);
+          Zotero.AI4Paper.onSidebarToggle(parentIframeWin);
+          Zotero.AI4Paper.onClickButton_viewAnnotations(parentIframeWin);
+          Zotero.AI4Paper.onClickButton_viewOutline(parentIframeWin);
           return;
         }
       case "complete":
         {
-          Zotero.AI4Paper.setPDFBackGroundColor(param259);
-          Zotero.AI4Paper.addButtonColorLabel(param259);
-          Zotero.AI4Paper.addAnnotationButtonsInFloatingWindow(param259);
-          Zotero.AI4Paper.onSidebarToggle(param259);
-          Zotero.AI4Paper.onClickButton_viewAnnotations(param259);
-          Zotero.AI4Paper.onClickButton_viewOutline(param259);
+          Zotero.AI4Paper.setPDFBackGroundColor(parentIframeWin);
+          Zotero.AI4Paper.addButtonColorLabel(parentIframeWin);
+          Zotero.AI4Paper.addAnnotationButtonsInFloatingWindow(parentIframeWin);
+          Zotero.AI4Paper.onSidebarToggle(parentIframeWin);
+          Zotero.AI4Paper.onClickButton_viewAnnotations(parentIframeWin);
+          Zotero.AI4Paper.onClickButton_viewOutline(parentIframeWin);
         }
     }
   },
-  'setPDFBackGroundColor': async function (param260) {
-    if (!Zotero.Prefs.get('ai4paper.eyesprotectioncolorenable') || Zotero.Prefs.get('ai4paper.eyesprotectioncolor') === "自定义" && !Zotero.Prefs.get("ai4paper.eyesprotectioncolorcodeisok")) return param260.document.querySelectorAll("iframe")[0x0]?.["contentWindow"]["document"]["head"]["querySelectorAll"]("#eyes-protection-color")["forEach"](_0x121738 => _0x121738.remove()), param260.document.querySelectorAll("iframe")[0x1]?.["contentWindow"]["document"]['head']["querySelectorAll"]("#eyes-protection-color")["forEach"](_0xb0069 => _0xb0069.remove()), false;
-    let var2107 = '#53fc5a';
-    if (Zotero.Prefs.get("ai4paper.eyesprotectioncolor") === "豆沙绿") var2107 = '#53fc5a';else {
-      if (Zotero.Prefs.get('ai4paper.eyesprotectioncolor') === "抹茶绿") var2107 = "#97ff91";else {
-        if (Zotero.Prefs.get("ai4paper.eyesprotectioncolor") === "青草绿") var2107 = "#b7ec36";else {
-          if (Zotero.Prefs.get('ai4paper.eyesprotectioncolor') === "杏仁黄") var2107 = " #faf564";else {
-            if (Zotero.Prefs.get('ai4paper.eyesprotectioncolor') === "秋叶褐") var2107 = '#ffc26b';else {
-              if (Zotero.Prefs.get('ai4paper.eyesprotectioncolor') === "胭脂红") var2107 = "#fd9b81";else {
-                if (Zotero.Prefs.get("ai4paper.eyesprotectioncolor") === "海天蓝") var2107 = "#b0c6fc";else {
+  'setPDFBackGroundColor': async function (bgIframeWin) {
+    if (!Zotero.Prefs.get('ai4paper.eyesprotectioncolorenable') || Zotero.Prefs.get('ai4paper.eyesprotectioncolor') === "自定义" && !Zotero.Prefs.get("ai4paper.eyesprotectioncolorcodeisok")) return bgIframeWin.document.querySelectorAll("iframe")[0x0]?.["contentWindow"]["document"]["head"]["querySelectorAll"]("#eyes-protection-color")["forEach"](el => el.remove()), bgIframeWin.document.querySelectorAll("iframe")[0x1]?.["contentWindow"]["document"]['head']["querySelectorAll"]("#eyes-protection-color")["forEach"](el => el.remove()), false;
+    let str = '#53fc5a';
+    if (Zotero.Prefs.get("ai4paper.eyesprotectioncolor") === "豆沙绿") str = '#53fc5a';else {
+      if (Zotero.Prefs.get('ai4paper.eyesprotectioncolor') === "抹茶绿") str = "#97ff91";else {
+        if (Zotero.Prefs.get("ai4paper.eyesprotectioncolor") === "青草绿") str = "#b7ec36";else {
+          if (Zotero.Prefs.get('ai4paper.eyesprotectioncolor') === "杏仁黄") str = " #faf564";else {
+            if (Zotero.Prefs.get('ai4paper.eyesprotectioncolor') === "秋叶褐") str = '#ffc26b';else {
+              if (Zotero.Prefs.get('ai4paper.eyesprotectioncolor') === "胭脂红") str = "#fd9b81";else {
+                if (Zotero.Prefs.get("ai4paper.eyesprotectioncolor") === "海天蓝") str = "#b0c6fc";else {
                   if (Zotero.Prefs.get('ai4paper.eyesprotectioncolor') === '葛巾紫') {
-                    var2107 = "#9ba4fe";
+                    str = "#9ba4fe";
                   } else {
-                    if (Zotero.Prefs.get("ai4paper.eyesprotectioncolor") === "极光灰") var2107 = "#cfcfee";else {
-                      if (Zotero.Prefs.get('ai4paper.eyesprotectioncolor') === "象牙白") var2107 = "#f8ebbf";else Zotero.Prefs.get("ai4paper.eyesprotectioncolor") === "自定义" && (var2107 = Zotero.Prefs.get("ai4paper.eyesprotectioncolorcode"));
+                    if (Zotero.Prefs.get("ai4paper.eyesprotectioncolor") === "极光灰") str = "#cfcfee";else {
+                      if (Zotero.Prefs.get('ai4paper.eyesprotectioncolor') === "象牙白") str = "#f8ebbf";else Zotero.Prefs.get("ai4paper.eyesprotectioncolor") === "自定义" && (str = Zotero.Prefs.get("ai4paper.eyesprotectioncolorcode"));
                     }
                   }
                 }
@@ -1727,40 +1727,40 @@ Object.assign(Zotero.AI4Paper, {
       }
     }
     try {
-      param260.document.querySelectorAll("iframe")[0x0]?.["contentWindow"]["document"]["head"]["querySelectorAll"]("#eyes-protection-color")["forEach"](_0x357d48 => _0x357d48.remove());
-      param260.document.querySelectorAll("iframe")[0x1]?.["contentWindow"]['document']["head"]["querySelectorAll"]("#eyes-protection-color")["forEach"](_0x42d740 => _0x42d740.remove());
-      let var2108 = param260.document.createElement("style");
-      var2108.id = "eyes-protection-color";
-      var2108.textContent = ".textLayer{\n                display:block !important;\n                background-color: " + var2107 + " !important;\n                opacity: 0.2 !important;\n            }";
-      param260.document.querySelectorAll("iframe")[0x0]?.["contentWindow"]["document"]["head"]['appendChild'](var2108);
-      var2108 = param260.document.createElement("style");
-      var2108.id = "eyes-protection-color";
-      var2108.textContent = '.textLayer{\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20display:block\x20!important;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20background-color:\x20' + var2107 + " !important;\n                opacity: 0.2 !important;\n            }";
-      param260.document.querySelectorAll("iframe")[0x1]?.['contentWindow']["document"]["head"]['appendChild'](var2108);
-    } catch (_0x29fe6c) {
-      Zotero.debug('' + _0x29fe6c);
+      bgIframeWin.document.querySelectorAll("iframe")[0x0]?.["contentWindow"]["document"]["head"]["querySelectorAll"]("#eyes-protection-color")["forEach"](el => el.remove());
+      bgIframeWin.document.querySelectorAll("iframe")[0x1]?.["contentWindow"]['document']["head"]["querySelectorAll"]("#eyes-protection-color")["forEach"](el => el.remove());
+      let elem71 = bgIframeWin.document.createElement("style");
+      elem71.id = "eyes-protection-color";
+      elem71.textContent = ".textLayer{\n                display:block !important;\n                background-color: " + str + " !important;\n                opacity: 0.2 !important;\n            }";
+      bgIframeWin.document.querySelectorAll("iframe")[0x0]?.["contentWindow"]["document"]["head"]['appendChild'](elem71);
+      elem71 = bgIframeWin.document.createElement("style");
+      elem71.id = "eyes-protection-color";
+      elem71.textContent = '.textLayer{\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20display:block\x20!important;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20background-color:\x20' + str + " !important;\n                opacity: 0.2 !important;\n            }";
+      bgIframeWin.document.querySelectorAll("iframe")[0x1]?.['contentWindow']["document"]["head"]['appendChild'](elem71);
+    } catch (e) {
+      Zotero.debug('' + e);
     }
   },
   'OnSplitMenuItemClick': async function () {
-    let var2109 = Zotero_Tabs._selectedID;
-    var var2110 = Zotero.Reader.getByTabID(var2109);
-    if (!var2110) return false;
-    let var2111 = var2110._iframeWindow;
-    await new Promise(_0x5accc3 => setTimeout(_0x5accc3, 0x64));
-    Zotero.AI4Paper.addAnnotationButtonsInFloatingWindow(var2111);
-    Zotero.AI4Paper.setPDFBackGroundColor(var2111);
+    let tabID2 = Zotero_Tabs._selectedID;
+    var reader3 = Zotero.Reader.getByTabID(tabID2);
+    if (!reader3) return false;
+    let iframeWin5 = reader3._iframeWindow;
+    await new Promise(resolve => setTimeout(resolve, 0x64));
+    Zotero.AI4Paper.addAnnotationButtonsInFloatingWindow(iframeWin5);
+    Zotero.AI4Paper.setPDFBackGroundColor(iframeWin5);
   },
   'OnRotateMenuItemClick': async function () {
-    let var2112 = Zotero_Tabs._selectedID;
-    var var2113 = Zotero.Reader.getByTabID(var2112);
-    if (!var2113) return false;
-    let var2114 = var2113._iframeWindow;
-    await new Promise(_0x159ec4 => setTimeout(_0x159ec4, 0x3e8));
-    Zotero.AI4Paper.setPDFBackGroundColor(var2114);
-    Zotero.AI4Paper.addAnnotationButtonsInFloatingWindow(var2114);
+    let tabID3 = Zotero_Tabs._selectedID;
+    var reader4 = Zotero.Reader.getByTabID(tabID3);
+    if (!reader4) return false;
+    let iframeWin6 = reader4._iframeWindow;
+    await new Promise(resolve => setTimeout(resolve, 0x3e8));
+    Zotero.AI4Paper.setPDFBackGroundColor(iframeWin6);
+    Zotero.AI4Paper.addAnnotationButtonsInFloatingWindow(iframeWin6);
   },
-  'readerMenuItemClickEvent': function (param261) {
-    if (param261 === "add") {
+  'readerMenuItemClickEvent': function (actionType) {
+    if (actionType === "add") {
       window.document.getElementById("view-menuitem-split-horizontally")?.["addEventListener"]("command", () => {
         Zotero.AI4Paper.OnSplitMenuItemClick();
       });
@@ -1773,7 +1773,7 @@ Object.assign(Zotero.AI4Paper, {
       window.document.getElementById("menu_rotateLeft")?.["addEventListener"]("command", () => {
         Zotero.AI4Paper.OnRotateMenuItemClick();
       });
-    } else param261 === "remove" && (window.document.getElementById("view-menuitem-split-horizontally")?.["removeEventListener"]("command", () => {
+    } else actionType === "remove" && (window.document.getElementById("view-menuitem-split-horizontally")?.["removeEventListener"]("command", () => {
       Zotero.AI4Paper.OnSplitMenuItemClick();
     }), window.document.getElementById("view-menuitem-split-vertically")?.['removeEventListener']('command', () => {
       Zotero.AI4Paper.OnSplitMenuItemClick();
@@ -1783,172 +1783,172 @@ Object.assign(Zotero.AI4Paper, {
       Zotero.AI4Paper.OnRotateMenuItemClick();
     }));
   },
-  'addReaderMenuButton_go2FavoriteCollection': async function (param262) {
-    param262.document.getElementById("AI4Paper: go2FavoriteCollection")?.["remove"]();
-    param262.document.querySelectorAll("#divider-before-toolbarButton-go2FavoriteCollection").forEach(_0x4d7baa => _0x4d7baa.remove());
-    param262.document.head.querySelectorAll("#go2FavoriteCollection-button-style").forEach(_0x1050c0 => _0x1050c0.remove());
-    const var2115 = param262.document.createElement("style");
-    var2115.id = "go2FavoriteCollection-button-style";
-    var2115.textContent = "\n          .toolbarButton.go2FavoriteCollection-button-css::before {\n            background-image: url('chrome://ai4paper/content/icons/folder_20px.svg') !important;\n            background-repeat: repeat;\n            background-size: cover;\n            width: 16px;\n            height: 16px;\n            margin: 0 !important;\n            background-color: transparent !important;\n            border: none !important;\n            transform: scale(0.8);\n          }\n        ";
-    param262.document.head.appendChild(var2115);
-    let var2116 = param262.document.querySelector(".toolbar-button.toolbar-dropdown-button"),
-      var2117 = var2116.cloneNode(true);
-    var2117.id = "AI4Paper: go2FavoriteCollection";
-    var2117.title = "前往收藏分类";
-    var2117.disabled = false;
-    var2117.setAttribute("class", "toolbar-button toolbar-dropdown-button AI4Paper-Reader-Buttons AI4Paper-centerRight-toolbarButton");
-    var2117.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvggo2favoritecollection + "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"8\" height=\"8\" transform=\"translate(1,0)\" fill=\"#828282\"><path fill=\"#828282\" d=\"m0 2.707 4 4 4-4L7.293 2 4 5.293.707 2z\"></path></svg>";
-    var2116?.["after"](var2117);
-    let var2118 = param262.document.querySelector(".divider");
-    if (var2118) {
-      let var2119 = var2118.cloneNode(true);
-      var2119.setAttribute('id', "divider-before-toolbarButton-go2FavoriteCollection");
-      var2119.classList.toggle("divider-before-toolbarButton", true);
-      var2117?.["before"](var2119);
+  'addReaderMenuButton_go2FavoriteCollection': async function (readerDoc) {
+    readerDoc.document.getElementById("AI4Paper: go2FavoriteCollection")?.["remove"]();
+    readerDoc.document.querySelectorAll("#divider-before-toolbarButton-go2FavoriteCollection").forEach(el => el.remove());
+    readerDoc.document.head.querySelectorAll("#go2FavoriteCollection-button-style").forEach(el => el.remove());
+    const elem72 = readerDoc.document.createElement("style");
+    elem72.id = "go2FavoriteCollection-button-style";
+    elem72.textContent = "\n          .toolbarButton.go2FavoriteCollection-button-css::before {\n            background-image: url('chrome://ai4paper/content/icons/folder_20px.svg') !important;\n            background-repeat: repeat;\n            background-size: cover;\n            width: 16px;\n            height: 16px;\n            margin: 0 !important;\n            background-color: transparent !important;\n            border: none !important;\n            transform: scale(0.8);\n          }\n        ";
+    readerDoc.document.head.appendChild(elem72);
+    let elem73 = readerDoc.document.querySelector(".toolbar-button.toolbar-dropdown-button"),
+      clone4 = elem73.cloneNode(true);
+    clone4.id = "AI4Paper: go2FavoriteCollection";
+    clone4.title = "前往收藏分类";
+    clone4.disabled = false;
+    clone4.setAttribute("class", "toolbar-button toolbar-dropdown-button AI4Paper-Reader-Buttons AI4Paper-centerRight-toolbarButton");
+    clone4.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvggo2favoritecollection + "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"8\" height=\"8\" transform=\"translate(1,0)\" fill=\"#828282\"><path fill=\"#828282\" d=\"m0 2.707 4 4 4-4L7.293 2 4 5.293.707 2z\"></path></svg>";
+    elem73?.["after"](clone4);
+    let elem74 = readerDoc.document.querySelector(".divider");
+    if (elem74) {
+      let clone5 = elem74.cloneNode(true);
+      clone5.setAttribute('id', "divider-before-toolbarButton-go2FavoriteCollection");
+      clone5.classList.toggle("divider-before-toolbarButton", true);
+      clone4?.["before"](clone5);
     }
-    let var2120 = window.document.createXULElement("menupopup");
-    var2120.id = "AI4Paper-ReaderButton-go2FavoriteCollection-menupopup";
-    var2120.addEventListener("popuphidden", () => {
-      window.document.querySelector("#browser").querySelectorAll("#AI4Paper-ReaderButton-go2FavoriteCollection-menupopup").forEach(_0x187478 => _0x187478.remove());
+    let elem75 = window.document.createXULElement("menupopup");
+    elem75.id = "AI4Paper-ReaderButton-go2FavoriteCollection-menupopup";
+    elem75.addEventListener("popuphidden", () => {
+      window.document.querySelector("#browser").querySelectorAll("#AI4Paper-ReaderButton-go2FavoriteCollection-menupopup").forEach(el => el.remove());
     });
-    Zotero.AI4Paper.buildMenuItem_FavoriteCollection(var2120, true);
-    var2117.addEventListener("click", _0x353c6c => {
-      window.document.querySelector("#browser").querySelectorAll("#AI4Paper-ReaderButton-go2FavoriteCollection-menupopup").forEach(_0x5c8c55 => _0x5c8c55.remove());
-      window.document.querySelector("#browser")?.["appendChild"](var2120);
-      var2120.openPopup(var2117, "after_start", 0x0, 0x0, false, false);
+    Zotero.AI4Paper.buildMenuItem_FavoriteCollection(elem75, true);
+    clone4.addEventListener("click", evt => {
+      window.document.querySelector("#browser").querySelectorAll("#AI4Paper-ReaderButton-go2FavoriteCollection-menupopup").forEach(el => el.remove());
+      window.document.querySelector("#browser")?.["appendChild"](elem75);
+      elem75.openPopup(clone4, "after_start", 0x0, 0x0, false, false);
     });
-    var2117.addEventListener("pointerdown", _0x116704 => {
-      if (_0x116704.button == 0x2) {
+    clone4.addEventListener("pointerdown", evt => {
+      if (evt.button == 0x2) {
         Zotero.AI4Paper.openDialogByType('sortFavoriteCollections');
       }
     }, false);
   },
-  'addReaderMenuButton_paperAI': function (param263, param264) {
-    param263.document.getElementById('AI4Paper:\x20PaperAI')?.["remove"]();
-    let var2121 = param263.document.querySelector(".toolbar-button.toolbar-dropdown-button"),
-      var2122 = var2121.cloneNode(true);
-    var2122.id = "AI4Paper: PaperAI";
-    var2122.title = 'AI\x20解读论文';
-    var2122.disabled = false;
-    var2122.setAttribute("class", 'toolbar-button\x20toolbar-dropdown-button\x20AI4Paper-Reader-Buttons');
-    var2122.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgPaperAI + "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"8\" height=\"8\" transform=\"translate(1,0)\" fill=\"#828282\"><path fill=\"#828282\" d=\"m0 2.707 4 4 4-4L7.293 2 4 5.293.707 2z\"></path></svg>";
-    param264.parentNode.prepend(var2122);
-    let var2123,
-      var2124 = window.document.createXULElement("menupopup");
-    var2124.id = "AI4Paper-ReaderButton-PaperAI-menupopup";
-    var2124.addEventListener('popuphidden', () => {
-      window.document.querySelector("#browser").querySelectorAll("#AI4Paper-ReaderButton-PaperAI-menupopup").forEach(_0x469f69 => _0x469f69.remove());
+  'addReaderMenuButton_paperAI': function (paperAIIframeWin, findButton) {
+    paperAIIframeWin.document.getElementById('AI4Paper:\x20PaperAI')?.["remove"]();
+    let elem76 = paperAIIframeWin.document.querySelector(".toolbar-button.toolbar-dropdown-button"),
+      clone6 = elem76.cloneNode(true);
+    clone6.id = "AI4Paper: PaperAI";
+    clone6.title = 'AI\x20解读论文';
+    clone6.disabled = false;
+    clone6.setAttribute("class", 'toolbar-button\x20toolbar-dropdown-button\x20AI4Paper-Reader-Buttons');
+    clone6.innerHTML = Zotero.AI4Paper.svg_icon_20px.enablesvgPaperAI + "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"8\" height=\"8\" transform=\"translate(1,0)\" fill=\"#828282\"><path fill=\"#828282\" d=\"m0 2.707 4 4 4-4L7.293 2 4 5.293.707 2z\"></path></svg>";
+    findButton.parentNode.prepend(clone6);
+    let local18,
+      elem77 = window.document.createXULElement("menupopup");
+    elem77.id = "AI4Paper-ReaderButton-PaperAI-menupopup";
+    elem77.addEventListener('popuphidden', () => {
+      window.document.querySelector("#browser").querySelectorAll("#AI4Paper-ReaderButton-PaperAI-menupopup").forEach(el => el.remove());
     });
-    let var2125 = var2124.firstElementChild;
-    while (var2125) {
-      var2125.remove();
-      var2125 = var2124.firstElementChild;
+    let local19 = elem77.firstElementChild;
+    while (local19) {
+      local19.remove();
+      local19 = elem77.firstElementChild;
     }
-    let var2126 = ["AI 解读论文 🔒", '论文深度解读\x20🔒', "论文简要剖析 🔒"];
-    for (let var2127 of var2126) {
-      var2123 = window.document.createXULElement('menuitem');
-      var2123.value = var2127;
-      var2123.label = var2127;
-      var2123.setAttribute("tooltiptext", var2127);
-      var2123.addEventListener("command", _0x2c344d => {
-        Zotero.AI4Paper.onClickPaperAIButtonMenuItem(var2127);
+    let arr = ["AI 解读论文 🔒", '论文深度解读\x20🔒', "论文简要剖析 🔒"];
+    for (let i3 of arr) {
+      local18 = window.document.createXULElement('menuitem');
+      local18.value = i3;
+      local18.label = i3;
+      local18.setAttribute("tooltiptext", i3);
+      local18.addEventListener("command", evt => {
+        Zotero.AI4Paper.onClickPaperAIButtonMenuItem(i3);
       });
-      var2124.appendChild(var2123);
+      elem77.appendChild(local18);
     }
-    let var2128 = Zotero.Prefs.get('ai4paper.chatgptprompttemplateuser'),
-      var2129 = [];
-    if (var2128 != '') {
-      let var2130 = var2128.split('\x0a');
-      for (let var2131 of var2130) {
-        if (var2131 != '') {
-          var2131 = var2131.trim();
-          if (var2131.lastIndexOf('👈') === var2131.length - 0x2) {
-            let _0x4955d8 = var2131.lastIndexOf('👈');
-            if (var2131.lastIndexOf('👉') != -0x1) {
-              let var2133 = var2131.lastIndexOf('👉'),
-                var2134 = var2131.substring(var2133 + 0x2, _0x4955d8).trim();
-              var2123 = window.document.createXULElement("menuitem");
-              var2123.value = var2134;
-              var2123.label = var2134;
-              var2123.setAttribute('tooltiptext', var2131);
-              var2123.addEventListener("command", _0x5118ac => {
-                Zotero.AI4Paper.onClickPaperAIButtonMenuItem(var2134);
+    let prefVal = Zotero.Prefs.get('ai4paper.chatgptprompttemplateuser'),
+      arr2 = [];
+    if (prefVal != '') {
+      let parts7 = prefVal.split('\x0a');
+      for (let i4 of parts7) {
+        if (i4 != '') {
+          i4 = i4.trim();
+          if (i4.lastIndexOf('👈') === i4.length - 0x2) {
+            let local6 = i4.lastIndexOf('👈');
+            if (i4.lastIndexOf('👉') != -0x1) {
+              let local20 = i4.lastIndexOf('👉'),
+                substr = i4.substring(local20 + 0x2, local6).trim();
+              local18 = window.document.createXULElement("menuitem");
+              local18.value = substr;
+              local18.label = substr;
+              local18.setAttribute('tooltiptext', i4);
+              local18.addEventListener("command", evt => {
+                Zotero.AI4Paper.onClickPaperAIButtonMenuItem(substr);
               });
-              var2124.appendChild(var2123);
+              elem77.appendChild(local18);
             } else {
-              var2123 = window.document.createXULElement("menuitem");
-              var2123.value = var2131;
-              var2123.label = var2131;
-              var2123.setAttribute("tooltiptext", var2131);
-              var2123.addEventListener("command", _0x5d501c => {
-                Zotero.AI4Paper.onClickPaperAIButtonMenuItem(var2131);
+              local18 = window.document.createXULElement("menuitem");
+              local18.value = i4;
+              local18.label = i4;
+              local18.setAttribute("tooltiptext", i4);
+              local18.addEventListener("command", evt => {
+                Zotero.AI4Paper.onClickPaperAIButtonMenuItem(i4);
               });
-              var2124.appendChild(var2123);
+              elem77.appendChild(local18);
             }
           } else {
-            var2123 = window.document.createXULElement("menuitem");
-            var2123.value = var2131;
-            var2123.label = var2131;
-            var2123.setAttribute('tooltiptext', var2131);
-            var2123.addEventListener("command", _0x1ce18e => {
-              Zotero.AI4Paper.onClickPaperAIButtonMenuItem(var2131);
+            local18 = window.document.createXULElement("menuitem");
+            local18.value = i4;
+            local18.label = i4;
+            local18.setAttribute('tooltiptext', i4);
+            local18.addEventListener("command", evt => {
+              Zotero.AI4Paper.onClickPaperAIButtonMenuItem(i4);
             });
-            var2124.appendChild(var2123);
+            elem77.appendChild(local18);
           }
         }
       }
     }
-    var2122.addEventListener('click', _0x3190fa => {
-      window.document.querySelector("#browser").querySelectorAll("#AI4Paper-ReaderButton-PaperAI-menupopup").forEach(_0x386299 => _0x386299.remove());
-      window.document.querySelector("#browser")?.['appendChild'](var2124);
-      var2124.openPopup(var2122, "after_start", 0x0, 0x0, false, false);
+    clone6.addEventListener('click', evt => {
+      window.document.querySelector("#browser").querySelectorAll("#AI4Paper-ReaderButton-PaperAI-menupopup").forEach(el => el.remove());
+      window.document.querySelector("#browser")?.['appendChild'](elem77);
+      elem77.openPopup(clone6, "after_start", 0x0, 0x0, false, false);
     });
-    var2122.addEventListener("pointerdown", _0x4a0a60 => {
-      if (_0x4a0a60.button === 0x2) {
+    clone6.addEventListener("pointerdown", evt => {
+      if (evt.button === 0x2) {
         Zotero.AI4Paper.paperAI(false);
       }
     });
   },
-  'onClickPaperAIButtonMenuItem': function (param265) {
-    if (param265 === "AI 解读论文 🔒") {
+  'onClickPaperAIButtonMenuItem': function (menuItemLabel) {
+    if (menuItemLabel === "AI 解读论文 🔒") {
       Zotero.AI4Paper.paperAI(false);
     } else {
-      window.document.querySelector("#ai4paper-chatgpt-readerSidePane-chatgpt-prompt-template-menulist").value = param265;
-      Zotero.Prefs.set('ai4paper.chatgptprompttemplate', param265);
+      window.document.querySelector("#ai4paper-chatgpt-readerSidePane-chatgpt-prompt-template-menulist").value = menuItemLabel;
+      Zotero.Prefs.set('ai4paper.chatgptprompttemplate', menuItemLabel);
       Zotero.AI4Paper.paperAI(true);
     }
   },
   'translateSelect': async function () {
-    let var2135 = Zotero_Tabs._selectedID;
-    var var2136 = Zotero.Reader.getByTabID(var2135);
-    if (!var2136) {
+    let tabID4 = Zotero_Tabs._selectedID;
+    var reader5 = Zotero.Reader.getByTabID(tabID4);
+    if (!reader5) {
       return false;
     }
-    await var2136._initPromise;
-    await var2136._waitForReader();
-    !var2136.translateSelectTextInit && (var2136.translateSelectTextInit = true, var2136._iframeWindow.addEventListener("pointerup", ((_0x3cb9ae, _0x7396f7) => {
-      return _0x5802f1 => {
-        Zotero.AI4Paper.onSelectText(_0x5802f1, _0x3cb9ae, _0x7396f7);
+    await reader5._initPromise;
+    await reader5._waitForReader();
+    !reader5.translateSelectTextInit && (reader5.translateSelectTextInit = true, reader5._iframeWindow.addEventListener("pointerup", ((local5, local8) => {
+      return cb => {
+        Zotero.AI4Paper.onSelectText(cb, local5, local8);
       };
-    })(var2136)));
+    })(reader5)));
   },
-  'handlePointerup': function (param266) {
-    let var2137 = Zotero.AI4Paper.getCurrentReader();
-    var2137 && Zotero.AI4Paper.onSelectText(param266, var2137);
+  'handlePointerup': function (event) {
+    let result6 = Zotero.AI4Paper.getCurrentReader();
+    result6 && Zotero.AI4Paper.onSelectText(event, result6);
   },
   'getCurrentReader': function () {
-    let var2138 = Zotero_Tabs._selectedID;
-    var var2139 = Zotero.Reader.getByTabID(var2138);
-    return var2139 || false;
+    let tabID5 = Zotero_Tabs._selectedID;
+    var reader6 = Zotero.Reader.getByTabID(tabID5);
+    return reader6 || false;
   },
-  'getReaderItemContentType': function (param267) {
-    let var2140 = param267.itemID,
-      var2141 = Zotero.Items.get(var2140);
-    return var2141.attachmentContentType;
+  'getReaderItemContentType': function (readerInstance) {
+    let local21 = readerInstance.itemID,
+      item2 = Zotero.Items.get(local21);
+    return item2.attachmentContentType;
   },
   'CheckPDFReader': function () {
-    let var2577 = Zotero_Tabs._selectedID;
-    var var2578 = Zotero.Reader.getByTabID(var2577);
-    return var2578 ? true : false;
+    let tabID6 = Zotero_Tabs._selectedID;
+    var reader7 = Zotero.Reader.getByTabID(tabID6);
+    return reader7 ? true : false;
   },
 });

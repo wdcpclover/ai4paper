@@ -4,301 +4,301 @@
 Object.assign(Zotero.AI4Paper, {
 
   // === Block A: Metadata Templates, YAML, QN Key, Date Helpers, Collection Names, Item Links ===
-  'readMetadataTemplate': function (param159, param160) {
-    let var1483 = param159.indexOf(param160),
-      var1484 = param159.substring(var1483),
-      var1485 = var1484.indexOf("[[["),
-      var1486 = var1484.indexOf("]]]");
-    return var1484.substring(var1485 + 0x3, var1486);
+  'readMetadataTemplate': function (templateStr, marker) {
+    let markerPos = templateStr.indexOf(marker),
+      afterMarker = templateStr.substring(markerPos),
+      openPos = afterMarker.indexOf("[[["),
+      closePos = afterMarker.indexOf("]]]");
+    return afterMarker.substring(openPos + 0x3, closePos);
   },
-  'itemMetadata': function (param161, param162) {
-    let var1487 = Zotero.ItemTypes.getName(param161.itemTypeID),
-      var1488 = param161.getField("title"),
-      var1489 = param161.getField("shortTitle"),
-      var1490 = param161.getCreators(),
-      var1491 = param161.getField("publicationTitle").replace(/\:/g, '：').replace(/： /g, '：').replace(/\"/g, '“').replace(/\n/g, '\x20'),
-      var1492 = param161.getField("journalAbbreviation").replace(/\:/g, '：').replace(/： /g, '：').replace(/\"/g, '“').replace(/\n/g, '\x20'),
-      var1493 = param161.getField("volume"),
-      var1494 = param161.getField('issue'),
-      var1495 = param161.getField('pages'),
-      var1496 = param161.getField("series"),
-      var1497 = param161.getField("language"),
-      var1498 = param161.getField("DOI"),
-      var1499 = param161.getField("ISSN"),
-      var1500 = param161.getField('url'),
-      var1501 = param161.getField('archive'),
-      var1502 = ('' + param161.getField("archiveLocation")).split('📊')[0x0].trim(),
-      var1503 = ('' + param161.getField('libraryCatalog')).split('(')[0x0].trim(),
-      var1504 = Zotero.AI4Paper.extractJCRQ(param161.getField("libraryCatalog")),
-      var1505 = param161.getField('callNumber'),
-      var1506 = param161.getField("rights"),
-      var1507 = param161.getField('extra').replace(/\:/g, '：').replace(/： /g, '：').replace(/\"/g, '“').replace(/\n/g, '\x20'),
-      var1508 = param161.getField("proceedingsTitle"),
-      var1509 = param161.getField('conferenceName'),
-      var1510 = param161.getField("place"),
-      var1511 = param161.getField("publisher"),
-      var1512 = param161.getField("ISBN"),
-      var1513 = param161.getField("university"),
-      var1514 = param161.getField("edition"),
-      var1515 = param161.getField('country'),
-      var1516 = param161.getField("issuingAuthority"),
-      var1517 = param161.getField('patentNumber'),
-      var1518 = param161.getField("applicationNumber"),
-      var1519 = param161.getField('priorityNumbers'),
-      var1520 = param161.getField("issueDate"),
-      var1521 = param161.getField("bookTitle"),
-      var1522 = param161.getField("seriesNumber"),
-      var1523 = param161.getField("numberOfVolumes"),
-      var1524 = param161.getField("date"),
-      var1525 = Zotero.AI4Paper.getZoteroDateY(var1524),
-      var1526 = Zotero.AI4Paper.getDateAdded(param161),
-      var1527 = Zotero.AI4Paper.getDateTimeAdded(param161),
-      var1528 = Zotero.AI4Paper.getDateModified(param161),
-      var1529 = Zotero.AI4Paper.getDateTimeModified(param161),
-      var1530 = Zotero.AI4Paper.getCollectionNames(param161),
-      var1531 = Zotero.AI4Paper.getRelatedItems(param161),
-      var1532 = Zotero.AI4Paper.getItemZoteroLink(param161);
-    if (Zotero.Prefs.get('ai4paper.pdflinkhtml')) var var1533 = Zotero.AI4Paper.getItemZoteroPDFLinksHTML(param161);else {
-      var var1533 = Zotero.AI4Paper.getItemZoteroPDFLinks(param161);
-      var1533 != '' && (var1533 = '\x0a' + var1533);
+  'itemMetadata': function (item, template) {
+    let itemType = Zotero.ItemTypes.getName(item.itemTypeID),
+      title = item.getField("title"),
+      shortTitle = item.getField("shortTitle"),
+      creators = item.getCreators(),
+      publicationTitle = item.getField("publicationTitle").replace(/\:/g, '：').replace(/： /g, '：').replace(/\"/g, '\u201C').replace(/\n/g, '\x20'),
+      journalAbbrev = item.getField("journalAbbreviation").replace(/\:/g, '：').replace(/： /g, '：').replace(/\"/g, '\u201C').replace(/\n/g, '\x20'),
+      volume = item.getField("volume"),
+      issue = item.getField('issue'),
+      pages = item.getField('pages'),
+      series = item.getField("series"),
+      language = item.getField("language"),
+      doi = item.getField("DOI"),
+      issn = item.getField("ISSN"),
+      url = item.getField('url'),
+      archive = item.getField('archive'),
+      archiveLocation = ('' + item.getField("archiveLocation")).split('\u{1F4CA}')[0x0].trim(),
+      libraryCatalog = ('' + item.getField('libraryCatalog')).split('(')[0x0].trim(),
+      jcrq = Zotero.AI4Paper.extractJCRQ(item.getField("libraryCatalog")),
+      callNumber = item.getField('callNumber'),
+      rights = item.getField("rights"),
+      extra = item.getField('extra').replace(/\:/g, '：').replace(/： /g, '：').replace(/\"/g, '\u201C').replace(/\n/g, '\x20'),
+      proceedingsTitle = item.getField("proceedingsTitle"),
+      conferenceName = item.getField('conferenceName'),
+      place = item.getField("place"),
+      publisher = item.getField("publisher"),
+      isbn = item.getField("ISBN"),
+      university = item.getField("university"),
+      edition = item.getField("edition"),
+      country = item.getField('country'),
+      issuingAuthority = item.getField("issuingAuthority"),
+      patentNumber = item.getField('patentNumber'),
+      applicationNumber = item.getField("applicationNumber"),
+      priorityNumbers = item.getField('priorityNumbers'),
+      issueDate = item.getField("issueDate"),
+      bookTitle = item.getField("bookTitle"),
+      seriesNumber = item.getField("seriesNumber"),
+      numberOfVolumes = item.getField("numberOfVolumes"),
+      date = item.getField("date"),
+      dateYear = Zotero.AI4Paper.getZoteroDateY(date),
+      dateAdded = Zotero.AI4Paper.getDateAdded(item),
+      datetimeAdded = Zotero.AI4Paper.getDateTimeAdded(item),
+      dateModified = Zotero.AI4Paper.getDateModified(item),
+      datetimeModified = Zotero.AI4Paper.getDateTimeModified(item),
+      collectionNames = Zotero.AI4Paper.getCollectionNames(item),
+      relatedItems = Zotero.AI4Paper.getRelatedItems(item),
+      itemLink = Zotero.AI4Paper.getItemZoteroLink(item);
+    if (Zotero.Prefs.get('ai4paper.pdflinkhtml')) var pdfLinks = Zotero.AI4Paper.getItemZoteroPDFLinksHTML(item);else {
+      var pdfLinks = Zotero.AI4Paper.getItemZoteroPDFLinks(item);
+      pdfLinks != '' && (pdfLinks = '\x0a' + pdfLinks);
     }
     if (Zotero.Prefs.get('ai4paper.relatedlongindent')) {
-      var1531.length > 0x64 && (var1531 = "\n  - " + var1531);
+      relatedItems.length > 0x64 && (relatedItems = "\n  - " + relatedItems);
     }
-    let var1534 = [],
-      var1535 = '';
-    if (var1490.length > 0x0) {
-      if (param161.getField('title').search(/[_\u4e00-\u9fa5]/) === -0x1) {
-        for (let var1536 of var1490) {
-          var1534.push('' + (Zotero.Prefs.get("ai4paper.creatorsnointernallinks") ? var1536.firstName + '\x20' + var1536.lastName : '[[' + var1536.firstName + '\x20' + var1536.lastName + ']]'));
+    let creatorNames = [],
+      creatorsStr = '';
+    if (creators.length > 0x0) {
+      if (item.getField('title').search(/[_\u4e00-\u9fa5]/) === -0x1) {
+        for (let creator of creators) {
+          creatorNames.push('' + (Zotero.Prefs.get("ai4paper.creatorsnointernallinks") ? creator.firstName + '\x20' + creator.lastName : '[[' + creator.firstName + '\x20' + creator.lastName + ']]'));
         }
-        var1535 = var1534.join('、\x20');
+        creatorsStr = creatorNames.join('、\x20');
       } else {
-        for (let var1537 of var1490) {
-          var1534.push('' + (Zotero.Prefs.get("ai4paper.creatorsnointernallinks") ? var1537.lastName + var1537.firstName : '[[' + var1537.lastName + var1537.firstName + ']]'));
+        for (let creator of creators) {
+          creatorNames.push('' + (Zotero.Prefs.get("ai4paper.creatorsnointernallinks") ? creator.lastName + creator.firstName : '[[' + creator.lastName + creator.firstName + ']]'));
         }
-        var1535 = var1534.join('、');
+        creatorsStr = creatorNames.join('、');
       }
     }
-    var1524 = Zotero.AI4Paper.getZoteroDate(var1524);
-    let var1538 = Zotero.AI4Paper.formatSpecialTags(Zotero.AI4Paper.getItemTags(param161));
-    Zotero.Prefs.get("ai4paper.tagslongindent") && var1538.length > 0x64 && (var1538 = "\n  - " + var1538);
-    let var1539 = param161.getField("abstractNote").replace(/\n/g, '\x0a>'),
-      var1540 = param161.getField("abstractNote");
-    return Zotero.Prefs.get("ai4paper.exportnotesabstractyaml") && var1540 != '' && (var1540 = var1540.replace(/\n\n【摘要翻译】/g, "【摘要翻译】").replace(/\:/g, '：').replace(/： /g, '：').replace(/\"/g, '“').replace(/\n\n/g, '\x20').replace(/\n/g, '\x20')), param162 = param162.replace(/{{itemType}}/g, var1487), param162 = param162.replace(/{{title}}/g, var1488), param162 = param162.replace(/{{shortTitle}}/g, var1489.replace(/\ /g, '')), param162 = param162.replace(/{{creators}}/g, var1535), param162 = param162.replace(/{{publicationTitle}}/g, '' + (var1491 != '' ? '[[' + var1491 + ']]' : '')), param162 = param162.replace(/{{journalAbbreviation}}/g, var1492), param162 = param162.replace(/{{volume}}/g, var1493), param162 = param162.replace(/{{issue}}/g, var1494), param162 = param162.replace(/{{pages}}/g, var1495), param162 = param162.replace(/{{series}}/g, var1496), param162 = param162.replace(/{{language}}/g, var1497), param162 = param162.replace(/{{DOI}}/g, '' + (var1498 != '' ? '[' + var1498 + ']' + "(https://doi.org/" + var1498 + ')' : '')), param162 = param162.replace(/{{ISSN}}/g, var1499), param162 = param162.replace(/{{url}}/g, '' + (var1500 != '' ? '[' + var1500 + ']' + '(' + var1500 + ')' : '')), param162 = param162.replace(/{{archive}}/g, var1501), param162 = param162.replace(/{{archiveLocation}}/g, var1502), param162 = param162.replace(/{{libraryCatalog}}/g, var1503), param162 = param162.replace(/{{JCRQ}}/g, var1504), param162 = param162.replace(/{{callNumber}}/g, var1505), param162 = param162.replace(/{{rights}}/g, var1506), param162 = param162.replace(/{{extra}}/g, var1507), param162 = param162.replace(/{{proceedingsTitle}}/g, var1508), param162 = param162.replace(/{{conferenceName}}/g, var1509), param162 = param162.replace(/{{place}}/g, var1510), param162 = param162.replace(/{{publisher}}/g, var1511), param162 = param162.replace(/{{ISBN}}/g, var1512), param162 = param162.replace(/{{university}}/g, var1513), param162 = param162.replace(/{{edition}}/g, var1514), param162 = param162.replace(/{{country}}/g, var1515), param162 = param162.replace(/{{issuingAuthority}}/g, var1516), param162 = param162.replace(/{{patentNumber}}/g, var1517), param162 = param162.replace(/{{applicationNumber}}/g, var1518), param162 = param162.replace(/{{priorityNumbers}}/g, var1519), param162 = param162.replace(/{{issueDate}}/g, var1520), param162 = param162.replace(/{{bookTitle}}/g, var1521), param162 = param162.replace(/{{seriesNumber}}/g, var1522), param162 = param162.replace(/{{numberOfVolumes}}/g, var1523), param162 = param162.replace(/{{date}}/g, var1524), param162 = param162.replace(/{{dateY}}/g, var1525), param162 = param162.replace(/{{dateAdded}}/g, var1526), param162 = param162.replace(/{{datetimeAdded}}/g, var1527), param162 = param162.replace(/{{dateModified}}/g, var1528), param162 = param162.replace(/{{datetimeModified}}/g, var1529), param162 = param162.replace(/{{collection}}/g, '' + (var1530 != '' ? var1530 : '')), param162 = param162.replace(/{{related}}/g, var1531), param162 = param162.replace(/{{qnkey}}/g, Zotero.AI4Paper.getQNKey(param161)), param162 = param162.replace(/{{citationKey}}/g, param161.getField("citationKey")), param162 = param162.replace(/{{itemLink}}/g, '[My\x20Library](' + var1532 + ')'), param162 = param162.replace(/{{pdfLink}}/g, var1533), param162 = param162.replace(/{{tags}}/g, var1538), param162 = param162.replace(/{{abstract}}/g, var1540), param162 = param162.replace(/{{abstractFormat}}/g, var1539), param162 = param162.replace(/{{year}}/g, Zotero.AI4Paper.getYear()), param162 = param162.replace(/{{dateCurrent}}/g, Zotero.AI4Paper.getDate()), param162 = param162.replace(/{{time}}/g, Zotero.AI4Paper.getTime()), param162 = param162.replace(/{{week}}/g, Zotero.AI4Paper.getWeek()), param162 = param162.replace(/{{yearMonth}}/g, Zotero.AI4Paper.getYearMonth()), param162 = param162.replace(/{{dateWeek}}/g, Zotero.AI4Paper.getDateWeek()), param162 = param162.replace(/{{dateTime}}/g, Zotero.AI4Paper.getDateTime()), param162 = param162.replace(/{{dateWeekTime}}/g, Zotero.AI4Paper.getDateWeekTime()), param162;
+    date = Zotero.AI4Paper.getZoteroDate(date);
+    let tagsStr = Zotero.AI4Paper.formatSpecialTags(Zotero.AI4Paper.getItemTags(item));
+    Zotero.Prefs.get("ai4paper.tagslongindent") && tagsStr.length > 0x64 && (tagsStr = "\n  - " + tagsStr);
+    let abstractFormatted = item.getField("abstractNote").replace(/\n/g, '\x0a>'),
+      abstractNote = item.getField("abstractNote");
+    return Zotero.Prefs.get("ai4paper.exportnotesabstractyaml") && abstractNote != '' && (abstractNote = abstractNote.replace(/\n\n【摘要翻译】/g, "【摘要翻译】").replace(/\:/g, '：').replace(/： /g, '：').replace(/\"/g, '\u201C').replace(/\n\n/g, '\x20').replace(/\n/g, '\x20')), template = template.replace(/{{itemType}}/g, itemType), template = template.replace(/{{title}}/g, title), template = template.replace(/{{shortTitle}}/g, shortTitle.replace(/\ /g, '')), template = template.replace(/{{creators}}/g, creatorsStr), template = template.replace(/{{publicationTitle}}/g, '' + (publicationTitle != '' ? '[[' + publicationTitle + ']]' : '')), template = template.replace(/{{journalAbbreviation}}/g, journalAbbrev), template = template.replace(/{{volume}}/g, volume), template = template.replace(/{{issue}}/g, issue), template = template.replace(/{{pages}}/g, pages), template = template.replace(/{{series}}/g, series), template = template.replace(/{{language}}/g, language), template = template.replace(/{{DOI}}/g, '' + (doi != '' ? '[' + doi + ']' + "(https://doi.org/" + doi + ')' : '')), template = template.replace(/{{ISSN}}/g, issn), template = template.replace(/{{url}}/g, '' + (url != '' ? '[' + url + ']' + '(' + url + ')' : '')), template = template.replace(/{{archive}}/g, archive), template = template.replace(/{{archiveLocation}}/g, archiveLocation), template = template.replace(/{{libraryCatalog}}/g, libraryCatalog), template = template.replace(/{{JCRQ}}/g, jcrq), template = template.replace(/{{callNumber}}/g, callNumber), template = template.replace(/{{rights}}/g, rights), template = template.replace(/{{extra}}/g, extra), template = template.replace(/{{proceedingsTitle}}/g, proceedingsTitle), template = template.replace(/{{conferenceName}}/g, conferenceName), template = template.replace(/{{place}}/g, place), template = template.replace(/{{publisher}}/g, publisher), template = template.replace(/{{ISBN}}/g, isbn), template = template.replace(/{{university}}/g, university), template = template.replace(/{{edition}}/g, edition), template = template.replace(/{{country}}/g, country), template = template.replace(/{{issuingAuthority}}/g, issuingAuthority), template = template.replace(/{{patentNumber}}/g, patentNumber), template = template.replace(/{{applicationNumber}}/g, applicationNumber), template = template.replace(/{{priorityNumbers}}/g, priorityNumbers), template = template.replace(/{{issueDate}}/g, issueDate), template = template.replace(/{{bookTitle}}/g, bookTitle), template = template.replace(/{{seriesNumber}}/g, seriesNumber), template = template.replace(/{{numberOfVolumes}}/g, numberOfVolumes), template = template.replace(/{{date}}/g, date), template = template.replace(/{{dateY}}/g, dateYear), template = template.replace(/{{dateAdded}}/g, dateAdded), template = template.replace(/{{datetimeAdded}}/g, datetimeAdded), template = template.replace(/{{dateModified}}/g, dateModified), template = template.replace(/{{datetimeModified}}/g, datetimeModified), template = template.replace(/{{collection}}/g, '' + (collectionNames != '' ? collectionNames : '')), template = template.replace(/{{related}}/g, relatedItems), template = template.replace(/{{qnkey}}/g, Zotero.AI4Paper.getQNKey(item)), template = template.replace(/{{citationKey}}/g, item.getField("citationKey")), template = template.replace(/{{itemLink}}/g, '[My\x20Library](' + itemLink + ')'), template = template.replace(/{{pdfLink}}/g, pdfLinks), template = template.replace(/{{tags}}/g, tagsStr), template = template.replace(/{{abstract}}/g, abstractNote), template = template.replace(/{{abstractFormat}}/g, abstractFormatted), template = template.replace(/{{year}}/g, Zotero.AI4Paper.getYear()), template = template.replace(/{{dateCurrent}}/g, Zotero.AI4Paper.getDate()), template = template.replace(/{{time}}/g, Zotero.AI4Paper.getTime()), template = template.replace(/{{week}}/g, Zotero.AI4Paper.getWeek()), template = template.replace(/{{yearMonth}}/g, Zotero.AI4Paper.getYearMonth()), template = template.replace(/{{dateWeek}}/g, Zotero.AI4Paper.getDateWeek()), template = template.replace(/{{dateTime}}/g, Zotero.AI4Paper.getDateTime()), template = template.replace(/{{dateWeekTime}}/g, Zotero.AI4Paper.getDateWeekTime()), template;
   },
-  'extractJCRQ': function (param163) {
-    if (!param163) {
+  'extractJCRQ': function (catalogStr) {
+    if (!catalogStr) {
       return '';
     }
-    if (param163.lastIndexOf(')') != param163.length - 0x1) return '';
-    const var1541 = /\(([^)]*)\)/,
-      var1542 = param163.match(var1541);
-    return var1542 ? var1542[0x1] : '';
+    if (catalogStr.lastIndexOf(')') != catalogStr.length - 0x1) return '';
+    const pattern = /\(([^)]*)\)/,
+      match = catalogStr.match(pattern);
+    return match ? match[0x1] : '';
   },
-  'getZoteroDateY': function (param164) {
-    return Zotero.Date.strToDate(param164).year;
+  'getZoteroDateY': function (dateStr) {
+    return Zotero.Date.strToDate(dateStr).year;
   },
-  'getDateAdded': function (param165) {
-    return Zotero.AI4Paper.formatLocalDateTime(param165.getField("dateAdded"), true);
+  'getDateAdded': function (item) {
+    return Zotero.AI4Paper.formatLocalDateTime(item.getField("dateAdded"), true);
   },
-  'getDateTimeAdded': function (param166) {
-    return Zotero.AI4Paper.formatLocalDateTime(param166.getField("dateAdded"), false);
+  'getDateTimeAdded': function (item) {
+    return Zotero.AI4Paper.formatLocalDateTime(item.getField("dateAdded"), false);
   },
-  'getDateModified': function (param167) {
-    return Zotero.AI4Paper.formatLocalDateTime(param167.getField('dateModified'), true);
+  'getDateModified': function (item) {
+    return Zotero.AI4Paper.formatLocalDateTime(item.getField('dateModified'), true);
   },
-  'getDateTimeModified': function (param168) {
-    return Zotero.AI4Paper.formatLocalDateTime(param168.getField("dateModified"), false);
+  'getDateTimeModified': function (item) {
+    return Zotero.AI4Paper.formatLocalDateTime(item.getField("dateModified"), false);
   },
-  'formatLocalDateTime': function (param169, param170) {
-    let var1543 = new Date(param169),
-      var1544 = var1543.getTimezoneOffset() * 0xea60,
-      var1545 = new Date(var1543.getTime() - var1544),
-      var1546 = var1545.getFullYear(),
-      var1547 = (var1545.getMonth() + 0x1).toString().padStart(0x2, '0'),
-      var1548 = var1545.getDate().toString().padStart(0x2, '0'),
-      var1549 = var1545.getHours().toString().padStart(0x2, '0'),
-      var1550 = var1545.getMinutes().toString().padStart(0x2, '0'),
-      var1551 = var1545.getSeconds().toString().padStart(0x2, '0');
-    return param170 ? var1546 + '-' + var1547 + '-' + var1548 : var1546 + '-' + var1547 + '-' + var1548 + '\x20' + var1549 + ':' + var1550 + ':' + var1551;
+  'formatLocalDateTime': function (dateStr, dateOnly) {
+    let dateObj = new Date(dateStr),
+      tzOffset = dateObj.getTimezoneOffset() * 0xea60,
+      localDate = new Date(dateObj.getTime() - tzOffset),
+      year = localDate.getFullYear(),
+      month = (localDate.getMonth() + 0x1).toString().padStart(0x2, '0'),
+      day = localDate.getDate().toString().padStart(0x2, '0'),
+      hours = localDate.getHours().toString().padStart(0x2, '0'),
+      minutes = localDate.getMinutes().toString().padStart(0x2, '0'),
+      seconds = localDate.getSeconds().toString().padStart(0x2, '0');
+    return dateOnly ? year + '-' + month + '-' + day : year + '-' + month + '-' + day + '\x20' + hours + ':' + minutes + ':' + seconds;
   },
-  'getCollectionNames': function (param171) {
-    const var1552 = [];
-    var var1553 = param171.getCollections();
-    for (let var1554 of var1553) {
-      var1552.push('[[' + Zotero.Collections.get(var1554).name + ']]');
+  'getCollectionNames': function (item) {
+    const names = [];
+    var collectionIDs = item.getCollections();
+    for (let colID of collectionIDs) {
+      names.push('[[' + Zotero.Collections.get(colID).name + ']]');
     }
-    return var1552.join('、');
+    return names.join('、');
   },
-  'getCollectionNames_YAML': function (param172) {
+  'getCollectionNames_YAML': function (item) {
     try {
-      const _0xc12385 = [];
-      var var1556 = param172.getCollections();
-      for (let var1557 of var1556) {
-        _0xc12385.push(Zotero.Collections.get(var1557).name);
+      const names = [];
+      var collectionIDs = item.getCollections();
+      for (let colID of collectionIDs) {
+        names.push(Zotero.Collections.get(colID).name);
       }
-      return '[' + _0xc12385.join(',\x20') + ']';
-    } catch (_0x1eaaf3) {
+      return '[' + names.join(',\x20') + ']';
+    } catch (e) {
       return '[]';
     }
   },
-  'getRelatedItems': function (param173) {
-    var var1558 = param173.getRelations()['dc:relation'],
-      var1559 = [];
-    if (var1558) {
-      for (let var1560 of var1558) {
+  'getRelatedItems': function (item) {
+    var relations = item.getRelations()['dc:relation'],
+      results = [];
+    if (relations) {
+      for (let uri of relations) {
         try {
-          var var1561 = Zotero.URI.getURIItemID(var1560);
-          relatedItem = Zotero.Items.get(var1561);
-          relatedItem.isRegularItem() && var1559.push('[[' + Zotero.AI4Paper.getQNKey(relatedItem) + ']]');
-        } catch (_0x58f56a) {}
+          var relatedID = Zotero.URI.getURIItemID(uri);
+          relatedItem = Zotero.Items.get(relatedID);
+          relatedItem.isRegularItem() && results.push('[[' + Zotero.AI4Paper.getQNKey(relatedItem) + ']]');
+        } catch (e) {}
       }
     }
-    return var1559.length === 0x0 ? '' : var1559.join('、\x20');
+    return results.length === 0x0 ? '' : results.join('、\x20');
   },
-  'getQNKey': function (param174) {
-    let var1562 = param174.getField("citationKey");
-    if (Zotero.Prefs.get('ai4paper.useCitationKeyasQNKey') && var1562) return var1562;
-    let var1563 = Zotero.AI4Paper.resolveQNKeyTemplate(param174);
-    if (var1563 && var1563 != "invalid QNKeyTemplate" && var1563 != "failed to resolve QNKeyTemplate") {
-      if (Zotero.Prefs.get("ai4paper.useItemIDAsQNKeySuffix")) return var1563 + "_KEY-" + param174.key;else {
-        return var1563;
+  'getQNKey': function (item) {
+    let citationKey = item.getField("citationKey");
+    if (Zotero.Prefs.get('ai4paper.useCitationKeyasQNKey') && citationKey) return citationKey;
+    let resolvedKey = Zotero.AI4Paper.resolveQNKeyTemplate(item);
+    if (resolvedKey && resolvedKey != "invalid QNKeyTemplate" && resolvedKey != "failed to resolve QNKeyTemplate") {
+      if (Zotero.Prefs.get("ai4paper.useItemIDAsQNKeySuffix")) return resolvedKey + "_KEY-" + item.key;else {
+        return resolvedKey;
       }
     }
-    return Zotero.AI4Paper.getQNKeyDefault(param174);
+    return Zotero.AI4Paper.getQNKeyDefault(item);
   },
-  'getQNKeyDefault': function (param175) {
-    let var1564 = 0xa,
-      var1565 = 0x14,
-      var1566 = param175.getField('title');
-    var1566 = var1566.replace(/\\/g, '\x20');
-    var1566 = var1566.replace(/\//g, '\x20');
-    var1566 = var1566.replace(/\:/g, '：');
-    var1566 = var1566.replace(/： /g, '：');
-    var1566 = var1566.replace(/\*/g, '\x20');
-    var1566 = var1566.replace(/\?/g, '？');
-    var1566 = var1566.replace(/\"/g, '“');
-    var1566 = var1566.replace(/\</g, '\x20');
-    var1566 = var1566.replace(/\>/g, '\x20');
-    var1566 = var1566.replace(/\|/g, '\x20');
-    let var1567 = '',
-      var1568 = '',
-      var1569 = Zotero.Date.strToDate(param175.getField("date", false, true)).year;
-    var1568 = var1569 ? var1569 + '_' : '';
-    if (param175.getCreators().length != 0x0) {
-      let var1570 = param175.getCreators()[0x0].firstName,
-        var1571 = param175.getCreators()[0x0].lastName;
-      if (param175.getField("title").search(/[_\u4e00-\u9fa5]/) === -0x1) var1567 = var1571 ? var1571 + '_' : '';else {
-        let _0x3c7d39 = '' + var1571 + var1570;
-        var1567 = var1571 ? _0x3c7d39.substring(0x0, 0x6) + '_' : '';
+  'getQNKeyDefault': function (item) {
+    let maxLenZh = 0xa,
+      maxLenEn = 0x14,
+      title = item.getField('title');
+    title = title.replace(/\\/g, '\x20');
+    title = title.replace(/\//g, '\x20');
+    title = title.replace(/\:/g, '：');
+    title = title.replace(/： /g, '：');
+    title = title.replace(/\*/g, '\x20');
+    title = title.replace(/\?/g, '？');
+    title = title.replace(/\"/g, '\u201C');
+    title = title.replace(/\</g, '\x20');
+    title = title.replace(/\>/g, '\x20');
+    title = title.replace(/\|/g, '\x20');
+    let authorStr = '',
+      yearPrefix = '',
+      year = Zotero.Date.strToDate(item.getField("date", false, true)).year;
+    yearPrefix = year ? year + '_' : '';
+    if (item.getCreators().length != 0x0) {
+      let firstName = item.getCreators()[0x0].firstName,
+        lastName = item.getCreators()[0x0].lastName;
+      if (item.getField("title").search(/[_\u4e00-\u9fa5]/) === -0x1) authorStr = lastName ? lastName + '_' : '';else {
+        let fullName = '' + lastName + firstName;
+        authorStr = lastName ? fullName.substring(0x0, 0x6) + '_' : '';
       }
     }
-    if (param175.getField("title").search(/[_\u4e00-\u9fa5]/) === -0x1) var var1573 = '' + var1568 + var1567 + var1566.substring(0x0, var1565) + "_KEY-" + param175.key;else {
-      var var1573 = '' + var1568 + var1567 + var1566.substring(0x0, var1564) + "_KEY-" + param175.key;
+    if (item.getField("title").search(/[_\u4e00-\u9fa5]/) === -0x1) var qnKey = '' + yearPrefix + authorStr + title.substring(0x0, maxLenEn) + "_KEY-" + item.key;else {
+      var qnKey = '' + yearPrefix + authorStr + title.substring(0x0, maxLenZh) + "_KEY-" + item.key;
     }
-    return var1573 = var1573.replace(/\//g, '\x20'), var1573;
+    return qnKey = qnKey.replace(/\//g, '\x20'), qnKey;
   },
-  'resolveQNKeyTemplate': function (param176) {
-    function fn2(param177, param178) {
-      const _0x52c46b = param178 ? /\]\]\]/g : /\[\[\[/g,
-        _0x2509d2 = [];
-      let _0x7b1bf4;
-      while ((_0x7b1bf4 = _0x52c46b.exec(param177)) !== null) {
-        _0x2509d2.push(_0x7b1bf4.index);
+  'resolveQNKeyTemplate': function (item) {
+    function findDelimiters(str, isClose) {
+      const regex = isClose ? /\]\]\]/g : /\[\[\[/g,
+        positions = [];
+      let match;
+      while ((match = regex.exec(str)) !== null) {
+        positions.push(match.index);
       }
-      return _0x2509d2;
+      return positions;
     }
-    let var1577 = Zotero.Prefs.get("ai4paper.qnkeyTemplate").replace(/'/g, '\x22');
-    const var1578 = fn2(var1577, 0x0),
-      var1579 = fn2(var1577, 0x1);
-    if (!(var1578.length === var1579.length && var1578.length != 0x0 && var1579.length != 0x0)) return 'invalid\x20QNKeyTemplate';
-    let var1580 = '';
-    for (let var1581 = 0x0; var1581 < var1578.length; var1581++) {
+    let templateStr = Zotero.Prefs.get("ai4paper.qnkeyTemplate").replace(/'/g, '\x22');
+    const openPositions = findDelimiters(templateStr, 0x0),
+      closePositions = findDelimiters(templateStr, 0x1);
+    if (!(openPositions.length === closePositions.length && openPositions.length != 0x0 && closePositions.length != 0x0)) return 'invalid\x20QNKeyTemplate';
+    let result = '';
+    for (let i = 0x0; i < openPositions.length; i++) {
       try {
-        let _0x4a1974 = JSON.parse(var1577.substring(var1578[var1581] + 0x3, var1579[var1581]).trim());
-        if (_0x4a1974.variable) {
-          let var1583 = Zotero.AI4Paper.resolveVariable(param176, _0x4a1974, _0x4a1974.variable);
-          var1583 && (var1580 = var1580 + var1583);
+        let config = JSON.parse(templateStr.substring(openPositions[i] + 0x3, closePositions[i]).trim());
+        if (config.variable) {
+          let resolved = Zotero.AI4Paper.resolveVariable(item, config, config.variable);
+          resolved && (result = result + resolved);
         }
-      } catch (_0x6f48af) {
+      } catch (e) {
         return "failed to resolve QNKeyTemplate";
       }
     }
-    return var1580.replace(/\//g, '\x20');
+    return result.replace(/\//g, '\x20');
     ;
   },
-  'resolveVariable': function (param179, param180, param181) {
+  'resolveVariable': function (item, config, varName) {
     try {
-      if (param181 === "firstAuthor") {
-        if (param179.getCreators().length != 0x0) {
-          let _0x15eac7 = '',
-            _0x4fcbc0 = param179.getCreators()[0x0].firstName,
-            _0x329f5d = param179.getCreators()[0x0].lastName;
-          param179.getField("title").search(/[_\u4e00-\u9fa5]/) === -0x1 ? _0x15eac7 = _0x329f5d : _0x15eac7 = '' + _0x329f5d + _0x4fcbc0;
-          if (_0x15eac7.trim()) return '' + (param180?.["prefix"] || '') + _0x15eac7.trim() + (param180?.['suffix'] || '');
+      if (varName === "firstAuthor") {
+        if (item.getCreators().length != 0x0) {
+          let authorStr = '',
+            firstName = item.getCreators()[0x0].firstName,
+            lastName = item.getCreators()[0x0].lastName;
+          item.getField("title").search(/[_\u4e00-\u9fa5]/) === -0x1 ? authorStr = lastName : authorStr = '' + lastName + firstName;
+          if (authorStr.trim()) return '' + (config?.["prefix"] || '') + authorStr.trim() + (config?.['suffix'] || '');
         }
       }
-      if (param181 === 'firstName') {
-        if (param179.getCreators().length != 0x0) {
-          let var1587 = param179.getCreators()[0x0].firstName;
-          if (var1587) return '' + (param180?.['prefix'] || '') + var1587 + (param180?.["suffix"] || '');
+      if (varName === 'firstName') {
+        if (item.getCreators().length != 0x0) {
+          let firstName = item.getCreators()[0x0].firstName;
+          if (firstName) return '' + (config?.['prefix'] || '') + firstName + (config?.["suffix"] || '');
         }
       } else {
-        if (param181 === 'lastName') {
-          if (param179.getCreators().length != 0x0) {
-            let var1588 = param179.getCreators()[0x0].lastName;
-            if (var1588) {
-              return '' + (param180?.['prefix'] || '') + var1588 + (param180?.['suffix'] || '');
+        if (varName === 'lastName') {
+          if (item.getCreators().length != 0x0) {
+            let lastName = item.getCreators()[0x0].lastName;
+            if (lastName) {
+              return '' + (config?.['prefix'] || '') + lastName + (config?.['suffix'] || '');
             }
           }
         } else {
-          if (param181 === 'year') {
-            let var1589 = Zotero.Date.strToDate(param179.getField('date', false, true)).year;
-            if (var1589) {
-              return '' + (param180?.["prefix"] || '') + var1589 + (param180?.["suffix"] || '');
+          if (varName === 'year') {
+            let year = Zotero.Date.strToDate(item.getField('date', false, true)).year;
+            if (year) {
+              return '' + (config?.["prefix"] || '') + year + (config?.["suffix"] || '');
             }
           } else {
-            if (param181 === 'title') {
-              let var1590 = param179.getField("title");
-              if (var1590.search(/[_\u4e00-\u9fa5]/) === -0x1 && param180.truncate_en) {
-                var1590 = var1590.substring(0x0, parseInt(param180.truncate_en));
+            if (varName === 'title') {
+              let title = item.getField("title");
+              if (title.search(/[_\u4e00-\u9fa5]/) === -0x1 && config.truncate_en) {
+                title = title.substring(0x0, parseInt(config.truncate_en));
               }
-              var1590.search(/[_\u4e00-\u9fa5]/) != -0x1 && param180.truncate_zh && (var1590 = var1590.substring(0x0, parseInt(param180.truncate_zh)));
-              var1590 = var1590.trim().replace(/\\/g, '\x20').replace(/\//g, '\x20').replace(/\:/g, '：').replace(/： /g, '：').replace(/\*/g, '\x20').replace(/\?/g, '？').replace(/\"/g, '“').replace(/\</g, '\x20').replace(/\>/g, '\x20').replace(/\|/g, '\x20');
-              if (var1590) return '' + (param180?.['prefix'] || '') + var1590 + (param180?.["suffix"] || '');
+              title.search(/[_\u4e00-\u9fa5]/) != -0x1 && config.truncate_zh && (title = title.substring(0x0, parseInt(config.truncate_zh)));
+              title = title.trim().replace(/\\/g, '\x20').replace(/\//g, '\x20').replace(/\:/g, '：').replace(/： /g, '：').replace(/\*/g, '\x20').replace(/\?/g, '？').replace(/\"/g, '\u201C').replace(/\</g, '\x20').replace(/\>/g, '\x20').replace(/\|/g, '\x20');
+              if (title) return '' + (config?.['prefix'] || '') + title + (config?.["suffix"] || '');
             } else {
-              if (param181 === "shortTitle") {
-                if (!(param180.blockChineseRefs && param179.getField("title").search(/[_\u4e00-\u9fa5]/) != -0x1)) {
-                  let var1591 = param179.getField("shortTitle");
-                  param180.truncate && (var1591 = var1591.substring(0x0, parseInt(param180.truncate)));
-                  var1591 = var1591.trim().replace(/\\/g, '\x20').replace(/\//g, '\x20').replace(/\:/g, '：').replace(/： /g, '：').replace(/\*/g, '\x20').replace(/\?/g, '？').replace(/\"/g, '“').replace(/\</g, '\x20').replace(/\>/g, '\x20').replace(/\|/g, '\x20');
-                  if (var1591) return '' + (param180?.["prefix"] || '') + var1591 + (param180?.["suffix"] || '');
+              if (varName === "shortTitle") {
+                if (!(config.blockChineseRefs && item.getField("title").search(/[_\u4e00-\u9fa5]/) != -0x1)) {
+                  let shortTitle = item.getField("shortTitle");
+                  config.truncate && (shortTitle = shortTitle.substring(0x0, parseInt(config.truncate)));
+                  shortTitle = shortTitle.trim().replace(/\\/g, '\x20').replace(/\//g, '\x20').replace(/\:/g, '：').replace(/： /g, '：').replace(/\*/g, '\x20').replace(/\?/g, '？').replace(/\"/g, '\u201C').replace(/\</g, '\x20').replace(/\>/g, '\x20').replace(/\|/g, '\x20');
+                  if (shortTitle) return '' + (config?.["prefix"] || '') + shortTitle + (config?.["suffix"] || '');
                 }
               } else {
-                if (param181 === 'publicationTitle') {
-                  let var1592 = param179.getField("publicationTitle");
-                  if (var1592) return '' + (param180?.["prefix"] || '') + var1592 + (param180?.["suffix"] || '');
+                if (varName === 'publicationTitle') {
+                  let pubTitle = item.getField("publicationTitle");
+                  if (pubTitle) return '' + (config?.["prefix"] || '') + pubTitle + (config?.["suffix"] || '');
                 } else {
-                  if (param181 === 'journalAbbreviation') {
-                    let var1593 = param179.getField('journalAbbreviation');
-                    if (var1593) {
-                      return '' + (param180?.["prefix"] || '') + var1593 + (param180?.["suffix"] || '');
+                  if (varName === 'journalAbbreviation') {
+                    let journalAbbrev = item.getField('journalAbbreviation');
+                    if (journalAbbrev) {
+                      return '' + (config?.["prefix"] || '') + journalAbbrev + (config?.["suffix"] || '');
                     }
                   } else {
-                    if (param181 === "libraryCatalog") {
-                      let _0x5609ee = param179.getField("libraryCatalog");
-                      if (_0x5609ee) {
-                        return '' + (param180?.['prefix'] || '') + _0x5609ee + (param180?.["suffix"] || '');
+                    if (varName === "libraryCatalog") {
+                      let catalog = item.getField("libraryCatalog");
+                      if (catalog) {
+                        return '' + (config?.['prefix'] || '') + catalog + (config?.["suffix"] || '');
                       }
                     } else {
-                      if (param181 === "callNumber") {
-                        let var1595 = param179.getField("callNumber");
-                        if (var1595) return '' + (param180?.["prefix"] || '') + var1595 + (param180?.['suffix'] || '');
+                      if (varName === "callNumber") {
+                        let callNum = item.getField("callNumber");
+                        if (callNum) return '' + (config?.["prefix"] || '') + callNum + (config?.['suffix'] || '');
                       } else {
-                        if (param181 === "citationKey") {
-                          let var1596 = param179.getField("citationKey");
-                          if (var1596) return '' + (param180?.["prefix"] || '') + var1596 + (param180?.["suffix"] || '');
+                        if (varName === "citationKey") {
+                          let citeKey = item.getField("citationKey");
+                          if (citeKey) return '' + (config?.["prefix"] || '') + citeKey + (config?.["suffix"] || '');
                         }
                       }
                     }
@@ -309,191 +309,191 @@ Object.assign(Zotero.AI4Paper, {
           }
         }
       }
-    } catch (_0x734214) {
+    } catch (e) {
       return false;
     }
     return false;
   },
-  'sanitizeFilename': function (param182) {
-    let var1597 = param182.replace(/[\\/:*?"<>|]/g, '_');
-    var1597 = var1597.replace(/[\x00-\x1f]/g, '');
-    var1597 = var1597.replace(/^[\s.]+|[\s.]+$/g, '');
-    const var1598 = /^(con|prn|aux|nul|com[1-9]|lpt[1-9])$/i;
-    return var1598.test(var1597) && (var1597 = '_' + var1597), var1597 = var1597.slice(0x0, 0xc8), var1597 || "unnamed";
+  'sanitizeFilename': function (filename) {
+    let sanitized = filename.replace(/[\\/:*?"<>|]/g, '_');
+    sanitized = sanitized.replace(/[\x00-\x1f]/g, '');
+    sanitized = sanitized.replace(/^[\s.]+|[\s.]+$/g, '');
+    const reservedPattern = /^(con|prn|aux|nul|com[1-9]|lpt[1-9])$/i;
+    return reservedPattern.test(sanitized) && (sanitized = '_' + sanitized), sanitized = sanitized.slice(0x0, 0xc8), sanitized || "unnamed";
   },
-  'getItemZoteroLink': function (param183, param184) {
-    let var1599 = Zotero.Libraries.get(param183.libraryID),
-      var1600 = var1599.libraryType,
-      var1601;
-    if (var1600 === "user") var1601 = 'library';else {
-      if (var1600 === "group") var1601 = Zotero.URI.getLibraryPath(param183.libraryID);else return;
+  'getItemZoteroLink': function (item, wrapBrackets) {
+    let library = Zotero.Libraries.get(item.libraryID),
+      libraryType = library.libraryType,
+      libraryPath;
+    if (libraryType === "user") libraryPath = 'library';else {
+      if (libraryType === "group") libraryPath = Zotero.URI.getLibraryPath(item.libraryID);else return;
     }
-    let var1602 = 'zotero://select/' + var1601 + "/items/" + param183.key;
-    return param184 ? '[' + var1602 + ']' : var1602;
+    let zoteroLink = 'zotero://select/' + libraryPath + "/items/" + item.key;
+    return wrapBrackets ? '[' + zoteroLink + ']' : zoteroLink;
   },
-  'getItemZoteroPDFLinksHTML': function (param185) {
-    let var1603 = 0x0,
-      var1604 = param185.getAttachments();
-    var var1605 = [];
-    for (let var1606 of var1604) {
-      let var1607 = Zotero.Items.get(var1606);
-      if (['application/pdf', "text/html", "application/epub+zip"].includes(var1607.attachmentContentType)) {
-        if (var1607.attachmentLinkMode === 0x3) continue;
-        var1603++;
-        let var1608 = Zotero.AI4Paper.getItemPDFLink(var1607);
-        var1608 = "<li><a href=\"" + var1608 + '\x22>' + var1607.getField("title") + "</a></li>";
-        var1605.push(var1608);
+  'getItemZoteroPDFLinksHTML': function (item) {
+    let pdfCount = 0x0,
+      attachmentIDs = item.getAttachments();
+    var linkItems = [];
+    for (let attID of attachmentIDs) {
+      let attachment = Zotero.Items.get(attID);
+      if (['application/pdf', "text/html", "application/epub+zip"].includes(attachment.attachmentContentType)) {
+        if (attachment.attachmentLinkMode === 0x3) continue;
+        pdfCount++;
+        let pdfLink = Zotero.AI4Paper.getItemPDFLink(attachment);
+        pdfLink = "<li><a href=\"" + pdfLink + '\x22>' + attachment.getField("title") + "</a></li>";
+        linkItems.push(pdfLink);
       }
     }
-    if (var1605.length === 0x0) return '';
-    if (var1603 === 0x1) {
-      for (let var1609 of var1604) {
-        let _0x2cf849 = Zotero.Items.get(var1609);
-        if (["application/pdf", "text/html", "application/epub+zip"].includes(_0x2cf849.attachmentContentType)) {
-          if (_0x2cf849.attachmentLinkMode === 0x3) continue;
-          let _0x148ca1 = Zotero.AI4Paper.getItemPDFLink(_0x2cf849);
-          return '[' + _0x2cf849.getField('title') + '](' + _0x148ca1 + ')';
+    if (linkItems.length === 0x0) return '';
+    if (pdfCount === 0x1) {
+      for (let attID of attachmentIDs) {
+        let attachment = Zotero.Items.get(attID);
+        if (["application/pdf", "text/html", "application/epub+zip"].includes(attachment.attachmentContentType)) {
+          if (attachment.attachmentLinkMode === 0x3) continue;
+          let pdfLink = Zotero.AI4Paper.getItemPDFLink(attachment);
+          return '[' + attachment.getField('title') + '](' + pdfLink + ')';
         }
       }
-    } else return "<ul>" + var1605.join('') + '</ul>';
+    } else return "<ul>" + linkItems.join('') + '</ul>';
   },
-  'getItemZoteroPDFLinksYAML': function (param186) {
+  'getItemZoteroPDFLinksYAML': function (item) {
     try {
-      let _0x3b8197 = param186.getAttachments();
-      var var1613 = [];
-      for (let var1614 of _0x3b8197) {
-        let var1615 = Zotero.Items.get(var1614);
-        if (["application/pdf", 'text/html', "application/epub+zip"].includes(var1615.attachmentContentType)) {
-          if (var1615.attachmentLinkMode === 0x3) {
+      let attachmentIDs = item.getAttachments();
+      var links = [];
+      for (let attID of attachmentIDs) {
+        let attachment = Zotero.Items.get(attID);
+        if (["application/pdf", 'text/html', "application/epub+zip"].includes(attachment.attachmentContentType)) {
+          if (attachment.attachmentLinkMode === 0x3) {
             continue;
           }
-          var1613.push(Zotero.AI4Paper.getItemPDFLink(var1615));
+          links.push(Zotero.AI4Paper.getItemPDFLink(attachment));
         }
       }
-      return '[' + var1613.join(',\x20') + ']';
-    } catch (_0x25dc3c) {
+      return '[' + links.join(',\x20') + ']';
+    } catch (e) {
       return '[]';
     }
   },
-  'getItemZoteroPDFLinks': function (param187) {
-    let var1616 = param187.getAttachments();
-    var var1617 = [];
-    for (let var1618 of var1616) {
-      let _0x1dbe29 = Zotero.Items.get(var1618);
-      if (['application/pdf', "text/html", 'application/epub+zip'].includes(_0x1dbe29.attachmentContentType)) {
-        if (_0x1dbe29.attachmentLinkMode === 0x3) continue;
-        let var1620 = Zotero.AI4Paper.getItemPDFLink(_0x1dbe29);
-        var1620 = " - [" + _0x1dbe29.getField("title") + '](' + var1620 + ')';
-        var1617.push(var1620);
+  'getItemZoteroPDFLinks': function (item) {
+    let attachmentIDs = item.getAttachments();
+    var links = [];
+    for (let attID of attachmentIDs) {
+      let attachment = Zotero.Items.get(attID);
+      if (['application/pdf', "text/html", 'application/epub+zip'].includes(attachment.attachmentContentType)) {
+        if (attachment.attachmentLinkMode === 0x3) continue;
+        let pdfLink = Zotero.AI4Paper.getItemPDFLink(attachment);
+        pdfLink = " - [" + attachment.getField("title") + '](' + pdfLink + ')';
+        links.push(pdfLink);
       }
     }
-    return var1617.join('\x0a');
+    return links.join('\x0a');
   },
-  'getItemPDFLink': function (param188) {
-    let var1621 = Zotero.Libraries.get(param188.libraryID).libraryType;
-    if (var1621 === 'group') return 'zotero://open-pdf/' + Zotero.URI.getLibraryPath(param188.libraryID) + "/items/" + param188.key;else {
-      if (var1621 === "user") return "zotero://open-pdf/library/items/" + param188.key;
+  'getItemPDFLink': function (attachment) {
+    let libraryType = Zotero.Libraries.get(attachment.libraryID).libraryType;
+    if (libraryType === 'group') return 'zotero://open-pdf/' + Zotero.URI.getLibraryPath(attachment.libraryID) + "/items/" + attachment.key;else {
+      if (libraryType === "user") return "zotero://open-pdf/library/items/" + attachment.key;
     }
     return undefined;
   },
-  'getFirstCreator': function (param190) {
-    let var1665 = '';
-    if (param190.getCreators().length != 0x0) {
-      let var1666 = param190.getCreators()[0x0].firstName,
-        var1667 = param190.getCreators()[0x0].lastName;
-      Zotero.AI4Paper.isChineseText(param190.getField("title")) ? var1665 = '' + var1667 + var1666 || '' : var1665 = var1667 || '';
+  'getFirstCreator': function (item) {
+    let authorStr = '';
+    if (item.getCreators().length != 0x0) {
+      let firstName = item.getCreators()[0x0].firstName,
+        lastName = item.getCreators()[0x0].lastName;
+      Zotero.AI4Paper.isChineseText(item.getField("title")) ? authorStr = '' + lastName + firstName || '' : authorStr = lastName || '';
     }
-    return var1665;
+    return authorStr;
   },
-  'getJournalAbbreviation': function (param191) {
-    let var1668 = param191.getField('journalAbbreviation');
-    if (!var1668 && Zotero.AI4Paper.isChineseText(param191.getField("title"))) {
-      var1668 = param191.getField('publicationTitle');
+  'getJournalAbbreviation': function (item) {
+    let journalAbbrev = item.getField('journalAbbreviation');
+    if (!journalAbbrev && Zotero.AI4Paper.isChineseText(item.getField("title"))) {
+      journalAbbrev = item.getField('publicationTitle');
     }
-    return var1668.replace(/\:/g, '：').replace(/： /g, '：').replace(/\"/g, '“').replace(/\n/g, '\x20');
+    return journalAbbrev.replace(/\:/g, '：').replace(/： /g, '：').replace(/\"/g, '\u201C').replace(/\n/g, '\x20');
   },
-  'templateVariables': function (param192, param193) {
-    let var1669 = param192.getField("date"),
-      var1670 = Zotero.AI4Paper.getZoteroDateY(var1669);
-    return var1669 = Zotero.AI4Paper.getZoteroDate(var1669), param193 = param193.replace(/{{itemType}}/g, Zotero.ItemTypes.getName(param192.itemTypeID)), param193 = param193.replace(/{{title}}/g, param192.getField('title')), param193 = param193.replace(/{{shortTitle}}/g, param192.getField("shortTitle").replace(/\ /g, '')), param193 = param193.replace(/{{date}}/g, var1669), param193 = param193.replace(/{{dateY}}/g, var1670), param193 = param193.replace(/{{tags}}/g, Zotero.AI4Paper.getItemTags(param192).replace(/🏷️ /g, '')), param193 = param193.replace(/{{collection}}/g, Zotero.AI4Paper.getCollectionNames(param192)), param193 = param193.replace(/{{qnkey}}/g, Zotero.AI4Paper.getQNKey(param192)), param193 = param193.replace(/{{citationKey}}/g, param192.getField("citationKey")), param193 = param193.replace(/{{year}}/g, Zotero.AI4Paper.getYear()), param193 = param193.replace(/{{dateCurrent}}/g, Zotero.AI4Paper.getDate()), param193 = param193.replace(/{{time}}/g, Zotero.AI4Paper.getTime()), param193 = param193.replace(/{{week}}/g, Zotero.AI4Paper.getWeek()), param193 = param193.replace(/{{yearMonth}}/g, Zotero.AI4Paper.getYearMonth()), param193 = param193.replace(/{{dateWeek}}/g, Zotero.AI4Paper.getDateWeek()), param193 = param193.replace(/{{dateTime}}/g, Zotero.AI4Paper.getDateTime()), param193 = param193.replace(/{{dateWeekTime}}/g, Zotero.AI4Paper.getDateWeekTime()), param193 = param193.replace(/{{dateAdded}}/g, Zotero.AI4Paper.getDateAdded(param192)), param193 = param193.replace(/{{dateModified}}/g, Zotero.AI4Paper.getDateModified(param192)), param193;
+  'templateVariables': function (item, template) {
+    let date = item.getField("date"),
+      dateYear = Zotero.AI4Paper.getZoteroDateY(date);
+    return date = Zotero.AI4Paper.getZoteroDate(date), template = template.replace(/{{itemType}}/g, Zotero.ItemTypes.getName(item.itemTypeID)), template = template.replace(/{{title}}/g, item.getField('title')), template = template.replace(/{{shortTitle}}/g, item.getField("shortTitle").replace(/\ /g, '')), template = template.replace(/{{date}}/g, date), template = template.replace(/{{dateY}}/g, dateYear), template = template.replace(/{{tags}}/g, Zotero.AI4Paper.getItemTags(item).replace(/🏷️ /g, '')), template = template.replace(/{{collection}}/g, Zotero.AI4Paper.getCollectionNames(item)), template = template.replace(/{{qnkey}}/g, Zotero.AI4Paper.getQNKey(item)), template = template.replace(/{{citationKey}}/g, item.getField("citationKey")), template = template.replace(/{{year}}/g, Zotero.AI4Paper.getYear()), template = template.replace(/{{dateCurrent}}/g, Zotero.AI4Paper.getDate()), template = template.replace(/{{time}}/g, Zotero.AI4Paper.getTime()), template = template.replace(/{{week}}/g, Zotero.AI4Paper.getWeek()), template = template.replace(/{{yearMonth}}/g, Zotero.AI4Paper.getYearMonth()), template = template.replace(/{{dateWeek}}/g, Zotero.AI4Paper.getDateWeek()), template = template.replace(/{{dateTime}}/g, Zotero.AI4Paper.getDateTime()), template = template.replace(/{{dateWeekTime}}/g, Zotero.AI4Paper.getDateWeekTime()), template = template.replace(/{{dateAdded}}/g, Zotero.AI4Paper.getDateAdded(item)), template = template.replace(/{{dateModified}}/g, Zotero.AI4Paper.getDateModified(item)), template;
   },
-  'readYAMLTemplate': function (param194, param195) {
-    let var1671 = param194.indexOf(param195),
-      var1672 = param194.substring(var1671),
-      var1673 = var1672.indexOf('[[['),
-      var1674 = var1672.indexOf(']]]'),
-      var1675 = var1672.substring(var1673 + 0x3, var1674);
-    return var1675;
+  'readYAMLTemplate': function (templateStr, marker) {
+    let markerPos = templateStr.indexOf(marker),
+      afterMarker = templateStr.substring(markerPos),
+      openPos = afterMarker.indexOf('[[['),
+      closePos = afterMarker.indexOf(']]]'),
+      content = afterMarker.substring(openPos + 0x3, closePos);
+    return content;
   },
-  'yamlTemplate': function (param196, param197) {
-    let var1676 = Zotero.ItemTypes.getName(param196.itemTypeID),
-      var1677 = param196.getField('title'),
-      var1678 = param196.getField('shortTitle'),
-      var1679 = Zotero.AI4Paper.getYAMLProp_creators(param196),
-      var1680 = Zotero.AI4Paper.getFirstCreator(param196),
-      var1681 = param196.getField("publicationTitle").replace(/\:/g, '：').replace(/： /g, '：').replace(/\"/g, '“').replace(/\n/g, '\x20'),
-      var1682 = Zotero.AI4Paper.getJournalAbbreviation(param196),
-      var1683 = param196.getField("volume"),
-      var1684 = param196.getField("issue"),
-      var1685 = param196.getField('pages'),
-      var1686 = param196.getField("language"),
-      var1687 = param196.getField("DOI"),
-      var1688 = param196.getField("ISSN"),
-      var1689 = param196.getField("archive"),
-      var1690 = param196.getField("archiveLocation"),
-      var1691 = param196.getField('libraryCatalog'),
-      var1692 = param196.getField("callNumber"),
-      var1693 = param196.getField("rights"),
-      var1694 = param196.getField("extra").replace(/\:/g, '：').replace(/： /g, '：').replace(/\"/g, '“').replace(/\n/g, '\x20'),
-      var1695 = param196.getField("proceedingsTitle"),
-      var1696 = param196.getField("conferenceName"),
-      var1697 = param196.getField("place"),
-      var1698 = param196.getField("publisher"),
-      var1699 = param196.getField("ISBN"),
-      var1700 = param196.getField('university'),
-      var1701 = param196.getField("edition"),
-      var1702 = param196.getField("country"),
-      var1703 = param196.getField("issuingAuthority"),
-      var1704 = param196.getField("patentNumber"),
-      var1705 = param196.getField('applicationNumber'),
-      var1706 = param196.getField('priorityNumbers'),
-      var1707 = param196.getField('issueDate'),
-      var1708 = param196.getField("date"),
-      var1709 = Zotero.AI4Paper.getZoteroDateY(var1708),
-      var1710 = Zotero.AI4Paper.getDateAdded(param196),
-      var1711 = Zotero.AI4Paper.getDateModified(param196),
-      var1712 = Zotero.AI4Paper.getCollectionNames_YAML(param196),
-      var1713 = Zotero.AI4Paper.getItemZoteroLink(param196, true),
-      var1714 = Zotero.AI4Paper.getItemZoteroPDFLinksYAML(param196),
-      var1715 = Zotero.AI4Paper.getItemTagsYAML(param196).replace(/🏷️ /g, '').replace(/\/unread/g, 'unread').replace(/\/Done/g, 'Done').replace(/\/reading/g, "reading"),
-      var1716 = param196.getField('abstractNote').replace(/\n\n【摘要翻译】/g, '【摘要翻译】').replace(/\n\n【摘要翻译】/g, "【摘要翻译】").replace(/\:/g, '：').replace(/： /g, '：').replace(/\"/g, '“').replace(/\n\n/g, '<br><br>').replace(/\n/g, '<br>');
-    return var1708 = Zotero.AI4Paper.getZoteroDate(var1708), param197 = param197.replace(/{{itemType}}/g, var1676), param197 = param197.replace(/{{title}}/g, var1677), param197 = param197.replace(/{{shortTitle}}/g, var1678.replace(/\ /g, '')), param197 = param197.replace(/{{creators}}/g, var1679), param197 = param197.replace(/{{firstCreator}}/g, var1680), param197 = param197.replace(/{{publicationTitle}}/g, var1681), param197 = param197.replace(/{{journalAbbreviation}}/g, var1682), param197 = param197.replace(/{{volume}}/g, var1683), param197 = param197.replace(/{{issue}}/g, var1684), param197 = param197.replace(/{{pages}}/g, var1685), param197 = param197.replace(/{{language}}/g, var1686), param197 = param197.replace(/{{DOI}}/g, var1687), param197 = param197.replace(/{{ISSN}}/g, var1688), param197 = param197.replace(/{{archive}}/g, var1689), param197 = param197.replace(/{{archiveLocation}}/g, var1690), param197 = param197.replace(/{{libraryCatalog}}/g, var1691), param197 = param197.replace(/{{callNumber}}/g, var1692), param197 = param197.replace(/{{rights}}/g, var1693), param197 = param197.replace(/{{extra}}/g, var1694), param197 = param197.replace(/{{proceedingsTitle}}/g, var1695), param197 = param197.replace(/{{conferenceName}}/g, var1696), param197 = param197.replace(/{{place}}/g, var1697), param197 = param197.replace(/{{publisher}}/g, var1698), param197 = param197.replace(/{{ISBN}}/g, var1699), param197 = param197.replace(/{{university}}/g, var1700), param197 = param197.replace(/{{edition}}/g, var1701), param197 = param197.replace(/{{country}}/g, var1702), param197 = param197.replace(/{{issuingAuthority}}/g, var1703), param197 = param197.replace(/{{patentNumber}}/g, var1704), param197 = param197.replace(/{{applicationNumber}}/g, var1705), param197 = param197.replace(/{{priorityNumbers}}/g, var1706), param197 = param197.replace(/{{issueDate}}/g, var1707), param197 = param197.replace(/{{date}}/g, var1708), param197 = param197.replace(/{{dateY}}/g, var1709), param197 = param197.replace(/{{dateAdded}}/g, var1710), param197 = param197.replace(/{{dateModified}}/g, var1711), param197 = param197.replace(/{{collection}}/g, var1712), param197 = param197.replace(/{{qnkey}}/g, Zotero.AI4Paper.getQNKey(param196)), param197 = param197.replace(/{{citationKey}}/g, param196.getField('citationKey')), param197 = param197.replace(/{{itemLink}}/g, var1713), param197 = param197.replace(/{{pdfLink}}/g, var1714), param197 = param197.replace(/{{tags}}/g, var1715), param197 = param197.replace(/{{abstract}}/g, var1716), param197 = param197.replace(/{{year}}/g, Zotero.AI4Paper.getYear()), param197 = param197.replace(/{{dateCurrent}}/g, Zotero.AI4Paper.getDate()), param197 = param197.replace(/{{time}}/g, Zotero.AI4Paper.getTime()), param197 = param197.replace(/{{week}}/g, Zotero.AI4Paper.getWeek()), param197 = param197.replace(/{{yearMonth}}/g, Zotero.AI4Paper.getYearMonth()), param197 = param197.replace(/{{dateWeek}}/g, Zotero.AI4Paper.getDateWeek()), param197 = param197.replace(/{{dateTime}}/g, Zotero.AI4Paper.getDateTime()), param197 = param197.replace(/{{dateWeekTime}}/g, Zotero.AI4Paper.getDateWeekTime()), param197;
+  'yamlTemplate': function (item, template) {
+    let itemType = Zotero.ItemTypes.getName(item.itemTypeID),
+      title = item.getField('title'),
+      shortTitle = item.getField('shortTitle'),
+      creatorsYAML = Zotero.AI4Paper.getYAMLProp_creators(item),
+      firstCreator = Zotero.AI4Paper.getFirstCreator(item),
+      publicationTitle = item.getField("publicationTitle").replace(/\:/g, '：').replace(/： /g, '：').replace(/\"/g, '\u201C').replace(/\n/g, '\x20'),
+      journalAbbrev = Zotero.AI4Paper.getJournalAbbreviation(item),
+      volume = item.getField("volume"),
+      issue = item.getField("issue"),
+      pages = item.getField('pages'),
+      language = item.getField("language"),
+      doi = item.getField("DOI"),
+      issn = item.getField("ISSN"),
+      archive = item.getField("archive"),
+      archiveLocation = item.getField("archiveLocation"),
+      libraryCatalog = item.getField('libraryCatalog'),
+      callNumber = item.getField("callNumber"),
+      rights = item.getField("rights"),
+      extra = item.getField("extra").replace(/\:/g, '：').replace(/： /g, '：').replace(/\"/g, '\u201C').replace(/\n/g, '\x20'),
+      proceedingsTitle = item.getField("proceedingsTitle"),
+      conferenceName = item.getField("conferenceName"),
+      place = item.getField("place"),
+      publisher = item.getField("publisher"),
+      isbn = item.getField("ISBN"),
+      university = item.getField('university'),
+      edition = item.getField("edition"),
+      country = item.getField("country"),
+      issuingAuthority = item.getField("issuingAuthority"),
+      patentNumber = item.getField("patentNumber"),
+      applicationNumber = item.getField('applicationNumber'),
+      priorityNumbers = item.getField('priorityNumbers'),
+      issueDate = item.getField('issueDate'),
+      date = item.getField("date"),
+      dateYear = Zotero.AI4Paper.getZoteroDateY(date),
+      dateAdded = Zotero.AI4Paper.getDateAdded(item),
+      dateModified = Zotero.AI4Paper.getDateModified(item),
+      collectionNamesYAML = Zotero.AI4Paper.getCollectionNames_YAML(item),
+      itemLink = Zotero.AI4Paper.getItemZoteroLink(item, true),
+      pdfLinksYAML = Zotero.AI4Paper.getItemZoteroPDFLinksYAML(item),
+      tagsYAML = Zotero.AI4Paper.getItemTagsYAML(item).replace(/🏷️ /g, '').replace(/\/unread/g, 'unread').replace(/\/Done/g, 'Done').replace(/\/reading/g, "reading"),
+      abstractNote = item.getField('abstractNote').replace(/\n\n【摘要翻译】/g, '【摘要翻译】').replace(/\n\n【摘要翻译】/g, "【摘要翻译】").replace(/\:/g, '：').replace(/： /g, '：').replace(/\"/g, '\u201C').replace(/\n\n/g, '<br><br>').replace(/\n/g, '<br>');
+    return date = Zotero.AI4Paper.getZoteroDate(date), template = template.replace(/{{itemType}}/g, itemType), template = template.replace(/{{title}}/g, title), template = template.replace(/{{shortTitle}}/g, shortTitle.replace(/\ /g, '')), template = template.replace(/{{creators}}/g, creatorsYAML), template = template.replace(/{{firstCreator}}/g, firstCreator), template = template.replace(/{{publicationTitle}}/g, publicationTitle), template = template.replace(/{{journalAbbreviation}}/g, journalAbbrev), template = template.replace(/{{volume}}/g, volume), template = template.replace(/{{issue}}/g, issue), template = template.replace(/{{pages}}/g, pages), template = template.replace(/{{language}}/g, language), template = template.replace(/{{DOI}}/g, doi), template = template.replace(/{{ISSN}}/g, issn), template = template.replace(/{{archive}}/g, archive), template = template.replace(/{{archiveLocation}}/g, archiveLocation), template = template.replace(/{{libraryCatalog}}/g, libraryCatalog), template = template.replace(/{{callNumber}}/g, callNumber), template = template.replace(/{{rights}}/g, rights), template = template.replace(/{{extra}}/g, extra), template = template.replace(/{{proceedingsTitle}}/g, proceedingsTitle), template = template.replace(/{{conferenceName}}/g, conferenceName), template = template.replace(/{{place}}/g, place), template = template.replace(/{{publisher}}/g, publisher), template = template.replace(/{{ISBN}}/g, isbn), template = template.replace(/{{university}}/g, university), template = template.replace(/{{edition}}/g, edition), template = template.replace(/{{country}}/g, country), template = template.replace(/{{issuingAuthority}}/g, issuingAuthority), template = template.replace(/{{patentNumber}}/g, patentNumber), template = template.replace(/{{applicationNumber}}/g, applicationNumber), template = template.replace(/{{priorityNumbers}}/g, priorityNumbers), template = template.replace(/{{issueDate}}/g, issueDate), template = template.replace(/{{date}}/g, date), template = template.replace(/{{dateY}}/g, dateYear), template = template.replace(/{{dateAdded}}/g, dateAdded), template = template.replace(/{{dateModified}}/g, dateModified), template = template.replace(/{{collection}}/g, collectionNamesYAML), template = template.replace(/{{qnkey}}/g, Zotero.AI4Paper.getQNKey(item)), template = template.replace(/{{citationKey}}/g, item.getField('citationKey')), template = template.replace(/{{itemLink}}/g, itemLink), template = template.replace(/{{pdfLink}}/g, pdfLinksYAML), template = template.replace(/{{tags}}/g, tagsYAML), template = template.replace(/{{abstract}}/g, abstractNote), template = template.replace(/{{year}}/g, Zotero.AI4Paper.getYear()), template = template.replace(/{{dateCurrent}}/g, Zotero.AI4Paper.getDate()), template = template.replace(/{{time}}/g, Zotero.AI4Paper.getTime()), template = template.replace(/{{week}}/g, Zotero.AI4Paper.getWeek()), template = template.replace(/{{yearMonth}}/g, Zotero.AI4Paper.getYearMonth()), template = template.replace(/{{dateWeek}}/g, Zotero.AI4Paper.getDateWeek()), template = template.replace(/{{dateTime}}/g, Zotero.AI4Paper.getDateTime()), template = template.replace(/{{dateWeekTime}}/g, Zotero.AI4Paper.getDateWeekTime()), template;
   },
-  'getYAMLProp_creators': function (param199) {
-    let var1720 = param199.getCreators(),
-      var1721 = [],
-      var1722 = '';
-    if (var1720.length > 0x0) {
-      if (param199.getField('title').search(/[_\u4e00-\u9fa5]/) === -0x1) {
-        for (let var1723 of var1720) {
-          var1721.push(var1723.firstName + '\x20' + var1723.lastName);
+  'getYAMLProp_creators': function (item) {
+    let creators = item.getCreators(),
+      creatorNames = [],
+      creatorsStr = '';
+    if (creators.length > 0x0) {
+      if (item.getField('title').search(/[_\u4e00-\u9fa5]/) === -0x1) {
+        for (let creator of creators) {
+          creatorNames.push(creator.firstName + '\x20' + creator.lastName);
         }
       } else {
-        for (let var1724 of var1720) {
-          var1721.push('' + var1724.lastName + var1724.firstName);
+        for (let creator of creators) {
+          creatorNames.push('' + creator.lastName + creator.firstName);
         }
       }
-      var1722 = '[' + var1721.join(',\x20') + ']';
+      creatorsStr = '[' + creatorNames.join(',\x20') + ']';
     }
-    return var1722;
+    return creatorsStr;
   },
 
   // === Block B: Metadata Update from Network ===
   'updateSelectedItemsMetadata': async function () {
-    var var5541 = Zotero.Utilities.Internal.md5(Zotero.Prefs.get("ai4paper.timestringencoded"));
-    if (Zotero.Prefs.get("ai4paper.activationkeyverifyresult") != var5541) return window.alert("❌ AI4paper 尚未激活，请前往【Zotero 设置 --> AI4paper --> 激活】 联网激活插件！"), -0x1;
-    let var5542 = Zotero_Tabs._selectedID;
-    var var5543 = Zotero.Reader.getByTabID(var5542);
+    var activationHash = Zotero.Utilities.Internal.md5(Zotero.Prefs.get("ai4paper.timestringencoded"));
+    if (Zotero.Prefs.get("ai4paper.activationkeyverifyresult") != activationHash) return window.alert("❌ AI4paper 尚未激活，请前往【Zotero 设置 --> AI4paper --> 激活】 联网激活插件！"), -0x1;
+    let selectedTabID = Zotero_Tabs._selectedID;
+    var reader = Zotero.Reader.getByTabID(selectedTabID);
     this._Data_title = null;
     this._Data_firstNames = [];
     this._Data_lastNames = [];
@@ -506,51 +506,51 @@ Object.assign(Zotero.AI4Paper, {
     this._Data_issn = null;
     this._Data_language = null;
     this._Data_url = null;
-    if (var5543) {
-      let var5544 = var5543.itemID,
-        var5545 = Zotero.Items.get(var5544);
-      if (var5545 && var5545.parentItemID) {
-        var5544 = var5545.parentItemID;
-        var5545 = Zotero.Items.get(var5544);
+    if (reader) {
+      let itemID = reader.itemID,
+        item = Zotero.Items.get(itemID);
+      if (item && item.parentItemID) {
+        itemID = item.parentItemID;
+        item = Zotero.Items.get(itemID);
         this._Num_getMetadata = 0x0;
-        let var5546 = var5545.getField("DOI");
-        if (var5546 === '') {
+        let doi = item.getField("DOI");
+        if (doi === '') {
           return window.alert("您选中的文献缺失 DOI 信息！"), false;
         }
         Zotero.AI4Paper.showProgressWindow(0xdac, "⚖️ 正在更新，请等待... 【AI4paper】", '更新元数据需要一定时间，结果将通过弹窗反馈给您！');
-        await this.updateItemMetadata(var5545, false);
+        await this.updateItemMetadata(item, false);
         Zotero.AI4Paper.showProgressWindow(0x1770, "✅ 基础元数据更新结果 【AI4paper】", '有【' + this._Num_getMetadata + "】篇匹配到基础元数据！");
         this._Data_Abstract = null;
         this._Num_getAbstract = 0x0;
-        Zotero.Prefs.get("ai4paper.metadataabstract") && (await Zotero.AI4Paper.fetchItemCitations(var5545), this._Data_Abstract != null && (this._Num_getAbstract++, Zotero.Prefs.get("ai4paper.abstracttransaftermetadata") ? (var5545.setField("abstractNote", this._Data_Abstract), await var5545.saveTx(), await Zotero.AI4Paper.translationEngineTask_title_abstract(var5545, "abstractNote")) : var5545.getField("abstractNote").indexOf("【摘要翻译】") === -0x1 && (var5545.setField("abstractNote", this._Data_Abstract), await var5545.saveTx())), Zotero.AI4Paper.showProgressWindow(0x1770, "✅ 摘要更新结果 【AI4paper】", '有【' + this._Num_getAbstract + "】篇匹配到摘要！"));
+        Zotero.Prefs.get("ai4paper.metadataabstract") && (await Zotero.AI4Paper.fetchItemCitations(item), this._Data_Abstract != null && (this._Num_getAbstract++, Zotero.Prefs.get("ai4paper.abstracttransaftermetadata") ? (item.setField("abstractNote", this._Data_Abstract), await item.saveTx(), await Zotero.AI4Paper.translationEngineTask_title_abstract(item, "abstractNote")) : item.getField("abstractNote").indexOf("【摘要翻译】") === -0x1 && (item.setField("abstractNote", this._Data_Abstract), await item.saveTx())), Zotero.AI4Paper.showProgressWindow(0x1770, "✅ 摘要更新结果 【AI4paper】", '有【' + this._Num_getAbstract + "】篇匹配到摘要！"));
       }
     } else {
-      var var5547 = ZoteroPane.getSelectedItems();
-      if (var5547.length === 0x1 && var5547[0x0].getField("DOI") === '') return Zotero.Prefs.get("ai4paper.journalabbreviationlocaldatabasefirst") && (await Zotero.AI4Paper.fetchJournalAbbrLocal(var5547[0x0])), window.alert("您选中的文献缺失 DOI 信息！"), false;
+      var selectedItems = ZoteroPane.getSelectedItems();
+      if (selectedItems.length === 0x1 && selectedItems[0x0].getField("DOI") === '') return Zotero.Prefs.get("ai4paper.journalabbreviationlocaldatabasefirst") && (await Zotero.AI4Paper.fetchJournalAbbrLocal(selectedItems[0x0])), window.alert("您选中的文献缺失 DOI 信息！"), false;
       this._Num_getMetadata = 0x0;
       Zotero.AI4Paper.showProgressWindow(0xdac, "⚖️ 正在更新，请等待... 【AI4paper】", "更新元数据需要一定时间，结果将通过弹窗反馈给您！");
-      await this.updateItemsMetadata(var5547.filter(_0x339fb8 => _0x339fb8.isRegularItem()), false);
-      Zotero.AI4Paper.showProgressWindow(0x1770, "✅ 元数据更新结果 【AI4paper】", "您选中的 " + var5547.length + " 篇文献中，有【" + this._Num_getMetadata + "】篇匹配到元数据！");
+      await this.updateItemsMetadata(selectedItems.filter(it => it.isRegularItem()), false);
+      Zotero.AI4Paper.showProgressWindow(0x1770, "✅ 元数据更新结果 【AI4paper】", "您选中的 " + selectedItems.length + " 篇文献中，有【" + this._Num_getMetadata + "】篇匹配到元数据！");
       if (Zotero.Prefs.get("ai4paper.metadataabstract")) {
         this._Num_getAbstract = 0x0;
-        for (let var5548 of var5547) {
+        for (let item of selectedItems) {
           this._Data_Abstract = null;
-          await Zotero.AI4Paper.fetchItemCitations(var5548);
-          this._Data_Abstract != null && (this._Num_getAbstract++, Zotero.Prefs.get("ai4paper.abstracttransaftermetadata") ? (var5548.setField("abstractNote", this._Data_Abstract), await var5548.saveTx(), await Zotero.AI4Paper.translationEngineTask_title_abstract(var5548, "abstractNote")) : var5548.getField("abstractNote").indexOf("【摘要翻译】") === -0x1 && (var5548.setField("abstractNote", this._Data_Abstract), await var5548.saveTx()));
+          await Zotero.AI4Paper.fetchItemCitations(item);
+          this._Data_Abstract != null && (this._Num_getAbstract++, Zotero.Prefs.get("ai4paper.abstracttransaftermetadata") ? (item.setField("abstractNote", this._Data_Abstract), await item.saveTx(), await Zotero.AI4Paper.translationEngineTask_title_abstract(item, "abstractNote")) : item.getField("abstractNote").indexOf("【摘要翻译】") === -0x1 && (item.setField("abstractNote", this._Data_Abstract), await item.saveTx()));
         }
         Zotero.AI4Paper.showProgressWindow(0x1770, "✅ 摘要更新结果 【AI4paper】", '有【' + this._Num_getAbstract + "】篇匹配到摘要！");
       }
     }
   },
-  'updateItemsMetadata': async function (param1089, param1090) {
+  'updateItemsMetadata': async function (items, silentMode) {
     if (!Zotero.AI4Paper.runAuthor()) return -0x1;
-    for (let var5549 of param1089) {
-      let _0x872ea3 = var5549.getField("DOI");
-      if (_0x872ea3 === '' || var5549.getField("title").search(/[_\u4e00-\u9fa5]/) != -0x1) continue;
-      await this.updateItemMetadata(var5549, param1090);
+    for (let item of items) {
+      let doi = item.getField("DOI");
+      if (doi === '' || item.getField("title").search(/[_\u4e00-\u9fa5]/) != -0x1) continue;
+      await this.updateItemMetadata(item, silentMode);
     }
   },
-  'updateItemMetadata': async function (param1091, param1092) {
+  'updateItemMetadata': async function (item, silentMode) {
     this._Data_title = null;
     this._Data_firstNames = [];
     this._Data_lastNames = [];
@@ -563,58 +563,58 @@ Object.assign(Zotero.AI4Paper, {
     this._Data_issn = null;
     this._Data_language = null;
     this._Data_url = null;
-    let var5551 = false;
-    if (!param1092 && Zotero.Prefs.get("ai4paper.journalabbreviationlocaldatabasefirst")) {
-      var5551 = await Zotero.AI4Paper.fetchJournalAbbrLocal(param1091);
+    let localAbbrDone = false;
+    if (!silentMode && Zotero.Prefs.get("ai4paper.journalabbreviationlocaldatabasefirst")) {
+      localAbbrDone = await Zotero.AI4Paper.fetchJournalAbbrLocal(item);
     }
-    let var5552 = param1091.getField("DOI");
-    await Zotero.AI4Paper.fetchItemMetadata(var5552);
+    let doi = item.getField("DOI");
+    await Zotero.AI4Paper.fetchItemMetadata(doi);
     try {
       if (this._Data_title != null || this._Data_volume != null || this._Data_issue != null || this._Data_page != null || this._Data_date != null || this._Data_publication != null || this._Data_journalAbbreviation != null || this._Data_issn != null || this._Data_language != null || this._Data_url != null || this._Data_firstNames.length > 0x0) {
-        if (!param1092) {
+        if (!silentMode) {
           this._Num_getMetadata++;
         }
-        this._Data_title != null && Zotero.Prefs.get("ai4paper.metadatatitle") && (this._Data_title = this._Data_title.replace("&amp;amp;", '&'), this._Data_title = this._Data_title.replace("&amp;", '&'), param1091.setField("title", this._Data_title), await param1091.saveTx());
-        this._Data_volume != null && Zotero.Prefs.get("ai4paper.metadatavolume") && (param1091.setField("volume", this._Data_volume), await param1091.saveTx());
-        this._Data_issue != null && Zotero.Prefs.get("ai4paper.metadataissue") && (param1091.setField("issue", this._Data_issue), await param1091.saveTx());
-        this._Data_page != null && Zotero.Prefs.get("ai4paper.metadatapages") && (param1091.setField("pages", this._Data_page), await param1091.saveTx());
-        this._Data_date != null && Zotero.Prefs.get("ai4paper.metadatadate") && (this._Data_date = String(this._Data_date).replace(/\,/g, '/'), param1091.setField("date", this._Data_date), await param1091.saveTx());
-        this._Data_publication != null && typeof this._Data_publication === 'string' && Zotero.Prefs.get("ai4paper.metadatapublication") && (this._Data_publication = this._Data_publication.replace("&amp;amp;", '&'), this._Data_publication = this._Data_publication.replace("&amp;", '&'), param1091.setField("publicationTitle", this._Data_publication), await param1091.saveTx());
-        if (this._Data_journalAbbreviation != null && Zotero.Prefs.get('ai4paper.metadatajournalabbreviation') && !var5551) {
+        this._Data_title != null && Zotero.Prefs.get("ai4paper.metadatatitle") && (this._Data_title = this._Data_title.replace("&amp;amp;", '&'), this._Data_title = this._Data_title.replace("&amp;", '&'), item.setField("title", this._Data_title), await item.saveTx());
+        this._Data_volume != null && Zotero.Prefs.get("ai4paper.metadatavolume") && (item.setField("volume", this._Data_volume), await item.saveTx());
+        this._Data_issue != null && Zotero.Prefs.get("ai4paper.metadataissue") && (item.setField("issue", this._Data_issue), await item.saveTx());
+        this._Data_page != null && Zotero.Prefs.get("ai4paper.metadatapages") && (item.setField("pages", this._Data_page), await item.saveTx());
+        this._Data_date != null && Zotero.Prefs.get("ai4paper.metadatadate") && (this._Data_date = String(this._Data_date).replace(/\,/g, '/'), item.setField("date", this._Data_date), await item.saveTx());
+        this._Data_publication != null && typeof this._Data_publication === 'string' && Zotero.Prefs.get("ai4paper.metadatapublication") && (this._Data_publication = this._Data_publication.replace("&amp;amp;", '&'), this._Data_publication = this._Data_publication.replace("&amp;", '&'), item.setField("publicationTitle", this._Data_publication), await item.saveTx());
+        if (this._Data_journalAbbreviation != null && Zotero.Prefs.get('ai4paper.metadatajournalabbreviation') && !localAbbrDone) {
           this._Data_journalAbbreviation = this._Data_journalAbbreviation.replace("&amp;amp;", '&');
           this._Data_journalAbbreviation = this._Data_journalAbbreviation.replace("&amp;", '&');
-          param1091.setField("journalAbbreviation", this._Data_journalAbbreviation);
-          await param1091.saveTx();
+          item.setField("journalAbbreviation", this._Data_journalAbbreviation);
+          await item.saveTx();
         }
-        this._Data_issn != null && Zotero.Prefs.get("ai4paper.metadataissn") && (param1091.setField("ISSN", this._Data_issn), await param1091.saveTx());
-        this._Data_language != null && Zotero.Prefs.get('ai4paper.metadatalanguage') && (param1091.setField("language", this._Data_language), await param1091.saveTx());
+        this._Data_issn != null && Zotero.Prefs.get("ai4paper.metadataissn") && (item.setField("ISSN", this._Data_issn), await item.saveTx());
+        this._Data_language != null && Zotero.Prefs.get('ai4paper.metadatalanguage') && (item.setField("language", this._Data_language), await item.saveTx());
         if (this._Data_url != null && Zotero.Prefs.get("ai4paper.metadataurl")) {
-          param1091.setField("url", this._Data_url);
-          await param1091.saveTx();
+          item.setField("url", this._Data_url);
+          await item.saveTx();
         }
         if (this._Data_firstNames.length > 0x0 && Zotero.Prefs.get("ai4paper.metadataauthors")) {
-          let _0x40ac58 = [];
+          let creatorsList = [];
           for (i = 0x0; i < this._Data_firstNames.length; i++) {
             if (this._Data_firstNames[i] || this._Data_lastNames[i]) {
-              let _0x4bd79b = {
+              let creatorObj = {
                 'firstName': this._Data_firstNames[i],
                 'lastName': this._Data_lastNames[i],
                 'creatorType': "author"
               };
-              _0x40ac58.push(_0x4bd79b);
+              creatorsList.push(creatorObj);
             }
           }
-          param1091.setCreators(_0x40ac58);
-          await param1091.saveTx();
+          item.setCreators(creatorsList);
+          await item.saveTx();
           this._Data_firstNames = [];
           this._Data_lastNames = [];
         }
       }
-    } catch (_0x1a0311) {
-      Zotero.debug(_0x1a0311);
+    } catch (e) {
+      Zotero.debug(e);
     }
   },
-  'fetchItemMetadata': async function (param1093) {
+  'fetchItemMetadata': async function (doi) {
     this._Data_itemType = null;
     this._Data_title = null;
     this._Data_firstNames = [];
@@ -631,161 +631,161 @@ Object.assign(Zotero.AI4Paper, {
     this._Data_publisherLocation = null;
     this._Data_publisher = null;
     this._Data_isbn = null;
-    if (!param1093) {
+    if (!doi) {
       return -0x1;
     }
     if (!Zotero.AI4Paper.showDate()) return -0x1;
-    const var5555 = encodeURIComponent(param1093);
-    let var5556 = null;
-    if (var5556 === null) {
-      const var5557 = 'vnd.citationstyles.csl+json',
-        var5558 = "transform/application/" + var5557,
-        var5559 = "https://api.crossref.org/works/" + var5555 + '/' + var5558;
-      var5556 = await fetch(var5559).then(_0xb7a1ee => _0xb7a1ee.json())["catch"](_0x4aa964 => null);
+    const encodedDOI = encodeURIComponent(doi);
+    let cslData = null;
+    if (cslData === null) {
+      const cslFormat = 'vnd.citationstyles.csl+json',
+        transformPath = "transform/application/" + cslFormat,
+        crossrefUrl = "https://api.crossref.org/works/" + encodedDOI + '/' + transformPath;
+      cslData = await fetch(crossrefUrl).then(r => r.json())["catch"](e => null);
     }
-    if (var5556 === null) {
-      const var5560 = 'https://doi.org/' + var5555,
-        var5561 = "vnd.citationstyles.csl+json";
-      var5556 = await fetch(var5560, {
+    if (cslData === null) {
+      const doiUrl = 'https://doi.org/' + encodedDOI,
+        cslFormat = "vnd.citationstyles.csl+json";
+      cslData = await fetch(doiUrl, {
         'headers': {
-          'Accept': 'application/' + var5561
+          'Accept': 'application/' + cslFormat
         }
-      }).then(_0x46d604 => _0x46d604.json())['catch'](_0x3402b3 => null);
+      }).then(r => r.json())['catch'](e => null);
     }
-    if (var5556 === null) return -0x1;
+    if (cslData === null) return -0x1;
     try {
-      this._Data_itemType = var5556.type;
-    } catch (_0x2c85c7) {}
+      this._Data_itemType = cslData.type;
+    } catch (e) {}
     try {
-      this._Data_title = var5556.title;
-    } catch (_0x5b53d3) {}
+      this._Data_title = cslData.title;
+    } catch (e) {}
     try {
-      for (i = 0x0; i < var5556.author.length; i++) {
-        this._Data_firstNames.push(var5556.author[i].given);
-        this._Data_lastNames.push(var5556.author[i].family);
+      for (i = 0x0; i < cslData.author.length; i++) {
+        this._Data_firstNames.push(cslData.author[i].given);
+        this._Data_lastNames.push(cslData.author[i].family);
       }
-    } catch (_0x1beee6) {}
+    } catch (e) {}
     try {
-      this._Data_volume = var5556.volume;
-    } catch (_0x254ffb) {}
+      this._Data_volume = cslData.volume;
+    } catch (e) {}
     try {
-      this._Data_issue = var5556.issue;
-    } catch (_0x4112fc) {}
+      this._Data_issue = cslData.issue;
+    } catch (e) {}
     try {
-      this._Data_page = var5556.page;
-    } catch (_0x503f1d) {}
-    let var5562 = var5556?.["published-print"]?.["date-parts"];
-    var5562 && (this._Data_date = var5562);
+      this._Data_page = cslData.page;
+    } catch (e) {}
+    let publishedDate = cslData?.["published-print"]?.["date-parts"];
+    publishedDate && (this._Data_date = publishedDate);
     try {
-      this._Data_publication = var5556['container-title'];
-    } catch (_0x33b641) {}
+      this._Data_publication = cslData['container-title'];
+    } catch (e) {}
     try {
-      this._Data_journalAbbreviation = var5556['container-title-short'];
-    } catch (_0x1cbc18) {}
+      this._Data_journalAbbreviation = cslData['container-title-short'];
+    } catch (e) {}
     try {
-      this._Data_issn = var5556.ISSN[0x0];
-    } catch (_0x1caef3) {}
+      this._Data_issn = cslData.ISSN[0x0];
+    } catch (e) {}
     try {
-      this._Data_language = var5556.language;
-    } catch (_0x2ea868) {}
+      this._Data_language = cslData.language;
+    } catch (e) {}
     try {
-      this._Data_url = var5556.resource.primary.URL;
-    } catch (_0x2c4cbe) {}
+      this._Data_url = cslData.resource.primary.URL;
+    } catch (e) {}
     try {
-      this._Data_publisherLocation = var5556["publisher-location"];
-    } catch (_0x54e0fc) {}
+      this._Data_publisherLocation = cslData["publisher-location"];
+    } catch (e) {}
     try {
-      this._Data_publisher = var5556.publisher;
-    } catch (_0x508de2) {}
+      this._Data_publisher = cslData.publisher;
+    } catch (e) {}
     try {
-      this._Data_isbn = var5556.ISBN[0x1];
-    } catch (_0x4e367f) {}
+      this._Data_isbn = cslData.ISBN[0x1];
+    } catch (e) {}
   },
-  'fetchMetadataItem': async function (param1094, param1095) {
-    param1095._Data_itemType = null;
-    param1095._Data_title = null;
-    param1095._Data_firstNames = [];
-    param1095._Data_lastNames = [];
-    param1095._Data_volume = null;
-    param1095._Data_issue = null;
-    param1095._Data_page = null;
-    param1095._Data_date = null;
-    param1095._Data_publication = null;
-    param1095._Data_journalAbbreviation = null;
-    param1095._Data_issn = null;
-    param1095._Data_language = null;
-    param1095._Data_url = null;
-    param1095._Data_publisherLocation = null;
-    param1095._Data_publisher = null;
-    param1095._Data_isbn = null;
-    if (!param1094) return -0x1;
+  'fetchMetadataItem': async function (doi, target) {
+    target._Data_itemType = null;
+    target._Data_title = null;
+    target._Data_firstNames = [];
+    target._Data_lastNames = [];
+    target._Data_volume = null;
+    target._Data_issue = null;
+    target._Data_page = null;
+    target._Data_date = null;
+    target._Data_publication = null;
+    target._Data_journalAbbreviation = null;
+    target._Data_issn = null;
+    target._Data_language = null;
+    target._Data_url = null;
+    target._Data_publisherLocation = null;
+    target._Data_publisher = null;
+    target._Data_isbn = null;
+    if (!doi) return -0x1;
     if (!Zotero.AI4Paper.showDate()) return -0x1;
-    const var5563 = encodeURIComponent(param1094);
-    let var5564 = null;
-    if (var5564 === null) {
-      const var5565 = "vnd.citationstyles.csl+json",
-        var5566 = "transform/application/" + var5565,
-        var5567 = "https://api.crossref.org/works/" + var5563 + '/' + var5566;
-      var5564 = await fetch(var5567).then(_0x7cde69 => _0x7cde69.json())["catch"](_0x5c8a39 => null);
+    const encodedDOI = encodeURIComponent(doi);
+    let cslData = null;
+    if (cslData === null) {
+      const cslFormat = "vnd.citationstyles.csl+json",
+        transformPath = "transform/application/" + cslFormat,
+        crossrefUrl = "https://api.crossref.org/works/" + encodedDOI + '/' + transformPath;
+      cslData = await fetch(crossrefUrl).then(r => r.json())["catch"](e => null);
     }
-    if (var5564 === null) {
-      const var5568 = "https://doi.org/" + var5563,
-        var5569 = "vnd.citationstyles.csl+json";
-      var5564 = await fetch(var5568, {
+    if (cslData === null) {
+      const doiUrl = "https://doi.org/" + encodedDOI,
+        cslFormat = "vnd.citationstyles.csl+json";
+      cslData = await fetch(doiUrl, {
         'headers': {
-          'Accept': 'application/' + var5569
+          'Accept': 'application/' + cslFormat
         }
-      }).then(_0x355b89 => _0x355b89.json())["catch"](_0x2d36f4 => null);
+      }).then(r => r.json())["catch"](e => null);
     }
-    if (var5564 === null) return -0x1;
+    if (cslData === null) return -0x1;
     try {
-      param1095._Data_itemType = var5564.type;
-    } catch (_0x57ac7a) {}
+      target._Data_itemType = cslData.type;
+    } catch (e) {}
     try {
-      param1095._Data_title = var5564.title;
-    } catch (_0x1a219d) {}
+      target._Data_title = cslData.title;
+    } catch (e) {}
     try {
-      for (i = 0x0; i < var5564.author.length; i++) {
-        param1095._Data_firstNames.push(var5564.author[i].given);
-        param1095._Data_lastNames.push(var5564.author[i].family);
+      for (i = 0x0; i < cslData.author.length; i++) {
+        target._Data_firstNames.push(cslData.author[i].given);
+        target._Data_lastNames.push(cslData.author[i].family);
       }
-    } catch (_0x12662c) {}
+    } catch (e) {}
     try {
-      param1095._Data_volume = var5564.volume;
-    } catch (_0x70b1ef) {}
+      target._Data_volume = cslData.volume;
+    } catch (e) {}
     try {
-      param1095._Data_issue = var5564.issue;
-    } catch (_0x5720aa) {}
+      target._Data_issue = cslData.issue;
+    } catch (e) {}
     try {
-      param1095._Data_page = var5564.page;
-    } catch (_0x3170d8) {}
+      target._Data_page = cslData.page;
+    } catch (e) {}
     try {
-      param1095._Data_date = var5564["published-print"]["date-parts"];
-    } catch (_0x4a79b0) {}
+      target._Data_date = cslData["published-print"]["date-parts"];
+    } catch (e) {}
     try {
-      param1095._Data_publication = var5564["container-title"];
-    } catch (_0x4c162c) {}
+      target._Data_publication = cslData["container-title"];
+    } catch (e) {}
     try {
-      param1095._Data_journalAbbreviation = var5564["container-title-short"];
-    } catch (_0x2092f8) {}
+      target._Data_journalAbbreviation = cslData["container-title-short"];
+    } catch (e) {}
     try {
-      param1095._Data_issn = var5564.ISSN[0x0];
-    } catch (_0x3898be) {}
+      target._Data_issn = cslData.ISSN[0x0];
+    } catch (e) {}
     try {
-      param1095._Data_language = var5564.language;
-    } catch (_0x556481) {}
+      target._Data_language = cslData.language;
+    } catch (e) {}
     try {
-      param1095._Data_url = var5564.resource.primary.URL;
-    } catch (_0x489ac1) {}
+      target._Data_url = cslData.resource.primary.URL;
+    } catch (e) {}
     try {
-      param1095._Data_publisherLocation = var5564['publisher-location'];
-    } catch (_0x122357) {}
+      target._Data_publisherLocation = cslData['publisher-location'];
+    } catch (e) {}
     try {
-      param1095._Data_publisher = var5564.publisher;
-    } catch (_0x294a99) {}
+      target._Data_publisher = cslData.publisher;
+    } catch (e) {}
     try {
-      param1095._Data_isbn = var5564.ISBN[0x1];
-    } catch (_0x5618ef) {}
+      target._Data_isbn = cslData.ISBN[0x1];
+    } catch (e) {}
   },
 
   // === Block C: Journal Abbreviation Update ===
@@ -795,111 +795,111 @@ Object.assign(Zotero.AI4Paper, {
       return false;
     }
     Zotero.debug("AI4Paper: Update Journal Abbreviation for Selected items");
-    let var5573 = Zotero_Tabs._selectedID;
-    var var5574 = Zotero.Reader.getByTabID(var5573);
-    if (var5574) {
-      let var5575 = var5574.itemID,
-        var5576 = Zotero.Items.get(var5575);
-      var5576 && var5576.parentItemID && (var5575 = var5576.parentItemID, var5576 = Zotero.Items.get(var5575), this._Num_Done = 0x0, await Zotero.AI4Paper.fetchItemAbbreviation(var5576), this.showProgressWindow(0x1388, "匹配期刊简称【AI4paper】", "共有【" + this._Num_Done + "】篇文献匹配到期刊简称！", "zoteorif"));
+    let selectedTabID = Zotero_Tabs._selectedID;
+    var reader = Zotero.Reader.getByTabID(selectedTabID);
+    if (reader) {
+      let itemID = reader.itemID,
+        item = Zotero.Items.get(itemID);
+      item && item.parentItemID && (itemID = item.parentItemID, item = Zotero.Items.get(itemID), this._Num_Done = 0x0, await Zotero.AI4Paper.fetchItemAbbreviation(item), this.showProgressWindow(0x1388, "匹配期刊简称【AI4paper】", "共有【" + this._Num_Done + "】篇文献匹配到期刊简称！", "zoteorif"));
     } else {
-      let var5577 = Zotero.getActiveZoteroPane().getSelectedItems();
-      this._Num_AllSel = var5577.length;
-      let var5578 = var5577.filter(_0x243a6f => _0x243a6f.isRegularItem());
+      let selectedItems = Zotero.getActiveZoteroPane().getSelectedItems();
+      this._Num_AllSel = selectedItems.length;
+      let regularItems = selectedItems.filter(it => it.isRegularItem());
       this._Num_Done = 0x0;
-      for (let var5579 of var5578) {
-        await Zotero.AI4Paper.fetchItemAbbreviation(var5579);
+      for (let item of regularItems) {
+        await Zotero.AI4Paper.fetchItemAbbreviation(item);
       }
       this.showProgressWindow(0x1388, '匹配期刊简称【Zotero\x20One】', '共有【' + this._Num_Done + '\x20of\x20' + this._Num_AllSel + "】篇文献匹配到期刊简称", 'zoteorif');
     }
   },
-  'fetchItemAbbreviation': async function (param1096) {
-    let var5580 = "publicationTitle",
-      var5581 = 'journalAbbreviation';
-    if (Zotero.AI4Paper.checkItemField(param1096, var5580)) {
-      let var5582 = param1096.getField('publicationTitle').toLowerCase();
+  'fetchItemAbbreviation': async function (item) {
+    let pubTitleField = "publicationTitle",
+      abbrField = 'journalAbbreviation';
+    if (Zotero.AI4Paper.checkItemField(item, pubTitleField)) {
+      let pubTitle = item.getField('publicationTitle').toLowerCase();
       if (Zotero.Prefs.get("ai4paper.enableCustomPublicationTitle")) {
-        let _0x3a9be2 = Zotero.AI4Paper.getCustomPublicationTitle(var5582);
-        _0x3a9be2 && (var5582 = _0x3a9be2);
+        let customTitle = Zotero.AI4Paper.getCustomPublicationTitle(pubTitle);
+        customTitle && (pubTitle = customTitle);
       }
-      var var5584 = Zotero.AI4Paper._data_full_to_abbrev_dots[var5582];
-      Zotero.Prefs.get("ai4paper.journalabbreviationstyle") === "不带点格式" && (var5584 = Zotero.AI4Paper._data_full_to_abbrev[var5582]);
+      var abbrev = Zotero.AI4Paper._data_full_to_abbrev_dots[pubTitle];
+      Zotero.Prefs.get("ai4paper.journalabbreviationstyle") === "不带点格式" && (abbrev = Zotero.AI4Paper._data_full_to_abbrev[pubTitle]);
       if (Zotero.Prefs.get("ai4paper.enableCustomJournalAbbr")) {
-        let _0x578e24 = Zotero.AI4Paper.getCustomJournalAbbr(var5582);
-        _0x578e24 && (var5584 = _0x578e24);
+        let customAbbrev = Zotero.AI4Paper.getCustomJournalAbbr(pubTitle);
+        customAbbrev && (abbrev = customAbbrev);
       }
-      let var5586 = Zotero.AI4Paper._data_modifiedPubTitles[var5582],
-        var5587 = Zotero.AI4Paper._data_abbrev_to_full[var5582];
-      if (var5584 != undefined) {
-        param1096.setField(var5581, var5584);
-        await param1096.saveTx();
+      let modifiedTitle = Zotero.AI4Paper._data_modifiedPubTitles[pubTitle],
+        fullFromAbbrev = Zotero.AI4Paper._data_abbrev_to_full[pubTitle];
+      if (abbrev != undefined) {
+        item.setField(abbrField, abbrev);
+        await item.saveTx();
         this._Num_Done++;
       } else {
-        if (var5586 != undefined) {
-          var5584 = Zotero.AI4Paper._data_full_to_abbrev_dots[var5586];
+        if (modifiedTitle != undefined) {
+          abbrev = Zotero.AI4Paper._data_full_to_abbrev_dots[modifiedTitle];
           if (Zotero.Prefs.get("ai4paper.journalabbreviationstyle") === "不带点格式") {
-            var5584 = Zotero.AI4Paper._data_full_to_abbrev[var5586];
+            abbrev = Zotero.AI4Paper._data_full_to_abbrev[modifiedTitle];
           }
-          if (var5584 != undefined) {
-            param1096.setField(var5581, var5584);
-            await param1096.saveTx();
+          if (abbrev != undefined) {
+            item.setField(abbrField, abbrev);
+            await item.saveTx();
             this._Num_Done++;
           }
         } else {
-          if (var5587 != undefined) {
-            var5584 = Zotero.AI4Paper._data_full_to_abbrev_dots[var5587];
-            Zotero.Prefs.get("ai4paper.journalabbreviationstyle") === "不带点格式" && (var5584 = Zotero.AI4Paper._data_full_to_abbrev[var5587]);
-            var5584 != undefined && (param1096.setField(var5581, var5584), await param1096.saveTx(), this._Num_Done++);
+          if (fullFromAbbrev != undefined) {
+            abbrev = Zotero.AI4Paper._data_full_to_abbrev_dots[fullFromAbbrev];
+            Zotero.Prefs.get("ai4paper.journalabbreviationstyle") === "不带点格式" && (abbrev = Zotero.AI4Paper._data_full_to_abbrev[fullFromAbbrev]);
+            abbrev != undefined && (item.setField(abbrField, abbrev), await item.saveTx(), this._Num_Done++);
           } else {
-            if (var5582.indexOf("the") === 0x0) {
-              let _0x1e5190 = var5582.substring(0x4);
-              var5584 = Zotero.AI4Paper._data_full_to_abbrev_dots[_0x1e5190];
+            if (pubTitle.indexOf("the") === 0x0) {
+              let titleWithoutThe = pubTitle.substring(0x4);
+              abbrev = Zotero.AI4Paper._data_full_to_abbrev_dots[titleWithoutThe];
               if (Zotero.Prefs.get('ai4paper.journalabbreviationstyle') === "不带点格式") {
-                var5584 = Zotero.AI4Paper._data_full_to_abbrev[_0x1e5190];
+                abbrev = Zotero.AI4Paper._data_full_to_abbrev[titleWithoutThe];
               }
-              var5584 != undefined && (param1096.setField(var5581, var5584), await param1096.saveTx(), this._Num_Done++);
+              abbrev != undefined && (item.setField(abbrField, abbrev), await item.saveTx(), this._Num_Done++);
             }
           }
         }
       }
     }
   },
-  'fetchJournalAbbrLocal': async function (param1097) {
-    let var5589 = 'publicationTitle',
-      var5590 = "journalAbbreviation";
-    if (Zotero.AI4Paper.checkItemField(param1097, var5589)) {
-      let var5591 = param1097.getField("publicationTitle").toLowerCase();
+  'fetchJournalAbbrLocal': async function (item) {
+    let pubTitleField = 'publicationTitle',
+      abbrField = "journalAbbreviation";
+    if (Zotero.AI4Paper.checkItemField(item, pubTitleField)) {
+      let pubTitle = item.getField("publicationTitle").toLowerCase();
       if (Zotero.Prefs.get("ai4paper.enableCustomPublicationTitle")) {
-        let _0x3f9524 = Zotero.AI4Paper.getCustomPublicationTitle(var5591);
-        _0x3f9524 && (var5591 = _0x3f9524);
+        let customTitle = Zotero.AI4Paper.getCustomPublicationTitle(pubTitle);
+        customTitle && (pubTitle = customTitle);
       }
-      var var5593 = Zotero.AI4Paper._data_full_to_abbrev_dots[var5591];
-      Zotero.Prefs.get("ai4paper.journalabbreviationstyle") === "不带点格式" && (var5593 = Zotero.AI4Paper._data_full_to_abbrev[var5591]);
+      var abbrev = Zotero.AI4Paper._data_full_to_abbrev_dots[pubTitle];
+      Zotero.Prefs.get("ai4paper.journalabbreviationstyle") === "不带点格式" && (abbrev = Zotero.AI4Paper._data_full_to_abbrev[pubTitle]);
       if (Zotero.Prefs.get("ai4paper.enableCustomJournalAbbr")) {
-        let var5594 = Zotero.AI4Paper.getCustomJournalAbbr(var5591);
-        if (var5594) {
-          var5593 = var5594;
+        let customAbbrev = Zotero.AI4Paper.getCustomJournalAbbr(pubTitle);
+        if (customAbbrev) {
+          abbrev = customAbbrev;
         }
       }
-      let var5595 = Zotero.AI4Paper._data_modifiedPubTitles[var5591],
-        var5596 = Zotero.AI4Paper._data_abbrev_to_full[var5591];
-      if (var5593 != undefined) return param1097.setField(var5590, var5593), await param1097.saveTx(), true;else {
-        if (var5595 != undefined) {
-          var5593 = Zotero.AI4Paper._data_full_to_abbrev_dots[var5595];
-          Zotero.Prefs.get("ai4paper.journalabbreviationstyle") === "不带点格式" && (var5593 = Zotero.AI4Paper._data_full_to_abbrev[var5595]);
-          if (var5593 != undefined) {
-            return param1097.setField(var5590, var5593), await param1097.saveTx(), true;
+      let modifiedTitle = Zotero.AI4Paper._data_modifiedPubTitles[pubTitle],
+        fullFromAbbrev = Zotero.AI4Paper._data_abbrev_to_full[pubTitle];
+      if (abbrev != undefined) return item.setField(abbrField, abbrev), await item.saveTx(), true;else {
+        if (modifiedTitle != undefined) {
+          abbrev = Zotero.AI4Paper._data_full_to_abbrev_dots[modifiedTitle];
+          Zotero.Prefs.get("ai4paper.journalabbreviationstyle") === "不带点格式" && (abbrev = Zotero.AI4Paper._data_full_to_abbrev[modifiedTitle]);
+          if (abbrev != undefined) {
+            return item.setField(abbrField, abbrev), await item.saveTx(), true;
           }
         } else {
-          if (var5596 != undefined) {
-            var5593 = Zotero.AI4Paper._data_full_to_abbrev_dots[var5596];
-            Zotero.Prefs.get("ai4paper.journalabbreviationstyle") === "不带点格式" && (var5593 = Zotero.AI4Paper._data_full_to_abbrev[var5596]);
-            if (var5593 != undefined) return param1097.setField(var5590, var5593), await param1097.saveTx(), true;
+          if (fullFromAbbrev != undefined) {
+            abbrev = Zotero.AI4Paper._data_full_to_abbrev_dots[fullFromAbbrev];
+            Zotero.Prefs.get("ai4paper.journalabbreviationstyle") === "不带点格式" && (abbrev = Zotero.AI4Paper._data_full_to_abbrev[fullFromAbbrev]);
+            if (abbrev != undefined) return item.setField(abbrField, abbrev), await item.saveTx(), true;
           } else {
-            if (var5591.indexOf("the") === 0x0) {
-              let _0x406cdb = var5591.substring(0x4);
-              var5593 = Zotero.AI4Paper._data_full_to_abbrev_dots[_0x406cdb];
-              Zotero.Prefs.get("ai4paper.journalabbreviationstyle") === "不带点格式" && (var5593 = Zotero.AI4Paper._data_full_to_abbrev[_0x406cdb]);
-              if (var5593 != undefined) return param1097.setField(var5590, var5593), await param1097.saveTx(), true;
+            if (pubTitle.indexOf("the") === 0x0) {
+              let titleWithoutThe = pubTitle.substring(0x4);
+              abbrev = Zotero.AI4Paper._data_full_to_abbrev_dots[titleWithoutThe];
+              Zotero.Prefs.get("ai4paper.journalabbreviationstyle") === "不带点格式" && (abbrev = Zotero.AI4Paper._data_full_to_abbrev[titleWithoutThe]);
+              if (abbrev != undefined) return item.setField(abbrField, abbrev), await item.saveTx(), true;
             }
           }
         }
@@ -909,7 +909,7 @@ Object.assign(Zotero.AI4Paper, {
   },
 
   // === Block D: Clear Field ===
-  'clearField': async function (param1098) {
+  'clearField': async function (fieldName) {
     if (Zotero.Prefs.get("ai4paper.activationkeyverifyresult") != Zotero.Utilities.Internal.md5(Zotero.Prefs.get('ai4paper.timestringencoded'))) {
       return window.alert("❌ AI4paper 尚未激活，请前往【Zotero 设置 --> AI4paper --> 激活】 联网激活插件！"), -0x1;
     }
@@ -917,160 +917,160 @@ Object.assign(Zotero.AI4Paper, {
       return false;
     }
     Zotero.debug("AI4paper: clear field for selected items");
-    let var5598 = false;
-    Zotero.locale === 'zh-CN' && (var5598 = true);
-    let var5599 = {
-        'extra': !var5598 ? "extra" : '其他',
-        'rights': !var5598 ? 'rights' : '版权',
-        'callNumber': !var5598 ? "callNumber" : "索书号",
-        'libraryCatalog': !var5598 ? 'libraryCatalog' : "文库编目",
-        'archiveLocation': !var5598 ? "archiveLocation" : "存档位置",
-        'archive': !var5598 ? 'archive' : '档案',
-        'shortTitle': !var5598 ? "shortTitle" : '短标题'
+    let isChinese = false;
+    Zotero.locale === 'zh-CN' && (isChinese = true);
+    let fieldLabels = {
+        'extra': !isChinese ? "extra" : '其他',
+        'rights': !isChinese ? 'rights' : '版权',
+        'callNumber': !isChinese ? "callNumber" : "索书号",
+        'libraryCatalog': !isChinese ? 'libraryCatalog' : "文库编目",
+        'archiveLocation': !isChinese ? "archiveLocation" : "存档位置",
+        'archive': !isChinese ? 'archive' : '档案',
+        'shortTitle': !isChinese ? "shortTitle" : '短标题'
       },
-      var5600 = Zotero_Tabs._selectedID;
-    var var5601 = Zotero.Reader.getByTabID(var5600);
-    if (var5601) {
-      let _0xa64261 = var5601.itemID,
-        _0x90f7fb = Zotero.Items.get(_0xa64261);
-      _0x90f7fb && _0x90f7fb.parentItemID && (_0xa64261 = _0x90f7fb.parentItemID, _0x90f7fb = Zotero.Items.get(_0xa64261), Zotero.AI4Paper.checkItemField(_0x90f7fb, param1098) ? (_0x90f7fb.setField(param1098, ''), await _0x90f7fb.saveTx(), this.showProgressWindow(0x1388, "🧹 清除字段【AI4paper】", "您成功清楚当前文献的【" + var5599[param1098] + "】字段内容！", 'zoteorif')) : this.showProgressWindow(0x1388, "🧹 清除字段【AI4paper】", "❌ 当前文献无【" + var5599[param1098] + "】字段！", "zoteorif"));
+      selectedTabID = Zotero_Tabs._selectedID;
+    var reader = Zotero.Reader.getByTabID(selectedTabID);
+    if (reader) {
+      let itemID = reader.itemID,
+        item = Zotero.Items.get(itemID);
+      item && item.parentItemID && (itemID = item.parentItemID, item = Zotero.Items.get(itemID), Zotero.AI4Paper.checkItemField(item, fieldName) ? (item.setField(fieldName, ''), await item.saveTx(), this.showProgressWindow(0x1388, "🧹 清除字段【AI4paper】", "您成功清楚当前文献的【" + fieldLabels[fieldName] + "】字段内容！", 'zoteorif')) : this.showProgressWindow(0x1388, "🧹 清除字段【AI4paper】", "❌ 当前文献无【" + fieldLabels[fieldName] + "】字段！", "zoteorif"));
     } else {
-      let _0x101992 = Zotero.getActiveZoteroPane().getSelectedItems();
-      this._Num_AllSel = _0x101992.length;
-      let _0x5a8312 = _0x101992.filter(_0x21eea8 => _0x21eea8.isRegularItem());
+      let selectedItems = Zotero.getActiveZoteroPane().getSelectedItems();
+      this._Num_AllSel = selectedItems.length;
+      let regularItems = selectedItems.filter(it => it.isRegularItem());
       this._Num_Done = 0x0;
-      for (let var5606 of _0x5a8312) {
-        Zotero.AI4Paper.checkItemField(var5606, param1098) && (var5606.setField(param1098, ''), await var5606.saveTx(), this._Num_Done++);
+      for (let item of regularItems) {
+        Zotero.AI4Paper.checkItemField(item, fieldName) && (item.setField(fieldName, ''), await item.saveTx(), this._Num_Done++);
       }
-      this.showProgressWindow(0x1388, "🧹 清除字段【AI4paper】", "您成功清除了【" + this._Num_Done + '\x20of\x20' + this._Num_AllSel + "】篇文献的【" + var5599[param1098] + "】字段内容！", "zoteorif");
+      this.showProgressWindow(0x1388, "🧹 清除字段【AI4paper】", "您成功清除了【" + this._Num_Done + '\x20of\x20' + this._Num_AllSel + "】篇文献的【" + fieldLabels[fieldName] + "】字段内容！", "zoteorif");
     }
   },
 
   // === Block E: IF Update + Custom Publication Title ===
-  'checkItemField': function (param1125, param1126) {
-    return Zotero.ItemFields.getFieldIDFromTypeAndBase(param1125.itemTypeID, param1126);
+  'checkItemField': function (item, fieldName) {
+    return Zotero.ItemFields.getFieldIDFromTypeAndBase(item.itemTypeID, fieldName);
   },
   'updateSelectedItemsIF': function () {
     if (Zotero.Prefs.get("ai4paper.activationkeyverifyresult") != Zotero.Utilities.Internal.md5(Zotero.Prefs.get('ai4paper.timestringencoded'))) return window.alert("❌ AI4paper 尚未激活，请前往【Zotero 设置 --> AI4paper --> 激活】 联网激活插件！"), -0x1;
     if (!Zotero.AI4Paper.getFunMetaTitle()) return false;
     Zotero.debug("AI4Paper: Updating IF for Selected items");
-    let var5935 = Zotero.getActiveZoteroPane().getSelectedItems();
-    this._Num_AllSel = var5935.length;
-    this.updateItemsIF(var5935.filter(_0x1dc876 => _0x1dc876.isRegularItem() && (_0x1dc876.itemType === 'journalArticle' || _0x1dc876.itemType === 'conferencePaper')));
+    let selectedItems = Zotero.getActiveZoteroPane().getSelectedItems();
+    this._Num_AllSel = selectedItems.length;
+    this.updateItemsIF(selectedItems.filter(it => it.isRegularItem() && (it.itemType === 'journalArticle' || it.itemType === 'conferencePaper')));
   },
-  'updateItemsIF': function (param1127) {
+  'updateItemsIF': function (items) {
     this._Num_matchJCRIF = 0x0;
     this._Num_matchFenqubiao = 0x0;
     this._Num_matchPKUCORE = 0x0;
     this._Num_matchNJUCORE = 0x0;
     this._Num_matchCSCD = 0x0;
-    this._Num_ToDo = param1127.length;
+    this._Num_ToDo = items.length;
     this._Num_Done = 0x0;
-    param1127.forEach(_0x2ec7b4 => this.updateItemIF(_0x2ec7b4));
+    items.forEach(it => this.updateItemIF(it));
   },
-  'updateItemIF': async function (param1128) {
-    let var5936 = param1128.getField("publicationTitle").toLowerCase();
+  'updateItemIF': async function (item) {
+    let pubTitle = item.getField("publicationTitle").toLowerCase();
     if (Zotero.Prefs.get("ai4paper.enableCustomPublicationTitle")) {
-      let _0x3a5081 = Zotero.AI4Paper.getCustomPublicationTitle(var5936);
-      _0x3a5081 && (var5936 = _0x3a5081);
+      let customTitle = Zotero.AI4Paper.getCustomPublicationTitle(pubTitle);
+      customTitle && (pubTitle = customTitle);
     }
-    let var5938 = Zotero.AI4Paper._data_jcr_if[var5936],
-      var5939 = Zotero.AI4Paper._data_zjk_fenqu[var5936],
-      var5940 = Zotero.AI4Paper._data_modifiedPubTitles[var5936],
-      var5941 = Zotero.AI4Paper._data_jcr_if_abbrev[var5936],
-      var5942 = Zotero.AI4Paper._data_earlywarning[var5936],
-      var5943 = Zotero.AI4Paper._data_pkucore[var5936],
-      var5944 = Zotero.AI4Paper._data_njucore[var5936],
-      var5945 = Zotero.AI4Paper._data_cscd[var5936],
-      var5946 = Zotero.AI4Paper._data_ccf[var5936];
-    param1128.itemType === "conferencePaper" && (var5946 = Zotero.AI4Paper._data_ccf[param1128.getField('proceedingsTitle').toLowerCase()]);
-    if (var5938 != undefined) {
-      let _0x31aed6 = var5938.split('IF')[0x0],
-        _0x5e2b1a = var5938.split('IF')[0x1];
-      Zotero.Prefs.get("ai4paper.jcrscifenqu") && _0x5e2b1a && _0x5e2b1a != "N/A" && (_0x31aed6 = _0x31aed6 + '\x20(' + _0x5e2b1a + ')');
-      param1128.setField("libraryCatalog", _0x31aed6);
-      await param1128.saveTx();
+    let jcrIF = Zotero.AI4Paper._data_jcr_if[pubTitle],
+      fenquData = Zotero.AI4Paper._data_zjk_fenqu[pubTitle],
+      modifiedTitle = Zotero.AI4Paper._data_modifiedPubTitles[pubTitle],
+      jcrIFAbbrev = Zotero.AI4Paper._data_jcr_if_abbrev[pubTitle],
+      earlyWarning = Zotero.AI4Paper._data_earlywarning[pubTitle],
+      pkuCore = Zotero.AI4Paper._data_pkucore[pubTitle],
+      njuCore = Zotero.AI4Paper._data_njucore[pubTitle],
+      cscdData = Zotero.AI4Paper._data_cscd[pubTitle],
+      ccfRank = Zotero.AI4Paper._data_ccf[pubTitle];
+    item.itemType === "conferencePaper" && (ccfRank = Zotero.AI4Paper._data_ccf[item.getField('proceedingsTitle').toLowerCase()]);
+    if (jcrIF != undefined) {
+      let ifValue = jcrIF.split('IF')[0x0],
+        sciPartition = jcrIF.split('IF')[0x1];
+      Zotero.Prefs.get("ai4paper.jcrscifenqu") && sciPartition && sciPartition != "N/A" && (ifValue = ifValue + '\x20(' + sciPartition + ')');
+      item.setField("libraryCatalog", ifValue);
+      await item.saveTx();
       this._Num_matchJCRIF++;
     } else {
-      if (var5940 != undefined) {
-        let var5949 = Zotero.AI4Paper._data_jcr_if[var5940];
-        if (var5949 != undefined) {
-          let var5950 = var5949.split('IF')[0x0],
-            var5951 = var5949.split('IF')[0x1];
-          Zotero.Prefs.get("ai4paper.jcrscifenqu") && var5951 && var5951 != "N/A" && (var5950 = var5950 + '\x20(' + var5951 + ')');
-          param1128.setField("libraryCatalog", var5950);
-          await param1128.saveTx();
+      if (modifiedTitle != undefined) {
+        let modifiedIF = Zotero.AI4Paper._data_jcr_if[modifiedTitle];
+        if (modifiedIF != undefined) {
+          let ifValue = modifiedIF.split('IF')[0x0],
+            sciPartition = modifiedIF.split('IF')[0x1];
+          Zotero.Prefs.get("ai4paper.jcrscifenqu") && sciPartition && sciPartition != "N/A" && (ifValue = ifValue + '\x20(' + sciPartition + ')');
+          item.setField("libraryCatalog", ifValue);
+          await item.saveTx();
           this._Num_matchJCRIF++;
-          var5939 = Zotero.AI4Paper._data_zjk_fenqu[var5940];
+          fenquData = Zotero.AI4Paper._data_zjk_fenqu[modifiedTitle];
         } else {
           if (Zotero.Prefs.get("ai4paper.useZeroForFailedMatch")) {
-            param1128.setField("libraryCatalog", 0x0);
-            await param1128.saveTx();
+            item.setField("libraryCatalog", 0x0);
+            await item.saveTx();
           }
         }
       } else {
-        if (param1128.getField("ISSN") && Zotero.AI4Paper._data_jcr_if_issn[param1128.getField("ISSN")]) {
-          let var5952 = Zotero.AI4Paper._data_jcr_if_issn[param1128.getField("ISSN")],
-            var5953 = var5952.split('IF')[0x0],
-            var5954 = var5952.split('IF')[0x1];
-          Zotero.Prefs.get("ai4paper.jcrscifenqu") && var5954 && var5954 != "N/A" && (var5953 = var5953 + '\x20(' + var5954 + ')');
-          param1128.setField('libraryCatalog', var5953);
-          await param1128.saveTx();
+        if (item.getField("ISSN") && Zotero.AI4Paper._data_jcr_if_issn[item.getField("ISSN")]) {
+          let issnIF = Zotero.AI4Paper._data_jcr_if_issn[item.getField("ISSN")],
+            ifValue = issnIF.split('IF')[0x0],
+            sciPartition = issnIF.split('IF')[0x1];
+          Zotero.Prefs.get("ai4paper.jcrscifenqu") && sciPartition && sciPartition != "N/A" && (ifValue = ifValue + '\x20(' + sciPartition + ')');
+          item.setField('libraryCatalog', ifValue);
+          await item.saveTx();
           this._Num_matchJCRIF++;
-          var5939 = Zotero.AI4Paper._data_zjk_fenqu[Zotero.AI4Paper._data_issn_journal[param1128.getField("ISSN")]];
+          fenquData = Zotero.AI4Paper._data_zjk_fenqu[Zotero.AI4Paper._data_issn_journal[item.getField("ISSN")]];
         } else {
-          if (var5936.indexOf("the") === 0x0) {
-            let var5955 = var5936.substring(0x4),
-              var5956 = Zotero.AI4Paper._data_jcr_if[var5955];
-            if (var5956 != undefined) {
-              let _0x2b310f = var5956.split('IF')[0x0],
-                _0x3bb166 = var5956.split('IF')[0x1];
-              if (Zotero.Prefs.get("ai4paper.jcrscifenqu") && _0x3bb166 && _0x3bb166 != 'N/A') {
-                _0x2b310f = _0x2b310f + '\x20(' + _0x3bb166 + ')';
+          if (pubTitle.indexOf("the") === 0x0) {
+            let titleWithoutThe = pubTitle.substring(0x4),
+              theIF = Zotero.AI4Paper._data_jcr_if[titleWithoutThe];
+            if (theIF != undefined) {
+              let ifValue = theIF.split('IF')[0x0],
+                sciPartition = theIF.split('IF')[0x1];
+              if (Zotero.Prefs.get("ai4paper.jcrscifenqu") && sciPartition && sciPartition != 'N/A') {
+                ifValue = ifValue + '\x20(' + sciPartition + ')';
               }
-              param1128.setField("libraryCatalog", _0x2b310f);
-              await param1128.saveTx();
+              item.setField("libraryCatalog", ifValue);
+              await item.saveTx();
               this._Num_matchJCRIF++;
-              var5939 = Zotero.AI4Paper._data_zjk_fenqu[var5955];
-            } else Zotero.Prefs.get("ai4paper.useZeroForFailedMatch") && (param1128.setField("libraryCatalog", 0x0), await param1128.saveTx());
-          } else var5943 != undefined || var5944 != undefined ? (param1128.setField("libraryCatalog", '' + (var5943 ? "北核 " : '') + (var5944 ? '南核' : '')), await param1128.saveTx(), this._Num_matchPKUCORE++) : Zotero.Prefs.get('ai4paper.useZeroForFailedMatch') && (param1128.setField("libraryCatalog", 0x0), await param1128.saveTx());
+              fenquData = Zotero.AI4Paper._data_zjk_fenqu[titleWithoutThe];
+            } else Zotero.Prefs.get("ai4paper.useZeroForFailedMatch") && (item.setField("libraryCatalog", 0x0), await item.saveTx());
+          } else pkuCore != undefined || njuCore != undefined ? (item.setField("libraryCatalog", '' + (pkuCore ? "北核 " : '') + (njuCore ? '南核' : '')), await item.saveTx(), this._Num_matchPKUCORE++) : Zotero.Prefs.get('ai4paper.useZeroForFailedMatch') && (item.setField("libraryCatalog", 0x0), await item.saveTx());
         }
       }
     }
-    if (var5939 != undefined) {
-      if (var5946 != undefined) {
-        var5939 = var5939 + '\x20(' + var5946 + ')';
+    if (fenquData != undefined) {
+      if (ccfRank != undefined) {
+        fenquData = fenquData + '\x20(' + ccfRank + ')';
       }
-      var5942 != undefined && (var5939 = var5939 + '\x20(' + var5942 + ')', param1128.addTag('预警期刊', 0x1));
-      param1128.setField("callNumber", var5939);
-      await param1128.saveTx();
+      earlyWarning != undefined && (fenquData = fenquData + '\x20(' + earlyWarning + ')', item.addTag('预警期刊', 0x1));
+      item.setField("callNumber", fenquData);
+      await item.saveTx();
       this._Num_matchFenqubiao++;
     } else {
-      if (var5945 != undefined) {
-        param1128.setField("callNumber", var5945);
-        await param1128.saveTx();
+      if (cscdData != undefined) {
+        item.setField("callNumber", cscdData);
+        await item.saveTx();
         this._Num_matchCSCD++;
       } else {
-        if (var5946 != undefined) {
-          param1128.setField('callNumber', var5946);
-          await param1128.saveTx();
-        } else Zotero.Prefs.get("ai4paper.useZeroForFailedMatch") && (param1128.setField("callNumber", 0x0), await param1128.saveTx());
+        if (ccfRank != undefined) {
+          item.setField('callNumber', ccfRank);
+          await item.saveTx();
+        } else Zotero.Prefs.get("ai4paper.useZeroForFailedMatch") && (item.setField("callNumber", 0x0), await item.saveTx());
       }
     }
     this._Num_Done++;
     this._Num_ToDo === this._Num_Done && this.showProgressWindow(0x1388, "✅ 更新 IF(s)【AI4paper】", '共有【' + this._Num_matchJCRIF + " of " + this._Num_AllSel + "】个条目匹配到【JCR IF】，共有【" + this._Num_matchFenqubiao + " of " + this._Num_AllSel + "】个条目匹配到【中科院分区】，共有【" + this._Num_matchPKUCORE + " of " + this._Num_AllSel + "】个条目匹配到【北大核心或南大核心】！", "zoteorif");
   },
-  'getCustomPublicationTitle': function (param1129) {
-    if (!param1129 || !Zotero.Prefs.get("ai4paper.customPublicationTitleData") || Zotero.Prefs.get('ai4paper.customPublicationTitleData') === '{}') return false;
-    let var5959 = JSON.parse(Zotero.Prefs.get("ai4paper.customPublicationTitleData")),
-      var5960 = var5959[param1129];
-    if (var5960) return var5960;
+  'getCustomPublicationTitle': function (pubTitle) {
+    if (!pubTitle || !Zotero.Prefs.get("ai4paper.customPublicationTitleData") || Zotero.Prefs.get('ai4paper.customPublicationTitleData') === '{}') return false;
+    let customData = JSON.parse(Zotero.Prefs.get("ai4paper.customPublicationTitleData")),
+      mappedTitle = customData[pubTitle];
+    if (mappedTitle) return mappedTitle;
   },
-  'getCustomJournalAbbr': function (param1130) {
-    if (!param1130 || !Zotero.Prefs.get("ai4paper.customJournalAbbrData") || Zotero.Prefs.get("ai4paper.customJournalAbbrData") === '{}') return false;
-    let var5961 = JSON.parse(Zotero.Prefs.get("ai4paper.customJournalAbbrData")),
-      var5962 = var5961[param1130];
-    if (var5962) return var5962;
+  'getCustomJournalAbbr': function (pubTitle) {
+    if (!pubTitle || !Zotero.Prefs.get("ai4paper.customJournalAbbrData") || Zotero.Prefs.get("ai4paper.customJournalAbbrData") === '{}') return false;
+    let customData = JSON.parse(Zotero.Prefs.get("ai4paper.customJournalAbbrData")),
+      mappedAbbrev = customData[pubTitle];
+    if (mappedAbbrev) return mappedAbbrev;
   },
 
 });
