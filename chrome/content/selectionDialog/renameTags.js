@@ -52,107 +52,19 @@ methodsBody.gptNoteTag = function (param3) {
   methodsBody.updateFilterButtons(true);
 };
 methodsBody.updateTags = async function (param4) {
-  let var5 = {
-      'itemTag': "条目标签",
-      'annotationTag': "注释标签",
-      'gptNoteTag': "GPT 笔记标签"
-    },
-    var6 = await Zotero.Tags.getAll(0x1);
-  if (var6.length === 0x0) {
-    Zotero.AI4Paper.showProgressWindow(0xbb8, "❌ 未发现标签【AI4paper】", "未在【我的文库】中发现任何标签！");
-    return;
-  }
-  document.getElementById('message-label').textContent = "正在刷新" + var5[param4] + "，右下角查看进度...";
-  let var7 = "_renameTagsDialog_update_" + param4;
-  Zotero.AI4Paper.progressPercent_initProgress(var6, var7, var5[param4]);
-  methodsBody["update_" + param4 + "_checkNext"](var7, var5[param4]);
-};
-methodsBody.update_itemTag_checkNext = async function (param5, param6) {
-  Zotero.AI4Paper["numberOfUpdatedItems" + param5]++;
-  if (Zotero.AI4Paper["current" + param5] == Zotero.AI4Paper['toUpdate' + param5] - 0x1) {
-    Zotero.AI4Paper["progressWindow" + param5].close();
-    Zotero.AI4Paper.progressPercent_resetState(null, param5, param6);
-    Zotero.Prefs.set("ai4paper.itemTags", JSON.stringify(Zotero.AI4Paper["_progressData_" + param5]));
-    methodsBody.itemTag(true);
-    return;
-  }
-  Zotero.AI4Paper.progressPercent_updatePercent(param5, "检查所有标签： ");
-  methodsBody.update_itemTag_checkTag(Zotero.AI4Paper['itemsToUpdate' + param5][Zotero.AI4Paper['current' + param5]], param5, param6);
-};
-methodsBody.update_itemTag_checkTag = async function (param7, param8, param9) {
-  try {
-    let var8 = await Zotero.AI4Paper.checkItemTag(param7.tag);
-    if (var8) {
-      let var9 = param7.tag,
-        var10 = 0x0,
-        var11 = {
-          'tag': var9,
-          'type': var10
-        };
-      !JSON.stringify(Zotero.AI4Paper["_progressData_" + param8]).includes(JSON.stringify(var11)) && (Zotero.AI4Paper["_progressData_" + param8].push(var11), Zotero.AI4Paper["counter" + param8]++);
-    }
-  } catch (_0x1cf921) {
-    Zotero.debug(_0x1cf921);
-  }
-  methodsBody.update_itemTag_checkNext(param8, param9);
-};
-methodsBody.update_annotationTag_checkNext = async function (param10, param11) {
-  Zotero.AI4Paper["numberOfUpdatedItems" + param10]++;
-  if (Zotero.AI4Paper["current" + param10] == Zotero.AI4Paper["toUpdate" + param10] - 0x1) {
-    Zotero.AI4Paper['progressWindow' + param10].close();
-    Zotero.AI4Paper.progressPercent_resetState(null, param10, param11);
-    Zotero.Prefs.set("ai4paper.annotationtagsrecent", JSON.stringify(Zotero.AI4Paper["_progressData_" + param10]));
-    methodsBody.annotationTag(true);
-    return;
-  }
-  Zotero.AI4Paper.progressPercent_updatePercent(param10, "检查所有标签： ");
-  methodsBody.update_annotationTag_checkTag(Zotero.AI4Paper["itemsToUpdate" + param10][Zotero.AI4Paper["current" + param10]], param10, param11);
-};
-methodsBody.update_annotationTag_checkTag = async function (param12, param13, param14) {
-  try {
-    let var12 = await Zotero.AI4Paper.checkAnnotationTag(param12.tag);
-    if (var12) {
-      let var13 = param12.tag,
-        var14 = 0x0,
-        var15 = {
-          'tag': var13,
-          'type': var14
-        };
-      !JSON.stringify(Zotero.AI4Paper["_progressData_" + param13]).includes(JSON.stringify(var15)) && (Zotero.AI4Paper['_progressData_' + param13].push(var15), Zotero.AI4Paper["counter" + param13]++);
-    }
-  } catch (_0x36a4bd) {
-    Zotero.debug(_0x36a4bd);
-  }
-  methodsBody.update_annotationTag_checkNext(param13, param14);
-};
-methodsBody.update_gptNoteTag_checkNext = async function (param15, param16) {
-  Zotero.AI4Paper['numberOfUpdatedItems' + param15]++;
-  if (Zotero.AI4Paper["current" + param15] == Zotero.AI4Paper["toUpdate" + param15] - 0x1) {
-    Zotero.AI4Paper['progressWindow' + param15].close();
-    Zotero.AI4Paper.progressPercent_resetState(null, param15, param16);
-    Zotero.Prefs.set("ai4paper.gptnotetagsrecent", JSON.stringify(Zotero.AI4Paper["_progressData_" + param15]));
-    methodsBody.gptNoteTag(true);
-    return;
-  }
-  Zotero.AI4Paper.progressPercent_updatePercent(param15, "检查所有标签： ");
-  methodsBody.update_gptNoteTag_checkTag(Zotero.AI4Paper["itemsToUpdate" + param15][Zotero.AI4Paper["current" + param15]], param15, param16);
-};
-methodsBody.update_gptNoteTag_checkTag = async function (param17, param18, param19) {
-  try {
-    let var16 = await Zotero.AI4Paper.checkGPTNoteTag(param17.tag);
-    if (var16) {
-      let var17 = param17.tag,
-        var18 = 0x0,
-        var19 = {
-          'tag': var17,
-          'type': var18
-        };
-      !JSON.stringify(Zotero.AI4Paper["_progressData_" + param18]).includes(JSON.stringify(var19)) && (Zotero.AI4Paper["_progressData_" + param18].push(var19), Zotero.AI4Paper["counter" + param18]++);
-    }
-  } catch (_0x115864) {
-    Zotero.debug(_0x115864);
-  }
-  methodsBody.update_gptNoteTag_checkNext(param18, param19);
+  let tagConfigs = {
+    'itemTag': { description: "条目标签", checkFn: Zotero.AI4Paper.checkItemTag, prefKey: "ai4paper.itemTags", refreshFn: (v) => methodsBody.itemTag(v) },
+    'annotationTag': { description: "注释标签", checkFn: Zotero.AI4Paper.checkAnnotationTag, prefKey: "ai4paper.annotationtagsrecent", refreshFn: (v) => methodsBody.annotationTag(v) },
+    'gptNoteTag': { description: "GPT 笔记标签", checkFn: Zotero.AI4Paper.checkGPTNoteTag, prefKey: "ai4paper.gptnotetagsrecent", refreshFn: (v) => methodsBody.gptNoteTag(v) }
+  };
+  let config = tagConfigs[param4];
+  if (!config) return;
+  document.getElementById('message-label').textContent = "正在刷新" + config.description + "，右下角查看进度...";
+  await Zotero.AI4Paper.DialogUtils.runTagUpdateChain({
+    tagType: param4, dialogPrefix: "_renameTagsDialog_update_",
+    description: config.description, checkFn: config.checkFn,
+    prefKey: config.prefKey, refreshFn: config.refreshFn
+  });
 };
 methodsBody.filter = async function (param20) {
   methodsBody.updateFilterButtons(null, param20);
@@ -263,13 +175,7 @@ methodsBody.buildItemNodes = function (param21) {
   }
 };
 methodsBody.updateFilterButtons = function (param22, param23) {
-  let var29 = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'OT'];
-  for (let var30 of var29) {
-    let var31 = document.getElementById("tagFilter-" + var30),
-      var32 = "chrome://ai4paper/content/icons/" + var30 + '.png',
-      var33 = "chrome://ai4paper/content/icons/" + var30 + "-select.png";
-    param22 ? (var31.setAttribute("src", var32), var31.onmouseover = () => var31.style.transform = 'scale(1.3)', var31.onmouseout = () => var31.style.transform = "scale(1)") : var30 === param23 ? (var31.setAttribute("src", var33), var31.style.transform = "scale(1)", var31.onmouseover = () => {}, var31.onmouseout = () => {}) : (var31.setAttribute('src', var32), var31.onmouseover = () => var31.style.transform = 'scale(1.3)', var31.onmouseout = () => var31.style.transform = "scale(1)");
-  }
+  Zotero.AI4Paper.DialogUtils.updateAZFilterButtons(param22, param23);
 };
 methodsBody.showallItems = function () {
   methodsBody.updateViewButtonStatus('showAllItems');
@@ -317,12 +223,7 @@ methodsBody.returnLibraryTagsSearch = async function (param25) {
   return var47;
 };
 methodsBody.clearListbox = function () {
-  var var50 = document.getElementById("richlistbox-elem");
-  let var51 = var50.firstElementChild;
-  while (var51) {
-    var51.remove();
-    var51 = var50.firstElementChild;
-  }
+  Zotero.AI4Paper.DialogUtils.clearListbox('richlistbox-elem');
 };
 methodsBody.clearAllInputBoxes = function () {
   var var52 = document.getElementById("richlistbox-elem");
@@ -332,31 +233,18 @@ methodsBody.clearAllInputBoxes = function () {
   methodsBody.updateEditedItemsNum();
 };
 methodsBody.buildContextMenu = function (param26, param27) {
-  let var54 = document.querySelector("#richlistitem-contextmenu");
-  if (!var54) {
-    var54 = document.createXULElement("menupopup");
-    var54.id = "richlistitem-contextmenu";
-    document.documentElement.appendChild(var54);
-    var54 = document.documentElement.lastElementChild.firstElementChild;
-    if (param27) return;
-  }
-  let var55 = param26.target.textContent,
-    var56 = var54.firstElementChild;
-  while (var56) {
-    var56.remove();
-    var56 = var54.firstElementChild;
-  }
-  let var57 = document.createXULElement('menuitem');
-  var57.setAttribute('label', '拷贝标签');
-  var57.addEventListener("command", () => {
-    Zotero.AI4Paper.copy2Clipboard(var55);
-    Zotero.AI4Paper.showProgressWindow(0x7d0, '拷贝标签【Zotero\x20One】', '已拷贝标签【' + var55 + '】');
+  let menu = Zotero.AI4Paper.DialogUtils.initMenuPopup('richlistitem-contextmenu', param27);
+  if (param27 && !menu) return;
+  let tagLabel = param26.target.textContent;
+  Zotero.AI4Paper.DialogUtils.addMenuItem(menu, '拷贝标签', () => {
+    Zotero.AI4Paper.copy2Clipboard(tagLabel);
+    Zotero.AI4Paper.showProgressWindow(0x7d0, '拷贝标签【Zotero\x20One】', '已拷贝标签【' + tagLabel + '】');
   });
-  var54.appendChild(var57);
-  let var58 = document.createXULElement('menuseparator');
-  return var54.appendChild(var58), var57 = window.document.createXULElement("menuitem"), var57.setAttribute("label", "检索所属文献"), var57.addEventListener("command", () => {
-    Zotero.AI4Paper.showItemsBasedOnTag(var55);
-  }), var54.appendChild(var57), var54;
+  Zotero.AI4Paper.DialogUtils.addMenuSeparator(menu);
+  Zotero.AI4Paper.DialogUtils.addMenuItem(menu, "检索所属文献", () => {
+    Zotero.AI4Paper.showItemsBasedOnTag(tagLabel);
+  });
+  return menu;
 };
 methodsBody.renameTags = async function () {
   let var59 = methodsBody.getRenameData();

@@ -33,41 +33,15 @@ methodsBody.init = function () {
  */
 
 methodsBody.buildContextMenu = function (isInit) {
-  let popup = document.querySelector("#inputBox-contextmenu");
-  if (!popup) {
-    popup = window.document.createXULElement('menupopup');
-    popup.id = 'inputBox-contextmenu';
-    document.documentElement.appendChild(popup);
-    popup = document.documentElement.lastElementChild.firstElementChild;
-
-    // 初始化创建右键菜单。否则第一次右键不会出现菜单。
-    if (isInit) return;
-  }
-  let first = popup.firstElementChild;
-  while (first) {
-    first.remove();
-    first = popup.firstElementChild;
-  }
+  let menu = Zotero.AI4Paper.DialogUtils.initMenuPopup('inputBox-contextmenu', isInit);
+  if (isInit && !menu) return;
   let inputBoxElem = document.getElementById("setWorkSpaceName.inputBox");
-
-  // 填入【当前日期】
-  let menuitem = window.document.createXULElement('menuitem');
-  menuitem.setAttribute('label', "填入【当前日期】");
-  menuitem.addEventListener('command', () => {
+  Zotero.AI4Paper.DialogUtils.addMenuItem(menu, "填入【当前日期】", () => {
     inputBoxElem.value = `${inputBoxElem.value} ${Zotero.AI4Paper.getDate()}`;
   });
-  popup.appendChild(menuitem);
-
-  // // 分割线
-  // popup.appendChild(document.createXULElement('menuseparator'));
-
-  // 填入【当前日期时间】
-  menuitem = window.document.createXULElement('menuitem');
-  menuitem.setAttribute('label', "填入【当前日期时间】");
-  menuitem.addEventListener('command', () => {
+  Zotero.AI4Paper.DialogUtils.addMenuItem(menu, "填入【当前日期时间】", () => {
     inputBoxElem.value = `${inputBoxElem.value} ${Zotero.AI4Paper.getDateTime()}`;
   });
-  popup.appendChild(menuitem);
 
   // 填入【当前时间】
   menuitem = window.document.createXULElement('menuitem');

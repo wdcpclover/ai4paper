@@ -14,9 +14,11 @@ methodsBody.init = function () {
       _0x348a0f.style.backgroundColor = var1 ? "#7f77d9" : '#bab4fe';
     });
   });
-  !document._switchViewShortcutsAdded && (document._switchViewShortcutsAdded = true, document.addEventListener("keydown", _0x5c12ac => {
-    Zotero.isMac ? (_0x5c12ac.key === 't' && !_0x5c12ac.ctrlKey && !_0x5c12ac.shiftKey && !_0x5c12ac.altKey && _0x5c12ac.metaKey && methodsBody.switchTagsView(), _0x5c12ac.key === 'd' && !_0x5c12ac.ctrlKey && !_0x5c12ac.shiftKey && !_0x5c12ac.altKey && _0x5c12ac.metaKey && methodsBody.switchTagsTypeView(), _0x5c12ac.key === 'f' && !_0x5c12ac.ctrlKey && !_0x5c12ac.shiftKey && !_0x5c12ac.altKey && _0x5c12ac.metaKey && methodsBody.focusSearchBox()) : (_0x5c12ac.key === 't' && _0x5c12ac.ctrlKey && !_0x5c12ac.shiftKey && !_0x5c12ac.altKey && !_0x5c12ac.metaKey && methodsBody.switchTagsView(), _0x5c12ac.key === 'd' && _0x5c12ac.ctrlKey && !_0x5c12ac.shiftKey && !_0x5c12ac.altKey && !_0x5c12ac.metaKey && methodsBody.switchTagsTypeView(), _0x5c12ac.key === 'f' && _0x5c12ac.ctrlKey && !_0x5c12ac.shiftKey && !_0x5c12ac.altKey && !_0x5c12ac.metaKey && methodsBody.focusSearchBox());
-  }));
+  Zotero.AI4Paper.DialogUtils.registerKeyboardShortcuts(document, [
+    { key: 't', handler: () => methodsBody.switchTagsView() },
+    { key: 'd', handler: () => methodsBody.switchTagsTypeView() },
+    { key: 'f', handler: () => methodsBody.focusSearchBox() }
+  ]);
   document.getElementById("cardNotes-doubleClick-enable").checked = Zotero.Prefs.get('ai4paper.cardNotesDoubleClick');
   document.getElementById("imageCardNote-Search-First").checked = Zotero.Prefs.get("ai4paper.imageCardNoteSearchFirst");
   Zotero.AI4Paper.lastcardnotestaginput && (document.getElementById("ai4paper.AnnotationTags.search").placeholder = Zotero.AI4Paper.lastcardnotestaginput, document.getElementById("ai4paper.nestedAnnotationTags.search").placeholder = Zotero.AI4Paper.lastcardnotestaginput);
@@ -951,30 +953,28 @@ methodsBody.checkTagType_nestedView = function (param65) {
   }
 };
 methodsBody.initContextMenu_GeneralView = function (param66) {
-  let var157 = document.querySelector("#richlistitem-contextmenu");
-  !var157 && (var157 = window.document.createXULElement("menupopup"), var157.id = "richlistitem-contextmenu", document.documentElement.appendChild(var157), var157 = document.documentElement.lastElementChild.firstElementChild);
+  Zotero.AI4Paper.DialogUtils.initMenuPopup('richlistitem-contextmenu', true);
 };
 methodsBody.buildContextMenu_GeneralView = function (param67) {
-  let var158 = param67.target.closest("richlistitem")?.["querySelector"]("checkbox")['label'],
-    var159 = document.querySelector('#richlistitem-contextmenu');
-  !var159 && (var159 = window.document.createXULElement("menupopup"), var159.id = "richlistitem-contextmenu", document.documentElement.appendChild(var159), var159 = document.documentElement.lastElementChild.firstElementChild);
-  let var160 = var159.firstElementChild;
-  while (var160) {
-    var160.remove();
-    var160 = var159.firstElementChild;
-  }
-  let var161 = window.document.createXULElement("menuitem");
-  return var161.setAttribute("label", "拷贝标签"), var161.addEventListener("command", () => {
-    Zotero.AI4Paper.copy2Clipboard(var158);
-    Zotero.AI4Paper.showProgressWindow(0x7d0, "拷贝标签【AI4paper】", '已拷贝标签【' + var158 + '】');
-  }), var159.appendChild(var161), var159.appendChild(window.document.createXULElement("menuseparator")), var161 = window.document.createXULElement("menuitem"), var161.setAttribute('label', "检索所属文献"), var161.addEventListener('command', () => {
-    Zotero.AI4Paper.showItemsBasedOnTag(var158);
-  }), var159.appendChild(var161), var159.appendChild(window.document.createXULElement('menuseparator')), var161 = window.document.createXULElement("menuitem"), var161.setAttribute('label', '跳转至【导入注释】'), var161.addEventListener("command", () => {
-    Zotero.AI4Paper.openDialogAdvancedSearch_importAnnotations(var158);
+  let tagLabel = param67.target.closest("richlistitem")?.["querySelector"]("checkbox")['label'];
+  let menu = Zotero.AI4Paper.DialogUtils.initMenuPopup('richlistitem-contextmenu');
+  Zotero.AI4Paper.DialogUtils.addMenuItem(menu, "拷贝标签", () => {
+    Zotero.AI4Paper.copy2Clipboard(tagLabel);
+    Zotero.AI4Paper.showProgressWindow(0x7d0, "拷贝标签【AI4paper】", '已拷贝标签【' + tagLabel + '】');
+  });
+  Zotero.AI4Paper.DialogUtils.addMenuSeparator(menu);
+  Zotero.AI4Paper.DialogUtils.addMenuItem(menu, "检索所属文献", () => {
+    Zotero.AI4Paper.showItemsBasedOnTag(tagLabel);
+  });
+  Zotero.AI4Paper.DialogUtils.addMenuSeparator(menu);
+  Zotero.AI4Paper.DialogUtils.addMenuItem(menu, '跳转至【导入注释】', () => {
+    Zotero.AI4Paper.openDialogAdvancedSearch_importAnnotations(tagLabel);
     Zotero.AI4Paper.processAdvancedSearch_importAnnotations();
-  }), var159.appendChild(var161), var161 = window.document.createXULElement("menuitem"), var161.setAttribute("label", "在【智能文献矩阵】中查询"), var161.addEventListener("command", () => {
-    Zotero.AI4Paper.queryPapersMatrix("filterByTag", var158);
-  }), var159.appendChild(var161), var159;
+  });
+  Zotero.AI4Paper.DialogUtils.addMenuItem(menu, "在【智能文献矩阵】中查询", () => {
+    Zotero.AI4Paper.queryPapersMatrix("filterByTag", tagLabel);
+  });
+  return menu;
 };
 methodsBody.run = function () {
   Zotero.Prefs.set('ai4paper.cardNotesDoubleClick', document.getElementById("cardNotes-doubleClick-enable").checked);
@@ -1025,12 +1025,7 @@ methodsBody.generalView_buildItemNodes = function (param68) {
   var162.itemCount === 0x1 && (var162.getItemAtIndex(0x0).firstElementChild.checked = true);
 };
 methodsBody.generalView_clearListbox = function () {
-  var var173 = document.getElementById("generalView-richlistbox-elem");
-  let var174 = var173.firstElementChild;
-  while (var174) {
-    var174.remove();
-    var174 = var173.firstElementChild;
-  }
+  Zotero.AI4Paper.DialogUtils.clearListbox('generalView-richlistbox-elem');
 };
 methodsBody.generalView_updateTagsNumMessage = function (param70, param71) {
   let var175 = {

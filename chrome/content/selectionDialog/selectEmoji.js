@@ -45,16 +45,15 @@ methodsBody.init = function () {
 };
 methodsBody.acceptSelection = function () {
   var listbox = document.getElementById("zotero-selectEmoji-links");
-  var returnObject = false;
-  this.io.dataOut = new Object();
-  for (var i = 0; i < listbox.childNodes.length; i++) {
-    var itemNode = listbox.childNodes[i];
-    if (itemNode.firstElementChild.checked) {
-      this.io.dataOut[itemNode.getAttribute("value")] = itemNode.firstElementChild.getAttribute("label");
-      returnObject = true;
+  let items = Zotero.AI4Paper.DialogUtils.getCheckedItems(listbox);
+  if (items.length) {
+    this.io.dataOut = new Object();
+    for (let item of items) {
+      this.io.dataOut[item.value] = item.label;
     }
+  } else {
+    this.io.dataOut = null;
   }
-  if (!returnObject) this.io.dataOut = null;
 };
 methodsBody.singleSelect = function (_checkbox) {
   var listbox = document.getElementById("zotero-selectEmoji-links");

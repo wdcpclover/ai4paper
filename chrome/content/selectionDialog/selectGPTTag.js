@@ -6,32 +6,10 @@ methodsBody.init = async function () {
   // 设置 Dialog 字体大小
   Zotero.AI4Paper.setFontSize_Dialog(document.querySelector('dialog'), 0.92);
 
-  // 视图切换快捷键监听事件
-  if (!document._switchViewShortcutsAdded) {
-    document._switchViewShortcutsAdded = true;
-    document.addEventListener('keydown', event => {
-      // Mac
-      if (Zotero.isMac) {
-        if (event.key === 'd' && !event.ctrlKey && !event.shiftKey && !event.altKey && event.metaKey) {
-          methodsBody.switchTagsTypeView();
-        }
-        if (event.key === 'f' && !event.ctrlKey && !event.shiftKey && !event.altKey && event.metaKey) {
-          document.getElementById('searchBox-elem').focus();
-        }
-      }
-      // Win/Linux
-      else {
-        // CMD/Ctrl D 切换标签类型
-        if (event.key === 'd' && event.ctrlKey && !event.shiftKey && !event.altKey && !event.metaKey) {
-          methodsBody.switchTagsTypeView();
-        }
-        // CMD/Ctrl F 聚焦搜索框
-        if (event.key === 'f' && event.ctrlKey && !event.shiftKey && !event.altKey && !event.metaKey) {
-          document.getElementById('searchBox-elem').focus();
-        }
-      }
-    });
-  }
+  Zotero.AI4Paper.DialogUtils.registerKeyboardShortcuts(document, [
+    { key: 'd', handler: () => methodsBody.switchTagsTypeView() },
+    { key: 'f', handler: () => document.getElementById('searchBox-elem').focus() }
+  ]);
   if (Zotero.AI4Paper.lasttaginput) {
     document.getElementById('searchBox-elem').placeholder = Zotero.AI4Paper.lasttaginput;
   }
@@ -392,13 +370,7 @@ methodsBody.buildItemNodes = function (listData) {
  */
 
 methodsBody.clearListbox = function () {
-  var listbox = document.getElementById("richlistbox-elem");
-  // 先清空列表
-  let first = listbox.firstElementChild;
-  while (first) {
-    first.remove();
-    first = listbox.firstElementChild;
-  }
+  Zotero.AI4Paper.DialogUtils.clearListbox('richlistbox-elem');
 };
 
 /**
@@ -445,34 +417,7 @@ methodsBody.updateButtonStatus = function (buttonType) {
  */
 
 methodsBody.updateFilterButtons = function (isInit, filter) {
-  let characters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'OT'];
-  for (let character of characters) {
-    let image = document.getElementById(`tagFilter-${character}`);
-    // 未点击状态
-    let defaultImamgePath = `chrome://ai4paper/content/icons/${character}.png`;
-    // 点击状态
-    let selectedImamgePath = `chrome://ai4paper/content/icons/${character}-select.png`;
-
-    // 初始化
-    if (isInit) {
-      image.setAttribute("src", defaultImamgePath);
-      image.onmouseover = () => image.style.transform = "scale(1.3)";
-      image.onmouseout = () => image.style.transform = "scale(1)";
-    }
-    // 非初始化
-    else {
-      if (character === filter) {
-        image.setAttribute("src", selectedImamgePath);
-        image.style.transform = "scale(1)";
-        image.onmouseover = () => {};
-        image.onmouseout = () => {};
-      } else {
-        image.setAttribute("src", defaultImamgePath);
-        image.onmouseover = () => image.style.transform = "scale(1.3)";
-        image.onmouseout = () => image.style.transform = "scale(1)";
-      }
-    }
-  }
+  Zotero.AI4Paper.DialogUtils.updateAZFilterButtons(isInit, filter);
 };
 
 // 快捷键切换标签类型

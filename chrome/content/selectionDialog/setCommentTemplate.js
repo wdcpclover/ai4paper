@@ -104,31 +104,13 @@ methodsBody.buildItemNodes = function (listData) {
  */
 
 methodsBody.buildContextMenu = function (event, isInit) {
-  let popup = document.querySelector("#setCommentTemplate-richlistitem-contextmenu");
-  if (!popup) {
-    popup = window.document.createXULElement('menupopup');
-    popup.id = 'setCommentTemplate-richlistitem-contextmenu';
-    document.documentElement.appendChild(popup);
-    popup = document.documentElement.lastElementChild.firstElementChild;
-
-    // 初始化创建右键菜单。否则第一次右键不会出现菜单。
-    if (isInit) return;
-  }
+  let menu = Zotero.AI4Paper.DialogUtils.initMenuPopup('setCommentTemplate-richlistitem-contextmenu', isInit);
+  if (isInit && !menu) return;
   let itemInfo = event.target.closest('richlistitem')?.querySelector('checkbox').label;
-  let first = popup.firstElementChild;
-  while (first) {
-    first.remove();
-    first = popup.firstElementChild;
-  }
-
-  // 置顶
-  let menuitem = window.document.createXULElement('menuitem');
-  menuitem.setAttribute('label', "拷贝模板");
-  menuitem.addEventListener('command', () => {
+  Zotero.AI4Paper.DialogUtils.addMenuItem(menu, "拷贝模板", () => {
     Zotero.AI4Paper.copy2Clipboard(itemInfo);
   });
-  popup.appendChild(menuitem);
-  return popup;
+  return menu;
 };
 
 /**
@@ -157,25 +139,9 @@ methodsBody.updateButtonStatus = function (buttonType) {
  */
 
 methodsBody.registerShortcuts = function () {
-  // 视图切换快捷键监听事件
-  if (!document._switchViewShortcutsAdded) {
-    document._switchViewShortcutsAdded = true;
-    document.addEventListener('keydown', event => {
-      // Mac
-      if (Zotero.isMac) {
-        if (event.key === 't' && !event.ctrlKey && !event.shiftKey && !event.altKey && event.metaKey) {
-          methodsBody.switchView();
-        }
-      }
-      // Win/Linux
-      else {
-        // CMD/Ctrl T 切换视图
-        if (event.key === 't' && event.ctrlKey && !event.shiftKey && !event.altKey && !event.metaKey) {
-          methodsBody.switchView();
-        }
-      }
-    });
-  }
+  Zotero.AI4Paper.DialogUtils.registerKeyboardShortcuts(document, [
+    { key: 't', handler: () => methodsBody.switchView() }
+  ]);
 };
 
 // 单选

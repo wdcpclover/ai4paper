@@ -97,63 +97,32 @@ methodsBody.updateDuplicate = async function () {
     }
   }
 };
-methodsBody.showInMyLibrary = async function (param2) {
-  let var22 = Number(param2.getAttribute("_itemID"));
-  if (var22 === -0x1) return Zotero.AI4Paper.showProgressWindow(0xfa0, "❌ 出错了", "条目 🆔 有误！"), false;
-  let var23 = Zotero.Items.get(var22);
-  window.close();
-  try {
-    let var24 = var23.getCollections();
-    if (var24.length) {
-      Zotero.AI4Paper.getGlobal("Zotero_Tabs").select("zotero-pane");
-      let var25 = var24[0x0];
-      Zotero.AI4Paper.getGlobal("ZoteroPane_Local").collectionsView.selectCollection(var25);
-      let var26 = await Zotero.AI4Paper.getGlobal('ZoteroPane_Local').selectItem(var22);
-      var26 === false && Zotero.AI4Paper.showProgressWindow(0xfa0, "未找到到该文献", "未在【我的文库】找到该文献，可能已经被您删除！");
-    } else {
-      Zotero.AI4Paper.getGlobal("Zotero_Tabs").select("zotero-pane");
-      let var27 = await Zotero.AI4Paper.getGlobal('ZoteroPane_Local').selectItem(var22);
-      var27 === false && Zotero.AI4Paper.showProgressWindow(0xfa0, "未找到到该文献", "未在【我的文库】找到该文献，可能已经被您删除！");
-    }
-  } catch (_0x423a8c) {
-    return false;
-  }
+methodsBody.showInMyLibrary = function (param2) {
+  return Zotero.AI4Paper.DialogUtils.showInMyLibrary(param2);
 };
 methodsBody.selectAll = function (param3) {
-  var var28 = document.getElementById("richlistbox-elem");
-  let var29 = 0x0;
-  for (var var30 = 0x0; var30 < var28.childNodes.length; var30++) {
-    var28.childNodes[var30].querySelector('checkbox').checked = !param3;
-    !param3 && var28.childNodes[var30].style.display === "none" && (var28.childNodes[var30].querySelector("checkbox").checked = false, var29++);
-  }
-  param3 ? document.getElementById("zotero-selectCiting-intro").textContent = "选择要导入的施引文献：0/" + this.io.dataIn.data.length : document.getElementById("zotero-selectCiting-intro").textContent = "选择要导入的施引文献：" + (this.io.dataIn.data.length - var29) + '/' + this.io.dataIn.data.length;
+  let skipped = Zotero.AI4Paper.DialogUtils.selectAll('richlistbox-elem', param3, { skipHidden: true });
+  param3 ? document.getElementById("zotero-selectCiting-intro").textContent = "选择要导入的施引文献：0/" + this.io.dataIn.data.length : document.getElementById("zotero-selectCiting-intro").textContent = "选择要导入的施引文献：" + (this.io.dataIn.data.length - skipped) + '/' + this.io.dataIn.data.length;
 };
 methodsBody.acceptSelection = function () {
-  var var31 = document.getElementById("richlistbox-elem"),
-    var32 = false;
-  this.io.dataOut = new Object();
-  for (var var33 = 0x0; var33 < var31.childNodes.length; var33++) {
-    var var34 = var31.childNodes[var33];
-    var34.querySelector("checkbox").checked && (this.io.dataOut[var34.getAttribute("value")] = var34.querySelector("checkbox").getAttribute("label"), var32 = true);
+  let items = Zotero.AI4Paper.DialogUtils.getCheckedItems('richlistbox-elem');
+  if (items.length) {
+    this.io.dataOut = new Object();
+    for (let item of items) {
+      this.io.dataOut[item.value] = item.label;
+    }
+  } else {
+    this.io.dataOut = null;
   }
-  if (!var32) this.io.dataOut = null;
 };
 methodsBody.checkKeyEnter = function (param4) {
-  !param4.shiftKey && !param4.ctrlKey && !param4.altKey && !param4.metaKey && param4.keyCode === 0xd && (param4.returnValue = false, param4.preventDefault && param4.preventDefault(), methodsBody.search());
+  Zotero.AI4Paper.DialogUtils.checkKeyEnter(param4, () => methodsBody.search());
 };
 methodsBody.updatePrefs = function (param5) {
-  let var35 = ["retrieverefsSelectCollection", "retrieverefsLocateinCollection", "retrieverefsAbstractTranslationBehind"];
-  if (!param5) for (let var36 of var35) {
-    Zotero.Prefs.set("ai4paper." + var36, document.getElementById("ai4paper." + var36).checked);
-  } else for (let var37 of var35) {
-    document.getElementById("ai4paper." + var37).checked = Zotero.Prefs.get('ai4paper.' + var37);
-  }
-  let var38 = ['retrieverefsIFlimit'];
-  if (!param5) for (let var39 of var38) {
-    Zotero.Prefs.set("ai4paper." + var39, document.getElementById("ai4paper." + var39).value);
-  } else for (let var40 of var38) {
-    document.getElementById('ai4paper.' + var40).value = Zotero.Prefs.get("ai4paper." + var40);
-  }
+  Zotero.AI4Paper.DialogUtils.syncPrefsCheckboxes({
+    checkboxKeys: ['retrieverefsSelectCollection', 'retrieverefsLocateinCollection', 'retrieverefsAbstractTranslationBehind'],
+    inputKeys: ['retrieverefsIFlimit']
+  }, param5);
 };
 methodsBody.handleCheckboxChange = function (param6) {
   var var41 = param6.checked;
@@ -190,132 +159,33 @@ methodsBody.updateIFAnalysis = function () {
   }
 };
 methodsBody.all = function () {
-  document.getElementById("back2All-button").style.display = "none";
-  var var54 = document.getElementById('richlistbox-elem');
-  document.getElementById('zotero-search-intro').style.display = "none";
-  for (var var55 = 0x0; var55 < var54.childNodes.length; var55++) {
-    var var56 = var54.childNodes[var55];
-    var56.style.display = '';
-  }
+  Zotero.AI4Paper.DialogUtils.showAllRichlistboxItems('richlistbox-elem', {
+    backButtonId: 'back2All-button',
+    searchResultId: 'zotero-search-intro'
+  });
 };
 methodsBody.search = function () {
-  var var57 = document.getElementById('richlistbox-elem'),
-    var58 = document.getElementById("search-inputBox").value.trim();
-  if (var58 === '' && document.getElementById("search-inputBox").placeholder === '') return methodsBody.all(), false;else var58 === '' && document.getElementById("search-inputBox").placeholder != '' && (var58 = document.getElementById("search-inputBox").placeholder, document.getElementById("search-inputBox").value = document.getElementById("search-inputBox").placeholder);
-  Zotero.AI4Paper.lastCitingSearchInput = var58;
-  var58 = var58.toLowerCase();
-  document.getElementById('back2All-button').style.display = '';
-  let var59 = 0x0;
-  for (var var60 = 0x0; var60 < var57.childNodes.length; var60++) {
-    var var61 = var57.childNodes[var60];
-    let var62 = var61.querySelector("checkbox").getAttribute('label');
-    var62.toLowerCase().indexOf(var58) === -0x1 ? var61.style.display = 'none' : (var61.style.display = '', var59++);
-  }
-  document.getElementById("zotero-search-intro").style.display = '';
-  document.getElementById("zotero-search-intro").textContent = '【' + var58 + "】搜索：查询到【" + var59 + "】篇文献";
+  Zotero.AI4Paper.DialogUtils.searchRichlistbox('richlistbox-elem', 'search-inputBox', {
+    lastSearchKey: 'lastCitingSearchInput',
+    searchResultId: 'zotero-search-intro',
+    backButtonId: 'back2All-button',
+    showAll: methodsBody.all
+  });
 };
 methodsBody.maxWindowWidth = function () {
-  try {
-    const var63 = window.screen.width,
-      var64 = window.screen.height,
-      var65 = window.outerHeight,
-      var66 = window.screenY,
-      var67 = window.screen.availWidth,
-      var68 = window.screen.availLeft || 0x0;
-    window.moveTo(var68, var66);
-    window.resizeTo(var67, var65);
-  } catch (_0x40069e) {
-    Zotero.AI4Paper.showProgressWindow(0xbb8, "❌ 窗口尺寸调整失败", '出错了！窗口尺寸调整遇到问题。');
-  }
+  Zotero.AI4Paper.DialogUtils.maxWindowWidth();
 };
 methodsBody.adjustWindowWidthPercent = function () {
-  try {
-    let var69 = window.screen.height,
-      var70 = parseInt(var69) <= 0x3e8 ? 0.8 : 0.6;
-    const var71 = window.outerHeight,
-      var72 = window.screenY,
-      var73 = window.screen.availWidth,
-      var74 = window.screen.availLeft || 0x0,
-      var75 = Math.round(var73 * var70),
-      var76 = var74 + (var73 - var75) / 0x2;
-    window.moveTo(var76, var72);
-    window.resizeTo(var75, var71);
-  } catch (_0x4137d) {
-    Zotero.AI4Paper.showProgressWindow(0xbb8, "❌ 窗口尺寸调整失败", '出错了！窗口尺寸调整遇到问题。');
-  }
+  Zotero.AI4Paper.DialogUtils.adjustWindowWidthPercent();
 };
 methodsBody.buildContextMenu = function (param7, param8) {
-  let var77 = document.querySelector("#richlistitem-contextpanel");
-  if (!var77) {
-    var77 = window.document.createXULElement('panel');
-    var77.id = "richlistitem-contextpanel";
-    var77.style.width = "500px";
-    var77.setAttribute("type", 'arrow');
-    document.documentElement.appendChild(var77);
-    var77 = document.documentElement.lastElementChild.firstElementChild;
-    if (param8) return;
-  }
-  let var78 = var77.firstElementChild;
-  while (var78) {
-    var78.remove();
-    var78 = var77.firstElementChild;
-  }
-  let var79 = param7.target.closest("richlistitem")?.["querySelector"]("checkbox")["label"],
-    var80 = window.document.createXULElement("vbox");
-  var80.style.flex = '1';
-  let var81 = Zotero.getMainWindow()?.["matchMedia"]("(prefers-color-scheme: dark)")['matches'],
-    var82 = window.document.createXULElement("div");
-  var82.textContent = "🪪 基本信息";
-  var82.style = "display: flex;justify-content: center;align-items: center;margin-bottom: 12px;border-radius: 5px;background-color: " + (var81 ? "#3e3c3d" : "#fef1e5") + ';color:\x20#fe6e08;padding:\x206px;cursor:\x20pointer;';
-  var82.addEventListener("click", _0x8ab26f => {
-    methodsBody.viewOnline(var79);
+  let panel = Zotero.AI4Paper.DialogUtils.initContextPanel('richlistitem-contextpanel', { width: '500px' }, param8);
+  if (param8 && !panel) return;
+  if (!panel) return;
+  let label = param7.target.closest('richlistitem')?.querySelector('checkbox').label;
+  return Zotero.AI4Paper.DialogUtils.buildRefsInfoPanel(panel, label, {
+    onViewOnline: methodsBody.viewOnline
   });
-  var80.appendChild(var82);
-  let var83 = window.document.createXULElement("div");
-  var83.id = "basicInfo_DIV";
-  var83.style = "display: flex;border-radius: 6px;box-shadow: 0 0 1px #8a8a8a;padding: 6px;overflow-y: hidden;overflow-x: hidden;word-wrap: break-word;clear: both;white-space: pre-wrap;-ms-word-break:break-all;";
-  var83.addEventListener('dblclick', _0x27f391 => {
-    let var84 = _0x27f391.target.textContent;
-    Zotero.AI4Paper.copy2Clipboard(var84);
-  });
-  var80.appendChild(var83);
-  let var85 = window.document.createXULElement("div");
-  var85.textContent = "🕹️ 摘要";
-  var85.style = "display: flex;justify-content: center;align-items: center;margin: 12px 0;border-radius: 5px;background-color: " + (var81 ? "#3e3c3d" : "#e6f8e9") + ";color: #2dac3e;padding: 6px;cursor: pointer;";
-  var85.addEventListener("click", _0x4b94f8 => {
-    methodsBody.viewOnline(var79);
-  });
-  var80.appendChild(var85);
-  let var86 = window.document.createXULElement("div");
-  var86.id = "abstract_DIV";
-  var86.style.maxHeight = "300px";
-  var86.style = "display: flex;border-radius: 6px;box-shadow: 0 0 1px #8a8a8a;padding: 6px;overflow-y: auto;overflow-x: hidden;word-wrap: break-word;clear: both;white-space: pre-wrap;-ms-word-break:break-all;";
-  var86.textContent = "联网获取摘要中...";
-  var86.addEventListener("dblclick", _0x497916 => {
-    let var87 = _0x497916.target.textContent;
-    Zotero.AI4Paper.copy2Clipboard(var87);
-  });
-  var80.appendChild(var86);
-  if (var79.includes('🆔')) {
-    let var88 = window.document.createXULElement("div");
-    var88.id = "connectedPapers_DIV";
-    var88.style = "display: flex;justify-content: center;align-items: center;margin-top: 12px;border-radius: 5px;background-color: " + (var81 ? "#3e3c3d" : "#e9f4ff") + ";color: #2c98f7;padding: 5px;cursor: pointer;";
-    var88.addEventListener('click', _0x5ce844 => {
-      let var89 = Zotero.AI4Paper.extractDOIFromItemInfo(var79);
-      Zotero.getMainWindow().ZoteroPane.loadURI("https://connectedpapers.com/api/redirect/doi/" + var89);
-    });
-    let var90 = window.document.createXULElement("div");
-    var90.style = 'cursor:\x20pointer;';
-    let var91 = "<svg width=\"16\" height=\"16\" xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\">\n\n\t<!-- Generator: Adobe Illustrator 28.6.0, SVG Export Plug-In . SVG Version: 1.2.0 Build 709)  -->\n\t<g>\n\t<title>Connected Papers</title>\n\t<g id=\"svg_6\">\n\t<g data-name=\"图层_1\" id=\"_图层_1\">\n\t\t<g id=\"svg_7\">\n\t\t<circle fill=\"#57a8a9\" r=\"3\" cy=\"12.7\" cx=\"4.9\" class=\"cls-1\" id=\"svg_1\"/>\n\t\t<circle fill=\"#57a8a9\" r=\"2.2\" cy=\"2.3\" cx=\"10.8\" class=\"cls-1\" id=\"svg_2\"/>\n\t\t<circle fill=\"#57a8a9\" r=\"1.5\" cy=\"9.5\" cx=\"12.7\" class=\"cls-1\" id=\"svg_3\"/>\n\t\t<rect fill=\"#57a8a9\" transform=\"rotate(-14 -1.2 3)\" height=\"6.2\" width=\"0.4\" y=\"6.2\" x=\"10.4\" class=\"cls-1\" id=\"svg_4\"/>\n\t\t<rect fill=\"#57a8a9\" transform=\"rotate(-60 -2.3 10.6)\" height=\"0.4\" width=\"8.7\" y=\"17.7\" x=\"1.4\" class=\"cls-1\" id=\"svg_5\"/>\n\t\t</g>\n\t</g>\n\t</g>\n\t</g>\n\t</svg>";
-    var90.innerHTML = var91;
-    var88.appendChild(var90);
-    let var92 = window.document.createXULElement('label');
-    var92.setAttribute("value", "Connected Papers");
-    var92.style = "cursor: pointer;";
-    var88.appendChild(var92);
-    var80.appendChild(var88);
-  }
-  return var77.appendChild(var80), var77;
 };
 methodsBody.updatePanel = async function (param9, param10) {
   let var93 = param9.querySelector('#basicInfo_DIV'),
@@ -349,12 +219,8 @@ methodsBody.updatePanel = async function (param9, param10) {
   var98.style.height = Math.min(var98.scrollHeight, 0x12c) + 'px';
   await methodsBody.translateAbstract(var98);
 };
-methodsBody.translateAbstract = async function (param11) {
-  let var104 = param11.textContent;
-  if (var104 && !var104.includes('🆔')) {
-    let var105 = await Zotero.AI4Paper.volcanoFree_transAbstractInPanel(var104);
-    var105 && (Zotero.Prefs.get('ai4paper.retrieverefsAbstractTranslationBehind') ? param11.textContent = var104 + '\x0a\x0a🎈【摘要翻译】' + var105 : param11.textContent = '🎈【摘要翻译】' + var105 + "\n\n🍋【摘要原文】" + var104, param11.style.height = "auto", param11.style.height = Math.min(param11.scrollHeight, 0x12c) + 'px');
-  }
+methodsBody.translateAbstract = function (elem) {
+  return Zotero.AI4Paper.DialogUtils.translateAbstract(elem);
 };
 methodsBody.extractInfoAndAbstract = function (param12) {
   let var106 = param12,
@@ -364,27 +230,16 @@ methodsBody.extractInfoAndAbstract = function (param12) {
     'abstract': var107
   };
 };
-methodsBody.formatAbstract = function (param13) {
-  return param13 && (param13 = param13.replace("<jats:p>", '').replace('<jats:title>', '').replace("</jats:p>", '').replace("</jats:title>", '').replace("<jats:title>Abstract</jats:title>", '').replace("<jats:p>Abstract</jats:p>", '')), param13;
+methodsBody.formatAbstract = function (text) {
+  return Zotero.AI4Paper.DialogUtils.formatAbstract(text);
 };
-methodsBody.viewOnline = function (param14) {
-  if (param14.includes('🆔')) {
-    let var108 = Zotero.AI4Paper.extractDOIFromItemInfo(param14);
-    Zotero.getMainWindow().ZoteroPane.loadURI("https://doi.org/" + var108);
-  }
+methodsBody.viewOnline = function (label) {
+  Zotero.AI4Paper.DialogUtils.viewOnlineDOI(label);
 };
 methodsBody.registerScrollListener = function () {
-  const var109 = document.getElementById("richlistbox-elem");
-  let var110;
-  var109.addEventListener('scroll', _0x1eaf9e => {
-    clearTimeout(var110);
-    var110 = setTimeout(() => {
-      methodsBody.saveScrollPosition(_0x1eaf9e.target);
-    }, 0x64);
+  Zotero.AI4Paper.DialogUtils.registerScrollListener('richlistbox-elem', scrollTop => {
+    methodsBody.io.dataIn.item._citingRef_richlistbox_scrollTop = scrollTop;
   });
-};
-methodsBody.saveScrollPosition = function (param15) {
-  methodsBody.io.dataIn.item._citingRef_richlistbox_scrollTop = param15.scrollTop;
 };
 methodsBody.restoreScrollPosition = function () {
   let var111 = methodsBody.io.dataIn.item;
@@ -399,13 +254,7 @@ methodsBody.restoreScrollPosition = function () {
   }
 };
 methodsBody.scrollToTopOrBottom = function (param16) {
-  const var113 = document.getElementById("richlistbox-elem");
-  setTimeout(() => {
-    var113.scrollTo({
-      'top': param16 ? var113.scrollHeight : 0x0,
-      'behavior': "smooth"
-    });
-  }, 0xa);
+  Zotero.AI4Paper.DialogUtils.scrollToTopOrBottom('richlistbox-elem', param16);
 };
 methodsBody.aiAnalysis = function () {
   let var114 = Zotero.AI4Paper.getRefsJSON4AIAnalysis(methodsBody.io.dataIn.item, "citing");

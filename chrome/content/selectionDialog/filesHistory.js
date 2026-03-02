@@ -380,14 +380,10 @@ methodsBody.searchWorkSpace = function () {
   var90.textContent = "工作区【" + var94 + "】的【" + var95.length + '】篇文献中，标题包含【' + var92 + "】的文献共【" + var96.length + '】篇';
 };
 methodsBody.checkKeyEnter = function (param27) {
-  !param27.shiftKey && !param27.ctrlKey && !param27.altKey && !param27.metaKey && param27.keyCode === 0xd && (param27.returnValue = false, param27.preventDefault && param27.preventDefault(), methodsBody.search());
+  Zotero.AI4Paper.DialogUtils.checkKeyEnter(param27, () => methodsBody.search());
 };
 methodsBody.checkKeyEnter_workSpace = function (param28) {
-  if (!param28.shiftKey && !param28.ctrlKey && !param28.altKey && !param28.metaKey && param28.keyCode === 0xd) {
-    param28.returnValue = false;
-    param28.preventDefault && param28.preventDefault();
-    methodsBody.searchWorkSpace();
-  }
+  Zotero.AI4Paper.DialogUtils.checkKeyEnter(param28, () => methodsBody.searchWorkSpace());
 };
 methodsBody.onClickWorkSpaceIcon = function (param29) {
   if (param29.shiftKey) {
@@ -529,138 +525,80 @@ methodsBody.buildItemNodes = function (param34, param35, param36) {
   param34.itemCount === 0x1 && (param34.getItemAtIndex(0x0).firstElementChild.checked = true);
 };
 methodsBody.buildContextMenu = function (param38, param39) {
-  let var122 = document.querySelector("#filesHistory-richlistitem-contextmenu");
-  if (!var122) {
-    var122 = window.document.createXULElement('menupopup');
-    var122.id = "filesHistory-richlistitem-contextmenu";
-    document.documentElement.appendChild(var122);
-    var122 = document.documentElement.lastElementChild.firstElementChild;
-    if (param39) return;
-  }
-  let var123 = param38.target.closest("richlistitem")?.["querySelector"]("checkbox")["label"],
-    var124 = var122.firstElementChild;
-  while (var124) {
-    var124.remove();
-    var124 = var122.firstElementChild;
-  }
-  let var125 = window.document.createXULElement("menuitem");
-  return var125.setAttribute("label", "打开文献"), var125.addEventListener("command", () => {
-    Zotero.AI4Paper.openFilesHistoryItem([var123]);
-  }), var122.appendChild(var125), var122.appendChild(document.createXULElement("menuseparator")), var125 = window.document.createXULElement('menuitem'), var125.setAttribute('label', "在文库中显示"), var125.addEventListener('command', () => {
-    Zotero.AI4Paper.go2FilesHistoryItem(var123);
-  }), var122.appendChild(var125), var122;
+  let menu = Zotero.AI4Paper.DialogUtils.initMenuPopup('filesHistory-richlistitem-contextmenu', param39);
+  if (param39 && !menu) return;
+  let itemLabel = param38.target.closest("richlistitem")?.["querySelector"]("checkbox")["label"];
+  Zotero.AI4Paper.DialogUtils.addMenuItem(menu, "打开文献", () => {
+    Zotero.AI4Paper.openFilesHistoryItem([itemLabel]);
+  });
+  Zotero.AI4Paper.DialogUtils.addMenuSeparator(menu);
+  Zotero.AI4Paper.DialogUtils.addMenuItem(menu, "在文库中显示", () => {
+    Zotero.AI4Paper.go2FilesHistoryItem(itemLabel);
+  });
+  return menu;
 };
 methodsBody.buildContextMenu_workSpaceItem = function (param40, param41) {
-  let var126 = document.querySelector('#workSpace-richlistitem-contextmenu');
-  if (!var126) {
-    var126 = window.document.createXULElement("menupopup");
-    var126.id = "workSpace-richlistitem-contextmenu";
-    document.documentElement.appendChild(var126);
-    var126 = document.documentElement.lastElementChild.firstElementChild;
-    if (param41) return;
-  }
-  let var127 = param40.target.closest("richlistitem")?.['querySelector']("checkbox")["label"],
-    var128 = var127.indexOf('🆔'),
-    var129 = var127.substring(var128 + 0x3),
-    var130 = methodsBody.getCurrentWorkSpaceName(),
-    var131 = var126.firstElementChild;
-  while (var131) {
-    var131.remove();
-    var131 = var126.firstElementChild;
-  }
-  let var132 = window.document.createXULElement('menuitem');
-  return var132.setAttribute('label', '置顶'), var132.addEventListener("command", () => {
-    methodsBody.setTopWorkSpaceItem(var130, var129);
-  }), var126.appendChild(var132), var132 = window.document.createXULElement("menuitem"), var132.setAttribute('label', '上移'), var132.addEventListener("command", () => {
-    methodsBody.moveUpWorkSpaceItem(var130, var129);
-  }), var126.appendChild(var132), var132 = window.document.createXULElement("menuitem"), var132.setAttribute("label", '下移'), var132.addEventListener("command", () => {
-    methodsBody.moveDownWorkSpaceItem(var130, var129);
-  }), var126.appendChild(var132), var126.appendChild(document.createXULElement("menuseparator")), var132 = window.document.createXULElement("menuitem"), var132.setAttribute("label", "打开文献"), var132.addEventListener("command", () => {
-    Zotero.AI4Paper.openFilesHistoryItem([var127]);
-  }), var126.appendChild(var132), var132 = window.document.createXULElement('menuitem'), var132.setAttribute("label", "在文库中显示"), var132.addEventListener('command', () => {
-    Zotero.AI4Paper.go2FilesHistoryItem(var127);
-  }), var126.appendChild(var132), var132 = window.document.createXULElement('menuitem'), var132.setAttribute("label", "拷贝 PDF"), var132.addEventListener("command", () => {
-    let var133 = Zotero.AI4Paper.findItemByIDORKey(var129);
-    !var133 && window.alert("❌ 条目不存在！");
-    Zotero.AI4Paper.copyPDF(var133);
-  }), var126.appendChild(var132), var126.appendChild(document.createXULElement("menuseparator")), var132 = window.document.createXULElement("menuitem"), var132.setAttribute("label", "从工作区移除当前文献"), var132.addEventListener("command", () => {
-    methodsBody.removeItemFromWorkSpace(var130, var129);
-  }), var126.appendChild(var132), var132 = window.document.createXULElement("menuitem"), var132.setAttribute("label", "从工作区移除选中的所有文献"), var132.addEventListener("command", () => {
-    methodsBody.removeSelectedItemsFromWorkSpace(var130);
-  }), var126.appendChild(var132), var126.appendChild(document.createXULElement("menuseparator")), var132 = window.document.createXULElement("menuitem"), var132.setAttribute('label', "清空工作区内全部文献"), var132.addEventListener("command", () => {
-    methodsBody.removeAllItemsFromWorkSpace(var130);
-  }), var126.appendChild(var132), var126.appendChild(document.createXULElement("menuseparator")), var132 = window.document.createXULElement("menuitem"), var132.setAttribute("label", '将选中的所有文献发送到\x20GPT\x20侧边栏'), var132.addEventListener("command", () => {
-    methodsBody.sendSelectedItems2AI(var130);
-  }), var126.appendChild(var132), var126.appendChild(document.createXULElement("menuseparator")), var132 = window.document.createXULElement("menuitem"), var132.setAttribute('label', "将选中的所有文献添加至选定分类"), var132.addEventListener('command', () => {
-    methodsBody.addSelectedItems2TargetCollection(var130);
-  }), var126.appendChild(var132), var126;
+  let menu = Zotero.AI4Paper.DialogUtils.initMenuPopup('workSpace-richlistitem-contextmenu', param41);
+  if (param41 && !menu) return;
+  let itemLabel = param40.target.closest("richlistitem")?.['querySelector']("checkbox")["label"],
+    idIndex = itemLabel.indexOf('🆔'),
+    itemKey = itemLabel.substring(idIndex + 0x3),
+    workSpaceName = methodsBody.getCurrentWorkSpaceName();
+  Zotero.AI4Paper.DialogUtils.addMenuItem(menu, '置顶', () => { methodsBody.setTopWorkSpaceItem(workSpaceName, itemKey); });
+  Zotero.AI4Paper.DialogUtils.addMenuItem(menu, '上移', () => { methodsBody.moveUpWorkSpaceItem(workSpaceName, itemKey); });
+  Zotero.AI4Paper.DialogUtils.addMenuItem(menu, '下移', () => { methodsBody.moveDownWorkSpaceItem(workSpaceName, itemKey); });
+  Zotero.AI4Paper.DialogUtils.addMenuSeparator(menu);
+  Zotero.AI4Paper.DialogUtils.addMenuItem(menu, "打开文献", () => { Zotero.AI4Paper.openFilesHistoryItem([itemLabel]); });
+  Zotero.AI4Paper.DialogUtils.addMenuItem(menu, "在文库中显示", () => { Zotero.AI4Paper.go2FilesHistoryItem(itemLabel); });
+  Zotero.AI4Paper.DialogUtils.addMenuItem(menu, "拷贝 PDF", () => {
+    let item = Zotero.AI4Paper.findItemByIDORKey(itemKey);
+    !item && window.alert("❌ 条目不存在！");
+    Zotero.AI4Paper.copyPDF(item);
+  });
+  Zotero.AI4Paper.DialogUtils.addMenuSeparator(menu);
+  Zotero.AI4Paper.DialogUtils.addMenuItem(menu, "从工作区移除当前文献", () => { methodsBody.removeItemFromWorkSpace(workSpaceName, itemKey); });
+  Zotero.AI4Paper.DialogUtils.addMenuItem(menu, "从工作区移除选中的所有文献", () => { methodsBody.removeSelectedItemsFromWorkSpace(workSpaceName); });
+  Zotero.AI4Paper.DialogUtils.addMenuSeparator(menu);
+  Zotero.AI4Paper.DialogUtils.addMenuItem(menu, "清空工作区内全部文献", () => { methodsBody.removeAllItemsFromWorkSpace(workSpaceName); });
+  Zotero.AI4Paper.DialogUtils.addMenuSeparator(menu);
+  Zotero.AI4Paper.DialogUtils.addMenuItem(menu, '将选中的所有文献发送到 GPT 侧边栏', () => { methodsBody.sendSelectedItems2AI(workSpaceName); });
+  Zotero.AI4Paper.DialogUtils.addMenuSeparator(menu);
+  Zotero.AI4Paper.DialogUtils.addMenuItem(menu, "将选中的所有文献添加至选定分类", () => { methodsBody.addSelectedItems2TargetCollection(workSpaceName); });
+  return menu;
 };
 methodsBody.buildContextMenu_workSpaceButton = function (param42, param43) {
-  let var134 = document.querySelector("#workSpaceButton-contextmenu");
-  if (!var134) {
-    var134 = window.document.createXULElement('menupopup');
-    var134.id = "workSpaceButton-contextmenu";
-    document.documentElement.appendChild(var134);
-    var134 = document.documentElement.lastElementChild.firstElementChild;
-    if (param43) return;
-  }
-  let var135 = param42.target.getAttribute("label"),
-    var136 = var134.firstElementChild;
-  while (var136) {
-    var136.remove();
-    var136 = var134.firstElementChild;
-  }
-  let var137 = window.document.createXULElement("menuitem");
-  return var137.setAttribute("label", '置顶工作区'), var137.addEventListener('command', () => {
-    methodsBody.setTopWorkSpace(var135);
-  }), var134.appendChild(var137), var134.appendChild(document.createXULElement("menuseparator")), var137 = window.document.createXULElement("menuitem"), var137.setAttribute('label', '左移工作区'), var137.addEventListener("command", () => {
-    methodsBody.moveUpWorkSpace(var135);
-  }), var134.appendChild(var137), var137 = window.document.createXULElement("menuitem"), var137.setAttribute('label', "右移工作区"), var137.addEventListener("command", () => {
-    methodsBody.moveDownWorkSpace(var135);
-  }), var134.appendChild(var137), var134.appendChild(document.createXULElement("menuseparator")), var137 = window.document.createXULElement("menuitem"), var137.setAttribute("label", "重命名工作区"), var137.addEventListener("command", () => {
-    methodsBody.renameWorkSpace(var135);
-  }), var134.appendChild(var137), var134.appendChild(document.createXULElement("menuseparator")), var137 = window.document.createXULElement("menuitem"), var137.setAttribute('label', "删除工作区"), var137.addEventListener('command', () => {
-    methodsBody.deleteWorkSpace(var135);
-  }), var134.appendChild(var137), var137 = window.document.createXULElement("menuitem"), var137.setAttribute("label", "删除所有工作区"), var137.addEventListener("command", () => {
-    methodsBody.deleteAllWorkSpaces();
-  }), var134.appendChild(var137), var134.appendChild(document.createXULElement("menuseparator")), var137 = window.document.createXULElement('menuitem'), var137.setAttribute("label", "添加当前标签页文献至工作区"), var137.addEventListener("command", () => {
-    methodsBody.addCurrentTab2WorkSpace(var135);
-  }), var134.appendChild(var137), var137 = window.document.createXULElement("menuitem"), var137.setAttribute('label', "添加所有标签页文献至工作区"), var137.addEventListener("command", () => {
-    methodsBody.addAllTabs2WorkSpace(var135);
-  }), var134.appendChild(var137), var134.appendChild(document.createXULElement("menuseparator")), var137 = window.document.createXULElement("menuitem"), var137.setAttribute('label', "替换工作区内全部文献"), var137.addEventListener("command", () => {
-    methodsBody.replaceWorkSpaceItems(var135);
-  }), var134.appendChild(var137), var137 = window.document.createXULElement("menuitem"), var137.setAttribute('label', '清空工作区内全部文献'), var137.addEventListener("command", () => {
-    methodsBody.removeAllItemsFromWorkSpace(var135);
-  }), var134.appendChild(var137), var134.appendChild(document.createXULElement("menuseparator")), var137 = window.document.createXULElement("menuitem"), var137.setAttribute('label', "拷贝工作区名称"), var137.addEventListener("command", () => {
-    Zotero.AI4Paper.copy2Clipboard(var135);
-  }), var134.appendChild(var137), var137 = window.document.createXULElement("menuitem"), var137.setAttribute("label", "拷贝工作区概要"), var137.addEventListener("command", () => {
-    Zotero.AI4Paper.copyWorkSpaceSummary(var135);
-  }), var134.appendChild(var137), var137 = window.document.createXULElement("menuitem"), var137.setAttribute("label", "拷贝全部工作区概要"), var137.addEventListener("command", () => {
-    Zotero.AI4Paper.copyAllWorkSpacesSummary();
-  }), var134.appendChild(var137), var134.appendChild(document.createXULElement("menuseparator")), var137 = window.document.createXULElement('menuitem'), var137.setAttribute("label", "关闭所有已打开文献"), var137.addEventListener("command", () => {
-    Zotero.getMainWindow().Zotero_Tabs.closeAll();
-  }), var134.appendChild(var137), var134;
+  let menu = Zotero.AI4Paper.DialogUtils.initMenuPopup('workSpaceButton-contextmenu', param43);
+  if (param43 && !menu) return;
+  let wsName = param42.target.getAttribute("label");
+  Zotero.AI4Paper.DialogUtils.addMenuItem(menu, '置顶工作区', () => { methodsBody.setTopWorkSpace(wsName); });
+  Zotero.AI4Paper.DialogUtils.addMenuSeparator(menu);
+  Zotero.AI4Paper.DialogUtils.addMenuItem(menu, '左移工作区', () => { methodsBody.moveUpWorkSpace(wsName); });
+  Zotero.AI4Paper.DialogUtils.addMenuItem(menu, "右移工作区", () => { methodsBody.moveDownWorkSpace(wsName); });
+  Zotero.AI4Paper.DialogUtils.addMenuSeparator(menu);
+  Zotero.AI4Paper.DialogUtils.addMenuItem(menu, "重命名工作区", () => { methodsBody.renameWorkSpace(wsName); });
+  Zotero.AI4Paper.DialogUtils.addMenuSeparator(menu);
+  Zotero.AI4Paper.DialogUtils.addMenuItem(menu, "删除工作区", () => { methodsBody.deleteWorkSpace(wsName); });
+  Zotero.AI4Paper.DialogUtils.addMenuItem(menu, "删除所有工作区", () => { methodsBody.deleteAllWorkSpaces(); });
+  Zotero.AI4Paper.DialogUtils.addMenuSeparator(menu);
+  Zotero.AI4Paper.DialogUtils.addMenuItem(menu, "添加当前标签页文献至工作区", () => { methodsBody.addCurrentTab2WorkSpace(wsName); });
+  Zotero.AI4Paper.DialogUtils.addMenuItem(menu, "添加所有标签页文献至工作区", () => { methodsBody.addAllTabs2WorkSpace(wsName); });
+  Zotero.AI4Paper.DialogUtils.addMenuSeparator(menu);
+  Zotero.AI4Paper.DialogUtils.addMenuItem(menu, "替换工作区内全部文献", () => { methodsBody.replaceWorkSpaceItems(wsName); });
+  Zotero.AI4Paper.DialogUtils.addMenuItem(menu, '清空工作区内全部文献', () => { methodsBody.removeAllItemsFromWorkSpace(wsName); });
+  Zotero.AI4Paper.DialogUtils.addMenuSeparator(menu);
+  Zotero.AI4Paper.DialogUtils.addMenuItem(menu, "拷贝工作区名称", () => { Zotero.AI4Paper.copy2Clipboard(wsName); });
+  Zotero.AI4Paper.DialogUtils.addMenuItem(menu, "拷贝工作区概要", () => { Zotero.AI4Paper.copyWorkSpaceSummary(wsName); });
+  Zotero.AI4Paper.DialogUtils.addMenuItem(menu, "拷贝全部工作区概要", () => { Zotero.AI4Paper.copyAllWorkSpacesSummary(); });
+  Zotero.AI4Paper.DialogUtils.addMenuSeparator(menu);
+  Zotero.AI4Paper.DialogUtils.addMenuItem(menu, "关闭所有已打开文献", () => { Zotero.getMainWindow().Zotero_Tabs.closeAll(); });
+  return menu;
 };
 methodsBody.buildContextMenu_addItemsButton = function (param44, param45) {
-  let var138 = document.querySelector("#addItemsButton-contextmenu");
-  if (!var138) {
-    var138 = window.document.createXULElement("menupopup");
-    var138.id = "addItemsButton-contextmenu";
-    document.documentElement.appendChild(var138);
-    var138 = document.documentElement.lastElementChild.firstElementChild;
-    if (param45) return;
-  }
-  let var139 = var138.firstElementChild;
-  while (var139) {
-    var139.remove();
-    var139 = var138.firstElementChild;
-  }
-  let var140 = window.document.createXULElement('menuitem');
-  return var140.setAttribute('label', '添加当前标签页文献至工作区'), var140.addEventListener("command", () => {
-    methodsBody.addCurrentTab2WorkSpace(param44);
-  }), var138.appendChild(var140), var140 = window.document.createXULElement("menuitem"), var140.setAttribute("label", "添加所有标签页文献至工作区"), var140.addEventListener("command", () => {
-    methodsBody.addAllTabs2WorkSpace(param44);
-  }), var138.appendChild(var140), var138;
+  let menu = Zotero.AI4Paper.DialogUtils.initMenuPopup('addItemsButton-contextmenu', param45);
+  if (param45 && !menu) return;
+  Zotero.AI4Paper.DialogUtils.addMenuItem(menu, '添加当前标签页文献至工作区', () => { methodsBody.addCurrentTab2WorkSpace(param44); });
+  Zotero.AI4Paper.DialogUtils.addMenuItem(menu, "添加所有标签页文献至工作区", () => { methodsBody.addAllTabs2WorkSpace(param44); });
+  return menu;
 };
 methodsBody.updateButtonStatus = function (param46) {
   let var141 = ["all", 'today', "lastDay", "lastWeek", "lastMonth"];
@@ -671,50 +609,15 @@ methodsBody.updateButtonStatus = function (param46) {
   }
 };
 methodsBody.registerShortcuts = function () {
-  if (!document._switchViewShortcutsAdded) {
-    document._switchViewShortcutsAdded = true;
-    document.addEventListener("keydown", _0x4840e4 => {
-      if (Zotero.isMac) {
-        _0x4840e4.key === 't' && !_0x4840e4.ctrlKey && !_0x4840e4.shiftKey && !_0x4840e4.altKey && _0x4840e4.metaKey && methodsBody.switchView();
-        _0x4840e4.key === 'd' && !_0x4840e4.ctrlKey && !_0x4840e4.shiftKey && !_0x4840e4.altKey && _0x4840e4.metaKey && methodsBody.switchTypeView();
-        _0x4840e4.key === 'f' && !_0x4840e4.ctrlKey && !_0x4840e4.shiftKey && !_0x4840e4.altKey && _0x4840e4.metaKey && methodsBody.focusSearchBox();
-      } else {
-        _0x4840e4.key === 't' && _0x4840e4.ctrlKey && !_0x4840e4.shiftKey && !_0x4840e4.altKey && !_0x4840e4.metaKey && methodsBody.switchView();
-        _0x4840e4.key === 'd' && _0x4840e4.ctrlKey && !_0x4840e4.shiftKey && !_0x4840e4.altKey && !_0x4840e4.metaKey && methodsBody.switchTypeView();
-        if (_0x4840e4.key === 'f' && _0x4840e4.ctrlKey && !_0x4840e4.shiftKey && !_0x4840e4.altKey && !_0x4840e4.metaKey) {
-          methodsBody.focusSearchBox();
-        }
-      }
-    });
-  }
+  Zotero.AI4Paper.DialogUtils.registerKeyboardShortcuts(document, [
+    { key: 't', handler: () => methodsBody.switchView() },
+    { key: 'd', handler: () => methodsBody.switchTypeView() },
+    { key: 'f', handler: () => methodsBody.focusSearchBox() }
+  ]);
 };
 methodsBody.maxWindowWidth = function () {
-  try {
-    const _0x3897fd = window.screen.width,
-      _0x34a83d = window.screen.height,
-      _0x36ea1d = window.outerHeight,
-      _0x6fa0fc = window.screenY,
-      _0x10d40a = window.screen.availWidth,
-      _0xa9a715 = window.screen.availLeft || 0x0;
-    window.moveTo(_0xa9a715, _0x6fa0fc);
-    window.resizeTo(_0x10d40a, _0x36ea1d);
-  } catch (_0x2ced6c) {
-    Zotero.AI4Paper.showProgressWindow(0xbb8, '❌\x20窗口尺寸调整失败', "出错了！窗口尺寸调整遇到问题。");
-  }
+  Zotero.AI4Paper.DialogUtils.maxWindowWidth();
 };
 methodsBody.adjustWindowWidthPercent = function () {
-  try {
-    let _0x439c20 = window.screen.height,
-      _0x933658 = parseInt(_0x439c20) <= 0x3e8 ? 0.8 : 0.6;
-    const _0xbcaed = window.outerHeight,
-      _0x389744 = window.screenY,
-      _0x4cd8f2 = window.screen.availWidth,
-      _0x442f35 = window.screen.availLeft || 0x0,
-      _0xf68e01 = Math.round(_0x4cd8f2 * _0x933658),
-      _0x45d1b1 = _0x442f35 + (_0x4cd8f2 - _0xf68e01) / 0x2;
-    window.moveTo(_0x45d1b1, _0x389744);
-    window.resizeTo(_0xf68e01, _0xbcaed);
-  } catch (_0x2cf445) {
-    Zotero.AI4Paper.showProgressWindow(0xbb8, '❌\x20窗口尺寸调整失败', "出错了！窗口尺寸调整遇到问题。");
-  }
+  Zotero.AI4Paper.DialogUtils.adjustWindowWidthPercent();
 };

@@ -25,11 +25,7 @@ methodsBody.showItemsByType = function (param1) {
   var4.textContent = "已收藏【" + var3.length + '】个' + (param1 === 'collection' ? '分类' : "保存的搜索");
 };
 methodsBody.clearListbox = function (param2) {
-  let var5 = param2.firstElementChild;
-  while (var5) {
-    var5.remove();
-    var5 = param2.firstElementChild;
-  }
+  Zotero.AI4Paper.DialogUtils.clearListbox(param2);
 };
 methodsBody.buildItemNodes = function (param3, param4, param5) {
   for (var var6 in param4) {
@@ -62,32 +58,27 @@ methodsBody.buildItemNodes = function (param3, param4, param5) {
   param3.itemCount === 0x1 && (param3.getItemAtIndex(0x0).firstElementChild.checked = true);
 };
 methodsBody.buildContextMenu = function (param6, param7, param8) {
-  let var13 = document.querySelector("#favoriteCollections-richlistitem-contextmenu");
-  if (!var13) {
-    var13 = window.document.createXULElement("menupopup");
-    var13.id = "favoriteCollections-richlistitem-contextmenu";
-    document.documentElement.appendChild(var13);
-    var13 = document.documentElement.lastElementChild.firstElementChild;
-    if (param7) return;
-  }
-  let var14 = param6.target.closest("richlistitem")?.['querySelector']("checkbox")["collectionKey"],
-    var15 = var13.firstElementChild;
-  while (var15) {
-    var15.remove();
-    var15 = var13.firstElementChild;
-  }
-  let var16 = window.document.createXULElement("menuitem");
-  return var16.setAttribute("label", '置顶'), var16.addEventListener('command', () => {
-    methodsBody.moveItem(param8, var14, "setTopFavoriteCollection");
-  }), var13.appendChild(var16), var16 = window.document.createXULElement('menuitem'), var16.setAttribute("label", '上移'), var16.addEventListener("command", () => {
-    methodsBody.moveItem(param8, var14, 'moveUpFavoriteCollection');
-  }), var13.appendChild(var16), var16 = window.document.createXULElement("menuitem"), var16.setAttribute("label", '下移'), var16.addEventListener('command', () => {
-    methodsBody.moveItem(param8, var14, "moveDownFavoriteCollection");
-  }), var13.appendChild(var16), var13.appendChild(document.createXULElement("menuseparator")), var16 = window.document.createXULElement("menuitem"), var16.setAttribute("label", '移除'), var16.addEventListener('command', () => {
-    methodsBody.moveItem(param8, var14, "removeFavoriteCollectionFromList");
-  }), var13.appendChild(var16), var13.appendChild(document.createXULElement("menuseparator")), var16 = window.document.createXULElement("menuitem"), var16.setAttribute("label", '定位'), var16.addEventListener("command", () => {
-    Zotero.AI4Paper.go2FavoriteCollection(param8, var14);
-  }), var13.appendChild(var16), var13;
+  let menu = Zotero.AI4Paper.DialogUtils.initMenuPopup('favoriteCollections-richlistitem-contextmenu', param7);
+  if (param7 && !menu) return;
+  let collectionKey = param6.target.closest("richlistitem")?.['querySelector']("checkbox")["collectionKey"];
+  Zotero.AI4Paper.DialogUtils.addMenuItem(menu, '置顶', () => {
+    methodsBody.moveItem(param8, collectionKey, "setTopFavoriteCollection");
+  });
+  Zotero.AI4Paper.DialogUtils.addMenuItem(menu, '上移', () => {
+    methodsBody.moveItem(param8, collectionKey, 'moveUpFavoriteCollection');
+  });
+  Zotero.AI4Paper.DialogUtils.addMenuItem(menu, '下移', () => {
+    methodsBody.moveItem(param8, collectionKey, "moveDownFavoriteCollection");
+  });
+  Zotero.AI4Paper.DialogUtils.addMenuSeparator(menu);
+  Zotero.AI4Paper.DialogUtils.addMenuItem(menu, '移除', () => {
+    methodsBody.moveItem(param8, collectionKey, "removeFavoriteCollectionFromList");
+  });
+  Zotero.AI4Paper.DialogUtils.addMenuSeparator(menu);
+  Zotero.AI4Paper.DialogUtils.addMenuItem(menu, '定位', () => {
+    Zotero.AI4Paper.go2FavoriteCollection(param8, collectionKey);
+  });
+  return menu;
 };
 methodsBody.updateButtonStatus = function (param9) {
   let var17 = ["collection", 'savedSearch'];
@@ -96,9 +87,9 @@ methodsBody.updateButtonStatus = function (param9) {
   }
 };
 methodsBody.registerShortcuts = function () {
-  !document._switchViewShortcutsAdded && (document._switchViewShortcutsAdded = true, document.addEventListener("keydown", _0x228b57 => {
-    Zotero.isMac ? _0x228b57.key === 't' && !_0x228b57.ctrlKey && !_0x228b57.shiftKey && !_0x228b57.altKey && _0x228b57.metaKey && methodsBody.switchView() : _0x228b57.key === 't' && _0x228b57.ctrlKey && !_0x228b57.shiftKey && !_0x228b57.altKey && !_0x228b57.metaKey && methodsBody.switchView();
-  }));
+  Zotero.AI4Paper.DialogUtils.registerKeyboardShortcuts(document, [
+    { key: 't', handler: () => methodsBody.switchView() }
+  ]);
 };
 methodsBody.singleSelect = function (param10) {
   var var19 = document.getElementById("richlistbox-elem");

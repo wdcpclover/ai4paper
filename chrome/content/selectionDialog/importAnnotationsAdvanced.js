@@ -31,12 +31,7 @@ importAnnotationsAdvanced.init = async function () {
 
 // 初始化右键菜单。如果不先做这一步，第一次打开窗口，需要右键两次。
 importAnnotationsAdvanced.initContextMenu = function () {
-  let popup = document.querySelector("#inputBox-contextmenu");
-  if (!popup) {
-    popup = window.document.createXULElement('menupopup');
-    popup.id = 'inputBox-contextmenu';
-    document.documentElement.appendChild(popup);
-  }
+  Zotero.AI4Paper.DialogUtils.initMenuPopup('inputBox-contextmenu', true);
 };
 
 // 设置搜索框右键显示字条等。注意，如果点击➕ 新增了更多条件，则无法适用。
@@ -76,36 +71,21 @@ importAnnotationsAdvanced.setContextMenu = function () {
 // 创建右键菜单
 importAnnotationsAdvanced.buildContextMenu = function () {
   let searchTextHistory = Zotero.Prefs.get('ai4paper.importAnnotationsAdvancedHistory').split('😊🎈🍓');
-  // 如果无搜索记录，则返回。
   if (searchTextHistory.length === 1 && searchTextHistory[0] === '') {
     return false;
   }
-  let popup = document.querySelector("#inputBox-contextmenu");
-  if (!popup) {
-    popup = window.document.createXULElement('menupopup');
-    popup.id = 'inputBox-contextmenu';
-    document.documentElement.appendChild(popup);
-    popup = document.documentElement.lastElementChild.firstElementChild;
-  }
-  let first = popup.firstElementChild;
-  while (first) {
-    first.remove();
-    first = popup.firstElementChild;
-  }
+  let menu = Zotero.AI4Paper.DialogUtils.initMenuPopup('inputBox-contextmenu');
   for (let historyText of searchTextHistory) {
     let fullText = historyText;
-    let menuitem = window.document.createXULElement('menuitem');
     if (historyText.length > 30) {
       historyText = `${historyText.substring(0, 29)}...`;
     }
-    menuitem.setAttribute('label', historyText);
-    menuitem.setAttribute('tooltiptext', fullText); // 显示完整文本
-    menuitem.addEventListener('command', () => {
+    let item = Zotero.AI4Paper.DialogUtils.addMenuItem(menu, historyText, () => {
       document.getElementById('zotero-search-box').querySelector('input').value = fullText;
     });
-    popup.appendChild(menuitem);
+    item.setAttribute('tooltiptext', fullText);
   }
-  return popup;
+  return menu;
 };
 
 // 监听按下搜索按钮这个动作

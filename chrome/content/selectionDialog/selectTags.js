@@ -3,9 +3,10 @@ methodsBody.init = async function () {
   Zotero.AI4Paper.update_svg_icons(document);
   document.addEventListener("dialogaccept", () => methodsBody.acceptSelection());
   Zotero.AI4Paper.setFontSize_Dialog(document.querySelector("dialog"), 0.92);
-  !document._switchViewShortcutsAdded && (document._switchViewShortcutsAdded = true, document.addEventListener("keydown", _0x2bc4dc => {
-    Zotero.isMac ? (_0x2bc4dc.key === 'd' && !_0x2bc4dc.ctrlKey && !_0x2bc4dc.shiftKey && !_0x2bc4dc.altKey && _0x2bc4dc.metaKey && methodsBody.switchTagsTypeView(), _0x2bc4dc.key === 'f' && !_0x2bc4dc.ctrlKey && !_0x2bc4dc.shiftKey && !_0x2bc4dc.altKey && _0x2bc4dc.metaKey && document.getElementById("searchBox-elem").focus()) : (_0x2bc4dc.key === 'd' && _0x2bc4dc.ctrlKey && !_0x2bc4dc.shiftKey && !_0x2bc4dc.altKey && !_0x2bc4dc.metaKey && methodsBody.switchTagsTypeView(), _0x2bc4dc.key === 'f' && _0x2bc4dc.ctrlKey && !_0x2bc4dc.shiftKey && !_0x2bc4dc.altKey && !_0x2bc4dc.metaKey && document.getElementById('searchBox-elem').focus());
-  }));
+  Zotero.AI4Paper.DialogUtils.registerKeyboardShortcuts(document, [
+    { key: 'd', handler: () => methodsBody.switchTagsTypeView() },
+    { key: 'f', handler: () => document.getElementById('searchBox-elem').focus() }
+  ]);
   Zotero.AI4Paper.lasttaginput && (document.getElementById('searchBox-elem').placeholder = Zotero.AI4Paper.lasttaginput);
   document.getElementById('cardNotes-doubleClick-enable').checked = Zotero.Prefs.get("ai4paper.selectTagsDoubleClick");
   document.getElementById('imageCardNote-Search-First').checked = Zotero.Prefs.get("ai4paper.imageCardNoteSearchFirst");
@@ -89,109 +90,20 @@ methodsBody.filter = function (param4) {
   }
 };
 methodsBody.updateTags = async function (param5) {
-  let var9 = {
-      'annotationTag': "注释标签",
-      'imageAnnotationTag': "图片注释标签",
-      'recentTag': "最近标签",
-      'itemTag': "条目标签"
-    },
-    var10 = await Zotero.Tags.getAll(0x1);
-  if (var10.length === 0x0) {
-    Zotero.AI4Paper.showProgressWindow(0xbb8, "❌ 未发现标签【AI4paper】", "未在【我的文库】中发现任何标签！");
-    return;
-  }
+  let tagConfigs = {
+    'itemTag': { description: "条目标签", checkFn: Zotero.AI4Paper.checkItemTag, prefKey: "ai4paper.itemTags", refreshFn: (v) => methodsBody.itemTag(v) },
+    'annotationTag': { description: "注释标签", checkFn: Zotero.AI4Paper.checkAnnotationTag, prefKey: "ai4paper.annotationtagsrecent", refreshFn: (v) => methodsBody.annotationTag(v) },
+    'imageAnnotationTag': { description: "图片注释标签", checkFn: Zotero.AI4Paper.checkImageAnnotationTag, prefKey: "ai4paper.imageannotationtagsrecent", refreshFn: (v) => methodsBody.imageAnnotationTag(v) }
+  };
+  let config = tagConfigs[param5];
+  if (!config) return;
   document.getElementById('annotationTagType-image').setAttribute("src", "chrome://ai4paper/content/icons/" + param5 + ".png");
-  document.getElementById("message-label").textContent = "正在刷新" + var9[param5] + "，右下角查看进度...";
-  let var11 = "_selectTagsDialog_update_" + param5;
-  Zotero.AI4Paper.progressPercent_initProgress(var10, var11, var9[param5]);
-  methodsBody["update_" + param5 + "_checkNext"](var11, var9[param5]);
-};
-methodsBody.update_itemTag_checkNext = async function (param6, param7) {
-  Zotero.AI4Paper["numberOfUpdatedItems" + param6]++;
-  if (Zotero.AI4Paper['current' + param6] == Zotero.AI4Paper['toUpdate' + param6] - 0x1) {
-    Zotero.AI4Paper["progressWindow" + param6].close();
-    Zotero.AI4Paper.progressPercent_resetState(null, param6, param7);
-    Zotero.Prefs.set('ai4paper.itemTags', JSON.stringify(Zotero.AI4Paper["_progressData_" + param6]));
-    methodsBody.itemTag(true);
-    return;
-  }
-  Zotero.AI4Paper.progressPercent_updatePercent(param6, "检查所有标签： ");
-  methodsBody.update_itemTag_checkTag(Zotero.AI4Paper['itemsToUpdate' + param6][Zotero.AI4Paper["current" + param6]], param6, param7);
-};
-methodsBody.update_itemTag_checkTag = async function (param8, param9, param10) {
-  try {
-    let var12 = await Zotero.AI4Paper.checkItemTag(param8.tag);
-    if (var12) {
-      let var13 = param8.tag,
-        var14 = 0x0,
-        var15 = {
-          'tag': var13,
-          'type': var14
-        };
-      !JSON.stringify(Zotero.AI4Paper["_progressData_" + param9]).includes(JSON.stringify(var15)) && (Zotero.AI4Paper["_progressData_" + param9].push(var15), Zotero.AI4Paper['counter' + param9]++);
-    }
-  } catch (_0x3dd5df) {
-    Zotero.debug(_0x3dd5df);
-  }
-  methodsBody.update_itemTag_checkNext(param9, param10);
-};
-methodsBody.update_annotationTag_checkNext = async function (param11, param12) {
-  Zotero.AI4Paper["numberOfUpdatedItems" + param11]++;
-  if (Zotero.AI4Paper["current" + param11] == Zotero.AI4Paper['toUpdate' + param11] - 0x1) {
-    Zotero.AI4Paper["progressWindow" + param11].close();
-    Zotero.AI4Paper.progressPercent_resetState(null, param11, param12);
-    Zotero.Prefs.set("ai4paper.annotationtagsrecent", JSON.stringify(Zotero.AI4Paper["_progressData_" + param11]));
-    methodsBody.annotationTag(true);
-    return;
-  }
-  Zotero.AI4Paper.progressPercent_updatePercent(param11, "检查所有标签： ");
-  methodsBody.update_annotationTag_checkTag(Zotero.AI4Paper["itemsToUpdate" + param11][Zotero.AI4Paper["current" + param11]], param11, param12);
-};
-methodsBody.update_annotationTag_checkTag = async function (param13, param14, param15) {
-  try {
-    let var16 = await Zotero.AI4Paper.checkAnnotationTag(param13.tag);
-    if (var16) {
-      let var17 = param13.tag,
-        var18 = 0x0,
-        var19 = {
-          'tag': var17,
-          'type': var18
-        };
-      !JSON.stringify(Zotero.AI4Paper['_progressData_' + param14]).includes(JSON.stringify(var19)) && (Zotero.AI4Paper["_progressData_" + param14].push(var19), Zotero.AI4Paper['counter' + param14]++);
-    }
-  } catch (_0x44fb7f) {
-    Zotero.debug(_0x44fb7f);
-  }
-  methodsBody.update_annotationTag_checkNext(param14, param15);
-};
-methodsBody.update_imageAnnotationTag_checkNext = async function (param16, param17) {
-  Zotero.AI4Paper["numberOfUpdatedItems" + param16]++;
-  if (Zotero.AI4Paper["current" + param16] == Zotero.AI4Paper["toUpdate" + param16] - 0x1) {
-    Zotero.AI4Paper["progressWindow" + param16].close();
-    Zotero.AI4Paper.progressPercent_resetState(null, param16, param17);
-    Zotero.Prefs.set("ai4paper.imageannotationtagsrecent", JSON.stringify(Zotero.AI4Paper["_progressData_" + param16]));
-    methodsBody.imageAnnotationTag(true);
-    return;
-  }
-  Zotero.AI4Paper.progressPercent_updatePercent(param16, "检查所有标签： ");
-  methodsBody.update_imageAnnotationTag_checkTag(Zotero.AI4Paper['itemsToUpdate' + param16][Zotero.AI4Paper['current' + param16]], param16, param17);
-};
-methodsBody.update_imageAnnotationTag_checkTag = async function (param18, param19, param20) {
-  try {
-    let var20 = await Zotero.AI4Paper.checkImageAnnotationTag(param18.tag);
-    if (var20) {
-      let var21 = param18.tag,
-        var22 = 0x0,
-        var23 = {
-          'tag': var21,
-          'type': var22
-        };
-      !JSON.stringify(Zotero.AI4Paper["_progressData_" + param19]).includes(JSON.stringify(var23)) && (Zotero.AI4Paper['_progressData_' + param19].push(var23), Zotero.AI4Paper['counter' + param19]++);
-    }
-  } catch (_0x5b803f) {
-    Zotero.debug(_0x5b803f);
-  }
-  methodsBody.update_imageAnnotationTag_checkNext(param19, param20);
+  document.getElementById("message-label").textContent = "正在刷新" + config.description + "，右下角查看进度...";
+  await Zotero.AI4Paper.DialogUtils.runTagUpdateChain({
+    tagType: param5, dialogPrefix: "_selectTagsDialog_update_",
+    description: config.description, checkFn: config.checkFn,
+    prefKey: config.prefKey, refreshFn: config.refreshFn
+  });
 };
 methodsBody.recentItemTags = function () {
   methodsBody.updateButtonStatus("recentItemTag");
@@ -314,26 +226,20 @@ methodsBody.run = function () {
   Zotero.Prefs.set("ai4paper.selectTagsDoubleClick", document.getElementById("cardNotes-doubleClick-enable").checked);
 };
 methodsBody.initContextMenu = function (param25) {
-  let var50 = document.querySelector("#richlistitem-contextmenu");
-  !var50 && (var50 = window.document.createXULElement("menupopup"), var50.id = "richlistitem-contextmenu", document.documentElement.appendChild(var50), var50 = document.documentElement.lastElementChild.firstElementChild);
+  Zotero.AI4Paper.DialogUtils.initMenuPopup('richlistitem-contextmenu', true);
 };
 methodsBody.buildContextMenu = function (param26) {
-  let var51 = param26.target.closest("richlistitem")?.["querySelector"]('checkbox')["label"],
-    var52 = document.querySelector("#richlistitem-contextmenu");
-  !var52 && (var52 = window.document.createXULElement('menupopup'), var52.id = "richlistitem-contextmenu", document.documentElement.appendChild(var52), var52 = document.documentElement.lastElementChild.firstElementChild);
-  let var53 = var52.firstElementChild;
-  while (var53) {
-    var53.remove();
-    var53 = var52.firstElementChild;
-  }
-  let var54 = window.document.createXULElement("menuitem");
-  return var54.setAttribute("label", "拷贝标签"), var54.addEventListener("command", () => {
-    Zotero.AI4Paper.copy2Clipboard(var51);
-    Zotero.AI4Paper.showProgressWindow(0x7d0, "拷贝标签【AI4paper】", '已拷贝标签【' + var51 + '】');
-  }), var52.appendChild(var54), var54 = window.document.createXULElement('menuitem'), var54.setAttribute("label", "检索所属文献"), var54.addEventListener("command", () => {
+  let tagLabel = param26.target.closest("richlistitem")?.["querySelector"]('checkbox')["label"];
+  let menu = Zotero.AI4Paper.DialogUtils.initMenuPopup('richlistitem-contextmenu');
+  Zotero.AI4Paper.DialogUtils.addMenuItem(menu, "拷贝标签", () => {
+    Zotero.AI4Paper.copy2Clipboard(tagLabel);
+    Zotero.AI4Paper.showProgressWindow(0x7d0, "拷贝标签【AI4paper】", '已拷贝标签【' + tagLabel + '】');
+  });
+  Zotero.AI4Paper.DialogUtils.addMenuItem(menu, "检索所属文献", () => {
     window.close();
-    Zotero.AI4Paper.showItemsBasedOnTag(var51);
-  }), var52.appendChild(var54), var52;
+    Zotero.AI4Paper.showItemsBasedOnTag(tagLabel);
+  });
+  return menu;
 };
 methodsBody.buildItemNodes = function (param27) {
   var var55 = document.getElementById("richlistbox-elem");
@@ -382,12 +288,7 @@ methodsBody.buildItemNodes = function (param27) {
   }
 };
 methodsBody.clearListbox = function () {
-  var var66 = document.getElementById("richlistbox-elem");
-  let var67 = var66.firstElementChild;
-  while (var67) {
-    var67.remove();
-    var67 = var66.firstElementChild;
-  }
+  Zotero.AI4Paper.DialogUtils.clearListbox('richlistbox-elem');
 };
 methodsBody.updateTagsNumMessage = function (param29, param30) {
   let var68 = {
@@ -408,13 +309,7 @@ methodsBody.updateButtonStatus = function (param31) {
   document.getElementById("annotationTagType-image").setAttribute("src", "chrome://ai4paper/content/icons/" + (param31 === 'recentItemTag' ? "recentTag" : param31) + ".png");
 };
 methodsBody.updateFilterButtons = function (param32, param33) {
-  let var71 = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'OT'];
-  for (let var72 of var71) {
-    let var73 = document.getElementById('tagFilter-' + var72),
-      var74 = 'chrome://ai4paper/content/icons/' + var72 + '.png',
-      var75 = "chrome://ai4paper/content/icons/" + var72 + '-select.png';
-    param32 ? (var73.setAttribute("src", var74), var73.onmouseover = () => var73.style.transform = "scale(1.3)", var73.onmouseout = () => var73.style.transform = "scale(1)") : var72 === param33 ? (var73.setAttribute("src", var75), var73.style.transform = "scale(1)", var73.onmouseover = () => {}, var73.onmouseout = () => {}) : (var73.setAttribute("src", var74), var73.onmouseover = () => var73.style.transform = 'scale(1.3)', var73.onmouseout = () => var73.style.transform = "scale(1)");
-  }
+  Zotero.AI4Paper.DialogUtils.updateAZFilterButtons(param32, param33);
 };
 methodsBody.hiddenElements = function () {
   let var76 = methodsBody._is4AnnotationTags;
