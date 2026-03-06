@@ -1370,6 +1370,7 @@ Zotero.AI4Paper_Prefs = {
     Zotero.AI4Paper_Prefs.onChangeValue.updateWinShortcutsTranslationStyle(true);
     Zotero.AI4Paper_Prefs.onChangeValue.updateEyesProtectionColor(true);
     Zotero.AI4Paper_Prefs.onChangeValue.selectBrowser4WebSearch(true);
+    Zotero.AI4Paper_Prefs.onChangeValue.syncUnifiedGPTAPIManager();
   },
   'onAddRunInit': function () {
     var var100 = {
@@ -3046,6 +3047,62 @@ Zotero.AI4Paper_Prefs = {
       },
       var223 = window.confirm(var222.nMFlG);
     var223 && (Zotero.Prefs.set(var222.CPOqY, var222.zHrSF), document.getElementById(var222.KSxAC).hidden = false, document.getElementById(var222.zKwtA).hidden = true);
+  },
+  'getUnifiedGPTAPIConfig': function (serviceName) {
+    const configMap = {
+      'OpenAI': {
+        'prefKey': "ai4paper.openaiapiinput",
+        'verifyResultKey': "ai4paper.openaiverifyresult",
+        'inputId': "ai4paper.gpt.openaiapiinput",
+        'helpUrl': "https://www.yuque.com/qnscholar/zotero-one/gd5pfvvrgla9lu0u",
+        'verifyMethod': "verifyOpenAIAPI",
+        'removeMethod': "removeOpenAIAPI"
+      },
+      'API2D': {
+        'prefKey': "ai4paper.api2dapiinput",
+        'verifyResultKey': "ai4paper.api2dverifyresult",
+        'inputId': "ai4paper.gpt.api2dapiinput",
+        'helpUrl': "https://www.yuque.com/qnscholar/zotero-one/nyzqz9py631u4ixl",
+        'verifyMethod': "verifyAPI2DAPI",
+        'removeMethod': "removeAPI2DAPI"
+      },
+      'ChatAnywhere': {
+        'prefKey': "ai4paper.chatanywhereapiinput",
+        'verifyResultKey': "ai4paper.chatanywhereverifyresult",
+        'inputId': "ai4paper.gpt.chatanywhereapiinput",
+        'helpUrl': "https://github.com/chatanywhere/GPT_API_free",
+        'verifyMethod': "verifyChatAnywhereAPI",
+        'removeMethod': "removeChatAnywhereAPI"
+      },
+      '通义千问': {
+        'prefKey': "ai4paper.qwenAPI",
+        'verifyResultKey': "ai4paper.qwenVerifyResult",
+        'inputId': "ai4paper.gpt.qwenAPI",
+        'helpUrl': "https://www.yuque.com/qnscholar/zotero-one/osqdh1qyu9amx31i?singleDoc# 《通义千问 API 申请》",
+        'verifyMethod': "verifyQwenAPI",
+        'removeMethod': "removeQwenAPI"
+      }
+    };
+    return configMap[serviceName] || configMap['OpenAI'];
+  },
+  'verifyUnifiedGPTAPI': async function () {
+    const serviceNode = document.getElementById("ai4paper.gpt.unified.service");
+    const serviceName = serviceNode ? serviceNode.value || serviceNode.label : 'OpenAI';
+    const config = this.getUnifiedGPTAPIConfig(serviceName);
+    Zotero.AI4Paper_Prefs.onChangeValue.updateUnifiedGPTAPIKey();
+    if (typeof this[config.verifyMethod] === "function") {
+      await this[config.verifyMethod]();
+    }
+    Zotero.AI4Paper_Prefs.onChangeValue.syncUnifiedGPTAPIManager();
+  },
+  'removeUnifiedGPTAPI': function () {
+    const serviceNode = document.getElementById("ai4paper.gpt.unified.service");
+    const serviceName = serviceNode ? serviceNode.value || serviceNode.label : 'OpenAI';
+    const config = this.getUnifiedGPTAPIConfig(serviceName);
+    if (typeof this[config.removeMethod] === "function") {
+      this[config.removeMethod]();
+    }
+    Zotero.AI4Paper_Prefs.onChangeValue.syncUnifiedGPTAPIManager();
   },
   'verifyWenXinAPI': async function () {
     var var224 = {
@@ -5534,10 +5591,11 @@ Zotero.AI4Paper_Prefs = {
         },
         'BIOpB': "visible"
       };
+      if (!this.btn) return;
       let var428 = 0x0;
       this.scrollContainer && (var428 = this.scrollContainer.scrollTop);
       if (var427.YTdoI(var428, 0x0)) {
-        if (var427.LPaxd(var427.xOrVD, var427.xOrVD)) var428 = window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0x0;else {
+        if (var427.LPaxd(var427.xOrVD, var427.xOrVD)) var428 = window.scrollY || document.documentElement?.scrollTop || document.body?.scrollTop || 0x0;else {
           function fn141() {
             _0x415045.debug(_0x523545);
           }
@@ -5735,6 +5793,7 @@ Zotero.AI4Paper_Prefs = {
       Zotero.Prefs.set(var453.uUxcC, document.getElementById(var453.uUxcC).label);
       Zotero.Prefs.set(var453.QqZfE, document.getElementById(var453.QqZfE).label);
       Zotero.AI4Paper.gptReaderSidePane_updateServiceModel();
+      Zotero.AI4Paper_Prefs.onChangeValue.syncUnifiedGPTAPIManager();
     },
     'updateOpenAIAPI': function () {
       var var454 = {
@@ -5742,6 +5801,7 @@ Zotero.AI4Paper_Prefs = {
         'boCqk': "ai4paper.gpt.openaiapiinput"
       };
       Zotero.Prefs.set(var454.XPVbQ, document.getElementById(var454.boCqk).value);
+      Zotero.AI4Paper_Prefs.onChangeValue.syncUnifiedGPTAPIManager();
     },
     'updateAPI2DAPI': function () {
       var var455 = {
@@ -5763,6 +5823,54 @@ Zotero.AI4Paper_Prefs = {
         'twMZF': "ai4paper.gpt.chatanywherehost"
       };
       Zotero.Prefs.set(var457.nDnrG, document.getElementById(var457.twMZF).value);
+    },
+    'updateUnifiedGPTService': function () {
+      const unifiedServiceNode = document.getElementById("ai4paper.gpt.unified.service"),
+        gptServiceNode = document.getElementById("ai4paper.gptservice");
+      if (!unifiedServiceNode) return;
+      const serviceName = unifiedServiceNode.value || unifiedServiceNode.label || "OpenAI";
+      Zotero.Prefs.set("ai4paper.gptservice", serviceName);
+      if (gptServiceNode) {
+        gptServiceNode.value = serviceName;
+      }
+      Zotero.AI4Paper_Prefs.onChangeValue.updateGPTServiceModel();
+      Zotero.AI4Paper_Prefs.onChangeValue.syncUnifiedGPTAPIManager();
+    },
+    'syncUnifiedGPTAPIManager': function () {
+      const serviceNode = document.getElementById("ai4paper.gpt.unified.service"),
+        inputNode = document.getElementById("ai4paper.gpt.unified.apikey"),
+        statusNode = document.getElementById("ai4paper.gpt.unified.status"),
+        helpNode = document.getElementById("ai4paper.gpt.unified.getapi");
+      if (!serviceNode || !inputNode || !statusNode || !helpNode) return;
+      let currentService = serviceNode.value || serviceNode.label;
+      const unifiedServices = ["OpenAI", "API2D", "ChatAnywhere", "通义千问"];
+      if (!unifiedServices.includes(currentService)) {
+        currentService = Zotero.Prefs.get("ai4paper.gptservice");
+      }
+      if (!unifiedServices.includes(currentService)) {
+        currentService = "OpenAI";
+      }
+      serviceNode.value = currentService;
+      const config = Zotero.AI4Paper_Prefs.getUnifiedGPTAPIConfig(currentService),
+        apiKey = Zotero.Prefs.get(config.prefKey) || '',
+        verifyResult = Zotero.Prefs.get(config.verifyResultKey) || "未验证";
+      inputNode.value = apiKey;
+      inputNode.placeholder = currentService + " API-Key";
+      statusNode.textContent = "当前状态：" + verifyResult;
+      helpNode.setAttribute("href", config.helpUrl);
+      helpNode.textContent = "获取 " + currentService + " API";
+    },
+    'updateUnifiedGPTAPIKey': function () {
+      const serviceNode = document.getElementById("ai4paper.gpt.unified.service"),
+        inputNode = document.getElementById("ai4paper.gpt.unified.apikey");
+      if (!serviceNode || !inputNode) return;
+      const serviceName = serviceNode.value || serviceNode.label || "OpenAI",
+        config = Zotero.AI4Paper_Prefs.getUnifiedGPTAPIConfig(serviceName),
+        value = inputNode.value;
+      Zotero.Prefs.set(config.prefKey, value);
+      const rawInput = document.getElementById(config.inputId);
+      rawInput && (rawInput.value = value);
+      Zotero.AI4Paper_Prefs.onChangeValue.syncUnifiedGPTAPIManager();
     },
     'showGPTCustomHost': function (param584, param585) {
       var var458 = {

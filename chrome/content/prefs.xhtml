@@ -1267,6 +1267,43 @@
           </hbox>
         </groupbox>
 
+        <groupbox>
+            <label><html:h2>统一管理 AI Key（测试）</html:h2></label>
+
+            <hbox align="center" class="zoteroone-hbox-medium-gap">
+                <hbox align="center">
+                    <label>服务</label>
+                    <menulist native="true" id="ai4paper.gpt.unified.service" oncommand="Zotero.AI4Paper_Prefs.onChangeValue.updateUnifiedGPTService();">
+                        <menupopup>
+                            <menuitem label="OpenAI" value="OpenAI"/>
+                            <menuitem label="API2D" value="API2D"/>
+                            <menuitem label="ChatAnywhere" value="ChatAnywhere"/>
+                            <menuitem label="通义千问" value="通义千问"/>
+                        </menupopup>
+                    </menulist>
+                </hbox>
+
+                <hbox align="center">
+                    <label>API-Key</label>
+                    <html:input type="password" id="ai4paper.gpt.unified.apikey" size="32" onchange="Zotero.AI4Paper_Prefs.onChangeValue.updateUnifiedGPTAPIKey();"></html:input>
+                </hbox>
+
+                <hbox align="center" class="zoteroone-hbox-small-gap">
+                    <button id="ai4paper.gpt.unified.verify.button"
+                            data-l10n-id="ai4paper-button-elem-verify-api"
+                            oncommand="Zotero.AI4Paper_Prefs.verifyUnifiedGPTAPI();"></button>
+                    <button id="ai4paper.gpt.unified.remove.button"
+                            data-l10n-id="ai4paper-button-elem-remove-api"
+                            oncommand="Zotero.AI4Paper_Prefs.removeUnifiedGPTAPI();"></button>
+                </hbox>
+            </hbox>
+
+            <hbox align="center" class="zoteroone-hbox-medium-gap">
+                <html:description id="ai4paper.gpt.unified.status" style="color: gray; font-size: 12px;">当前状态：未验证</html:description>
+                <label id="ai4paper.gpt.unified.getapi" is="zotero-text-link" href="https://www.yuque.com/qnscholar/zotero-one/gd5pfvvrgla9lu0u">获取当前服务 API</label>
+            </hbox>
+        </groupbox>
+
         <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * OpenAI * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 
         <groupbox>
@@ -1786,7 +1823,7 @@
             <hbox align="center" class="zoteroone-hbox-medium-gap">
                 <hbox align="center">
                     <label data-l10n-id="ai4paper-apikey-label"></label>
-                    <html:input type="password" id="ai4paper.gpt.qwenAPI" preference="extensions.zotero.ai4paper.qwenAPI" size="29" onchange='Zotero.Prefs.set("ai4paper.qwenAPI", this.value);'></html:input>
+                    <html:input type="password" id="ai4paper.gpt.qwenAPI" preference="extensions.zotero.ai4paper.qwenAPI" size="29" onchange='Zotero.Prefs.set("ai4paper.qwenAPI", this.value);Zotero.AI4Paper_Prefs.onChangeValue.syncUnifiedGPTAPIManager();'></html:input>
                 </hbox>
 
                 <hbox align="center" class="zoteroone-hbox-small-gap">

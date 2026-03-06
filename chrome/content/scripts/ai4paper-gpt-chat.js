@@ -823,6 +823,7 @@ Object.assign(Zotero.AI4Paper, {
     ((await OS.File.exists(fullMdPath)) || !(await OS.File.exists(fullMdPath)) && Zotero.Prefs.get("ai4paper.obsidianautoupdatenotes") || Zotero.Prefs.get('ai4paper.createAIReadingNoteOnPaperAI')) && (await Zotero.AI4Paper.refreshObsidianNoteChatGPT(parentItem), await new Promise(r9 => setTimeout(r9, 0x1e)), await Zotero.AI4Paper.refreshObsidianNoteChatGPT(parentItem));
   },
   'gptReaderSidePane_ChatMode_createAIReadingNoteItemAuto': async function (iframeWin, questionData) {
+    Zotero.AI4Paper.gptReaderSidePane_updateStatusText("AI 解读：正在生成笔记...", iframeWin);
     let lastMessage,
       allMessages = iframeWin.document.querySelectorAll(".message");
     if (allMessages.length) {
@@ -851,7 +852,10 @@ Object.assign(Zotero.AI4Paper, {
     if (Zotero.Prefs.get('ai4paper.updateModifiedDate4PapersMatrix')) {
       await Zotero.AI4Paper.updateModifiedDate4PapersMatrix(parentItem);
     }
+    Zotero.AI4Paper.gptReaderSidePane_updateStatusText("AI 解读：正在同步笔记...", iframeWin);
     await Zotero.AI4Paper.refreshObsidianNoteChatGPT(parentItem);
+    Zotero.AI4Paper.gptReaderSidePane_updateStatusText("AI 解读完成", iframeWin);
+    Zotero.AI4Paper.showProgressWindow(0x7d0, "✅ AI 解读完成", "已生成当前文献的 AI 解读结果。", "openai");
   },
   'updateModifiedDate4PapersMatrix': async function (item) {
     item.addTag("only4test");
@@ -1742,7 +1746,6 @@ Object.assign(Zotero.AI4Paper, {
   },
   'gptReaderSidePane_ChatMode_displayMessageChunk': function (iframeWin, chunkText, chatContainer) {
     if (!chunkText) return;
-    Zotero.Prefs.set("ai4paper.chatgptresponse", chunkText);
     let allMessages = iframeWin.document.querySelectorAll(".message");
     if (allMessages.length) {
       let lastMessage = allMessages[allMessages.length - 0x1];
@@ -1882,6 +1885,7 @@ Object.assign(Zotero.AI4Paper, {
     }
     Zotero.AI4Paper.updateChatGPTReaderSidePane();
     Zotero.Prefs.get('ai4paper.gptChatHistoryViewerEnable') && !(questionData?.["fromPaperAI"] && Zotero.Prefs.get("ai4paper.excludeHistoryFromPaperAI")) && Zotero.AI4Paper.updateTransViewer('🙋<p>' + questionData?.['question'], '🤖️<p>' + Zotero.AI4Paper.gptReaderSidePane_ChatMode_renderMessageContent(null, responseText));
+    questionData?.["fromPaperAI"] && Zotero.AI4Paper.gptReaderSidePane_updateStatusText("AI 解读：正在整理结果...", iframeWin);
     questionData?.["fromPaperAI"] && Zotero.AI4Paper.gptReaderSidePane_ChatMode_createAIReadingNoteItemAuto(iframeWin, questionData);
     Zotero.AI4Paper.saveChatHistory2Local();
   },
@@ -1906,6 +1910,7 @@ Object.assign(Zotero.AI4Paper, {
     if (Zotero.Prefs.get("ai4paper.translationviewerenable")) {
       Zotero.AI4Paper.updateTransViewer("🙋<p>" + questionData?.["question"], '🤖️<p>' + responseText);
     }
+    questionData?.["fromPaperAI"] && Zotero.AI4Paper.gptReaderSidePane_updateStatusText("AI 解读：正在整理结果...", iframeWin);
     questionData?.["fromPaperAI"] && Zotero.AI4Paper.gptReaderSidePane_ChatMode_createAIReadingNoteItemAuto(iframeWin, questionData);
     Zotero.AI4Paper.saveChatHistory2Local();
   },
@@ -2009,9 +2014,15 @@ Object.assign(Zotero.AI4Paper, {
     return true;
   },
   'gptService_isTokenEmpty_APIVerified': function (apiKey, serviceName, showUI, mode, throwError) {
-    let errorMsg = '';
+    let errorMsg = '',
+      serviceDisplay = serviceName,
+      bindDisplay = serviceName;
+    if (serviceName === "OpenAI") {
+      serviceDisplay = "OpenAI / 通义千问";
+      bindDisplay = "OpenAI】或【通义千问";
+    }
     if (apiKey === '') {
-      errorMsg = "❌ 尚未配置【" + serviceName + "】！\n\n请先前往【Zotero 设置 --> AI4paper --> GPT API】绑定【" + serviceName + "】API-Key！";
+      errorMsg = "❌ 尚未配置【" + serviceDisplay + "】！\n\n请先前往【Zotero 设置 --> AI4paper --> GPT API】绑定【" + bindDisplay + "】API-Key！";
       if (mode === 'translation' && showUI) Zotero.AI4Paper.translateReaderSidePane_showErrorMessage(errorMsg);else mode === "chat" && showUI && window.alert(errorMsg);
       if (throwError) {
         throw new Error(errorMsg.replace('❌', ''));
@@ -2019,7 +2030,7 @@ Object.assign(Zotero.AI4Paper, {
       return false;
     }
     if (Zotero.AI4Paper.gptServiceList()[serviceName].api_verifyResult != "验证成功") {
-      errorMsg = "❌ 尚未验证【" + serviceName + "】API-Key！\n\n请先前往【Zotero 设置 --> AI4paper --> GPT API】验证【" + serviceName + '】API-Key！';
+      errorMsg = "❌ 尚未验证【" + serviceDisplay + "】API-Key！\n\n请先前往【Zotero 设置 --> AI4paper --> GPT API】验证【" + bindDisplay + '】API-Key！';
       if (mode === "translation" && showUI) Zotero.AI4Paper.translateReaderSidePane_showErrorMessage(errorMsg);else mode === 'chat' && showUI && window.alert(errorMsg);
       if (throwError) {
         throw new Error(errorMsg.replace('❌', ''));
@@ -2322,6 +2333,7 @@ Object.assign(Zotero.AI4Paper, {
   'startFetch_ChatMode': async function (iframeWin, apiUrl, apiKey, requestBody, history, questionData, serviceName, errorCodeLink) {
     const chatContainer = iframeWin.document.getElementById("chat-container");
     Zotero.AI4Paper.gptReaderSidePane_ChatMode_onSendUserMessage(iframeWin, chatContainer, questionData);
+    questionData?.["fromPaperAI"] && Zotero.AI4Paper.gptReaderSidePane_updateStatusText("AI 解读：正在请求 " + serviceName + "...", iframeWin);
     if (Zotero.Prefs.get('ai4paper.gptStreamResponse')) {
       Zotero.AI4Paper.gptReaderSidePane_onStreamStart(iframeWin);
       let streamState = {
@@ -2330,7 +2342,8 @@ Object.assign(Zotero.AI4Paper, {
         'html4Refs': '',
         'hasReasoning_content': false,
         'reasoning_contentStart': false,
-        'reasoning_contentEnd': false
+        'reasoning_contentEnd': false,
+        'statusUpdated': false
       };
       var requestOptions = Zotero.AI4Paper.gptReaderSidePane_getRequestOptions(serviceName, apiKey, requestBody);
       fetch(apiUrl, requestOptions).then(response => {
@@ -2353,6 +2366,10 @@ Object.assign(Zotero.AI4Paper, {
             });
             if (!Zotero.AI4Paper.catchStreamError_ChatMode(serviceName, errorCodeLink, iframeWin, history, decodedChunk)) return;
             Zotero.AI4Paper.resolveStreamChunk(decodedChunk, streamState, serviceName);
+            if (questionData?.["fromPaperAI"] && !streamState.statusUpdated) {
+              Zotero.AI4Paper.gptReaderSidePane_updateStatusText("AI 解读：正在接收响应...", iframeWin);
+              streamState.statusUpdated = true;
+            }
             Zotero.AI4Paper.gptReaderSidePane_ChatMode_displayMessageChunk(iframeWin, streamState.target, chatContainer);
             fn22();
           });
@@ -2369,6 +2386,7 @@ Object.assign(Zotero.AI4Paper, {
         });
       }, httpResp => {
         if (Zotero.AI4Paper.runAuthor()) {
+          questionData?.["fromPaperAI"] && Zotero.AI4Paper.gptReaderSidePane_updateStatusText("AI 解读：正在接收响应...", iframeWin);
           let responseText;
           if (serviceName === "Claude") responseText = httpResp.response.content[0x0].text;else serviceName === 'Gemini' ? responseText = httpResp.response.candidates[0x0].content.parts[0x0].text : responseText = httpResp.response.choices[0x0].message.content;
           Zotero.AI4Paper.gptReaderSidePane_ChatMode_onRequestDone(iframeWin, history, responseText, questionData);

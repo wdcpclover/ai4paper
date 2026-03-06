@@ -23,6 +23,19 @@
     "package:codex:1.7": "npm run build && zip -qr ai4paper-codex-1.7.xpi manifest.json bootstrap.js prefs.js chrome locale -x '*.DS_Store'",
     "package:codex:1.8": "npm run build && zip -qr ai4paper-codex-1.8.xpi manifest.json bootstrap.js prefs.js chrome locale -x '*.DS_Store'",
     "package:codex:1.9": "npm run build && zip -qr ai4paper-codex-1.9.xpi manifest.json bootstrap.js prefs.js chrome locale -x '*.DS_Store'",
-    "package:codex:2.0": "npm run build && zip -qr ai4paper-codex-2.0.xpi manifest.json bootstrap.js prefs.js chrome locale -x '*.DS_Store'"
+    "package:codex:2.0": "npm run build && zip -qr ai4paper-codex-2.0.xpi manifest.json bootstrap.js prefs.js chrome locale -x '*.DS_Store'",
+    "package:codex:2.1": "npm run build && zip -qr ai4paper-codex-2.1.xpi manifest.json bootstrap.js prefs.js chrome locale -x '*.DS_Store'",
+    "package:codex:2.2": "npm run build && zip -qr ai4paper-codex-2.2.xpi manifest.json bootstrap.js prefs.js chrome locale -x '*.DS_Store'",
+    "package:codex:2.3": "npm run build && zip -qr ai4paper-codex-2.3.xpi manifest.json bootstrap.js prefs.js chrome locale -x '*.DS_Store'",
+    "package:codex:2.4": "npm run build && zip -qr ai4paper-codex-2.4.xpi manifest.json bootstrap.js prefs.js chrome locale -x '*.DS_Store'",
+    "package:codex:2.5": "npm run build && zip -qr ai4paper-codex-2.5.xpi manifest.json bootstrap.js prefs.js chrome locale -x '*.DS_Store'",
+    "package:codex:2.6": "npm run build && zip -qr ai4paper-codex-2.6.xpi manifest.json bootstrap.js prefs.js chrome locale -x '*.DS_Store'",
+    "package:codex:2.7": "npm run build && zip -qr ai4paper-codex-2.7.xpi manifest.json bootstrap.js prefs.js chrome locale -x '*.DS_Store'",
+    "package:codex:2.8": "npm run build && zip -qr ai4paper-codex-2.8.xpi manifest.json bootstrap.js prefs.js chrome locale -x '*.DS_Store'",
+    "package:codex:2.9": "npm run build && zip -qr ai4paper-codex-2.9.xpi manifest.json bootstrap.js prefs.js chrome locale -x '*.DS_Store'",
+    "package:codex:3.0": "npm run build && zip -qr ai4paper-codex-3.0.xpi manifest.json bootstrap.js prefs.js chrome locale -x '*.DS_Store'",
+    "package:codex:3.1": "npm run build && zip -qr ai4paper-codex-3.1.xpi manifest.json bootstrap.js prefs.js chrome locale -x '*.DS_Store'",
+    "package:codex:3.2": "npm run build && zip -qr ai4paper-codex-3.2.xpi manifest.json bootstrap.js prefs.js chrome locale -x '*.DS_Store'",
+    "package:codex:3.3": "npm run build && zip -qr ai4paper-codex-3.3.xpi manifest.json bootstrap.js prefs.js chrome locale -x '*.DS_Store'"
   }
 }

@@ -192,6 +192,17 @@ Object.assign(Zotero.AI4Paper, {
     if (!paneWindow) return;
     Zotero.Prefs.get('ai4paper.gptContinuesChatMode') ? (window.document.querySelector("#ai4paper-chatgpt-readerSidePane-chatgpt-prompt-template-menulist").selectedIndex = 0x0, Zotero.Prefs.set("ai4paper.chatgptprompttemplate", '无')) : (paneWindow.document.getElementById("ai4paper-chatgpt-readerSidePane-chatgpt-prompt").value = '', paneWindow.document.getElementById('ai4paper-chatgpt-readerSidePane-chatgpt-response').value = '', Zotero.Prefs.set("ai4paper.chatgptprompt", ''), Zotero.Prefs.set("ai4paper.chatgptresponse", ''));
   },
+  'gptReaderSidePane_updateStatusText': function (statusText, paneWindow) {
+    if (!statusText) return;
+    const targetWindow = paneWindow || Zotero.AI4Paper.getIframeWindowBySidePaneType("chatgpt");
+    try {
+      const statusNode = targetWindow?.document?.getElementById("ai4paper-chatgpt-readerSidePane-chatgpt-response-time");
+      statusNode && (statusNode.textContent = statusText);
+    } catch (e) {
+      Zotero.debug(e);
+    }
+    Zotero.Prefs.set("ai4paper.chatgptresponsetime", statusText);
+  },
   'gptReaderSidePane_getFullText': async function (fromMainPane) {
     if (fromMainPane && Zotero_Tabs._selectedID === "zotero-pane") return;
     let paneWindow = null;
@@ -307,6 +318,7 @@ Object.assign(Zotero.AI4Paper, {
       window.alert("请先开启【GPT 侧边栏】！");
       return;
     }
+    Zotero.AI4Paper.gptReaderSidePane_updateStatusText("AI 解读：正在提取全文...", paneWindow);
     let fullText = await Zotero.AI4Paper.getFullText();
     if (fullText && fullText != "notRegularItem") {
       if (Zotero.Prefs.get('ai4paper.gptContinuesChatMode')) {
@@ -320,10 +332,12 @@ Object.assign(Zotero.AI4Paper, {
         Zotero.AI4Paper._notClearChatOnPaperAI = false;
         Zotero.Prefs.get('ai4paper.createAIReadingNoteOnPaperAI') ? paneWindow._fromPaperAI = true : paneWindow._fromPaperAI = false;
         paneWindow._hasFullText = true;
+        Zotero.AI4Paper.gptReaderSidePane_updateStatusText("AI 解读：正在准备请求...", paneWindow);
         Zotero.AI4Paper.gptReaderSidePane_ChatMode_send();
         paneWindow._hasFullText = false;
       }
     } else {
+      Zotero.AI4Paper.gptReaderSidePane_updateStatusText("AI 解读：全文提取失败", paneWindow);
       if (fullText == "notRegularItem") return false;else Services.prompt.alert(window, "❌ 出错啦", "获取 PDF 全文失败！");
     }
   },
