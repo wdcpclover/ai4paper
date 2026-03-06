@@ -235,7 +235,10 @@ methodsBody.clearAllInputBoxes = function () {
 methodsBody.buildContextMenu = function (param26, param27) {
   let menu = Zotero.AI4Paper.DialogUtils.initMenuPopup('richlistitem-contextmenu', param27);
   if (param27 && !menu) return;
+  if (!menu) return;
+  if (!param26 || !param26.target) return menu;
   let tagLabel = param26.target.textContent;
+  if (!tagLabel) return menu;
   Zotero.AI4Paper.DialogUtils.addMenuItem(menu, '拷贝标签', () => {
     Zotero.AI4Paper.copy2Clipboard(tagLabel);
     Zotero.AI4Paper.showProgressWindow(0x7d0, '拷贝标签【Zotero\x20One】', '已拷贝标签【' + tagLabel + '】');

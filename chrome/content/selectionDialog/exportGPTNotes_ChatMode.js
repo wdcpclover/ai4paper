@@ -1,5 +1,9 @@
 var methodsBody = function () {};
 methodsBody.init = async function () {
+  methodsBody.io = window.arguments && window.arguments[0] ? window.arguments[0] : {
+    dataIn: '',
+    dataOut: null
+  };
   Zotero.AI4Paper.update_svg_icons(document);
 
   // 根据 Zotero 版本调整样式
@@ -16,9 +20,8 @@ methodsBody.init = async function () {
   document.addEventListener('dialogcancel', () => methodsBody.cancelSelection());
   document.getElementById('editGPTNotes-description').value = `已选择【${Zotero.AI4Paper._store_selecteGPTMessages.length}】条待导出消息。点击头像旁的编辑按钮，可修改消息内容。`;
   document.getElementById('keep-markdown-style').checked = Zotero.Prefs.get("ai4paper.gptNotesMarkdownStyle");
-  this.io = window.arguments[0];
-  if (this.io.dataIn) {
-    let item_title = this.io.dataIn;
+  if (methodsBody.io.dataIn) {
+    let item_title = methodsBody.io.dataIn;
     document.getElementById('zotero-if-xul-add-chatgpt-note-tag-itemtitle').hidden = false;
     document.getElementById('zotero-if-xul-add-chatgpt-note-tag-itemtitle').value = `👉 ${item_title.substring(0, 50)}...`;
   }
@@ -30,7 +33,7 @@ methodsBody.init = async function () {
 };
 methodsBody.acceptSelection = function () {
   var returnObject = false;
-  this.io.dataOut = new Object();
+  methodsBody.io.dataOut = new Object();
   let check = false;
   let item_title = '';
   let tags = '';
@@ -40,7 +43,7 @@ methodsBody.acceptSelection = function () {
     check = true;
     item_title = document.getElementById("zotero-if-xul-add-chatgpt-note-tag-fixeditems2attach").label;
     tags = document.getElementById("zotero-if-xul-add-chatgpt-note-tag").value;
-    this.io.dataOut = {
+    methodsBody.io.dataOut = {
       check,
       item_title,
       tags,
@@ -51,7 +54,7 @@ methodsBody.acceptSelection = function () {
     check = false;
     item_title = '';
     tags = document.getElementById("zotero-if-xul-add-chatgpt-note-tag").value;
-    this.io.dataOut = {
+    methodsBody.io.dataOut = {
       check,
       item_title,
       tags,
@@ -59,7 +62,7 @@ methodsBody.acceptSelection = function () {
     };
     returnObject = true;
   }
-  if (!returnObject) this.io.dataOut = null;
+  if (!returnObject) methodsBody.io.dataOut = null;
   window.close();
 };
 methodsBody.getEditedMessage = function () {
@@ -126,10 +129,10 @@ methodsBody.copyMessages = function () {
 };
 methodsBody.cancelSelection = function () {
   var returnObject = false;
-  this.io.dataOut = null;
-  this.io.dataOut = 'cancel';
+  methodsBody.io.dataOut = null;
+  methodsBody.io.dataOut = 'cancel';
   returnObject = true;
-  if (!returnObject) this.io.dataOut = null;
+  if (!returnObject) methodsBody.io.dataOut = null;
   window.close();
 };
 methodsBody.checkKeyEnter = function (keys) {

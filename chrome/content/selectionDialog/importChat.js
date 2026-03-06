@@ -1,12 +1,15 @@
 var methodsBody = function () {};
 methodsBody.init = function () {
+  methodsBody.io = window.arguments && window.arguments[0] ? window.arguments[0] : {
+    dataIn: null,
+    dataOut: null
+  };
   Zotero.AI4Paper.update_svg_icons(document);
 
   // 根据 Zotero 版本调整样式
   Zotero.AI4Paper.updateTextAreaBox4ZoteroScheme(window);
   document.addEventListener('dialogaccept', () => methodsBody.acceptSelection());
-  this.io = window.arguments[0];
-  document.title = this.io.dataIn ? "导入外部 AI 对话" : "向对话添加新消息";
+  document.title = methodsBody.io.dataIn ? "导入外部 AI 对话" : "向对话添加新消息";
 
   // 初始化右键菜单
   methodsBody.buildContextMenu_service(true);
@@ -44,7 +47,7 @@ methodsBody.acceptSelection = function () {
   msgArr.push(assistantMessage);
 
   // 返回数据
-  this.io.dataOut = {
+  methodsBody.io.dataOut = {
     msgArr,
     question
   };
@@ -94,16 +97,9 @@ methodsBody.setContextMenu_model = function () {
  * @returns {} 
  */
 methodsBody.buildContextMenu_service = function (isInit) {
-  let popup = document.querySelector("#serviceInputBox-contextmenu");
-  if (!popup) {
-    popup = window.document.createXULElement('menupopup');
-    popup.id = 'serviceInputBox-contextmenu';
-    document.documentElement.appendChild(popup);
-    popup = document.documentElement.lastElementChild.firstElementChild;
-
-    // 初始化创建右键菜单。否则第一次右键不会出现菜单。
-    if (isInit) return;
-  }
+  let popup = Zotero.AI4Paper.DialogUtils.initMenuPopup('serviceInputBox-contextmenu', isInit);
+  if (isInit && !popup) return;
+  if (!popup) return;
   let first = popup.firstElementChild;
   while (first) {
     first.remove();
@@ -112,13 +108,10 @@ methodsBody.buildContextMenu_service = function (isInit) {
   let serviceList = Object.keys(Zotero.AI4Paper.gptServiceList()).filter(e => !e.includes("自定"));
   serviceList = [...serviceList, "Grok"];
   for (let e of serviceList) {
-    let menuitem = document.createXULElement('menuitem');
-    menuitem.label = e;
-    menuitem.value = e;
-    menuitem.addEventListener('command', () => {
+    let menuitem = Zotero.AI4Paper.DialogUtils.addMenuItem(popup, e, () => {
       document.getElementById('inputBox-serviceName').value = e;
     });
-    popup.appendChild(menuitem);
+    menuitem.value = e;
   }
   return popup;
 };
@@ -131,16 +124,9 @@ methodsBody.buildContextMenu_service = function (isInit) {
  * @returns {} 
  */
 methodsBody.buildContextMenu_model = function (isInit) {
-  let popup = document.querySelector("#modelInputBox-contextmenu");
-  if (!popup) {
-    popup = window.document.createXULElement('menupopup');
-    popup.id = 'modelInputBox-contextmenu';
-    document.documentElement.appendChild(popup);
-    popup = document.documentElement.lastElementChild.firstElementChild;
-
-    // 初始化创建右键菜单。否则第一次右键不会出现菜单。
-    if (isInit) return;
-  }
+  let popup = Zotero.AI4Paper.DialogUtils.initMenuPopup('modelInputBox-contextmenu', isInit);
+  if (isInit && !popup) return;
+  if (!popup) return;
   let first = popup.firstElementChild;
   while (first) {
     first.remove();
@@ -148,13 +134,10 @@ methodsBody.buildContextMenu_model = function (isInit) {
   }
   let modelList = Zotero.AI4Paper.gptModelList;
   for (let e of modelList) {
-    let menuitem = document.createXULElement('menuitem');
-    menuitem.label = e;
-    menuitem.value = e;
-    menuitem.addEventListener('command', () => {
+    let menuitem = Zotero.AI4Paper.DialogUtils.addMenuItem(popup, e, () => {
       document.getElementById('inputBox-modelName').value = e;
     });
-    popup.appendChild(menuitem);
+    menuitem.value = e;
   }
   return popup;
 };

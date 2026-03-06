@@ -1,12 +1,14 @@
 var methodsBody = function () {};
 methodsBody.init = function () {
+  methodsBody.io = window.arguments && window.arguments[0] ? window.arguments[0] : {
+    dataIn: null,
+    dataOut: null
+  };
   Zotero.AI4Paper.update_svg_icons(document);
 
   // 根据 Zotero 版本调整样式
   Zotero.AI4Paper.updateTextAreaBox4ZoteroScheme(window);
   document.addEventListener('dialogaccept', () => methodsBody.acceptSelection());
-  this.io = window.arguments[0];
-
   // 注册快捷键
   methodsBody.registerShortcuts();
 
@@ -106,7 +108,10 @@ methodsBody.buildItemNodes = function (listData) {
 methodsBody.buildContextMenu = function (event, isInit) {
   let menu = Zotero.AI4Paper.DialogUtils.initMenuPopup('setCommentTemplate-richlistitem-contextmenu', isInit);
   if (isInit && !menu) return;
-  let itemInfo = event.target.closest('richlistitem')?.querySelector('checkbox').label;
+  if (!menu) return;
+  if (!event || !event.target) return menu;
+  let itemInfo = event.target.closest('richlistitem')?.querySelector('checkbox')?.label;
+  if (!itemInfo) return menu;
   Zotero.AI4Paper.DialogUtils.addMenuItem(menu, "拷贝模板", () => {
     Zotero.AI4Paper.copy2Clipboard(itemInfo);
   });
@@ -159,15 +164,15 @@ methodsBody.singleSelect = function (_checkbox) {
 methodsBody.acceptSelection = function () {
   var listbox = document.getElementById("richlistbox-elem");
   var returnObject = false;
-  this.io.dataOut = null;
+  methodsBody.io.dataOut = null;
   for (var i = 0; i < listbox.childNodes.length; i++) {
     var itemNode = listbox.childNodes[i];
     if (itemNode.firstElementChild.checked) {
-      this.io.dataOut = itemNode.firstElementChild.getAttribute("label");
+      methodsBody.io.dataOut = itemNode.firstElementChild.getAttribute("label");
       returnObject = true;
     }
   }
-  if (!returnObject) this.io.dataOut = null;
+  if (!returnObject) methodsBody.io.dataOut = null;
 };
 methodsBody.updateTemplate = function (isInit) {
   if (isInit) {

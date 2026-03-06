@@ -1,7 +1,10 @@
 var methodsBody = function () {};
 methodsBody.init = function () {
+  methodsBody.io = window.arguments && window.arguments[0] ? window.arguments[0] : {
+    dataIn: null,
+    dataOut: null
+  };
   document.addEventListener('dialogaccept', () => methodsBody.acceptSelection());
-  this.io = window.arguments[0];
   let categories = Zotero.AI4Paper._data_EudicCategories;
   let _radio;
   for (let category of categories) {
@@ -18,7 +21,7 @@ methodsBody.acceptSelection = function () {
   let selected = document.getElementById("category-list").value;
   let index = selected.indexOf('🆔：');
   selected = selected.substring(index + 3);
-  this.io.dataOut = selected;
+  methodsBody.io.dataOut = selected;
   returnObject = true;
-  if (!returnObject) this.io.dataOut = null;
+  if (!returnObject) methodsBody.io.dataOut = null;
 };

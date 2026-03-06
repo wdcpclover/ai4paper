@@ -1,5 +1,9 @@
 var methodsBody = function () {};
 methodsBody.init = async function () {
+  methodsBody.io = window.arguments && window.arguments[0] ? window.arguments[0] : {
+    dataIn: null,
+    dataOut: null
+  };
   Zotero.AI4Paper.update_svg_icons(document);
   document.addEventListener('dialogaccept', () => methodsBody.acceptSelection());
 
@@ -15,7 +19,6 @@ methodsBody.init = async function () {
   }
   // 双击跳转
   document.getElementById("cardNotes-doubleClick-enable").checked = Zotero.Prefs.get('ai4paper.selectTagsDoubleClick');
-  this.io = window.arguments[0];
   let listData;
 
   // 面板记忆
@@ -209,10 +212,10 @@ methodsBody.checkKeyEnter = function (keys) {
 methodsBody.acceptSelection = function () {
   var returnObject = false;
   if (document.getElementById('selectedTags-inputBox-elem').value === '') {
-    this.io.dataOut = null;
+    methodsBody.io.dataOut = null;
     return false;
   } else {
-    this.io.dataOut = document.getElementById('selectedTags-inputBox-elem').value;
+    methodsBody.io.dataOut = document.getElementById('selectedTags-inputBox-elem').value;
     let image = document.getElementById('gptNoteTagType-image');
     if (image.getAttribute("src") === `chrome://ai4paper/content/icons/robot.png`) {
       Zotero.AI4Paper.lastGPTNoteTagsPane = 'gptNoteTagsPane';

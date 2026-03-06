@@ -1,12 +1,14 @@
 var methodsBody = function () {};
 methodsBody.init = async function () {
+  methodsBody.io = window.arguments && window.arguments[0] ? window.arguments[0] : {
+    dataIn: {},
+    dataOut: null
+  };
   Zotero.AI4Paper.update_svg_icons(document);
 
   // 根据 Zotero 版本调整样式
   Zotero.AI4Paper.updateTextAreaBox4ZoteroScheme(window);
   document.addEventListener('dialogaccept', () => methodsBody.acceptSelection());
-  this.io = window.arguments[0];
-
   // const menuPopup = document.getElementById('zotero-if-xul-add-anotation-head-level-popup');
 
   // // 创建新的菜单项
@@ -15,7 +17,7 @@ methodsBody.init = async function () {
   // document.getElementById('zotero-if-xul-add-anotation-head-level').label = Zotero.AI4Paper.defaultHeadLevel;
   document.getElementById('zotero-if-xul-add-anotation-head-level').selectedIndex = Number(Zotero.AI4Paper.defaultHeadLevel.substring(1)) - 1; // 索引从 0 开始
   document.getElementById("zotero-if-xul-add-anotation-head-autoLoad").checked = Zotero.Prefs.get('ai4paper.autoloadhead');
-  let headContent = methodsBody.loadCurrentHead(this.io.dataIn);
+  let headContent = methodsBody.loadCurrentHead(methodsBody.io.dataIn);
   if (headContent) {
     document.getElementById("zotero-if-xul-add-anotation-head-content").value = headContent;
   } else if (Zotero.Prefs.get('ai4paper.autoloadhead')) {
@@ -32,7 +34,7 @@ methodsBody.acceptSelection = function () {
   if (['H1', 'H2', 'H3', 'H4', 'H5', 'H6'].includes(document.getElementById('zotero-if-xul-add-anotation-head-level').label)) {
     Zotero.AI4Paper.defaultHeadLevel = document.getElementById('zotero-if-xul-add-anotation-head-level').label;
   }
-  this.io.dataOut = '';
+  methodsBody.io.dataOut = '';
   let headLevel = 'ZH3';
   if (document.getElementById('zotero-if-xul-add-anotation-head-level').label === 'H1') {
     headLevel = 'ZH1';
@@ -45,7 +47,7 @@ methodsBody.acceptSelection = function () {
   } else if (document.getElementById('zotero-if-xul-add-anotation-head-level').label === 'H6') {
     headLevel = 'ZH6';
   }
-  this.io.dataOut = `<${headLevel}>${document.getElementById("zotero-if-xul-add-anotation-head-content").value}<${headLevel}/>`;
+  methodsBody.io.dataOut = `<${headLevel}>${document.getElementById("zotero-if-xul-add-anotation-head-content").value}<${headLevel}/>`;
   window.close();
 };
 methodsBody.checkKeyEnter = function (keys) {
@@ -58,7 +60,7 @@ methodsBody.checkKeyEnter = function (keys) {
   }
 };
 methodsBody.loadHead = function () {
-  let annotationItem = this.io.dataIn;
+  let annotationItem = methodsBody.io.dataIn;
   if (annotationItem.annotationType === 'highlight') {
     document.getElementById("zotero-if-xul-add-anotation-head-content").value = annotationItem.annotationText;
   } else if (annotationItem.annotationType === 'note') {
@@ -102,7 +104,7 @@ methodsBody.loadCurrentHead = function (annotationItem) {
   return false;
 };
 methodsBody.removeHead = async function () {
-  let annotationItem = this.io.dataIn;
+  let annotationItem = methodsBody.io.dataIn;
   let annotationComment = `${annotationItem.annotationComment}`;
   if (annotationComment.indexOf('<ZH') != -1) {
     let check = false;

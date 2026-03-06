@@ -363,8 +363,39 @@ methodsBody.updateAnnotationNestedTagsData = function () {
   Zotero.Prefs.set("ai4paper.nestedGPTNoteTags", JSON.stringify(var48));
 };
 methodsBody.buildContextMenu = function () {
-  let var56 = document.querySelector("#tags-contextmenu");
-  return !var56 && (document.documentElement.appendChild(MozXULElement.parseXULToFragment("\n              <popupset>\n                <menupopup id=\"tags-contextmenu\" class=\"tags-contextmenu\">\n                  <menuitem label='前往父级标签' oncommand=\"methodsBody.focusParentTag();\"></menuitem>\n                  <menuitem label='前往顶层标签' oncommand=\"methodsBody.focusTopTag();\"></menuitem>\n                  <menu id='showSubTags-menu' label='前往下级父标签' oncommand=\"\"></menu>\n                  <menuseparator></menuseparator>\n                  <menuitem label='拷贝标签' oncommand=\"methodsBody.copyTagName();\"></menuitem>\n                  <menuseparator></menuseparator>\n                  <menuitem label='重命名标签' oncommand=\"methodsBody.renameTag();\"></menuitem>\n                  <menuitem label='删除标签' oncommand=\"methodsBody.deleteTag();\"></menuitem>\n\t\t\t\t  <menuseparator></menuseparator>\n\t\t\t\t  <menuitem label='检索所属文献' oncommand=\"methodsBody.showItemsBasedOnTag();\"></menuitem>\n                  <menuseparator></menuseparator>\n                  <menuitem label='跳转至【导入注释】' oncommand=\"methodsBody.go2ImportAnnotations();\"></menuitem>\n\t\t\t\t  <menuitem label='在【智能文献矩阵】中查询' oncommand=\"methodsBody.queryPapersMatrix();\"></menuitem>\n                  <menuseparator></menuseparator>\n                  <menu label='导出标签树'>\n\t                  <menupopup>\n\t\t                  <menuitem label='导出 Markdown 注释标签树（列表样式）' oncommand=\"methodsBody.exportTagTree('annotationTags', 'list');\"></menuitem>\n\t\t                  <menuitem label='导出 Markdown 图片注释标签树（列表样式）' oncommand=\"methodsBody.exportTagTree('imageAnnotationTags', 'list');\"></menuitem>\n\t\t                  <menuitem label='导出 Markdown 注释标签树（标题样式）' oncommand=\"methodsBody.exportTagTree('annotationTags', 'title');\"></menuitem>\n\t\t                  <menuitem label='导出 Markdown 图片注释标签树（标题样式）' oncommand=\"methodsBody.exportTagTree('imageAnnotationTags', 'title');\"></menuitem>\n\t                  </menupopup>\n                  </menu>\n                </menupopup>\n              </popupset>\n            ")), var56 = document.documentElement.lastElementChild.firstElementChild), var56;
+  let var56 = Zotero.AI4Paper.DialogUtils.initMenuPopup('tags-contextmenu');
+  if (!var56) return;
+  const doc = var56.ownerDocument;
+  Zotero.AI4Paper.DialogUtils.addMenuItem(var56, '前往父级标签', () => methodsBody.focusParentTag());
+  Zotero.AI4Paper.DialogUtils.addMenuItem(var56, '前往顶层标签', () => methodsBody.focusTopTag());
+  let subTagsMenu = doc.createXULElement('menu');
+  subTagsMenu.id = 'showSubTags-menu';
+  subTagsMenu.setAttribute('label', '前往下级父标签');
+  let subTagsPopup = doc.createXULElement('menupopup');
+  subTagsPopup.id = 'showSubTags-menupopup';
+  subTagsMenu.appendChild(subTagsPopup);
+  var56.appendChild(subTagsMenu);
+  Zotero.AI4Paper.DialogUtils.addMenuSeparator(var56);
+  Zotero.AI4Paper.DialogUtils.addMenuItem(var56, '拷贝标签', () => methodsBody.copyTagName());
+  Zotero.AI4Paper.DialogUtils.addMenuSeparator(var56);
+  Zotero.AI4Paper.DialogUtils.addMenuItem(var56, '重命名标签', () => methodsBody.renameTag());
+  Zotero.AI4Paper.DialogUtils.addMenuItem(var56, '删除标签', () => methodsBody.deleteTag());
+  Zotero.AI4Paper.DialogUtils.addMenuSeparator(var56);
+  Zotero.AI4Paper.DialogUtils.addMenuItem(var56, '检索所属文献', () => methodsBody.showItemsBasedOnTag());
+  Zotero.AI4Paper.DialogUtils.addMenuSeparator(var56);
+  Zotero.AI4Paper.DialogUtils.addMenuItem(var56, '跳转至【导入注释】', () => methodsBody.go2ImportAnnotations());
+  Zotero.AI4Paper.DialogUtils.addMenuItem(var56, '在【智能文献矩阵】中查询', () => methodsBody.queryPapersMatrix());
+  Zotero.AI4Paper.DialogUtils.addMenuSeparator(var56);
+  let exportMenu = doc.createXULElement('menu');
+  exportMenu.setAttribute('label', '导出标签树');
+  let exportPopup = doc.createXULElement('menupopup');
+  exportMenu.appendChild(exportPopup);
+  var56.appendChild(exportMenu);
+  Zotero.AI4Paper.DialogUtils.addMenuItem(exportPopup, '导出 Markdown 注释标签树（列表样式）', () => methodsBody.exportTagTree('annotationTags', 'list'));
+  Zotero.AI4Paper.DialogUtils.addMenuItem(exportPopup, '导出 Markdown 图片注释标签树（列表样式）', () => methodsBody.exportTagTree('imageAnnotationTags', 'list'));
+  Zotero.AI4Paper.DialogUtils.addMenuItem(exportPopup, '导出 Markdown 注释标签树（标题样式）', () => methodsBody.exportTagTree('annotationTags', 'title'));
+  Zotero.AI4Paper.DialogUtils.addMenuItem(exportPopup, '导出 Markdown 图片注释标签树（标题样式）', () => methodsBody.exportTagTree('imageAnnotationTags', 'title'));
+  return var56;
 };
 methodsBody.renameTag = async function () {
   let var57 = methodsBody._ContextMenu_selectedTag.fullName,
@@ -956,8 +987,11 @@ methodsBody.initContextMenu_GeneralView = function (param66) {
   Zotero.AI4Paper.DialogUtils.initMenuPopup('richlistitem-contextmenu', true);
 };
 methodsBody.buildContextMenu_GeneralView = function (param67) {
-  let tagLabel = param67.target.closest("richlistitem")?.["querySelector"]("checkbox")['label'];
   let menu = Zotero.AI4Paper.DialogUtils.initMenuPopup('richlistitem-contextmenu');
+  if (!menu) return;
+  if (!param67 || !param67.target) return menu;
+  let tagLabel = param67.target.closest("richlistitem")?.["querySelector"]("checkbox")['label'];
+  if (!tagLabel) return menu;
   Zotero.AI4Paper.DialogUtils.addMenuItem(menu, "拷贝标签", () => {
     Zotero.AI4Paper.copy2Clipboard(tagLabel);
     Zotero.AI4Paper.showProgressWindow(0x7d0, "拷贝标签【AI4paper】", '已拷贝标签【' + tagLabel + '】');

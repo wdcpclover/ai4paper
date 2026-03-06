@@ -656,20 +656,18 @@ var chatHistoryMethods = {
     return var141;
   },
   'buildContextMenu': function (param26, param27) {
-    let var146 = document.querySelector("#chatHistory-contextmenu");
-    if (!var146) {
-      var146 = window.document.createXULElement("menupopup");
-      var146.id = "chatHistory-contextmenu";
-      document.documentElement.appendChild(var146);
-      var146 = document.documentElement.lastElementChild.firstElementChild;
-      if (param27) return;
-    }
+    let var146 = Zotero.AI4Paper.DialogUtils.initMenuPopup('chatHistory-contextmenu', param27);
+    if (param27 && !var146) return;
+    if (!var146) return;
+    if (!param26 || !param26.target) return var146;
     let var147 = var146.firstElementChild;
     while (var147) {
       var147.remove();
       var147 = var146.firstElementChild;
     }
-    let var148 = parseInt(param26.target.closest(".message-list-item").getAttribute("data-id"));
+    let messageItem = param26.target.closest(".message-list-item");
+    if (!messageItem) return var146;
+    let var148 = parseInt(messageItem.getAttribute("data-id"));
     const var149 = [{
       'label': "重命名",
       'action': () => this.renameChat(var148),
@@ -703,31 +701,26 @@ var chatHistoryMethods = {
       'separator': false
     }];
     return var149.forEach(_0x3dc674 => {
-      const var152 = document.createXULElement("menuitem");
+      const var152 = var146.ownerDocument.createXULElement("menuitem");
       var152.setAttribute("label", _0x3dc674.label);
       var152.addEventListener("command", _0x3dc674.action);
       var146.appendChild(var152);
       if (_0x3dc674.separator) {
-        var146.appendChild(document.createXULElement("menuseparator"));
+        var146.appendChild(var146.ownerDocument.createXULElement("menuseparator"));
       }
     }), var146;
   },
   'buildContextMenu_filter': function (param28) {
-    let var153 = document.querySelector("#filterButton-contextmenu");
-    if (!var153) {
-      var153 = window.document.createXULElement("menupopup");
-      var153.id = "filterButton-contextmenu";
-      document.documentElement.appendChild(var153);
-      var153 = document.documentElement.lastElementChild.firstElementChild;
-      if (param28) return;
-    }
+    let var153 = Zotero.AI4Paper.DialogUtils.initMenuPopup('filterButton-contextmenu', param28);
+    if (param28 && !var153) return;
+    if (!var153) return;
     let var154 = var153.firstElementChild;
     while (var154) {
       var154.remove();
       var154 = var153.firstElementChild;
     }
     const var155 = _0x2e1917 => {
-        let var156 = window.document.createXULElement('menuitem');
+        let var156 = var153.ownerDocument.createXULElement('menuitem');
         return var156.label = this._filterModes[_0x2e1917], var156.value = _0x2e1917, var156.addEventListener("command", () => {
           this.setMode_filter(_0x2e1917);
         }), _0x2e1917 === this.getMode_filter() && var156.setAttribute("checked", "true"), var156;
@@ -735,19 +728,14 @@ var chatHistoryMethods = {
       var157 = Object.keys(this._filterModes);
     return var157.forEach((_0x13de77, _0xd034cc) => {
       var153.appendChild(var155(_0x13de77));
-      _0xd034cc < var157.length - 0x1 && var153.appendChild(document.createXULElement("menuseparator"));
+      _0xd034cc < var157.length - 0x1 && var153.appendChild(var153.ownerDocument.createXULElement("menuseparator"));
     }), var153;
   },
   'buildContextMenu_messageBtn_SaveMessages': function (param29) {
     let var158 = "messageBtn_SaveMessages-contextmenu",
-      var159 = document.querySelector('#' + var158);
-    if (!var159) {
-      var159 = window.document.createXULElement("menupopup");
-      var159.id = var158;
-      document.documentElement.appendChild(var159);
-      var159 = document.documentElement.lastElementChild.firstElementChild;
-      if (param29) return;
-    }
+      var159 = Zotero.AI4Paper.DialogUtils.initMenuPopup(var158, param29);
+    if (param29 && !var159) return;
+    if (!var159) return;
     let var160 = var159.firstElementChild;
     while (var160) {
       var160.remove();

@@ -1,8 +1,11 @@
 var methodsBody = function () {};
 methodsBody.init = function () {
+  methodsBody.io = window.arguments && window.arguments[0] ? window.arguments[0] : {
+    dataIn: null,
+    dataOut: null
+  };
   Zotero.AI4Paper.update_svg_icons(document);
   document.addEventListener('dialogaccept', () => methodsBody.acceptSelection());
-  this.io = window.arguments[0];
   let renameTemplate = Zotero.Prefs.get('ai4paper.renameTemplate');
   if (renameTemplate) {
     renameTemplate = renameTemplate.split('\n').filter(item => item != '');
@@ -18,8 +21,8 @@ methodsBody.init = function () {
 };
 methodsBody.acceptSelection = function () {
   var returnObject = false;
-  this.io.dataOut = new Object();
-  this.io.dataOut[0] = document.getElementById("rename-style").value;
+  methodsBody.io.dataOut = new Object();
+  methodsBody.io.dataOut[0] = document.getElementById("rename-style").value;
   returnObject = true;
-  if (!returnObject) this.io.dataOut = null;
+  if (!returnObject) methodsBody.io.dataOut = null;
 };

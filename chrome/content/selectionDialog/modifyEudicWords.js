@@ -1,15 +1,18 @@
 var methodsBody = function () {};
 methodsBody.init = async function () {
+  methodsBody.io = window.arguments && window.arguments[0] ? window.arguments[0] : {
+    dataIn: '',
+    dataOut: null
+  };
   Zotero.AI4Paper.update_svg_icons(document);
 
   // 根据 Zotero 版本调整样式
   Zotero.AI4Paper.updateTextAreaBox4ZoteroScheme(window);
   document.addEventListener('dialogaccept', () => methodsBody.acceptSelection());
-  this.io = window.arguments[0];
 
   // 填充待修改的单词
-  document.getElementById("words-modify-textarea").value = this.io.dataIn;
-  document.getElementById("words-modify-textarea").placeholder = this.io.dataIn;
+  document.getElementById("words-modify-textarea").value = methodsBody.io.dataIn;
+  document.getElementById("words-modify-textarea").placeholder = methodsBody.io.dataIn;
 
   // 显示生词本列表
   methodsBody.showCategoriesList();
@@ -40,7 +43,7 @@ methodsBody.acceptSelection = function () {
     // 记录上一次选择的生词本信息
     Zotero.AI4Paper._data_lastSelectedEudicCategoryInfo = selected;
   }
-  this.io.dataOut = {
+  methodsBody.io.dataOut = {
     words,
     categoryID,
     keepCase

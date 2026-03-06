@@ -527,7 +527,10 @@ methodsBody.buildItemNodes = function (param34, param35, param36) {
 methodsBody.buildContextMenu = function (param38, param39) {
   let menu = Zotero.AI4Paper.DialogUtils.initMenuPopup('filesHistory-richlistitem-contextmenu', param39);
   if (param39 && !menu) return;
+  if (!menu) return;
+  if (!param38 || !param38.target) return menu;
   let itemLabel = param38.target.closest("richlistitem")?.["querySelector"]("checkbox")["label"];
+  if (!itemLabel) return menu;
   Zotero.AI4Paper.DialogUtils.addMenuItem(menu, "打开文献", () => {
     Zotero.AI4Paper.openFilesHistoryItem([itemLabel]);
   });
@@ -540,10 +543,13 @@ methodsBody.buildContextMenu = function (param38, param39) {
 methodsBody.buildContextMenu_workSpaceItem = function (param40, param41) {
   let menu = Zotero.AI4Paper.DialogUtils.initMenuPopup('workSpace-richlistitem-contextmenu', param41);
   if (param41 && !menu) return;
+  if (!menu) return;
+  if (!param40 || !param40.target) return menu;
   let itemLabel = param40.target.closest("richlistitem")?.['querySelector']("checkbox")["label"],
     idIndex = itemLabel.indexOf('🆔'),
     itemKey = itemLabel.substring(idIndex + 0x3),
     workSpaceName = methodsBody.getCurrentWorkSpaceName();
+  if (!itemLabel || idIndex === -1 || !itemKey) return menu;
   Zotero.AI4Paper.DialogUtils.addMenuItem(menu, '置顶', () => { methodsBody.setTopWorkSpaceItem(workSpaceName, itemKey); });
   Zotero.AI4Paper.DialogUtils.addMenuItem(menu, '上移', () => { methodsBody.moveUpWorkSpaceItem(workSpaceName, itemKey); });
   Zotero.AI4Paper.DialogUtils.addMenuItem(menu, '下移', () => { methodsBody.moveDownWorkSpaceItem(workSpaceName, itemKey); });
@@ -569,7 +575,10 @@ methodsBody.buildContextMenu_workSpaceItem = function (param40, param41) {
 methodsBody.buildContextMenu_workSpaceButton = function (param42, param43) {
   let menu = Zotero.AI4Paper.DialogUtils.initMenuPopup('workSpaceButton-contextmenu', param43);
   if (param43 && !menu) return;
+  if (!menu) return;
+  if (!param42 || !param42.target) return menu;
   let wsName = param42.target.getAttribute("label");
+  if (!wsName) return menu;
   Zotero.AI4Paper.DialogUtils.addMenuItem(menu, '置顶工作区', () => { methodsBody.setTopWorkSpace(wsName); });
   Zotero.AI4Paper.DialogUtils.addMenuSeparator(menu);
   Zotero.AI4Paper.DialogUtils.addMenuItem(menu, '左移工作区', () => { methodsBody.moveUpWorkSpace(wsName); });
@@ -596,6 +605,8 @@ methodsBody.buildContextMenu_workSpaceButton = function (param42, param43) {
 methodsBody.buildContextMenu_addItemsButton = function (param44, param45) {
   let menu = Zotero.AI4Paper.DialogUtils.initMenuPopup('addItemsButton-contextmenu', param45);
   if (param45 && !menu) return;
+  if (!menu) return;
+  if (!param44) return menu;
   Zotero.AI4Paper.DialogUtils.addMenuItem(menu, '添加当前标签页文献至工作区', () => { methodsBody.addCurrentTab2WorkSpace(param44); });
   Zotero.AI4Paper.DialogUtils.addMenuItem(menu, "添加所有标签页文献至工作区", () => { methodsBody.addAllTabs2WorkSpace(param44); });
   return menu;

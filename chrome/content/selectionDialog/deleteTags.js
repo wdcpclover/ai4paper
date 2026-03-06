@@ -186,7 +186,10 @@ methodsBody.updateSelectedItemNum = function () {
 methodsBody.buildContextMenu = function (param21, param22) {
   let menu = Zotero.AI4Paper.DialogUtils.initMenuPopup('richlistitem-contextmenu', param22);
   if (param22 && !menu) return;
+  if (!menu) return;
+  if (!param21 || !param21.target) return menu;
   let tagLabel = param21.target.closest("richlistitem")?.["querySelector"]('checkbox')["label"];
+  if (!tagLabel) return menu;
   Zotero.AI4Paper.DialogUtils.addMenuItem(menu, '拷贝标签', () => {
     Zotero.AI4Paper.copy2Clipboard(tagLabel);
     Zotero.AI4Paper.showProgressWindow(0x7d0, '拷贝标签【Zotero\x20One】', "已拷贝标签【" + tagLabel + '】');

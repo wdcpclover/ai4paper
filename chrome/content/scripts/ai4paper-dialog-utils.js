@@ -105,10 +105,9 @@ Object.assign(Zotero.AI4Paper, {
       const doc = this.getDocument();
       let menu = doc.querySelector('#' + menuId);
       if (!menu) {
-        menu = window.document.createXULElement('menupopup');
+        menu = doc.createXULElement('menupopup');
         menu.id = menuId;
         doc.documentElement.appendChild(menu);
-        menu = doc.documentElement.lastElementChild.firstElementChild;
         if (initOnly) return;
       }
       let child = menu.firstElementChild;
@@ -127,7 +126,7 @@ Object.assign(Zotero.AI4Paper, {
      * @returns {Element} 创建的 menuitem 元素
      */
     addMenuItem: function (menu, label, handler) {
-      let item = window.document.createXULElement('menuitem');
+      let item = menu.ownerDocument.createXULElement('menuitem');
       item.setAttribute('label', label);
       item.addEventListener('command', handler);
       menu.appendChild(item);
@@ -140,7 +139,7 @@ Object.assign(Zotero.AI4Paper, {
      * @returns {Element} 创建的 menuseparator 元素
      */
     addMenuSeparator: function (menu) {
-      let sep = window.document.createXULElement('menuseparator');
+      let sep = menu.ownerDocument.createXULElement('menuseparator');
       menu.appendChild(sep);
       return sep;
     },
@@ -157,12 +156,11 @@ Object.assign(Zotero.AI4Paper, {
       const doc = this.getDocument();
       let panel = doc.querySelector('#' + panelId);
       if (!panel) {
-        panel = window.document.createXULElement('panel');
+        panel = doc.createXULElement('panel');
         panel.id = panelId;
         if (opts && opts.width) panel.style.width = opts.width;
         panel.setAttribute('type', 'arrow');
         doc.documentElement.appendChild(panel);
-        panel = doc.documentElement.lastElementChild.firstElementChild;
         if (initOnly) return;
       }
       let child = panel.firstElementChild;
@@ -182,33 +180,34 @@ Object.assign(Zotero.AI4Paper, {
      * @returns {Element} 构建好的 panel
      */
     buildRefsInfoPanel: function (panel, label, callbacks) {
-      let vbox = window.document.createXULElement('vbox');
+      const doc = panel.ownerDocument;
+      let vbox = doc.createXULElement('vbox');
       vbox.style.flex = '1';
       let isDark = Zotero.getMainWindow()?.matchMedia('(prefers-color-scheme: dark)').matches;
 
       // 基本信息标题
-      let infoHeader = window.document.createXULElement('div');
+      let infoHeader = doc.createXULElement('div');
       infoHeader.textContent = '🪪 基本信息';
       infoHeader.style = 'display: flex;justify-content: center;align-items: center;margin-bottom: 12px;border-radius: 5px;background-color: ' + (isDark ? '#3e3c3d' : '#fef1e5') + ';color: #fe6e08;padding: 6px;cursor: pointer;';
       infoHeader.addEventListener('click', () => callbacks.onViewOnline(label));
       vbox.appendChild(infoHeader);
 
       // 基本信息内容
-      let infoDiv = window.document.createXULElement('div');
+      let infoDiv = doc.createXULElement('div');
       infoDiv.id = 'basicInfo_DIV';
       infoDiv.style = 'display: flex;border-radius: 6px;box-shadow: 0 0 1px #8a8a8a;padding: 6px;overflow-y: hidden;overflow-x: hidden;word-wrap: break-word;clear: both;white-space: pre-wrap;-ms-word-break:break-all;';
       infoDiv.addEventListener('dblclick', e => Zotero.AI4Paper.copy2Clipboard(e.target.textContent));
       vbox.appendChild(infoDiv);
 
       // 摘要标题
-      let abstractHeader = window.document.createXULElement('div');
+      let abstractHeader = doc.createXULElement('div');
       abstractHeader.textContent = '🕹️ 摘要';
       abstractHeader.style = 'display: flex;justify-content: center;align-items: center;margin: 12px 0;border-radius: 5px;background-color: ' + (isDark ? '#3e3c3d' : '#e6f8e9') + ';color: #2dac3e;padding: 6px;cursor: pointer;';
       abstractHeader.addEventListener('click', () => callbacks.onViewOnline(label));
       vbox.appendChild(abstractHeader);
 
       // 摘要内容
-      let abstractDiv = window.document.createXULElement('div');
+      let abstractDiv = doc.createXULElement('div');
       abstractDiv.id = 'abstract_DIV';
       abstractDiv.style = 'display: flex;border-radius: 6px;box-shadow: 0 0 1px #8a8a8a;padding: 6px;overflow-y: auto;overflow-x: hidden;word-wrap: break-word;clear: both;white-space: pre-wrap;-ms-word-break:break-all;';
       abstractDiv.textContent = '联网获取摘要中...';
@@ -217,18 +216,18 @@ Object.assign(Zotero.AI4Paper, {
 
       // Connected Papers 按钮（仅当有 DOI 时）
       if (label.includes('🆔')) {
-        let cpDiv = window.document.createXULElement('div');
+        let cpDiv = doc.createXULElement('div');
         cpDiv.id = 'connectedPapers_DIV';
         cpDiv.style = 'display: flex;justify-content: center;align-items: center;margin-top: 12px;border-radius: 5px;background-color: ' + (isDark ? '#3e3c3d' : '#e9f4ff') + ';color: #2c98f7;padding: 5px;cursor: pointer;';
         cpDiv.addEventListener('click', () => {
           let doi = Zotero.AI4Paper.extractDOIFromItemInfo(label);
           Zotero.getMainWindow().ZoteroPane.loadURI('https://connectedpapers.com/api/redirect/doi/' + doi);
         });
-        let iconDiv = window.document.createXULElement('div');
+        let iconDiv = doc.createXULElement('div');
         iconDiv.style = 'cursor: pointer;';
         iconDiv.innerHTML = '<svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" version="1.1"><g><title>Connected Papers</title><g id="svg_6"><g data-name="\u56fe\u5c42_1" id="_\u56fe\u5c42_1"><g id="svg_7"><circle fill="#57a8a9" r="3" cy="12.7" cx="4.9" class="cls-1" id="svg_1"/><circle fill="#57a8a9" r="2.2" cy="2.3" cx="10.8" class="cls-1" id="svg_2"/><circle fill="#57a8a9" r="1.5" cy="9.5" cx="12.7" class="cls-1" id="svg_3"/><rect fill="#57a8a9" transform="rotate(-14 -1.2 3)" height="6.2" width="0.4" y="6.2" x="10.4" class="cls-1" id="svg_4"/><rect fill="#57a8a9" transform="rotate(-60 -2.3 10.6)" height="0.4" width="8.7" y="17.7" x="1.4" class="cls-1" id="svg_5"/></g></g></g></g></svg>';
         cpDiv.appendChild(iconDiv);
-        let cpLabel = window.document.createXULElement('label');
+        let cpLabel = doc.createXULElement('label');
         cpLabel.setAttribute('value', 'Connected Papers');
         cpLabel.style = 'cursor: pointer;';
         cpDiv.appendChild(cpLabel);

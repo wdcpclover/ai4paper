@@ -1,5 +1,9 @@
 var methodsBody = function () {};
 methodsBody.init = function () {
+  methodsBody.io = window.arguments && window.arguments[0] ? window.arguments[0] : {
+    dataIn: [],
+    dataOut: null
+  };
   Zotero.AI4Paper.update_svg_icons(document);
   document.addEventListener('dialogaccept', () => methodsBody.acceptSelection());
 
@@ -14,10 +18,9 @@ methodsBody.init = function () {
     document.getElementById("zotero-selectRelatedItems-intro").textContent = "选择要显示的关联文献";
     document.title = "选择关联文献";
   }
-  this.io = window.arguments[0];
   var listbox = document.getElementById("zotero-selectRelatedItems-links");
-  for (var i in this.io.dataIn) {
-    var item = this.io.dataIn[i];
+  for (var i in methodsBody.io.dataIn) {
+    var item = methodsBody.io.dataIn[i];
     var title,
       checked = false;
     if (item && typeof item == "object" && item.title !== undefined) {
@@ -60,15 +63,15 @@ methodsBody.selectAll = function (deselect) {
 methodsBody.acceptSelection = function () {
   var listbox = document.getElementById("zotero-selectRelatedItems-links");
   var returnObject = false;
-  this.io.dataOut = new Object();
+  methodsBody.io.dataOut = new Object();
   for (var i = 0; i < listbox.childNodes.length; i++) {
     var itemNode = listbox.childNodes[i];
     if (itemNode.querySelector('checkbox').checked) {
-      this.io.dataOut[itemNode.getAttribute("value")] = itemNode.querySelector('checkbox').getAttribute("label");
+      methodsBody.io.dataOut[itemNode.getAttribute("value")] = itemNode.querySelector('checkbox').getAttribute("label");
       returnObject = true;
     }
   }
-  if (!returnObject) this.io.dataOut = null;
+  if (!returnObject) methodsBody.io.dataOut = null;
 };
 
 /**

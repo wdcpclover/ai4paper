@@ -60,7 +60,10 @@ methodsBody.buildItemNodes = function (param3, param4, param5) {
 methodsBody.buildContextMenu = function (param6, param7, param8) {
   let menu = Zotero.AI4Paper.DialogUtils.initMenuPopup('favoriteCollections-richlistitem-contextmenu', param7);
   if (param7 && !menu) return;
+  if (!menu) return;
+  if (!param6 || !param6.target) return menu;
   let collectionKey = param6.target.closest("richlistitem")?.['querySelector']("checkbox")["collectionKey"];
+  if (!collectionKey) return menu;
   Zotero.AI4Paper.DialogUtils.addMenuItem(menu, '置顶', () => {
     methodsBody.moveItem(param8, collectionKey, "setTopFavoriteCollection");
   });

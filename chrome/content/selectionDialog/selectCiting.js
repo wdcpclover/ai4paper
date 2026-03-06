@@ -1,18 +1,28 @@
 var methodsBody = function () {};
 methodsBody.init = function () {
+  methodsBody.io = window.arguments && window.arguments[0x0] ? window.arguments[0x0] : {
+    dataIn: {
+      data: [],
+      item: {}
+    },
+    dataOut: null
+  };
   Zotero.AI4Paper.update_svg_icons(document);
   document.addEventListener('dialogaccept', () => methodsBody.acceptSelection());
   Zotero.AI4Paper.lastCitingSearchInput && (document.getElementById('search-inputBox').placeholder = Zotero.AI4Paper.lastCitingSearchInput);
   methodsBody.buildContextMenu(null, true);
   document.getElementById('search-inputBox').focus();
   methodsBody.updatePrefs(true);
-  this.io = window.arguments[0x0];
-  document.getElementById("zotero-selectCiting-intro").textContent = '选择要导入的施引文献：0/' + this.io.dataIn.data.length;
-  methodsBody.buildItemNodes(this.io.dataIn.data);
+  document.getElementById("zotero-selectCiting-intro").textContent = '选择要导入的施引文献：0/' + methodsBody.io.dataIn.data.length;
+  methodsBody.buildItemNodes(methodsBody.io.dataIn.data);
 };
 methodsBody.buildItemNodes = function (param1) {
   let var1 = methodsBody.io.dataIn.item;
-  Zotero.AI4Paper._isDuplicatedArray = JSON.parse(var1._CitingReferences_isDuplicated);
+  try {
+    Zotero.AI4Paper._isDuplicatedArray = JSON.parse(var1._CitingReferences_isDuplicated || '[]');
+  } catch (e) {
+    Zotero.AI4Paper._isDuplicatedArray = [];
+  }
   var var2 = document.getElementById("richlistbox-elem");
   for (var var3 in param1) {
     var var4 = param1[var3];
@@ -40,7 +50,7 @@ methodsBody.buildItemNodes = function (param1) {
     var10.style.marginLeft = "5px";
     var10.style.transition = "transform 0.125s ease";
     var10.innerHTML = Zotero.AI4Paper.svg_icon_16px.document;
-    var1._hasCitingRefsCache && Zotero.AI4Paper._isDuplicatedArray[var3]._isDuplicated === true && (var10.setAttribute("tooltiptext", "点击显示"), var10.innerHTML = Zotero.AI4Paper.svg_icon_16px.document_active, var10.setAttribute('_itemID', Zotero.AI4Paper._isDuplicatedArray[var3]._itemID), var10.addEventListener("mouseover", () => {
+    var1._hasCitingRefsCache && Zotero.AI4Paper._isDuplicatedArray[var3] && Zotero.AI4Paper._isDuplicatedArray[var3]._isDuplicated === true && (var10.setAttribute("tooltiptext", "点击显示"), var10.innerHTML = Zotero.AI4Paper.svg_icon_16px.document_active, var10.setAttribute('_itemID', Zotero.AI4Paper._isDuplicatedArray[var3]._itemID), var10.addEventListener("mouseover", () => {
       var10.style.transform = "scale(1.15)";
     }), var10.addEventListener('mouseout', () => {
       var10.style.transform = "scale(1)";
@@ -78,8 +88,13 @@ methodsBody.buildItemNodes = function (param1) {
 methodsBody.updateDuplicate = async function () {
   let var15 = methodsBody.io.dataIn.item;
   var var16 = document.getElementById("richlistbox-elem");
-  let var17 = var15._CitingReferences_DOI.split("🍋🎈🍋"),
-    var18 = JSON.parse(var15._CitingReferences_isDuplicated);
+  let var17 = (var15._CitingReferences_DOI || '').split("🍋🎈🍋").filter(Boolean),
+    var18;
+  try {
+    var18 = JSON.parse(var15._CitingReferences_isDuplicated || '[]');
+  } catch (e) {
+    var18 = [];
+  }
   for (let var19 = 0x0; var19 < var16.childNodes.length; var19++) {
     let var20 = var16.childNodes[var19].querySelector(".document-icon");
     if (var17[var19] != "DOI-null") {
@@ -102,17 +117,17 @@ methodsBody.showInMyLibrary = function (param2) {
 };
 methodsBody.selectAll = function (param3) {
   let skipped = Zotero.AI4Paper.DialogUtils.selectAll('richlistbox-elem', param3, { skipHidden: true });
-  param3 ? document.getElementById("zotero-selectCiting-intro").textContent = "选择要导入的施引文献：0/" + this.io.dataIn.data.length : document.getElementById("zotero-selectCiting-intro").textContent = "选择要导入的施引文献：" + (this.io.dataIn.data.length - skipped) + '/' + this.io.dataIn.data.length;
+  param3 ? document.getElementById("zotero-selectCiting-intro").textContent = "选择要导入的施引文献：0/" + methodsBody.io.dataIn.data.length : document.getElementById("zotero-selectCiting-intro").textContent = "选择要导入的施引文献：" + (methodsBody.io.dataIn.data.length - skipped) + '/' + methodsBody.io.dataIn.data.length;
 };
 methodsBody.acceptSelection = function () {
   let items = Zotero.AI4Paper.DialogUtils.getCheckedItems('richlistbox-elem');
   if (items.length) {
-    this.io.dataOut = new Object();
+    methodsBody.io.dataOut = new Object();
     for (let item of items) {
-      this.io.dataOut[item.value] = item.label;
+      methodsBody.io.dataOut[item.value] = item.label;
     }
   } else {
-    this.io.dataOut = null;
+    methodsBody.io.dataOut = null;
   }
 };
 methodsBody.checkKeyEnter = function (param4) {
@@ -127,7 +142,7 @@ methodsBody.updatePrefs = function (param5) {
 methodsBody.handleCheckboxChange = function (param6) {
   var var41 = param6.checked;
   let var42 = document.getElementById('zotero-selectCiting-intro').textContent;
-  if (var42 === "选择要导入的施引文献：0/" + this.io.dataIn.data.length) var41 && (document.getElementById('zotero-selectCiting-intro').textContent = "选择要导入的施引文献：1/" + this.io.dataIn.data.length);else {
+  if (var42 === "选择要导入的施引文献：0/" + methodsBody.io.dataIn.data.length) var41 && (document.getElementById('zotero-selectCiting-intro').textContent = "选择要导入的施引文献：1/" + methodsBody.io.dataIn.data.length);else {
     if (var41) {
       let var43 = var42.indexOf("选择要导入的施引文献："),
         var44 = var42.substring(var43 + 0xb);
@@ -139,7 +154,7 @@ methodsBody.handleCheckboxChange = function (param6) {
       var var45 = Number(var47.split('/')[0x0]);
       var45 = var45 - 0x1;
     }
-    document.getElementById("zotero-selectCiting-intro").textContent = "选择要导入的施引文献：" + var45 + '/' + this.io.dataIn.data.length;
+    document.getElementById("zotero-selectCiting-intro").textContent = "选择要导入的施引文献：" + var45 + '/' + methodsBody.io.dataIn.data.length;
   }
 };
 methodsBody.onIFLimitChange = function () {
@@ -182,7 +197,12 @@ methodsBody.buildContextMenu = function (param7, param8) {
   let panel = Zotero.AI4Paper.DialogUtils.initContextPanel('richlistitem-contextpanel', { width: '500px' }, param8);
   if (param8 && !panel) return;
   if (!panel) return;
-  let label = param7.target.closest('richlistitem')?.querySelector('checkbox').label;
+  if (!param7 || !param7.target) return panel;
+  let item = param7.target.closest('richlistitem');
+  if (!item) return panel;
+  let checkbox = item.querySelector('checkbox');
+  let label = checkbox && checkbox.label;
+  if (!label) return panel;
   return Zotero.AI4Paper.DialogUtils.buildRefsInfoPanel(panel, label, {
     onViewOnline: methodsBody.viewOnline
   });

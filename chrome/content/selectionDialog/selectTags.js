@@ -1,5 +1,9 @@
 var methodsBody = function () {};
 methodsBody.init = async function () {
+  methodsBody.io = window.arguments && window.arguments[0x0] ? window.arguments[0x0] : {
+    dataIn: false,
+    dataOut: null
+  };
   Zotero.AI4Paper.update_svg_icons(document);
   document.addEventListener("dialogaccept", () => methodsBody.acceptSelection());
   Zotero.AI4Paper.setFontSize_Dialog(document.querySelector("dialog"), 0.92);
@@ -11,8 +15,7 @@ methodsBody.init = async function () {
   document.getElementById('cardNotes-doubleClick-enable').checked = Zotero.Prefs.get("ai4paper.selectTagsDoubleClick");
   document.getElementById('imageCardNote-Search-First').checked = Zotero.Prefs.get("ai4paper.imageCardNoteSearchFirst");
   methodsBody.initContextMenu();
-  this.io = window.arguments[0x0];
-  methodsBody._is4AnnotationTags = this.io.dataIn;
+  methodsBody._is4AnnotationTags = methodsBody.io.dataIn;
   methodsBody.hiddenElements();
   let var1,
     var2 = Zotero.AI4Paper.lastTagsSelectPane;
@@ -152,8 +155,8 @@ methodsBody.checkKeyEnter = function (param21) {
 };
 methodsBody.acceptSelection = function () {
   var var30 = false;
-  if (document.getElementById("selectedTags-inputBox-elem").value === '') return this.io.dataOut = null, false;else {
-    this.io.dataOut = document.getElementById("selectedTags-inputBox-elem").value;
+  if (document.getElementById("selectedTags-inputBox-elem").value === '') return methodsBody.io.dataOut = null, false;else {
+    methodsBody.io.dataOut = document.getElementById("selectedTags-inputBox-elem").value;
     let var31 = document.getElementById('annotationTagType-image');
     if (var31.getAttribute("src") === 'chrome://ai4paper/content/icons/annotationTag.png') Zotero.AI4Paper.lastTagsSelectPane = "annotationTagsPane";else {
       if (var31.getAttribute("src") === "chrome://ai4paper/content/icons/imageAnnotationTag.png") Zotero.AI4Paper.lastTagsSelectPane = "imageAnnotationTagsPane";else {
