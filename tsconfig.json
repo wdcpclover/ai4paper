@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "none",
+    "rootDir": "src",
+    "outDir": "chrome/content/scripts",
+    "strict": true,
+    "noEmitOnError": true,
+    "skipLibCheck": true,
+    "removeComments": false
+  },
+  "include": [
+    "src/**/*.ts"
+  ]
+}

@@ -224,11 +224,30 @@ Object.assign(Zotero.AI4Paper, {
     let doi = item.getField('DOI');
     if (doi === '') return window.alert("当前文献缺失 DOI 信息！"), -0x1;
     var refsInfoList = [],
-      dupStatusList = [];
+      dupStatusList = [],
+      shouldRefetch = false;
     if (item._references_info) {
-      refsInfoList = item._references_info.split("🍋🎈🍋");
+      refsInfoList = item._references_info.split("🍋🎈🍋").filter(Boolean);
       item._hasRefsCache = true;
+      if (!refsInfoList.length || !item._references_DOI) {
+        shouldRefetch = true;
+      }
+      if (!shouldRefetch) {
+        if (!item._references_DOI) {
+          item._references_DOI = refsInfoList.map(info => info.includes('🆔') ? Zotero.AI4Paper.extractDOIFromItemInfo(info) : 'DOI-null').join('🍋🎈🍋');
+        }
+        if (!item._references_isDuplicated) {
+          dupStatusList = refsInfoList.map(() => ({
+            '_isDuplicated': false,
+            '_itemID': -0x1
+          }));
+          item._references_isDuplicated = JSON.stringify(dupStatusList);
+        }
+      }
     } else {
+      shouldRefetch = true;
+    }
+    if (shouldRefetch) {
       item._hasRefsCache = false;
       let progressWin = Zotero.AI4Paper.createProgressWindow("【AI4paper】抓取参考文献", "正在抓取参考文献...请稍等", 'refs');
       await Zotero.AI4Paper.fetchRefsFromCrossref(item);
@@ -270,41 +289,58 @@ Object.assign(Zotero.AI4Paper, {
     const doi = item.getField('DOI');
     if (!doi) return -0x1;
     const encodedDOI = encodeURIComponent(doi);
-    let responseData = null;
-    if (responseData === null) {
-      const cslFormat = "vnd.citationstyles.csl+json",
-        transformPath = "transform/application/" + cslFormat,
-        apiUrl = "https://api.crossref.org/works/" + encodedDOI + '/' + transformPath;
-      responseData = await fetch(apiUrl).then(r => r.json())["catch"](e => null);
-    }
-    if (responseData === null) {
-      const doiUrl = "https://doi.org/" + encodedDOI,
-        cslFormat = 'vnd.citationstyles.csl+json';
-      responseData = await fetch(doiUrl, {
-        'headers': {
-          'Accept': "application/" + cslFormat
-        }
-      }).then(r => r.json())["catch"](e => null);
-    }
-    if (responseData === null) return -0x1;
+    let references = null;
     try {
-      for (i = 0x0; i < responseData.reference.length; i++) {
-        let year = responseData.reference[i].year;
+      let response = await Zotero.HTTP.request("GET", "https://api.crossref.org/works/" + encodedDOI, {
+        'headers': {
+          'Content-Type': "application/json",
+          'mailto': "iseexuhs@gmail.com"
+        },
+        'responseType': "json"
+      });
+      references = response?.['response']?.["message"]?.["reference"];
+    } catch (e) {}
+    if (!Array.isArray(references) || references.length === 0x0) {
+      let responseData = null;
+      if (responseData === null) {
+        const cslFormat = "vnd.citationstyles.csl+json",
+          transformPath = "transform/application/" + cslFormat,
+          apiUrl = "https://api.crossref.org/works/" + encodedDOI + '/' + transformPath;
+        responseData = await fetch(apiUrl).then(r => r.json())["catch"](e => null);
+      }
+      if (responseData === null) {
+        const doiUrl = "https://doi.org/" + encodedDOI,
+          cslFormat = 'vnd.citationstyles.csl+json';
+        responseData = await fetch(doiUrl, {
+          'headers': {
+            'Accept': "application/" + cslFormat
+          }
+        }).then(r => r.json())["catch"](e => null);
+      }
+      if (responseData && Array.isArray(responseData.reference)) {
+        references = responseData.reference;
+      }
+    }
+    if (!Array.isArray(references) || references.length === 0x0) return -0x1;
+    try {
+      for (let i = 0x0; i < references.length; i++) {
+        let ref = references[i] || {},
+          year = ref.year,
+          author = ref.author || ref["first-author"],
+          title = ref["article-title"] || ref["volume-title"] || ref["series-title"] || ref.unstructured,
+          journal = ref["journal-title"] || ref["container-title"] || '',
+          volume = ref.volume,
+          issue = ref.issue,
+          firstPage = ref["first-page"] || ref.page,
+          refDOI = ref.DOI || ref.doi;
         item._citedRef_year.push(year ? year + ',\x20' : '');
-        let author = responseData.reference[i].author;
         item._citedRef_author.push(author ? author + '.\x20' : '');
-        let title = responseData.reference[i]["article-title"];
         item._citedRef_title.push(title ? title : "Title-null");
-        let journal = responseData.reference[i]["journal-title"];
         item._citedRef_journal.push(journal ? journal : '');
-        let volume = responseData.reference[i].volume;
         item._citedRef_volume.push(volume ? volume : '');
-        let issue = responseData.reference[i].issue;
         item._citedRef_issue.push(issue ? '(' + issue + ')' : '');
-        let firstPage = responseData.reference[i]["first-page"];
         item._citedRef_page.push(firstPage ? ':\x20' + firstPage + '.' : '');
-        let refDOI = responseData.reference[i].DOI;
-        item._citedRef_DOI.push(refDOI ? refDOI.replace(/\‐/g, '-') : 'DOI-null');
+        item._citedRef_DOI.push(refDOI ? refDOI.replace(/\‐/g, '-').trim() : 'DOI-null');
       }
     } catch (e) {}
   },

@@ -550,27 +550,9 @@ Object.assign(Zotero.AI4Paper, {
     }
   },
   'checkColorExcluded': async function (annotation) {
-    let excludedColor = '';
-    if (Zotero.Prefs.get('ai4paper.autoannotationscolorexcluded') === '黄色' || Zotero.Prefs.get("ai4paper.autoannotationscolorexcluded") === "黄色（高亮）") {
-      excludedColor = '#ffd400';
-    } else {
-      if (Zotero.Prefs.get("ai4paper.autoannotationscolorexcluded") === '红色' || Zotero.Prefs.get('ai4paper.autoannotationscolorexcluded') === "红色（高亮）") excludedColor = "#ff6666";else {
-        if (Zotero.Prefs.get("ai4paper.autoannotationscolorexcluded") === '绿色' || Zotero.Prefs.get("ai4paper.autoannotationscolorexcluded") === '绿色（高亮）') excludedColor = "#5fb236";else {
-          if (Zotero.Prefs.get("ai4paper.autoannotationscolorexcluded") === '蓝色' || Zotero.Prefs.get("ai4paper.autoannotationscolorexcluded") === "蓝色（高亮）") excludedColor = "#2ea8e5";else {
-            if (Zotero.Prefs.get("ai4paper.autoannotationscolorexcluded") === '紫色' || Zotero.Prefs.get('ai4paper.autoannotationscolorexcluded') === "紫色（高亮）") excludedColor = '#a28ae5';else {
-              if (Zotero.Prefs.get("ai4paper.autoannotationscolorexcluded") === "洋红色" || Zotero.Prefs.get('ai4paper.autoannotationscolorexcluded') === "洋红色（高亮）") excludedColor = '#e56eee';else {
-                if (Zotero.Prefs.get("ai4paper.autoannotationscolorexcluded") === '橘色' || Zotero.Prefs.get("ai4paper.autoannotationscolorexcluded") === "橘色（高亮）") excludedColor = "#f19837";else {
-                  if (Zotero.Prefs.get("ai4paper.autoannotationscolorexcluded") === '灰色' || Zotero.Prefs.get('ai4paper.autoannotationscolorexcluded') === "灰色（高亮）") excludedColor = "#aaaaaa";else {
-                    if (Zotero.Prefs.get("ai4paper.autoannotationscolorexcluded") === '无') {
-                      return true;
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
+    let excludedSetting = AI4PaperCore.getPref("autoannotationscolorexcluded");
+    if (AI4PaperCore.getExcludedAnnotationRule(excludedSetting).disabled) {
+      return true;
     }
     var parentItem = annotation.parentItem.parentItem;
     let attachmentIDs = parentItem.getAttachments();
@@ -580,7 +562,7 @@ Object.assign(Zotero.AI4Paper, {
         if (attachment.attachmentLinkMode === 0x3) continue;
         var annotations = await attachment.getAnnotations().filter(a => a.annotationType != "ink");
         if (annotations.length) for (let ann of annotations) {
-          if (ann.annotationColor != excludedColor) return true;
+          if (!AI4PaperCore.isExcludedAnnotation(ann, excludedSetting)) return true;
         }
       }
     }

@@ -5,111 +5,9 @@ Object.assign(Zotero.AI4Paper, {
 
   // === Block A+B: Item Annotations + Blockquote + Head ===
   'getItemAnnotations': async function (item) {
-    let lineHeight = '紧凑型';
-    if (Zotero.Prefs.get("ai4paper.autoannotationsnotelineheight") === "宽松型") {
-      lineHeight = "宽松型";
-    } else {
-      lineHeight = "紧凑型";
-    }
-    let vocabColor = '';
-    if (Zotero.Prefs.get("ai4paper.annotationcolorselect") === '紫色') {
-      vocabColor = "#a28ae5";
-    } else {
-      if (Zotero.Prefs.get("ai4paper.annotationcolorselect") === '黄色') vocabColor = "#ffd400";else {
-        if (Zotero.Prefs.get("ai4paper.annotationcolorselect") === '红色') vocabColor = '#ff6666';else {
-          if (Zotero.Prefs.get("ai4paper.annotationcolorselect") === '绿色') {
-            vocabColor = "#5fb236";
-          } else {
-            if (Zotero.Prefs.get("ai4paper.annotationcolorselect") === '蓝色') {
-              vocabColor = '#2ea8e5';
-            } else {
-              if (Zotero.Prefs.get('ai4paper.annotationcolorselect') === "洋红色") vocabColor = "#e56eee";else {
-                if (Zotero.Prefs.get("ai4paper.annotationcolorselect") === '橘色') vocabColor = "#f19837";else Zotero.Prefs.get("ai4paper.annotationcolorselect") === '灰色' && (vocabColor = "#aaaaaa");
-              }
-            }
-          }
-        }
-      }
-    }
-    let excludedColor = '',
-      excludedType = '';
-    if (['黄色', "黄色（高亮）", "黄色（下划线与文本）"].includes(Zotero.Prefs.get("ai4paper.autoannotationscolorexcluded"))) {
-      excludedColor = "#ffd400";
-      if (!['黄色（下划线与文本）'].includes(Zotero.Prefs.get("ai4paper.autoannotationscolorexcluded"))) excludedType = 'highlight';
-    } else {
-      if (['红色', "红色（高亮）", "红色（下划线与文本）"].includes(Zotero.Prefs.get("ai4paper.autoannotationscolorexcluded"))) {
-        excludedColor = "#ff6666";
-        if (!["红色（下划线与文本）"].includes(Zotero.Prefs.get('ai4paper.autoannotationscolorexcluded'))) excludedType = "highlight";
-      } else {
-        if (['绿色', "绿色（高亮）", "绿色（下划线与文本）"].includes(Zotero.Prefs.get("ai4paper.autoannotationscolorexcluded"))) {
-          excludedColor = "#5fb236";
-          if (!["绿色（下划线与文本）"].includes(Zotero.Prefs.get("ai4paper.autoannotationscolorexcluded"))) excludedType = 'highlight';
-        } else {
-          if (['蓝色', "蓝色（高亮）", "蓝色（下划线与文本）"].includes(Zotero.Prefs.get("ai4paper.autoannotationscolorexcluded"))) {
-            excludedColor = "#2ea8e5";
-            if (!["蓝色（下划线与文本）"].includes(Zotero.Prefs.get('ai4paper.autoannotationscolorexcluded'))) excludedType = "highlight";
-          } else {
-            if (['紫色', '紫色（高亮）', '紫色（下划线与文本）'].includes(Zotero.Prefs.get('ai4paper.autoannotationscolorexcluded'))) {
-              excludedColor = '#a28ae5';
-              if (!["紫色（下划线与文本）"].includes(Zotero.Prefs.get("ai4paper.autoannotationscolorexcluded"))) excludedType = "highlight";
-            } else {
-              if (["洋红色", "洋红色（高亮）", "洋红色（下划线与文本）"].includes(Zotero.Prefs.get('ai4paper.autoannotationscolorexcluded'))) {
-                excludedColor = "#e56eee";
-                if (!["洋红色（下划线与文本）"].includes(Zotero.Prefs.get("ai4paper.autoannotationscolorexcluded"))) excludedType = "highlight";
-              } else {
-                if (['橘色', "橘色（高亮）", '橘色（下划线与文本）'].includes(Zotero.Prefs.get('ai4paper.autoannotationscolorexcluded'))) {
-                  excludedColor = '#f19837';
-                  if (!['橘色（下划线与文本）'].includes(Zotero.Prefs.get("ai4paper.autoannotationscolorexcluded"))) excludedType = "highlight";
-                } else {
-                  if (['灰色', "灰色（高亮）", "灰色（下划线与文本）"].includes(Zotero.Prefs.get('ai4paper.autoannotationscolorexcluded'))) {
-                    excludedColor = "#aaaaaa";
-                    if (!["灰色（下划线与文本）"].includes(Zotero.Prefs.get("ai4paper.autoannotationscolorexcluded"))) excludedType = 'highlight';
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-    if (Zotero.Prefs.get("ai4paper.autoannotationscolorexcluded") === "黄色（下划线）") {
-      excludedColor = "#ffd400";
-      excludedType = 'underline';
-    } else {
-      if (Zotero.Prefs.get('ai4paper.autoannotationscolorexcluded') === "红色（下划线）") {
-        excludedColor = '#ff6666';
-        excludedType = 'underline';
-      } else {
-        if (Zotero.Prefs.get('ai4paper.autoannotationscolorexcluded') === "绿色（下划线）") {
-          excludedColor = '#5fb236';
-          excludedType = "underline";
-        } else {
-          if (Zotero.Prefs.get("ai4paper.autoannotationscolorexcluded") === "蓝色（下划线）") {
-            excludedColor = "#2ea8e5";
-            excludedType = "underline";
-          } else {
-            if (Zotero.Prefs.get("ai4paper.autoannotationscolorexcluded") === "紫色（下划线）") {
-              excludedColor = '#a28ae5';
-              excludedType = "underline";
-            } else {
-              if (Zotero.Prefs.get("ai4paper.autoannotationscolorexcluded") === "洋红色（下划线）") {
-                excludedColor = "#e56eee";
-                excludedType = 'underline';
-              } else {
-                if (Zotero.Prefs.get("ai4paper.autoannotationscolorexcluded") === "橘色（下划线）") {
-                  excludedColor = "#f19837";
-                  excludedType = "underline";
-                } else Zotero.Prefs.get('ai4paper.autoannotationscolorexcluded') === '灰色（下划线）' && (excludedColor = "#aaaaaa", excludedType = "underline");
-              }
-            }
-          }
-        }
-      }
-    }
-    let imageWidth = "500px";
-    if (Zotero.Prefs.get("ai4paper.autoannotationsnoteimagewidth") === "600px") imageWidth = '600px';else {
-      if (Zotero.Prefs.get('ai4paper.autoannotationsnoteimagewidth') === "700px") imageWidth = "700px";else Zotero.Prefs.get("ai4paper.autoannotationsnoteimagewidth") === "800px" && (imageWidth = '800px');
-    }
+    let lineHeight = AI4PaperCore.getNoteLineHeight();
+    let vocabColor = AI4PaperCore.getSelectedVocabularyColor();
+    let imageWidth = AI4PaperCore.getNoteImageWidth();
     let annotationNotes = [],
       vocabularyNotes = [],
       attachmentIDs = item.getAttachments();
@@ -150,7 +48,7 @@ Object.assign(Zotero.AI4Paper, {
         if (annotations.length) {
           for (let annotation of annotations) {
             let dateSpan = 'WBAWSPANswoMT\x20style=\x22font-size:12px;\x20color:\x20#bdbdbd\x22>' + Zotero.AI4Paper.convertAnnotationDate(annotation.dateAdded) + 'WBAWSSPANswoMT';
-            if (!Zotero.Prefs.get('ai4paper.vocabularybookdisable') && annotation.annotationColor === vocabColor && annotation.annotationType === "highlight") {
+            if (!Zotero.Prefs.get('ai4paper.vocabularybookdisable') && AI4PaperCore.isVocabularyAnnotation(annotation)) {
               let vocabTags = annotation.getTags();
               tagsList = [];
               tagsStr = '';
@@ -172,7 +70,7 @@ Object.assign(Zotero.AI4Paper, {
               let vocabBlockHtml = "<blockquote>WBAWSPANswoMT class=\"vocabulary\" style=\"background-color: " + annotation.annotationColor + '\x22>' + annotation.annotationText + "WBAWSSPANswoMT" + (annotation.annotationComment != null ? '<br>' + vocabComment + vocabLinkHtml : vocabLinkHtml) + (tagsStr != '' ? "<br>🏷️ " + tagsStr : '') + (Zotero.Prefs.get("ai4paper.generateCardNoteDate") ? "<br>" + dateSpan : '') + "</blockquote>";
               vocabBlocks.push(vocabBlockHtml);
             }
-            if (!Zotero.Prefs.get('ai4paper.vocabularybookdisable') && annotation.annotationColor === vocabColor && annotation.annotationType === "highlight" || annotation.annotationColor === excludedColor && annotation.annotationType === excludedType || Zotero.Prefs.get("ai4paper.autoannotationscolorexcluded") === "全部颜色（下划线）" && annotation.annotationType === "underline" || Zotero.Prefs.get("ai4paper.autoannotationscolorexcluded") === '全部颜色（文本）' && annotation.annotationType === "text" || Zotero.Prefs.get('ai4paper.autoannotationscolorexcluded') === "全部颜色（下划线与文本）" && (annotation.annotationType === 'underline' || annotation.annotationType === "text") || annotation.annotationColor === excludedColor && (annotation.annotationType === 'underline' || annotation.annotationType === "text")) continue;else {
+            if (AI4PaperCore.shouldSkipAutoAnnotation(annotation)) continue;else {
               let annTags = annotation.getTags();
               tagsList = [];
               tagsStr = '';
@@ -1845,42 +1743,7 @@ Object.assign(Zotero.AI4Paper, {
     return false;
   },
   'autoAddNoteFromAnnotations': async function (triggerAnnotation) {
-    let noteLineHeight = "紧凑型";
-    Zotero.Prefs.get("ai4paper.autoannotationsnotelineheight") === "宽松型" ? noteLineHeight = "宽松型" : noteLineHeight = "紧凑型";
-    let noteVocabColor = '';
-    if (Zotero.Prefs.get("ai4paper.annotationcolorselect") === '紫色') {
-      noteVocabColor = "#a28ae5";
-    } else {
-      if (Zotero.Prefs.get("ai4paper.annotationcolorselect") === '黄色') noteVocabColor = "#ffd400";else {
-        if (Zotero.Prefs.get("ai4paper.annotationcolorselect") === '红色') noteVocabColor = "#ff6666";else {
-          if (Zotero.Prefs.get("ai4paper.annotationcolorselect") === '绿色') noteVocabColor = "#5fb236";else {
-            if (Zotero.Prefs.get('ai4paper.annotationcolorselect') === '蓝色') noteVocabColor = "#2ea8e5";else {
-              if (Zotero.Prefs.get("ai4paper.annotationcolorselect") === "洋红色") noteVocabColor = "#e56eee";else {
-                if (Zotero.Prefs.get("ai4paper.annotationcolorselect") === '橘色') noteVocabColor = "#f19837";else Zotero.Prefs.get("ai4paper.annotationcolorselect") === '灰色' && (noteVocabColor = "#aaaaaa");
-              }
-            }
-          }
-        }
-      }
-    }
-    let noteExcludedColor = '';
-    if (Zotero.Prefs.get("ai4paper.autoannotationscolorexcluded") === '黄色') noteExcludedColor = "#ffd400";else {
-      if (Zotero.Prefs.get("ai4paper.autoannotationscolorexcluded") === '红色') {
-        noteExcludedColor = '#ff6666';
-      } else {
-        if (Zotero.Prefs.get("ai4paper.autoannotationscolorexcluded") === '绿色') {
-          noteExcludedColor = "#5fb236";
-        } else {
-          if (Zotero.Prefs.get("ai4paper.autoannotationscolorexcluded") === '蓝色') noteExcludedColor = '#2ea8e5';else {
-            if (Zotero.Prefs.get('ai4paper.autoannotationscolorexcluded') === '紫色') noteExcludedColor = '#a28ae5';else {
-              if (Zotero.Prefs.get("ai4paper.autoannotationscolorexcluded") === '洋红色') noteExcludedColor = "#e56eee";else {
-                if (Zotero.Prefs.get("ai4paper.autoannotationscolorexcluded") === '橘色') noteExcludedColor = "#f19837";else Zotero.Prefs.get("ai4paper.autoannotationscolorexcluded") === '灰色' && (noteExcludedColor = "#aaaaaa");
-              }
-            }
-          }
-        }
-      }
-    }
+    let noteLineHeight = AI4PaperCore.getNoteLineHeight();
     let noteBlocks = [],
       noteTagsList = [],
       noteTagsStr = '',
@@ -1910,7 +1773,7 @@ Object.assign(Zotero.AI4Paper, {
       var noteAnnotations = await noteAttachment.getAnnotations().filter(noteFilterAnn => noteFilterAnn.annotationType != "ink");
       if (noteAnnotations.length) {
         for (let noteAnn of noteAnnotations) {
-          if (!Zotero.Prefs.get("ai4paper.vocabularybookdisable") && noteAnn.annotationColor === noteVocabColor && noteAnn.annotationType === "highlight" || noteAnn.annotationColor === noteExcludedColor && noteAnn.annotationType === "highlight") {
+          if (AI4PaperCore.shouldSkipAutoAnnotation(noteAnn)) {
             continue;
           } else {
             let noteAnnTags = noteAnn.getTags();
@@ -2014,40 +1877,7 @@ Object.assign(Zotero.AI4Paper, {
     }
   },
   'autoAddNoteFromAnnotationsForModifyListener': async function (modAnnotation) {
-    let modLineHeight = "紧凑型";
-    if (Zotero.Prefs.get("ai4paper.autoannotationsnotelineheight") === "宽松型") {
-      modLineHeight = "宽松型";
-    } else modLineHeight = "紧凑型";
-    let modVocabColor = '';
-    if (Zotero.Prefs.get('ai4paper.annotationcolorselect') === '紫色') modVocabColor = '#a28ae5';else {
-      if (Zotero.Prefs.get("ai4paper.annotationcolorselect") === '黄色') modVocabColor = '#ffd400';else {
-        if (Zotero.Prefs.get("ai4paper.annotationcolorselect") === '红色') {
-          modVocabColor = "#ff6666";
-        } else {
-          if (Zotero.Prefs.get("ai4paper.annotationcolorselect") === '绿色') modVocabColor = "#5fb236";else {
-            if (Zotero.Prefs.get("ai4paper.annotationcolorselect") === '蓝色') modVocabColor = "#2ea8e5";else {
-              if (Zotero.Prefs.get("ai4paper.annotationcolorselect") === "洋红色") modVocabColor = "#e56eee";else {
-                if (Zotero.Prefs.get("ai4paper.annotationcolorselect") === '橘色') modVocabColor = "#f19837";else Zotero.Prefs.get("ai4paper.annotationcolorselect") === '灰色' && (modVocabColor = "#aaaaaa");
-              }
-            }
-          }
-        }
-      }
-    }
-    let modExcludedColor = '';
-    if (Zotero.Prefs.get("ai4paper.autoannotationscolorexcluded") === '黄色') modExcludedColor = '#ffd400';else {
-      if (Zotero.Prefs.get("ai4paper.autoannotationscolorexcluded") === '红色') modExcludedColor = "#ff6666";else {
-        if (Zotero.Prefs.get("ai4paper.autoannotationscolorexcluded") === '绿色') modExcludedColor = "#5fb236";else {
-          if (Zotero.Prefs.get("ai4paper.autoannotationscolorexcluded") === '蓝色') modExcludedColor = "#2ea8e5";else {
-            if (Zotero.Prefs.get("ai4paper.autoannotationscolorexcluded") === '紫色') modExcludedColor = "#a28ae5";else {
-              if (Zotero.Prefs.get("ai4paper.autoannotationscolorexcluded") === "洋红色") modExcludedColor = "#e56eee";else {
-                if (Zotero.Prefs.get('ai4paper.autoannotationscolorexcluded') === '橘色') modExcludedColor = "#f19837";else Zotero.Prefs.get("ai4paper.autoannotationscolorexcluded") === '灰色' && (modExcludedColor = "#aaaaaa");
-              }
-            }
-          }
-        }
-      }
-    }
+    let modLineHeight = AI4PaperCore.getNoteLineHeight();
     let modBlocks = [],
       modTagsList = [],
       modTagsStr = '',
@@ -2074,7 +1904,7 @@ Object.assign(Zotero.AI4Paper, {
     if (["application/pdf", "text/html", 'application/epub+zip'].includes(modAttachment.attachmentContentType)) {
       var modAnnotations = await modAttachment.getAnnotations().filter(modFilterAnn => modFilterAnn.annotationType != 'ink');
       if (modAnnotations.length) for (let modAnn of modAnnotations) {
-        if (!Zotero.Prefs.get("ai4paper.vocabularybookdisable") && modAnn.annotationColor === modVocabColor && modAnn.annotationType === "highlight" || modAnn.annotationColor === modExcludedColor && modAnn.annotationType === "highlight") continue;else {
+        if (AI4PaperCore.shouldSkipAutoAnnotation(modAnn)) continue;else {
           let modAnnTags = modAnn.getTags();
           modTagsList = [];
           modTagsStr = '';
@@ -2161,38 +1991,7 @@ Object.assign(Zotero.AI4Paper, {
     }
   },
   'autoAddNoteFromAnnotationsForDeleteListener': async function () {
-    let delLineHeight = "紧凑型";
-    Zotero.Prefs.get("ai4paper.autoannotationsnotelineheight") === '宽松型' ? delLineHeight = "宽松型" : delLineHeight = "紧凑型";
-    let delVocabColor = '';
-    if (Zotero.Prefs.get("ai4paper.annotationcolorselect") === '紫色') delVocabColor = "#a28ae5";else {
-      if (Zotero.Prefs.get("ai4paper.annotationcolorselect") === '黄色') {
-        delVocabColor = "#ffd400";
-      } else {
-        if (Zotero.Prefs.get("ai4paper.annotationcolorselect") === '红色') delVocabColor = "#ff6666";else {
-          if (Zotero.Prefs.get("ai4paper.annotationcolorselect") === '绿色') delVocabColor = "#5fb236";else {
-            if (Zotero.Prefs.get("ai4paper.annotationcolorselect") === '蓝色') delVocabColor = '#2ea8e5';else {
-              if (Zotero.Prefs.get("ai4paper.annotationcolorselect") === "洋红色") delVocabColor = "#e56eee";else {
-                if (Zotero.Prefs.get("ai4paper.annotationcolorselect") === '橘色') delVocabColor = "#f19837";else Zotero.Prefs.get('ai4paper.annotationcolorselect') === '灰色' && (delVocabColor = "#aaaaaa");
-              }
-            }
-          }
-        }
-      }
-    }
-    let delExcludedColor = '';
-    if (Zotero.Prefs.get("ai4paper.autoannotationscolorexcluded") === '黄色') delExcludedColor = '#ffd400';else {
-      if (Zotero.Prefs.get("ai4paper.autoannotationscolorexcluded") === '红色') delExcludedColor = "#ff6666";else {
-        if (Zotero.Prefs.get('ai4paper.autoannotationscolorexcluded') === '绿色') delExcludedColor = "#5fb236";else {
-          if (Zotero.Prefs.get("ai4paper.autoannotationscolorexcluded") === '蓝色') delExcludedColor = "#2ea8e5";else {
-            if (Zotero.Prefs.get('ai4paper.autoannotationscolorexcluded') === '紫色') delExcludedColor = "#a28ae5";else {
-              if (Zotero.Prefs.get('ai4paper.autoannotationscolorexcluded') === "洋红色") delExcludedColor = "#e56eee";else {
-                if (Zotero.Prefs.get("ai4paper.autoannotationscolorexcluded") === '橘色') delExcludedColor = "#f19837";else Zotero.Prefs.get("ai4paper.autoannotationscolorexcluded") === '灰色' && (delExcludedColor = "#aaaaaa");
-              }
-            }
-          }
-        }
-      }
-    }
+    let delLineHeight = AI4PaperCore.getNoteLineHeight();
     let delBlocks = [],
       delTagsList = [],
       delTagsStr = '',
@@ -2231,7 +2030,7 @@ Object.assign(Zotero.AI4Paper, {
         return await Zotero.AI4Paper.deleteNoteWhenZeroAnnotation(delIdentifier), true;
       }
       if (delAnnotations.length) for (let delAnn of delAnnotations) {
-        if (!Zotero.Prefs.get('ai4paper.vocabularybookdisable') && delAnn.annotationColor === delVocabColor && delAnn.annotationType === "highlight" || delAnn.annotationColor === delExcludedColor && delAnn.annotationType === "highlight") continue;else {
+        if (AI4PaperCore.shouldSkipAutoAnnotation(delAnn)) continue;else {
           let delAnnTags = delAnn.getTags();
           delTagsList = [];
           delTagsStr = '';

@@ -184,52 +184,12 @@ Zotero.AI4Paper = {
         let newItem = Zotero.Items.get(ids)[0x0],
           vocabHandled = 0x0;
         newItem.isAnnotation() && (await Zotero.AI4Paper.addAnnotationButtonInit(newItem), Zotero.Prefs.get("ai4paper.autoreadingtag") && (await Zotero.AI4Paper.addReadingTag(newItem)), Zotero.Prefs.get("ai4paper.defineColorLabelAutoAddTag") && (await Zotero.AI4Paper.addAnnotationTagBasedOnColorLabel(newItem)));
-        Zotero.Prefs.get("ai4paper.obsidianautoupdatenotes") && Zotero.AI4Paper.getFunMetaTitle() && newItem.isAnnotation() && (await Zotero.AI4Paper.updateObsidianNote(newItem), await Zotero.AI4Paper.dataviewCardnotes(), await Zotero.AI4Paper.dataviewStatistics(), await Zotero.AI4Paper.generatePapersMatrix());
-        if (!Zotero.Prefs.get('ai4paper.vocabularybookdisable') && Zotero.AI4Paper.letDOI()) {
-          if (newItem.isAnnotation()) {
-            if (newItem.annotationType === "highlight" && newItem.annotationColor === '#a28ae5' && Zotero.Prefs.get("ai4paper.annotationcolorselect") === '紫色') {
-              await Zotero.AI4Paper.addVocabulary(newItem, newItem.annotationText);
-              vocabHandled = 0x1;
-              Zotero.Prefs.get("ai4paper.obsidianautoupdatenotes") && (await Zotero.AI4Paper.updateObsidianNote(newItem));
-            } else {
-              if (newItem.annotationType === 'highlight' && newItem.annotationColor === '#ffd400' && Zotero.Prefs.get("ai4paper.annotationcolorselect") === '黄色') {
-                await Zotero.AI4Paper.addVocabulary(newItem, newItem.annotationText);
-                vocabHandled = 0x1;
-                Zotero.Prefs.get("ai4paper.obsidianautoupdatenotes") && (await Zotero.AI4Paper.updateObsidianNote(newItem));
-              } else {
-                if (newItem.annotationType === "highlight" && newItem.annotationColor === "#ff6666" && Zotero.Prefs.get("ai4paper.annotationcolorselect") === '红色') {
-                  await Zotero.AI4Paper.addVocabulary(newItem, newItem.annotationText);
-                  vocabHandled = 0x1;
-                  Zotero.Prefs.get("ai4paper.obsidianautoupdatenotes") && (await Zotero.AI4Paper.updateObsidianNote(newItem));
-                } else {
-                  if (newItem.annotationType === "highlight" && newItem.annotationColor === "#5fb236" && Zotero.Prefs.get("ai4paper.annotationcolorselect") === '绿色') {
-                    await Zotero.AI4Paper.addVocabulary(newItem, newItem.annotationText);
-                    vocabHandled = 0x1;
-                    Zotero.Prefs.get("ai4paper.obsidianautoupdatenotes") && (await Zotero.AI4Paper.updateObsidianNote(newItem));
-                  } else {
-                    if (newItem.annotationType === "highlight" && newItem.annotationColor === "#2ea8e5" && Zotero.Prefs.get("ai4paper.annotationcolorselect") === '蓝色') {
-                      await Zotero.AI4Paper.addVocabulary(newItem, newItem.annotationText);
-                      vocabHandled = 0x1;
-                      Zotero.Prefs.get("ai4paper.obsidianautoupdatenotes") && (await Zotero.AI4Paper.updateObsidianNote(newItem));
-                    } else {
-                      if (newItem.annotationType === "highlight" && newItem.annotationColor === "#e56eee" && Zotero.Prefs.get("ai4paper.annotationcolorselect") === "洋红色") {
-                        await Zotero.AI4Paper.addVocabulary(newItem, newItem.annotationText);
-                        vocabHandled = 0x1;
-                        if (Zotero.Prefs.get('ai4paper.obsidianautoupdatenotes')) {
-                          await Zotero.AI4Paper.updateObsidianNote(newItem);
-                        }
-                      } else {
-                        if (newItem.annotationType === "highlight" && newItem.annotationColor === '#f19837' && Zotero.Prefs.get('ai4paper.annotationcolorselect') === '橘色') {
-                          await Zotero.AI4Paper.addVocabulary(newItem, newItem.annotationText);
-                          vocabHandled = 0x1;
-                          Zotero.Prefs.get("ai4paper.obsidianautoupdatenotes") && (await Zotero.AI4Paper.updateObsidianNote(newItem));
-                        } else newItem.annotationType === "highlight" && newItem.annotationColor === '#aaaaaa' && Zotero.Prefs.get("ai4paper.annotationcolorselect") === '灰色' && (await Zotero.AI4Paper.addVocabulary(newItem, newItem.annotationText), vocabHandled = 0x1, Zotero.Prefs.get('ai4paper.obsidianautoupdatenotes') && (await Zotero.AI4Paper.updateObsidianNote(newItem)));
-                      }
-                    }
-                  }
-                }
-              }
-            }
+        AI4PaperCore.getPref(AI4PaperPrefs.KEYS.obsidianAutoUpdateNotes) && Zotero.AI4Paper.getFunMetaTitle() && newItem.isAnnotation() && (await Zotero.AI4Paper.updateObsidianNote(newItem), await Zotero.AI4Paper.dataviewCardnotes(), await Zotero.AI4Paper.dataviewStatistics(), await Zotero.AI4Paper.generatePapersMatrix());
+        if (!AI4PaperCore.getPref(AI4PaperPrefs.KEYS.vocabularyBookDisable) && Zotero.AI4Paper.letDOI()) {
+          if (newItem.isAnnotation() && AI4PaperCore.isVocabularyAnnotation(newItem)) {
+            await Zotero.AI4Paper.addVocabulary(newItem, newItem.annotationText);
+            vocabHandled = 0x1;
+            AI4PaperCore.getPref(AI4PaperPrefs.KEYS.obsidianAutoUpdateNotes) && (await Zotero.AI4Paper.updateObsidianNote(newItem));
           }
         }
         Zotero.Prefs.get('ai4paper.translateannotationtext') && newItem.isAnnotation() && (newItem.annotationType === "highlight" || newItem.annotationType === "underline") && !vocabHandled && (await Zotero.AI4Paper.annotationTextTrans(newItem, "auto"));
@@ -239,44 +199,30 @@ Zotero.AI4Paper = {
             await Zotero.AI4Paper.onAnnotationImage(newItem, newItem.key);
           }
         }
-        if (Zotero.Prefs.get("ai4paper.autoannotationsnote") && Zotero.AI4Paper.getFunMetaTitle()) {
+        if (AI4PaperCore.getPref(AI4PaperPrefs.KEYS.autoAnnotationsNote) && Zotero.AI4Paper.getFunMetaTitle()) {
           newItem.isAnnotation() && !vocabHandled && (await Zotero.AI4Paper.autoAddNoteFromAnnotations(newItem));
         }
       }
       if (event == 'modify' && type == "item") {
         let modifiedItem = Zotero.Items.get(ids)[0x0];
-        if (Zotero.Prefs.get("ai4paper.obsidianautoupdatenotes")) {
+        if (AI4PaperCore.getPref(AI4PaperPrefs.KEYS.obsidianAutoUpdateNotes)) {
           modifiedItem.isAnnotation() && (await Zotero.AI4Paper.updateObsidianNote(modifiedItem));
           await Zotero.AI4Paper.itemsModification2OB(Zotero.Items.get(ids).filter(itm => itm.isRegularItem()));
         }
         Zotero.Prefs.get('ai4paper.enableannotationsvgVisitUniversalQuoteLink') && modifiedItem.isAnnotation() && (await Zotero.AI4Paper.updateUniversalQuoteLink(modifiedItem));
-        Zotero.Prefs.get('ai4paper.autoannotationsnote') && modifiedItem.isAnnotation() && (await Zotero.AI4Paper.autoAddNoteFromAnnotationsForModifyListener(modifiedItem));
-        if (!Zotero.Prefs.get("ai4paper.vocabularybookdisable")) {
-          if (modifiedItem.isAnnotation()) {
-            if (modifiedItem.annotationType === "highlight" && modifiedItem.annotationColor === "#a28ae5" && Zotero.Prefs.get('ai4paper.annotationcolorselect') === '紫色') await Zotero.AI4Paper.modifyVocabularyNote(modifiedItem, modifiedItem.key);else {
-              if (modifiedItem.annotationType === 'highlight' && modifiedItem.annotationColor === '#ffd400' && Zotero.Prefs.get("ai4paper.annotationcolorselect") === '黄色') await Zotero.AI4Paper.modifyVocabularyNote(modifiedItem, modifiedItem.key);else {
-                if (modifiedItem.annotationType === "highlight" && modifiedItem.annotationColor === '#ff6666' && Zotero.Prefs.get('ai4paper.annotationcolorselect') === '红色') await Zotero.AI4Paper.modifyVocabularyNote(modifiedItem, modifiedItem.key);else {
-                  if (modifiedItem.annotationType === "highlight" && modifiedItem.annotationColor === '#5fb236' && Zotero.Prefs.get("ai4paper.annotationcolorselect") === '绿色') await Zotero.AI4Paper.modifyVocabularyNote(modifiedItem, modifiedItem.key);else {
-                    if (modifiedItem.annotationType === "highlight" && modifiedItem.annotationColor === '#2ea8e5' && Zotero.Prefs.get("ai4paper.annotationcolorselect") === '蓝色') await Zotero.AI4Paper.modifyVocabularyNote(modifiedItem, modifiedItem.key);else {
-                      if (modifiedItem.annotationType === 'highlight' && modifiedItem.annotationColor === "#e56eee" && Zotero.Prefs.get('ai4paper.annotationcolorselect') === '洋红色') await Zotero.AI4Paper.modifyVocabularyNote(modifiedItem, modifiedItem.key);else {
-                        if (modifiedItem.annotationType === 'highlight' && modifiedItem.annotationColor === "#f19837" && Zotero.Prefs.get('ai4paper.annotationcolorselect') === '橘色') {
-                          await Zotero.AI4Paper.modifyVocabularyNote(modifiedItem, modifiedItem.key);
-                        } else modifiedItem.annotationType === "highlight" && modifiedItem.annotationColor === '#aaaaaa' && Zotero.Prefs.get('ai4paper.annotationcolorselect') === '灰色' && (await Zotero.AI4Paper.modifyVocabularyNote(modifiedItem, modifiedItem.key));
-                      }
-                    }
-                  }
-                }
-              }
-            }
+        AI4PaperCore.getPref(AI4PaperPrefs.KEYS.autoAnnotationsNote) && modifiedItem.isAnnotation() && (await Zotero.AI4Paper.autoAddNoteFromAnnotationsForModifyListener(modifiedItem));
+        if (!AI4PaperCore.getPref(AI4PaperPrefs.KEYS.vocabularyBookDisable)) {
+          if (modifiedItem.isAnnotation() && AI4PaperCore.isVocabularyAnnotation(modifiedItem)) {
+            await Zotero.AI4Paper.modifyVocabularyNote(modifiedItem, modifiedItem.key);
           }
         }
       }
       if (event == "delete" && type == "item") {
         let selectedTabID = Zotero_Tabs._selectedID,
           activeReader = Zotero.Reader.getByTabID(selectedTabID);
-        !Zotero.Prefs.get("ai4paper.vocabularybookdisable") && activeReader && (await Zotero.AI4Paper.removeVocabularyfromNote(extraData[ids[0x0]].key));
-        Zotero.Prefs.get("ai4paper.autoannotationsnote") && activeReader && (await Zotero.AI4Paper.autoAddNoteFromAnnotationsForDeleteListener());
-        Zotero.Prefs.get("ai4paper.obsidianautoupdatenotes") && activeReader && (await Zotero.AI4Paper.updateObsidianNoteForDeleteListener());
+        !AI4PaperCore.getPref(AI4PaperPrefs.KEYS.vocabularyBookDisable) && activeReader && (await Zotero.AI4Paper.removeVocabularyfromNote(extraData[ids[0x0]].key));
+        AI4PaperCore.getPref(AI4PaperPrefs.KEYS.autoAnnotationsNote) && activeReader && (await Zotero.AI4Paper.autoAddNoteFromAnnotationsForDeleteListener());
+        AI4PaperCore.getPref(AI4PaperPrefs.KEYS.obsidianAutoUpdateNotes) && activeReader && (await Zotero.AI4Paper.updateObsidianNoteForDeleteListener());
       }
       if (event == "add" && type == "item-tag") {
         let itemID = ids[0x0].split('-').map(n => parseInt(n))[0x0],

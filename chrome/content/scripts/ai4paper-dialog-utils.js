@@ -6,6 +6,22 @@
  */
 Object.assign(Zotero.AI4Paper, {
   DialogUtils: {
+    getWindow: function () {
+      try {
+        if (typeof Services !== 'undefined') {
+          let activeWindow = Services.focus && Services.focus.activeWindow;
+          if (activeWindow && activeWindow.document) return activeWindow;
+          let dialogWindow = Services.wm && (Services.wm.getMostRecentWindow('zoteroone-windowType-selectRefs')
+            || Services.wm.getMostRecentWindow('zoteroone-windowType-selectCiting')
+            || Services.wm.getMostRecentWindow(null));
+          if (dialogWindow && dialogWindow.document) return dialogWindow;
+        }
+      } catch (e) {}
+      return window;
+    },
+    getDocument: function () {
+      return this.getWindow().document;
+    },
 
     // ==================== Phase 1: Richlistbox 列表操作 ====================
 
@@ -14,9 +30,11 @@ Object.assign(Zotero.AI4Paper, {
      * @param {Element|string} listboxOrId - richlistbox 元素或其 ID
      */
     clearListbox: function (listboxOrId) {
+      const doc = this.getDocument();
       let listbox = typeof listboxOrId === 'string'
-        ? document.getElementById(listboxOrId)
+        ? doc.getElementById(listboxOrId)
         : listboxOrId;
+      if (!listbox) return;
       let first = listbox.firstElementChild;
       while (first) {
         first.remove();
@@ -30,9 +48,11 @@ Object.assign(Zotero.AI4Paper, {
      * @returns {Array<{value: string, label: string}>} 已勾选项数组
      */
     getCheckedItems: function (listboxOrId) {
+      const doc = this.getDocument();
       let listbox = typeof listboxOrId === 'string'
-        ? document.getElementById(listboxOrId)
+        ? doc.getElementById(listboxOrId)
         : listboxOrId;
+      if (!listbox) return [];
       let result = [];
       for (let i = 0; i < listbox.childNodes.length; i++) {
         let node = listbox.childNodes[i];
@@ -56,9 +76,11 @@ Object.assign(Zotero.AI4Paper, {
      * @returns {number} 被跳过的隐藏项数量
      */
     selectAll: function (listboxOrId, deselect, opts) {
+      const doc = this.getDocument();
       let listbox = typeof listboxOrId === 'string'
-        ? document.getElementById(listboxOrId)
+        ? doc.getElementById(listboxOrId)
         : listboxOrId;
+      if (!listbox) return 0;
       let skipped = 0;
       for (let i = 0; i < listbox.childNodes.length; i++) {
         let node = listbox.childNodes[i];
@@ -80,12 +102,13 @@ Object.assign(Zotero.AI4Paper, {
      * @returns {Element|undefined} menupopup 元素，initOnly 时可能返回 undefined
      */
     initMenuPopup: function (menuId, initOnly) {
-      let menu = document.querySelector('#' + menuId);
+      const doc = this.getDocument();
+      let menu = doc.querySelector('#' + menuId);
       if (!menu) {
         menu = window.document.createXULElement('menupopup');
         menu.id = menuId;
-        document.documentElement.appendChild(menu);
-        menu = document.documentElement.lastElementChild.firstElementChild;
+        doc.documentElement.appendChild(menu);
+        menu = doc.documentElement.lastElementChild.firstElementChild;
         if (initOnly) return;
       }
       let child = menu.firstElementChild;
@@ -117,7 +140,7 @@ Object.assign(Zotero.AI4Paper, {
      * @returns {Element} 创建的 menuseparator 元素
      */
     addMenuSeparator: function (menu) {
-      let sep = document.createXULElement('menuseparator');
+      let sep = window.document.createXULElement('menuseparator');
       menu.appendChild(sep);
       return sep;
     },
@@ -131,14 +154,15 @@ Object.assign(Zotero.AI4Paper, {
      * @returns {Element|undefined} panel 元素
      */
     initContextPanel: function (panelId, opts, initOnly) {
-      let panel = document.querySelector('#' + panelId);
+      const doc = this.getDocument();
+      let panel = doc.querySelector('#' + panelId);
       if (!panel) {
         panel = window.document.createXULElement('panel');
         panel.id = panelId;
         if (opts && opts.width) panel.style.width = opts.width;
         panel.setAttribute('type', 'arrow');
-        document.documentElement.appendChild(panel);
-        panel = document.documentElement.lastElementChild.firstElementChild;
+        doc.documentElement.appendChild(panel);
+        panel = doc.documentElement.lastElementChild.firstElementChild;
         if (initOnly) return;
       }
       let child = panel.firstElementChild;
@@ -291,9 +315,11 @@ Object.assign(Zotero.AI4Paper, {
      * @returns {number|false} 搜索到的条数，或 false 表示空搜索
      */
     searchRichlistbox: function (listboxId, searchBoxId, opts) {
-      let listbox = document.getElementById(listboxId),
-        searchBox = document.getElementById(searchBoxId),
-        text = searchBox.value.trim();
+      const doc = this.getDocument();
+      let listbox = doc.getElementById(listboxId),
+        searchBox = doc.getElementById(searchBoxId);
+      if (!listbox || !searchBox) return false;
+      let text = searchBox.value.trim();
       if (text === '' && searchBox.placeholder === '') {
         opts.showAll && opts.showAll();
         return false;
@@ -304,7 +330,10 @@ Object.assign(Zotero.AI4Paper, {
       }
       Zotero.AI4Paper[opts.lastSearchKey] = text;
       text = text.toLowerCase();
-      if (opts.backButtonId) document.getElementById(opts.backButtonId).style.display = '';
+      if (opts.backButtonId) {
+        let backButton = doc.getElementById(opts.backButtonId);
+        backButton && (backButton.style.display = '');
+      }
       let count = 0;
       for (let i = 0; i < listbox.childNodes.length; i++) {
         let node = listbox.childNodes[i];
@@ -317,8 +346,11 @@ Object.assign(Zotero.AI4Paper, {
         }
       }
       if (opts.searchResultId) {
-        document.getElementById(opts.searchResultId).style.display = '';
-        document.getElementById(opts.searchResultId).textContent = '【' + text + '】搜索：查询到【' + count + '】篇文献';
+        let searchResult = doc.getElementById(opts.searchResultId);
+        if (searchResult) {
+          searchResult.style.display = '';
+          searchResult.textContent = '【' + text + '】搜索：查询到【' + count + '】篇文献';
+        }
       }
       return count;
     },
@@ -331,9 +363,17 @@ Object.assign(Zotero.AI4Paper, {
      * @param {string} opts.searchResultId - 搜索结果显示元素 ID
      */
     showAllRichlistboxItems: function (listboxId, opts) {
-      if (opts.backButtonId) document.getElementById(opts.backButtonId).style.display = 'none';
-      let listbox = document.getElementById(listboxId);
-      if (opts.searchResultId) document.getElementById(opts.searchResultId).style.display = 'none';
+      const doc = this.getDocument();
+      if (opts.backButtonId) {
+        let backButton = doc.getElementById(opts.backButtonId);
+        backButton && (backButton.style.display = 'none');
+      }
+      let listbox = doc.getElementById(listboxId);
+      if (!listbox) return;
+      if (opts.searchResultId) {
+        let searchResult = doc.getElementById(opts.searchResultId);
+        searchResult && (searchResult.style.display = 'none');
+      }
       for (let i = 0; i < listbox.childNodes.length; i++) {
         listbox.childNodes[i].style.display = '';
       }
@@ -345,7 +385,8 @@ Object.assign(Zotero.AI4Paper, {
      * @param {Function} saveCallback - 保存滚动位置的回调，参数为 scrollTop
      */
     registerScrollListener: function (listboxId, saveCallback) {
-      const listbox = document.getElementById(listboxId);
+      const listbox = this.getDocument().getElementById(listboxId);
+      if (!listbox) return;
       let timer;
       listbox.addEventListener('scroll', e => {
         clearTimeout(timer);
@@ -359,7 +400,8 @@ Object.assign(Zotero.AI4Paper, {
      * @param {boolean} toBottom - true=底部, false=顶部
      */
     scrollToTopOrBottom: function (listboxId, toBottom) {
-      const listbox = document.getElementById(listboxId);
+      const listbox = this.getDocument().getElementById(listboxId);
+      if (!listbox) return;
       setTimeout(() => {
         listbox.scrollTo({
           top: toBottom ? listbox.scrollHeight : 0,
@@ -376,25 +418,30 @@ Object.assign(Zotero.AI4Paper, {
      * @param {boolean} isLoad - true=从 prefs 加载到 UI, false=从 UI 保存到 prefs
      */
     syncPrefsCheckboxes: function (config, isLoad) {
+      const doc = this.getDocument();
       if (config.checkboxKeys) {
         if (isLoad) {
           for (let key of config.checkboxKeys) {
-            document.getElementById('ai4paper.' + key).checked = Zotero.Prefs.get('ai4paper.' + key);
+            let elem = doc.getElementById('ai4paper.' + key);
+            if (elem) elem.checked = Zotero.Prefs.get('ai4paper.' + key);
           }
         } else {
           for (let key of config.checkboxKeys) {
-            Zotero.Prefs.set('ai4paper.' + key, document.getElementById('ai4paper.' + key).checked);
+            let elem = doc.getElementById('ai4paper.' + key);
+            elem && Zotero.Prefs.set('ai4paper.' + key, elem.checked);
           }
         }
       }
       if (config.inputKeys) {
         if (isLoad) {
           for (let key of config.inputKeys) {
-            document.getElementById('ai4paper.' + key).value = Zotero.Prefs.get('ai4paper.' + key);
+            let elem = doc.getElementById('ai4paper.' + key);
+            if (elem) elem.value = Zotero.Prefs.get('ai4paper.' + key);
           }
         } else {
           for (let key of config.inputKeys) {
-            Zotero.Prefs.set('ai4paper.' + key, document.getElementById('ai4paper.' + key).value);
+            let elem = doc.getElementById('ai4paper.' + key);
+            elem && Zotero.Prefs.set('ai4paper.' + key, elem.value);
           }
         }
       }
@@ -469,11 +516,13 @@ Object.assign(Zotero.AI4Paper, {
      */
     updateAZFilterButtons: function (resetAll, selectedLetter, idPrefix) {
       idPrefix = idPrefix || 'tagFilter-';
+      const doc = this.getDocument();
       let letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'OT'];
       for (let letter of letters) {
-        let img = document.getElementById(idPrefix + letter),
+        let img = doc.getElementById(idPrefix + letter),
           defaultSrc = 'chrome://ai4paper/content/icons/' + letter + '.png',
           selectedSrc = 'chrome://ai4paper/content/icons/' + letter + '-select.png';
+        if (!img) continue;
         if (resetAll) {
           img.setAttribute('src', defaultSrc);
           img.onmouseover = () => img.style.transform = 'scale(1.3)';
@@ -575,10 +624,13 @@ Object.assign(Zotero.AI4Paper, {
      */
     cycleButtonGroup: function (buttonIds, suffix) {
       suffix = suffix || '-button';
+      const doc = this.getDocument();
       for (let i = 0; i < buttonIds.length; i++) {
-        if (document.getElementById(buttonIds[i] + suffix).getAttribute('default') === 'true') {
+        let current = doc.getElementById(buttonIds[i] + suffix);
+        if (current && current.getAttribute('default') === 'true') {
           let next = i === buttonIds.length - 1 ? 0 : i + 1;
-          document.getElementById(buttonIds[next] + suffix).click();
+          let nextElem = doc.getElementById(buttonIds[next] + suffix);
+          nextElem && nextElem.click();
           return;
         }
       }
@@ -592,8 +644,9 @@ Object.assign(Zotero.AI4Paper, {
      */
     updateButtonGroupStatus: function (buttonIds, activeId, suffix) {
       suffix = suffix || '-button';
+      const doc = this.getDocument();
       for (let id of buttonIds) {
-        let elem = document.getElementById(id + suffix);
+        let elem = doc.getElementById(id + suffix);
         if (elem) {
           elem.setAttribute('default', id === activeId ? true : false);
         }

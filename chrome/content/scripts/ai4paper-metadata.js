@@ -88,13 +88,7 @@ Object.assign(Zotero.AI4Paper, {
     return Zotero.Prefs.get("ai4paper.exportnotesabstractyaml") && abstractNote != '' && (abstractNote = abstractNote.replace(/\n\n【摘要翻译】/g, "【摘要翻译】").replace(/\:/g, '：').replace(/： /g, '：').replace(/\"/g, '\u201C').replace(/\n\n/g, '\x20').replace(/\n/g, '\x20')), template = template.replace(/{{itemType}}/g, itemType), template = template.replace(/{{title}}/g, title), template = template.replace(/{{shortTitle}}/g, shortTitle.replace(/\ /g, '')), template = template.replace(/{{creators}}/g, creatorsStr), template = template.replace(/{{publicationTitle}}/g, '' + (publicationTitle != '' ? '[[' + publicationTitle + ']]' : '')), template = template.replace(/{{journalAbbreviation}}/g, journalAbbrev), template = template.replace(/{{volume}}/g, volume), template = template.replace(/{{issue}}/g, issue), template = template.replace(/{{pages}}/g, pages), template = template.replace(/{{series}}/g, series), template = template.replace(/{{language}}/g, language), template = template.replace(/{{DOI}}/g, '' + (doi != '' ? '[' + doi + ']' + "(https://doi.org/" + doi + ')' : '')), template = template.replace(/{{ISSN}}/g, issn), template = template.replace(/{{url}}/g, '' + (url != '' ? '[' + url + ']' + '(' + url + ')' : '')), template = template.replace(/{{archive}}/g, archive), template = template.replace(/{{archiveLocation}}/g, archiveLocation), template = template.replace(/{{libraryCatalog}}/g, libraryCatalog), template = template.replace(/{{JCRQ}}/g, jcrq), template = template.replace(/{{callNumber}}/g, callNumber), template = template.replace(/{{rights}}/g, rights), template = template.replace(/{{extra}}/g, extra), template = template.replace(/{{proceedingsTitle}}/g, proceedingsTitle), template = template.replace(/{{conferenceName}}/g, conferenceName), template = template.replace(/{{place}}/g, place), template = template.replace(/{{publisher}}/g, publisher), template = template.replace(/{{ISBN}}/g, isbn), template = template.replace(/{{university}}/g, university), template = template.replace(/{{edition}}/g, edition), template = template.replace(/{{country}}/g, country), template = template.replace(/{{issuingAuthority}}/g, issuingAuthority), template = template.replace(/{{patentNumber}}/g, patentNumber), template = template.replace(/{{applicationNumber}}/g, applicationNumber), template = template.replace(/{{priorityNumbers}}/g, priorityNumbers), template = template.replace(/{{issueDate}}/g, issueDate), template = template.replace(/{{bookTitle}}/g, bookTitle), template = template.replace(/{{seriesNumber}}/g, seriesNumber), template = template.replace(/{{numberOfVolumes}}/g, numberOfVolumes), template = template.replace(/{{date}}/g, date), template = template.replace(/{{dateY}}/g, dateYear), template = template.replace(/{{dateAdded}}/g, dateAdded), template = template.replace(/{{datetimeAdded}}/g, datetimeAdded), template = template.replace(/{{dateModified}}/g, dateModified), template = template.replace(/{{datetimeModified}}/g, datetimeModified), template = template.replace(/{{collection}}/g, '' + (collectionNames != '' ? collectionNames : '')), template = template.replace(/{{related}}/g, relatedItems), template = template.replace(/{{qnkey}}/g, Zotero.AI4Paper.getQNKey(item)), template = template.replace(/{{citationKey}}/g, item.getField("citationKey")), template = template.replace(/{{itemLink}}/g, '[My\x20Library](' + itemLink + ')'), template = template.replace(/{{pdfLink}}/g, pdfLinks), template = template.replace(/{{tags}}/g, tagsStr), template = template.replace(/{{abstract}}/g, abstractNote), template = template.replace(/{{abstractFormat}}/g, abstractFormatted), template = template.replace(/{{year}}/g, Zotero.AI4Paper.getYear()), template = template.replace(/{{dateCurrent}}/g, Zotero.AI4Paper.getDate()), template = template.replace(/{{time}}/g, Zotero.AI4Paper.getTime()), template = template.replace(/{{week}}/g, Zotero.AI4Paper.getWeek()), template = template.replace(/{{yearMonth}}/g, Zotero.AI4Paper.getYearMonth()), template = template.replace(/{{dateWeek}}/g, Zotero.AI4Paper.getDateWeek()), template = template.replace(/{{dateTime}}/g, Zotero.AI4Paper.getDateTime()), template = template.replace(/{{dateWeekTime}}/g, Zotero.AI4Paper.getDateWeekTime()), template;
   },
   'extractJCRQ': function (catalogStr) {
-    if (!catalogStr) {
-      return '';
-    }
-    if (catalogStr.lastIndexOf(')') != catalogStr.length - 0x1) return '';
-    const pattern = /\(([^)]*)\)/,
-      match = catalogStr.match(pattern);
-    return match ? match[0x1] : '';
+    return AI4PaperMetadataCore.extractJCRQ(catalogStr);
   },
   'getZoteroDateY': function (dateStr) {
     return Zotero.Date.strToDate(dateStr).year;
@@ -112,16 +106,7 @@ Object.assign(Zotero.AI4Paper, {
     return Zotero.AI4Paper.formatLocalDateTime(item.getField("dateModified"), false);
   },
   'formatLocalDateTime': function (dateStr, dateOnly) {
-    let dateObj = new Date(dateStr),
-      tzOffset = dateObj.getTimezoneOffset() * 0xea60,
-      localDate = new Date(dateObj.getTime() - tzOffset),
-      year = localDate.getFullYear(),
-      month = (localDate.getMonth() + 0x1).toString().padStart(0x2, '0'),
-      day = localDate.getDate().toString().padStart(0x2, '0'),
-      hours = localDate.getHours().toString().padStart(0x2, '0'),
-      minutes = localDate.getMinutes().toString().padStart(0x2, '0'),
-      seconds = localDate.getSeconds().toString().padStart(0x2, '0');
-    return dateOnly ? year + '-' + month + '-' + day : year + '-' + month + '-' + day + '\x20' + hours + ':' + minutes + ':' + seconds;
+    return AI4PaperMetadataCore.formatLocalDateTime(dateStr, dateOnly);
   },
   'getCollectionNames': function (item) {
     const names = [];
@@ -315,11 +300,7 @@ Object.assign(Zotero.AI4Paper, {
     return false;
   },
   'sanitizeFilename': function (filename) {
-    let sanitized = filename.replace(/[\\/:*?"<>|]/g, '_');
-    sanitized = sanitized.replace(/[\x00-\x1f]/g, '');
-    sanitized = sanitized.replace(/^[\s.]+|[\s.]+$/g, '');
-    const reservedPattern = /^(con|prn|aux|nul|com[1-9]|lpt[1-9])$/i;
-    return reservedPattern.test(sanitized) && (sanitized = '_' + sanitized), sanitized = sanitized.slice(0x0, 0xc8), sanitized || "unnamed";
+    return AI4PaperMetadataCore.sanitizeFilename(filename);
   },
   'getItemZoteroLink': function (item, wrapBrackets) {
     let library = Zotero.Libraries.get(item.libraryID),
@@ -615,22 +596,7 @@ Object.assign(Zotero.AI4Paper, {
     }
   },
   'fetchItemMetadata': async function (doi) {
-    this._Data_itemType = null;
-    this._Data_title = null;
-    this._Data_firstNames = [];
-    this._Data_lastNames = [];
-    this._Data_volume = null;
-    this._Data_issue = null;
-    this._Data_page = null;
-    this._Data_date = null;
-    this._Data_publication = null;
-    this._Data_journalAbbreviation = null;
-    this._Data_issn = null;
-    this._Data_language = null;
-    this._Data_url = null;
-    this._Data_publisherLocation = null;
-    this._Data_publisher = null;
-    this._Data_isbn = null;
+    AI4PaperMetadataCore.resetMetadataTarget(this);
     if (!doi) {
       return -0x1;
     }
@@ -653,71 +619,10 @@ Object.assign(Zotero.AI4Paper, {
       }).then(r => r.json())['catch'](e => null);
     }
     if (cslData === null) return -0x1;
-    try {
-      this._Data_itemType = cslData.type;
-    } catch (e) {}
-    try {
-      this._Data_title = cslData.title;
-    } catch (e) {}
-    try {
-      for (i = 0x0; i < cslData.author.length; i++) {
-        this._Data_firstNames.push(cslData.author[i].given);
-        this._Data_lastNames.push(cslData.author[i].family);
-      }
-    } catch (e) {}
-    try {
-      this._Data_volume = cslData.volume;
-    } catch (e) {}
-    try {
-      this._Data_issue = cslData.issue;
-    } catch (e) {}
-    try {
-      this._Data_page = cslData.page;
-    } catch (e) {}
-    let publishedDate = cslData?.["published-print"]?.["date-parts"];
-    publishedDate && (this._Data_date = publishedDate);
-    try {
-      this._Data_publication = cslData['container-title'];
-    } catch (e) {}
-    try {
-      this._Data_journalAbbreviation = cslData['container-title-short'];
-    } catch (e) {}
-    try {
-      this._Data_issn = cslData.ISSN[0x0];
-    } catch (e) {}
-    try {
-      this._Data_language = cslData.language;
-    } catch (e) {}
-    try {
-      this._Data_url = cslData.resource.primary.URL;
-    } catch (e) {}
-    try {
-      this._Data_publisherLocation = cslData["publisher-location"];
-    } catch (e) {}
-    try {
-      this._Data_publisher = cslData.publisher;
-    } catch (e) {}
-    try {
-      this._Data_isbn = cslData.ISBN[0x1];
-    } catch (e) {}
+    AI4PaperMetadataCore.applyCslData(this, cslData);
   },
   'fetchMetadataItem': async function (doi, target) {
-    target._Data_itemType = null;
-    target._Data_title = null;
-    target._Data_firstNames = [];
-    target._Data_lastNames = [];
-    target._Data_volume = null;
-    target._Data_issue = null;
-    target._Data_page = null;
-    target._Data_date = null;
-    target._Data_publication = null;
-    target._Data_journalAbbreviation = null;
-    target._Data_issn = null;
-    target._Data_language = null;
-    target._Data_url = null;
-    target._Data_publisherLocation = null;
-    target._Data_publisher = null;
-    target._Data_isbn = null;
+    AI4PaperMetadataCore.resetMetadataTarget(target);
     if (!doi) return -0x1;
     if (!Zotero.AI4Paper.showDate()) return -0x1;
     const encodedDOI = encodeURIComponent(doi);
@@ -738,54 +643,7 @@ Object.assign(Zotero.AI4Paper, {
       }).then(r => r.json())["catch"](e => null);
     }
     if (cslData === null) return -0x1;
-    try {
-      target._Data_itemType = cslData.type;
-    } catch (e) {}
-    try {
-      target._Data_title = cslData.title;
-    } catch (e) {}
-    try {
-      for (i = 0x0; i < cslData.author.length; i++) {
-        target._Data_firstNames.push(cslData.author[i].given);
-        target._Data_lastNames.push(cslData.author[i].family);
-      }
-    } catch (e) {}
-    try {
-      target._Data_volume = cslData.volume;
-    } catch (e) {}
-    try {
-      target._Data_issue = cslData.issue;
-    } catch (e) {}
-    try {
-      target._Data_page = cslData.page;
-    } catch (e) {}
-    try {
-      target._Data_date = cslData["published-print"]["date-parts"];
-    } catch (e) {}
-    try {
-      target._Data_publication = cslData["container-title"];
-    } catch (e) {}
-    try {
-      target._Data_journalAbbreviation = cslData["container-title-short"];
-    } catch (e) {}
-    try {
-      target._Data_issn = cslData.ISSN[0x0];
-    } catch (e) {}
-    try {
-      target._Data_language = cslData.language;
-    } catch (e) {}
-    try {
-      target._Data_url = cslData.resource.primary.URL;
-    } catch (e) {}
-    try {
-      target._Data_publisherLocation = cslData['publisher-location'];
-    } catch (e) {}
-    try {
-      target._Data_publisher = cslData.publisher;
-    } catch (e) {}
-    try {
-      target._Data_isbn = cslData.ISBN[0x1];
-    } catch (e) {}
+    AI4PaperMetadataCore.applyCslData(target, cslData);
   },
 
   // === Block C: Journal Abbreviation Update ===
