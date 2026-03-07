@@ -9,5 +9,7 @@ ai4paper-customItemTreeColumns-libraryCatalog =
     .label = 文库编目
 ai4paper-customItemTreeColumns-callNumber = 
     .label = 索书号
+ai4paper-customItemTreeColumns-journalRanking = 
+    .label = 分区汇总
 ai4paper-customItemTreeColumns-rights = 
     .label = 版权

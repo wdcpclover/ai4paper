@@ -1,6 +1,6 @@
 Object.assign(Zotero.AI4Paper, {
   'formatItemNotes': function (html) {
-    return html = html.replace(/&gt;&gt;&gt;&gt;&gt;&gt;&gt;/g, ''), html = html.replace(/>>>>>>>/g, ''), html = html.replace(/\\\*/g, '*'), html = html.replace(/\\#/g, '#'), html = html.replace(/\\-/g, '-'), html = html.replace(/jbslqn/g, "<sup>"), html = html.replace(/jbsrqn/g, '</sup>'), html = html.replace(/jbxlqn/g, "<sub>"), html = html.replace(/jbxrqn/g, "</sub>"), html;
+    return AI4PaperNotesCore.formatItemNotes(html);
   },
   'checkGroupLibItem': function (item) {
     return Zotero.Libraries.get(item.libraryID).libraryType === "group" ? Zotero.Libraries.get(item.libraryID).groupID : false;
@@ -350,7 +350,7 @@ Object.assign(Zotero.AI4Paper, {
     if (Zotero.Prefs.get("ai4paper.exportvocabularynotes")) {
       let vocabularyHTML = annotationsData.itemPDFsVocabulariesHTML;
       if (vocabularyHTML) {
-        Zotero.Prefs.get('ai4paper.exportnotesremovecode') && (vocabularyHTML = vocabularyHTML.replace(/<code>/g, ''), vocabularyHTML = vocabularyHTML.replace(/<\/code>/g, ''));
+        Zotero.Prefs.get('ai4paper.exportnotesremovecode') && (vocabularyHTML = AI4PaperNotesCore.removeVocabularyCodeTags(vocabularyHTML));
         vocabularyHTML = Zotero.AI4Paper.setNotesTransparency(vocabularyHTML);
         vocabularyMD = Zotero.AI4Paper.translateHTML2MD(vocabularyHTML);
       }
@@ -367,90 +367,41 @@ Object.assign(Zotero.AI4Paper, {
       let gptNoteItem = Zotero.AI4Paper.findNoteItem_basedOnTag(item, '/ChatGPT');
       if (gptNoteItem) {
         let gptHTML = await Zotero.AI4Paper.getChatGPTForward(gptNoteItem);
-        gptHTML = gptHTML.replace(/<span class="chatgpt">🙋<\/span>/g, 'XnFofCLyZaTe').replace(/<span class="chatgpt">🤖<\/span>/g, "ipNoOlrWjHQh");
+        gptHTML = AI4PaperNotesCore.prepareChatGPTHTML(gptHTML);
         gptHTML = Zotero.AI4Paper.setNotesTransparency(gptHTML);
         chatGPTMD = Zotero.AI4Paper.translateHTML2MD(gptHTML);
-        chatGPTMD = chatGPTMD.replace(/XnFofCLyZaTe/g, "<span class=\"chatgpt\">🙋</span>").replace(/ipNoOlrWjHQh/g, '<span\x20class=\x22chatgpt\x22>🤖</span>');
-        chatGPTMD = chatGPTMD.replace(/> 🙋\n/g, '>\x20<span\x20class=\x22chatgpt\x22>🙋</span>\x0a').replace(/> 🤖\n/g, "> <span class=\"chatgpt\">🤖</span>\n");
+        chatGPTMD = AI4PaperNotesCore.restoreChatGPTMarkdown(chatGPTMD);
       }
     }
     if (Zotero.Prefs.get("ai4paper.exportAIReadingNotes")) {
       let aiReadingNoteItem = Zotero.AI4Paper.findNoteItem_basedOnTag(item, Zotero.AI4Paper._aiReadingNoteTag);
       if (aiReadingNoteItem) {
         let aiReadingHTML = await Zotero.AI4Paper.getAIReadingNoteItemContent(aiReadingNoteItem);
-        aiReadingHTML = aiReadingHTML.replace(/<span class="AIReading">🤖 AI 解读，快人一步<\/span>/g, "QUOsNavFRihJ");
+        aiReadingHTML = AI4PaperNotesCore.prepareAIReadingHTML(aiReadingHTML);
         aiReadingHTML = Zotero.AI4Paper.setNotesTransparency(aiReadingHTML);
         aiReadingMD = Zotero.AI4Paper.translateHTML2MD(aiReadingHTML);
-        aiReadingMD = aiReadingMD.replace(/QUOsNavFRihJ/g, "<span class=\"AIReading\">🤖 AI 解读，快人一步</span>");
-        aiReadingMD = aiReadingMD.replace(/> 🤖 AI 解读，快人一步\n/g, "> <span class=\"AIReading\">🤖 AI 解读，快人一步</span>\n");
+        aiReadingMD = AI4PaperNotesCore.restoreAIReadingMarkdown(aiReadingMD);
       }
     }
-    if (annotationsMD === '' && vocabularyMD === '' && translationMD === '' && chatGPTMD === '' && aiReadingMD === '') {
-      return '';
-    } else {
-      let combinedMD = '' + (annotationsMD != '' ? annotationsMD + '\x0a\x0a' + (vocabularyMD != '' ? vocabularyMD + '\x0a\x0a' : '') + (translationMD != '' ? translationMD + '\x0a\x0a' : '') + (chatGPTMD != '' ? chatGPTMD + '\x0a\x0a' : '') + aiReadingMD : vocabularyMD + '\x0a\x0a' + (translationMD != '' ? translationMD + '\x0a\x0a' : '') + (chatGPTMD != '' ? chatGPTMD + '\x0a\x0a' : '') + aiReadingMD);
-      return combinedMD.replace(/WBAWSSPANswoMT/g, '</span>').replace(/WBAWSPANNswoMT/g, '<span>').replace(/WBAWSPANswoMT/g, "<span").replace(/WBAWIMAGEswoMT/g, "<img");
-    }
+    return AI4PaperNotesCore.combineItemNotesMarkdown({
+      annotations: annotationsMD,
+      vocabulary: vocabularyMD,
+      translation: translationMD,
+      chatGPT: chatGPTMD,
+      aiReading: aiReadingMD
+    });
   },
   'setNotesTransparency': function (html) {
-    let yellow = "#ffd400",
-      red = "#ff6666",
-      green = "#5fb236",
-      blue = '#2ea8e5',
-      purple = "#a28ae5",
-      magenta = "#e56eee",
-      orange = "#f19837",
-      gray = "#aaaaaa";
-    if (0x1 <= parseInt(Zotero.Prefs.get("ai4paper.yellowtransparency")) && parseInt(Zotero.Prefs.get('ai4paper.yellowtransparency')) <= 0x63) {
-      let alpha = parseInt(Zotero.Prefs.get("ai4paper.yellowtransparency"));
-      0x1 <= alpha && alpha <= 0x9 ? yellow = yellow + '0' + String(alpha) : yellow = yellow + String(alpha);
-    }
-    if (0x1 <= parseInt(Zotero.Prefs.get('ai4paper.redtransparency')) && parseInt(Zotero.Prefs.get("ai4paper.redtransparency")) <= 0x63) {
-      let alpha = parseInt(Zotero.Prefs.get("ai4paper.redtransparency"));
-      0x1 <= alpha && alpha <= 0x9 ? red = red + '0' + String(alpha) : red = red + String(alpha);
-    }
-    if (0x1 <= parseInt(Zotero.Prefs.get("ai4paper.greentransparency")) && parseInt(Zotero.Prefs.get('ai4paper.greentransparency')) <= 0x63) {
-      let alpha = parseInt(Zotero.Prefs.get("ai4paper.greentransparency"));
-      0x1 <= alpha && alpha <= 0x9 ? green = green + '0' + String(alpha) : green = green + String(alpha);
-    }
-    if (0x1 <= parseInt(Zotero.Prefs.get('ai4paper.bluetransparency')) && parseInt(Zotero.Prefs.get('ai4paper.bluetransparency')) <= 0x63) {
-      let alpha = parseInt(Zotero.Prefs.get("ai4paper.bluetransparency"));
-      0x1 <= alpha && alpha <= 0x9 ? blue = blue + '0' + String(alpha) : blue = blue + String(alpha);
-    }
-    if (0x1 <= parseInt(Zotero.Prefs.get("ai4paper.purpletransparency")) && parseInt(Zotero.Prefs.get('ai4paper.purpletransparency')) <= 0x63) {
-      let alpha = parseInt(Zotero.Prefs.get('ai4paper.purpletransparency'));
-      0x1 <= alpha && alpha <= 0x9 ? purple = purple + '0' + String(alpha) : purple = purple + String(alpha);
-    }
-    if (0x1 <= parseInt(Zotero.Prefs.get("ai4paper.magentatransparency")) && parseInt(Zotero.Prefs.get('ai4paper.magentatransparency')) <= 0x63) {
-      let alpha = parseInt(Zotero.Prefs.get("ai4paper.magentatransparency"));
-      if (0x1 <= alpha && alpha <= 0x9) {
-        magenta = magenta + '0' + String(alpha);
-      } else magenta = magenta + String(alpha);
-    }
-    if (0x1 <= parseInt(Zotero.Prefs.get("ai4paper.orangetransparency")) && parseInt(Zotero.Prefs.get("ai4paper.orangetransparency")) <= 0x63) {
-      let alpha = parseInt(Zotero.Prefs.get('ai4paper.orangetransparency'));
-      0x1 <= alpha && alpha <= 0x9 ? orange = orange + '0' + String(alpha) : orange = orange + String(alpha);
-    }
-    if (0x1 <= parseInt(Zotero.Prefs.get('ai4paper.graytransparency')) && parseInt(Zotero.Prefs.get("ai4paper.graytransparency")) <= 0x63) {
-      let alpha = parseInt(Zotero.Prefs.get("ai4paper.graytransparency"));
-      0x1 <= alpha && alpha <= 0x9 ? gray = gray + '0' + String(alpha) : gray = gray + String(alpha);
-    }
-    html.indexOf('background-color:\x20#ffd40080') != -0x1 && (html = html.replace(/background-color: #ffd40080/g, "background-color: #ffd400"));
-    html.indexOf("background-color: #ff666680") != -0x1 && (html = html.replace(/background-color: #ff666680/g, "background-color: #ff6666"));
-    html.indexOf('background-color:\x20#5fb23680') != -0x1 && (html = html.replace(/background-color: #5fb23680/g, "background-color: #5fb236"));
-    if (html.indexOf('background-color:\x20#2ea8e580') != -0x1) {
-      html = html.replace(/background-color: #2ea8e580/g, "background-color: #2ea8e5");
-    }
-    if (html.indexOf("background-color: #a28ae580") != -0x1) {
-      html = html.replace(/background-color: #a28ae580/g, "background-color: #a28ae5");
-    }
-    html.indexOf("background-color: #e56eee80") != -0x1 && (html = html.replace(/background-color: #e56eee80/g, "background-color: #e56eee"));
-    html.indexOf("background-color: #f1983780") != -0x1 && (html = html.replace(/background-color: #f1983780/g, "background-color: #f19837"));
-    html.indexOf("background-color: #aaaaaa80") != -0x1 && (html = html.replace(/background-color: #aaaaaa80/g, "background-color: #aaaaaa"));
-    if (yellow != "#ffd400") {
-      html = html.replace(/background-color: #ffd400/g, "background-color: " + yellow);
-    }
-    return red != "#ff6666" && (html = html.replace(/background-color: #ff6666/g, "background-color: " + red)), green != "#5fb236" && (html = html.replace(/background-color: #5fb236/g, "background-color: " + green)), blue != "#2ea8e5" && (html = html.replace(/background-color: #2ea8e5/g, "background-color: " + blue)), purple != "#a28ae5" && (html = html.replace(/background-color: #a28ae5/g, "background-color: " + purple)), magenta != "#e56eee" && (html = html.replace(/background-color: #e56eee/g, "background-color: " + magenta)), orange != "#f19837" && (html = html.replace(/background-color: #f19837/g, "background-color: " + orange)), gray != '#aaaaaa' && (html = html.replace(/background-color: #aaaaaa/g, "background-color: " + gray)), html;
+    return AI4PaperNotesCore.setNotesTransparency(html, {
+      yellow: Zotero.Prefs.get("ai4paper.yellowtransparency"),
+      red: Zotero.Prefs.get("ai4paper.redtransparency"),
+      green: Zotero.Prefs.get("ai4paper.greentransparency"),
+      blue: Zotero.Prefs.get("ai4paper.bluetransparency"),
+      purple: Zotero.Prefs.get("ai4paper.purpletransparency"),
+      magenta: Zotero.Prefs.get("ai4paper.magentatransparency"),
+      orange: Zotero.Prefs.get("ai4paper.orangetransparency"),
+      gray: Zotero.Prefs.get("ai4paper.graytransparency")
+    });
   },
   'translateHTML2MD': function (html) {
     let noteItem = new Zotero.Item("note");
@@ -465,89 +416,13 @@ Object.assign(Zotero.AI4Paper, {
     }), exporter.translate(), mdResult;
   },
   'getTransForward': async function (noteItem) {
-    var noteHTML = noteItem.getNote();
-    if (noteHTML.indexOf('📑\x20翻译倒序') != -0x1) {
-      var startPositions = [],
-        endPositions = [],
-        reversed = [],
-        startRegex = new RegExp("<blockquote>", 'g'),
-        endRegex = new RegExp("</blockquote>", 'g');
-      while (startRegex.exec(noteHTML) != null && endRegex.exec(noteHTML) != null) {
-        startPositions.push(startRegex.lastIndex);
-        endPositions.push(endRegex.lastIndex);
-      }
-      for (i = 0x0; i < endPositions.length; i++) {
-        let block = noteHTML.substring(startPositions[startPositions.length - i - 0x1] - 0xc, endPositions[endPositions.length - i - 0x1]);
-        reversed.push(block);
-      }
-      let result = "<h2 style=\"color: blue;\">📑 翻译正序>>>>>>></h2>" + reversed.join('');
-      return result;
-    }
-    return noteHTML;
+    return AI4PaperNotesCore.getTransForwardHTML(noteItem.getNote());
   },
   'getChatGPTForward': async function (noteItem) {
-    let header = "<blockquote><span style=\"font-size: 15px;color: gray\">📍 ChatGPT 对话记录</span></blockquote>^KEYgptNotes";
-    var noteHTML = noteItem.getNote();
-    if (noteHTML.indexOf("🤖️ ChatGPT 倒序") != -0x1) {
-      var startPositions = [],
-        endPositions = [],
-        reversed = [],
-        startRegex = new RegExp("<blockquote>", 'g'),
-        endRegex = new RegExp("</blockquote>", 'g');
-      while (startRegex.exec(noteHTML) != null && endRegex.exec(noteHTML) != null) {
-        startPositions.push(startRegex.lastIndex);
-        endPositions.push(endRegex.lastIndex);
-      }
-      for (i = 0x0; i < endPositions.length; i++) {
-        let block = noteHTML.substring(startPositions[startPositions.length - i - 0x1] - 0xc, endPositions[endPositions.length - i - 0x1]),
-          blockKey = "^KEY" + Zotero.Utilities.Internal.md5(block).slice(0x0, 0x8).toUpperCase();
-        reversed.push(block + '<p>' + blockKey);
-      }
-      let result = "<h2 style=\"color: blue;\">🤖️ ChatGPT 正序>>>>>>></h2>" + header + reversed.join('');
-      return result;
-    }
-    return noteHTML;
+    return AI4PaperNotesCore.getChatGPTForwardHTML(noteItem.getNote(), block => "^KEY" + Zotero.Utilities.Internal.md5(block).slice(0x0, 0x8).toUpperCase());
   },
   'getUserNotes': async function (noteHTML) {
-    if (Zotero.Prefs.get("ai4paper.obsidianusernotesseparatordefault")) {
-      let positions = [],
-        result = '',
-        regex = new RegExp('👣➿👣', 'g');
-      while (regex.exec(noteHTML) != null) {
-        positions.push(regex.lastIndex);
-      }
-      if (positions.length === 0x2) return result = noteHTML.substring(positions[0x0] - 0x5, positions[0x1]), result;else {
-        let positions2 = [],
-          result2 = '',
-          regex2 = new RegExp("%--------------ω--------------%", 'g');
-        while (regex2.exec(noteHTML) != null) {
-          positions2.push(regex2.lastIndex);
-        }
-        if (positions2.length === 0x2) return result2 = noteHTML.substring(positions2[0x0] - 0x1f, positions2[0x1]).replace(/%--------------ω--------------%/g, "👣➿👣"), result2;
-      }
-      return false;
-    } else {
-      let positions = [],
-        result = '',
-        regex = new RegExp("%--------------ω--------------%", 'g');
-      while (regex.exec(noteHTML) != null) {
-        positions.push(regex.lastIndex);
-      }
-      if (positions.length === 0x2) {
-        return result = noteHTML.substring(positions[0x0] - 0x1f, positions[0x1]), result;
-      } else {
-        let positions2 = [],
-          result2 = '',
-          regex2 = new RegExp("👣➿👣", 'g');
-        while (regex2.exec(noteHTML) != null) {
-          positions2.push(regex2.lastIndex);
-        }
-        if (positions2.length === 0x2) {
-          return result2 = noteHTML.substring(positions2[0x0] - 0x5, positions2[0x1]).replace(/👣➿👣/g, "%--------------ω--------------%"), result2;
-        }
-      }
-      return false;
-    }
+    return AI4PaperNotesCore.getUserNotes(noteHTML, !!Zotero.Prefs.get("ai4paper.obsidianusernotesseparatordefault"));
   },
   'checkColorExcluded': async function (annotation) {
     let excludedSetting = AI4PaperCore.getPref("autoannotationscolorexcluded");
@@ -574,44 +449,19 @@ Object.assign(Zotero.AI4Paper, {
     textbox.style.height = Math.min(textbox.scrollHeight, maxHeight) + 'px';
   },
   'updateCardNotesSearchHistory': function (searchText) {
-    let historyStr = Zotero.Prefs.get("ai4paper.cardNotesSearchHistory"),
-      history = historyStr.split("😊🎈🍓");
-    if (!history.includes(searchText)) {
-      if (history.length === 0x1 && history[0x0] === '') history = [searchText];else {
-        history.unshift(searchText);
-      }
-    } else {
-      let idx = history.indexOf(searchText);
-      history.splice(idx, 0x1);
-      history.unshift(searchText);
-    }
-    let isActive = Zotero.AI4Paper.letDOI(),
-      trimmed = [];
-    for (let i = 0x0; i < 0x14; i++) {
-      history[i] != undefined && trimmed.push(history[i]);
-    }
-    isActive && Zotero.Prefs.set("ai4paper.cardNotesSearchHistory", trimmed.join("😊🎈🍓"));
+    let isActive = Zotero.AI4Paper.letDOI();
+    isActive && Zotero.Prefs.set("ai4paper.cardNotesSearchHistory", AI4PaperNotesCore.updateCardNotesSearchHistory(Zotero.Prefs.get("ai4paper.cardNotesSearchHistory"), searchText));
   },
   'cardNotesSearchButton_webSearch': async function (engine) {
     let searchBox = window.document.getElementById("CardNotes-SearchBox"),
-      query = searchBox.value.trim();
-    if (query === '' && searchBox.placeholder === '') return false;else query === '' && searchBox.placeholder != '' && (query = searchBox.placeholder);
+      query = AI4PaperNotesCore.normalizeCardNotesSearchQuery(searchBox.value, searchBox.placeholder);
     if (!query) return;
-    let url = '';
-    if (engine === "metaso") {
-      url = 'https://metaso.cn/?q=' + encodeURIComponent(query);
-    } else {
-      if (engine === "google") url = 'https://www.google.com/search?q=' + encodeURIComponent(query);else {
-        if (engine === 'googlescholar') url = "https://scholar.google.com/scholar?q=" + encodeURIComponent(query);else {
-          if (engine === "scihub") url = 'https://sci-hub.ren/' + encodeURIComponent(query);else {
-            if (engine === "matrix") {
-              Zotero.AI4Paper.queryPapersMatrix("search", query);
-              return;
-            }
-          }
-        }
-      }
+    if (engine === "matrix") {
+      Zotero.AI4Paper.queryPapersMatrix("search", query);
+      return;
     }
+    let url = AI4PaperNotesCore.buildCardNotesSearchUrl(engine, query);
+    if (!url) return;
     if (Zotero.Prefs.get("ai4paper.scheme4WebSearchBrowser") === '自定义' && Zotero.Prefs.get("ai4paper.browser4WebSearch")) {
       if (!(await OS.File.exists(Zotero.Prefs.get("ai4paper.browser4WebSearch")))) return ZoteroPane.loadURI(url), false;
       Zotero.launchFileWithApplication(url, Zotero.Prefs.get("ai4paper.browser4WebSearch"));
@@ -621,7 +471,7 @@ Object.assign(Zotero.AI4Paper, {
   },
   'meataso_WebSearch': async function (query) {
     if (!query) return;
-    let url = "https://metaso.cn/?q=" + encodeURIComponent(query);
+    let url = AI4PaperNotesCore.buildCardNotesSearchUrl("metaso", query);
     if (Zotero.Prefs.get("ai4paper.scheme4WebSearchBrowser") === "自定义" && Zotero.Prefs.get("ai4paper.browser4WebSearch")) {
       if (!(await OS.File.exists(Zotero.Prefs.get("ai4paper.browser4WebSearch")))) return ZoteroPane.loadURI(url), false;
       Zotero.launchFileWithApplication(url, Zotero.Prefs.get('ai4paper.browser4WebSearch'));

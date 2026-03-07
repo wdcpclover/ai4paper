@@ -169,6 +169,29 @@
                         </div>
                     </html:div>
 
+                    <!-- 分区汇总 -->
+
+                   <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>
+
+                        <checkbox id="ai4paper.enableCustomItemTreeColumnsjournalRanking" 
+                                  preference="extensions.zotero.ai4paper.enableCustomItemTreeColumnsjournalRanking" 
+                                  data-l10n-id="ai4paper-customItemTreeColumns-journalRanking" 
+                                  native="true"
+                                  oncommand="Zotero.Prefs.set('ai4paper.enableCustomItemTreeColumnsjournalRanking', this.checked);Zotero.AI4Paper.customItemTreeColumns();"/> 
+
+                        <html:input type="text" 
+                                    id="ai4paper.renameCustomItemTreeColumnsjournalRanking"
+                                    preference="extensions.zotero.ai4paper.renameCustomItemTreeColumnsjournalRanking"  
+                                    style='margin-right: 100px;' 
+                                    size="15"
+                                    oninput='Zotero.Prefs.set("ai4paper.renameCustomItemTreeColumnsjournalRanking", this.value);'></html:input>
+
+                        <div class="buttonIcon svg-container-reset"
+                            tooltiptext="恢复默认" 
+                            onclick='document.getElementById("ai4paper.renameCustomItemTreeColumnsjournalRanking").value = "分区汇总";Zotero.Prefs.set("ai4paper.renameCustomItemTreeColumnsjournalRanking", "分区汇总");'>
+                        </div>
+                    </html:div>
+
                     <!-- 版权 -->
 
                    <html:div style='display: grid;align-items: center;grid-template-columns: 1fr max-content max-content;'>

@@ -9,5 +9,7 @@ ai4paper-customItemTreeColumns-libraryCatalog =
     .label = Library Catalog
 ai4paper-customItemTreeColumns-callNumber = 
     .label = Call Number
+ai4paper-customItemTreeColumns-journalRanking = 
+    .label = Journal Ranking
 ai4paper-customItemTreeColumns-rights = 
     .label = Rights

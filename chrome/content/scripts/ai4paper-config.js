@@ -254,6 +254,18 @@ Object.assign(Zotero.AI4Paper, {
           'chat': "gptReaderSidePane_ChatMode_sendByClaude"
         },
         'modelLabel': "claude"
+      },
+      'Ollama': {
+        'api_key': Zotero.Prefs.get("ai4paper.ollamaAPI").trim(),
+        'api_verifyResult': Zotero.Prefs.get("ai4paper.ollamaVerifyResult"),
+        'base_url': (Zotero.Prefs.get("ai4paper.ollamaHost") || "http://127.0.0.1:11434").trim(),
+        'model': (Zotero.Prefs.get("ai4paper.ollamaModel") || "qwen2.5:7b").trim(),
+        'errorCode_link': "https://github.com/ollama/ollama/blob/main/docs/openai.md",
+        'method': {
+          'completion': "gptReaderSidePane_sendByOllama",
+          'chat': "gptReaderSidePane_ChatMode_sendByOllama"
+        },
+        'modelLabel': "selected"
       }
     };
   },

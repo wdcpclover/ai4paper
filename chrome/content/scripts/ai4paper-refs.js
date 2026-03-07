@@ -371,15 +371,8 @@ Object.assign(Zotero.AI4Paper, {
     try {
       if (!journalName) return '';
       journalName = journalName.toLowerCase();
-      let impactFactor = '',
-        fullName = Zotero.AI4Paper._data_abbrev_to_full_dots[journalName],
-        ifByFull = Zotero.AI4Paper._data_jcr_if[journalName],
-        ifByAbbrev = Zotero.AI4Paper._data_jcr_if_abbrev[journalName];
-      if (fullName) {
-        impactFactor = Zotero.AI4Paper._data_jcr_if[fullName];
-        impactFactor && (impactFactor = impactFactor.split('IF')[0x0]);
-      } else ifByFull && (impactFactor = ifByFull.split('IF')[0x0]);
-      return impactFactor ? impactFactor : '';
+      let rankingRecord = Zotero.AI4Paper.getCompactJournalRankingRecord(journalName, '', '');
+      return rankingRecord && rankingRecord.impact_factor != null ? String(rankingRecord.impact_factor) : '';
     } catch (e) {
       return '';
     }

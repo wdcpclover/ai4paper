@@ -3055,6 +3055,8 @@ Zotero.AI4Paper_Prefs = {
         'verifyResultKey': "ai4paper.openaiverifyresult",
         'inputId': "ai4paper.gpt.openaiapiinput",
         'helpUrl': "https://www.yuque.com/qnscholar/zotero-one/gd5pfvvrgla9lu0u",
+        'verifyButtonId': "ai4paper.openai.apiverify.button",
+        'removeButtonId': "ai4paper.openai.removeapi.button",
         'verifyMethod': "verifyOpenAIAPI",
         'removeMethod': "removeOpenAIAPI"
       },
@@ -3063,6 +3065,8 @@ Zotero.AI4Paper_Prefs = {
         'verifyResultKey': "ai4paper.api2dverifyresult",
         'inputId': "ai4paper.gpt.api2dapiinput",
         'helpUrl': "https://www.yuque.com/qnscholar/zotero-one/nyzqz9py631u4ixl",
+        'verifyButtonId': "ai4paper.api2d.apiverify.button",
+        'removeButtonId': "ai4paper.api2d.removeapi.button",
         'verifyMethod': "verifyAPI2DAPI",
         'removeMethod': "removeAPI2DAPI"
       },
@@ -3071,6 +3075,8 @@ Zotero.AI4Paper_Prefs = {
         'verifyResultKey': "ai4paper.chatanywhereverifyresult",
         'inputId': "ai4paper.gpt.chatanywhereapiinput",
         'helpUrl': "https://github.com/chatanywhere/GPT_API_free",
+        'verifyButtonId': "ai4paper.chatanywhere.apiverify.button",
+        'removeButtonId': "ai4paper.chatanywhere.removeapi.button",
         'verifyMethod': "verifyChatAnywhereAPI",
         'removeMethod': "removeChatAnywhereAPI"
       },
@@ -3079,11 +3085,100 @@ Zotero.AI4Paper_Prefs = {
         'verifyResultKey': "ai4paper.qwenVerifyResult",
         'inputId': "ai4paper.gpt.qwenAPI",
         'helpUrl': "https://www.yuque.com/qnscholar/zotero-one/osqdh1qyu9amx31i?singleDoc# 《通义千问 API 申请》",
+        'verifyButtonId': "ai4paper.qwen.apiverify.button",
+        'removeButtonId': "ai4paper.qwen.removeapi.button",
         'verifyMethod': "verifyQwenAPI",
         'removeMethod': "removeQwenAPI"
+      },
+      '文心一言': {
+        'prefKey': "ai4paper.wenxinAPI",
+        'verifyResultKey': "ai4paper.wenxinAPIVerifyResult",
+        'inputId': "ai4paper.gpt.wenxinAPI",
+        'helpUrl': "https://www.yuque.com/qnscholar/zotero-one/tr54yzncgdaf5guu?singleDoc# 《文心一言 API（v2） 申请》",
+        'verifyButtonId': "ai4paper.wenxin.apiverify.button",
+        'removeButtonId': "ai4paper.wenxin.removeapi.button",
+        'verifyMethod': "verifyWenXinAPI",
+        'removeMethod': "removeWenXinAPI"
+      },
+      '智普清言': {
+        'prefKey': "ai4paper.glmAPI",
+        'verifyResultKey': "ai4paper.glmVerifyResult",
+        'inputId': "ai4paper.gpt.glmAPI",
+        'helpUrl': "https://www.yuque.com/qnscholar/zotero-one/ppbp2hvzpbmwpgdw?singleDoc# 《智普清言 API 申请》",
+        'verifyButtonId': "ai4paper.glm.apiverify.button",
+        'removeButtonId': "ai4paper.glm.removeapi.button",
+        'verifyMethod': "verifyGLMAPI",
+        'removeMethod': "removeGLMAPI"
+      },
+      'Kimi': {
+        'prefKey': "ai4paper.kimiAPI",
+        'verifyResultKey': "ai4paper.kimiVerifyResult",
+        'inputId': "ai4paper.gpt.kimiAPI",
+        'helpUrl': "https://www.yuque.com/qnscholar/zotero-one/liqsxnq4cgsgqvgf?singleDoc# 《Kimi API 申请》",
+        'verifyButtonId': "ai4paper.kimi.apiverify.button",
+        'removeButtonId': "ai4paper.kimi.removeapi.button",
+        'verifyMethod': "verifyKimiAPI",
+        'removeMethod': "removeKimiAPI"
+      },
+      'DeepSeek': {
+        'prefKey': "ai4paper.deepSeekAPI",
+        'verifyResultKey': "ai4paper.deepSeekVerifyResult",
+        'inputId': "ai4paper.gpt.deepSeekAPI",
+        'helpUrl': "https://www.yuque.com/qnscholar/zotero-one/fki8zx716hhxt4cu?singleDoc# 《DeepSeek API 申请》",
+        'verifyButtonId': "ai4paper.deepSeek.apiverify.button",
+        'removeButtonId': "ai4paper.deepSeek.removeapi.button",
+        'verifyMethod': "verifyDeepSeekAPI",
+        'removeMethod': "removeDeepSeekAPI"
+      },
+      'Gemini': {
+        'prefKey': "ai4paper.geminiapiinput",
+        'verifyResultKey': "ai4paper.geminiverifyresult",
+        'inputId': "ai4paper.gpt.geminiapiinput",
+        'helpUrl': "https://www.yuque.com/qnscholar/zotero-one/twvfs07f77nifxhg?singleDoc# 《Gemini API 申请》",
+        'verifyButtonId': "ai4paper.gemini.apiverify.button",
+        'removeButtonId': "ai4paper.gemini.removeapi.button",
+        'verifyMethod': "verifyGeminiAPI",
+        'removeMethod': "removeGeminiAPI"
+      },
+      'Claude': {
+        'prefKey': "ai4paper.claudeAPI",
+        'verifyResultKey': "ai4paper.claudeverifyresult",
+        'inputId': "ai4paper.gpt.claudeAPI",
+        'helpUrl': "https://www.yuque.com/qnscholar/zotero-one/vf1ciinfznggrm4p?singleDoc# 《Claude API 购买》",
+        'verifyButtonId': "ai4paper.claude.apiverify.button",
+        'removeButtonId': "ai4paper.claude.removeapi.button",
+        'verifyMethod': "verifyClaudeAPI",
+        'removeMethod': "removeClaudeAPI"
+      },
+      'Ollama': {
+        'prefKey': "ai4paper.ollamaAPI",
+        'verifyResultKey': "ai4paper.ollamaVerifyResult",
+        'helpUrl': "https://ollama.com/download",
+        'verifyMethod': "verifyOllamaAPI",
+        'removeMethod': "removeOllamaAPI",
+        'hostPrefKey': "ai4paper.ollamaHost",
+        'modelPrefKey': "ai4paper.ollamaModel",
+        'hostPlaceholder': "http://127.0.0.1:11434",
+        'modelPlaceholder': "qwen2.5:7b"
       }
     };
     return configMap[serviceName] || configMap['OpenAI'];
+  },
+  'getUnifiedGPTServiceNames': function () {
+    return ["OpenAI", "API2D", "ChatAnywhere", "通义千问", "文心一言", "智普清言", "Kimi", "DeepSeek", "Gemini", "Claude", "Ollama"];
+  },
+  'resetUnifiedGPTAPIConfig': function (config) {
+    if (!config) return;
+    Zotero.Prefs.set(config.prefKey, '');
+    Zotero.Prefs.set(config.verifyResultKey, "未验证");
+    config.hostPrefKey && Zotero.Prefs.set(config.hostPrefKey, '');
+    config.modelPrefKey && Zotero.Prefs.set(config.modelPrefKey, '');
+    const rawInput = document.getElementById(config.inputId),
+      verifyButton = document.getElementById(config.verifyButtonId),
+      removeButton = document.getElementById(config.removeButtonId);
+    rawInput && (rawInput.value = '');
+    verifyButton && (verifyButton.hidden = false);
+    removeButton && (removeButton.hidden = true);
   },
   'verifyUnifiedGPTAPI': async function () {
     const serviceNode = document.getElementById("ai4paper.gpt.unified.service");
@@ -3103,6 +3198,49 @@ Zotero.AI4Paper_Prefs = {
       this[config.removeMethod]();
     }
     Zotero.AI4Paper_Prefs.onChangeValue.syncUnifiedGPTAPIManager();
+  },
+  'removeOtherUnifiedGPTAPIs': function () {
+    const serviceNode = document.getElementById("ai4paper.gpt.unified.service");
+    const currentService = serviceNode ? serviceNode.value || serviceNode.label : 'OpenAI';
+    if (!window.confirm("是否仅保留当前服务，并注销其他 AI Key？")) return;
+    for (const serviceName of this.getUnifiedGPTServiceNames()) {
+      if (serviceName === currentService) continue;
+      this.resetUnifiedGPTAPIConfig(this.getUnifiedGPTAPIConfig(serviceName));
+    }
+    Zotero.AI4Paper_Prefs.onChangeValue.syncUnifiedGPTAPIManager();
+    Zotero.AI4Paper.showProgressWindow(0x7d0, "✅ 已清理其他 AI Key", "当前仅保留【" + currentService + "】配置。", "openai");
+  },
+  'verifyOllamaAPI': async function () {
+    const serviceName = "Ollama",
+      host = (Zotero.Prefs.get("ai4paper.ollamaHost") || "http://127.0.0.1:11434").trim().replace(/\/$/, ''),
+      model = (Zotero.Prefs.get("ai4paper.ollamaModel") || '').trim();
+    if (!model) return window.alert("请先输入【Ollama】模型名称！"), -0x1;
+    return await Zotero.AI4Paper.httpRequestInit(async () => {
+      return await Zotero.HTTP.request("GET", host + "/api/tags", {
+        'headers': {
+          'Content-Type': "application/json"
+        },
+        'responseType': "json"
+      });
+    }, httpResp => {
+      if (!Zotero.AI4Paper.runAuthor()) return;
+      const models = httpResp.response?.models || [],
+        modelNames = models.map(item => item.name),
+        matched = modelNames.includes(model) || modelNames.includes(model + ":latest");
+      if (!matched) {
+        window.alert("已连接【Ollama】，但未找到模型【" + model + "】！");
+        return;
+      }
+      window.alert("验证成功！");
+      Zotero.Prefs.set("ai4paper.ollamaVerifyResult", "验证成功");
+    }, serviceName);
+  },
+  'removeOllamaAPI': function () {
+    if (!window.confirm("是否确认解除 Ollama 绑定？")) return;
+    Zotero.Prefs.set("ai4paper.ollamaAPI", '');
+    Zotero.Prefs.set("ai4paper.ollamaHost", '');
+    Zotero.Prefs.set("ai4paper.ollamaModel", '');
+    Zotero.Prefs.set("ai4paper.ollamaVerifyResult", "未验证");
   },
   'verifyWenXinAPI': async function () {
     var var224 = {
@@ -5836,14 +5974,64 @@ Zotero.AI4Paper_Prefs = {
       Zotero.AI4Paper_Prefs.onChangeValue.updateGPTServiceModel();
       Zotero.AI4Paper_Prefs.onChangeValue.syncUnifiedGPTAPIManager();
     },
+    'updateUnifiedGPTAPIHost': function () {
+      const serviceNode = document.getElementById("ai4paper.gpt.unified.service"),
+        hostNode = document.getElementById("ai4paper.gpt.unified.host");
+      if (!serviceNode || !hostNode) return;
+      const config = Zotero.AI4Paper_Prefs.getUnifiedGPTAPIConfig(serviceNode.value || serviceNode.label || "OpenAI");
+      config.hostPrefKey && Zotero.Prefs.set(config.hostPrefKey, hostNode.value.trim());
+      Zotero.AI4Paper_Prefs.onChangeValue.syncUnifiedGPTAPIManager();
+    },
+    'updateUnifiedGPTAPIModel': function () {
+      const serviceNode = document.getElementById("ai4paper.gpt.unified.service"),
+        modelNode = document.getElementById("ai4paper.gpt.unified.model");
+      if (!serviceNode || !modelNode) return;
+      const config = Zotero.AI4Paper_Prefs.getUnifiedGPTAPIConfig(serviceNode.value || serviceNode.label || "OpenAI");
+      config.modelPrefKey && Zotero.Prefs.set(config.modelPrefKey, modelNode.value.trim());
+      Zotero.AI4Paper_Prefs.onChangeValue.syncUnifiedGPTAPIManager();
+    },
+    'syncLegacyGPTAPISections': function () {
+      const showLegacyNode = document.getElementById("ai4paper.gpt.unified.showLegacy"),
+        legacyGroupIds = [
+          "ai4paper.gpt.legacy.openai.groupbox",
+          "ai4paper.gpt.legacy.api2d.groupbox",
+          "ai4paper.gpt.legacy.chatanywhere.groupbox",
+          "ai4paper.gpt.legacy.custom1.groupbox",
+          "ai4paper.gpt.legacy.custom2.groupbox",
+          "ai4paper.gpt.legacy.custom3.groupbox",
+          "ai4paper.gpt.legacy.custom4.groupbox",
+          "ai4paper.gpt.legacy.custom5.groupbox",
+          "ai4paper.gpt.legacy.custom6.groupbox",
+          "ai4paper.gpt.legacy.qwen.groupbox",
+          "ai4paper.gpt.legacy.wenxin.groupbox",
+          "ai4paper.gpt.legacy.glm.groupbox",
+          "ai4paper.gpt.legacy.yi.groupbox",
+          "ai4paper.gpt.legacy.zjuchat.groupbox",
+          "ai4paper.gpt.legacy.volcanoSearch.groupbox",
+          "ai4paper.gpt.legacy.volcanoEngine.groupbox",
+          "ai4paper.gpt.legacy.doubao.groupbox",
+          "ai4paper.gpt.legacy.kimi.groupbox",
+          "ai4paper.gpt.legacy.deepSeek.groupbox",
+          "ai4paper.gpt.legacy.gemini.groupbox",
+          "ai4paper.gpt.legacy.claude.groupbox"
+        ],
+        showLegacy = !!showLegacyNode?.checked;
+      for (const groupId of legacyGroupIds) {
+        const groupNode = document.getElementById(groupId);
+        groupNode && (groupNode.hidden = !showLegacy);
+      }
+    },
     'syncUnifiedGPTAPIManager': function () {
       const serviceNode = document.getElementById("ai4paper.gpt.unified.service"),
         inputNode = document.getElementById("ai4paper.gpt.unified.apikey"),
         statusNode = document.getElementById("ai4paper.gpt.unified.status"),
-        helpNode = document.getElementById("ai4paper.gpt.unified.getapi");
-      if (!serviceNode || !inputNode || !statusNode || !helpNode) return;
+        helpNode = document.getElementById("ai4paper.gpt.unified.getapi"),
+        hostRow = document.getElementById("ai4paper.gpt.unified.host.row"),
+        hostNode = document.getElementById("ai4paper.gpt.unified.host"),
+        modelNode = document.getElementById("ai4paper.gpt.unified.model");
+      if (!serviceNode || !inputNode || !statusNode || !helpNode || !hostRow || !hostNode || !modelNode) return;
       let currentService = serviceNode.value || serviceNode.label;
-      const unifiedServices = ["OpenAI", "API2D", "ChatAnywhere", "通义千问"];
+      const unifiedServices = Zotero.AI4Paper_Prefs.getUnifiedGPTServiceNames();
       if (!unifiedServices.includes(currentService)) {
         currentService = Zotero.Prefs.get("ai4paper.gptservice");
       }
@@ -5855,10 +6043,16 @@ Zotero.AI4Paper_Prefs = {
         apiKey = Zotero.Prefs.get(config.prefKey) || '',
         verifyResult = Zotero.Prefs.get(config.verifyResultKey) || "未验证";
       inputNode.value = apiKey;
-      inputNode.placeholder = currentService + " API-Key";
+      inputNode.placeholder = currentService === "Ollama" ? "本地 Ollama 默认无需 API-Key" : currentService + " API-Key";
       statusNode.textContent = "当前状态：" + verifyResult;
       helpNode.setAttribute("href", config.helpUrl);
       helpNode.textContent = "获取 " + currentService + " API";
+      hostRow.hidden = !(config.hostPrefKey || config.modelPrefKey);
+      hostNode.value = config.hostPrefKey ? Zotero.Prefs.get(config.hostPrefKey) || '' : '';
+      modelNode.value = config.modelPrefKey ? Zotero.Prefs.get(config.modelPrefKey) || '' : '';
+      hostNode.placeholder = config.hostPlaceholder || '';
+      modelNode.placeholder = config.modelPlaceholder || '';
+      Zotero.AI4Paper_Prefs.onChangeValue.syncLegacyGPTAPISections();
     },
     'updateUnifiedGPTAPIKey': function () {
       const serviceNode = document.getElementById("ai4paper.gpt.unified.service"),

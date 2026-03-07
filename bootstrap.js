@@ -118,8 +118,8 @@ function shutdown({
 }
 function load_unload_JS(param4, param5, param6) {
   log("AI4paper: load scripts");
-  var var9 = ["core/ai4paper-prefs", "core/ai4paper-core", "core/ai4paper-metadata-core", "ai4paper", "ai4paper-config", "ai4paper-utils", "ai4paper-shortcuts", "ai4paper-theme", "ai4paper-trans-engines", "ai4paper-vocabulary", "ai4paper-gpt-completion", "ai4paper-gpt-chat", "ai4paper-reader", "ai4paper-annotation", "ai4paper-obsidian", "ai4paper-tags", "ai4paper-refs", "ai4paper-metadata", "ai4paper-collections", "ai4paper-item-ops", "ai4paper-license", "ai4paper-notes", "ai4paper-popup", "ai4paper-gpt-reader", "ai4paper-immersive", "ai4paper-dialog-utils", 'menuPopup', 'ui', "ChinesePY"],
-    var10 = ["emoji", "jcr_if", "zjk_fenqu", "modifiedPubTitles", 'earlywarning', 'jcr_if_abbrev', 'abbrev_to_full', "abbrev_to_full_dots", 'full_to_abbrev_dots', "full_to_abbrev", 'jcr_if_issn', 'issn_journal', "pkucore", 'njucore', "cscd", "ccf"],
+  var var9 = ["core/ai4paper-prefs", "core/ai4paper-core", "core/ai4paper-metadata-core", "core/ai4paper-notes-core", "ai4paper", "ai4paper-config", "ai4paper-utils", "ai4paper-shortcuts", "ai4paper-theme", "ai4paper-trans-engines", "ai4paper-vocabulary", "ai4paper-gpt-completion", "ai4paper-gpt-chat", "ai4paper-reader", "ai4paper-annotation", "ai4paper-obsidian", "ai4paper-tags", "ai4paper-refs", "ai4paper-metadata", "ai4paper-collections", "ai4paper-item-ops", "ai4paper-license", "ai4paper-notes", "ai4paper-popup", "ai4paper-gpt-reader", "ai4paper-immersive", "ai4paper-dialog-utils", 'menuPopup', 'ui', "ChinesePY"],
+    var10 = ["emoji", "modifiedPubTitles", 'abbrev_to_full', "abbrev_to_full_dots", 'full_to_abbrev_dots', "full_to_abbrev", "journal_ranking_compact"],
     var11 = ["svg_icons", "marked.min", "highlight.min"];
   if (param6 === "load") {
     var9.forEach(_0x3c68f8 => Services.scriptloader.loadSubScript(param4 + "/chrome/content/scripts/" + _0x3c68f8 + ".js", param5));

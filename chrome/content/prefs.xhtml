@@ -1279,6 +1279,13 @@
                             <menuitem label="API2D" value="API2D"/>
                             <menuitem label="ChatAnywhere" value="ChatAnywhere"/>
                             <menuitem label="通义千问" value="通义千问"/>
+                            <menuitem label="文心一言" value="文心一言"/>
+                            <menuitem label="智普清言" value="智普清言"/>
+                            <menuitem label="Kimi" value="Kimi"/>
+                            <menuitem label="DeepSeek" value="DeepSeek"/>
+                            <menuitem label="Gemini" value="Gemini"/>
+                            <menuitem label="Claude" value="Claude"/>
+                            <menuitem label="Ollama" value="Ollama"/>
                         </menupopup>
                     </menulist>
                 </hbox>
@@ -1295,6 +1302,21 @@
                     <button id="ai4paper.gpt.unified.remove.button"
                             data-l10n-id="ai4paper-button-elem-remove-api"
                             oncommand="Zotero.AI4Paper_Prefs.removeUnifiedGPTAPI();"></button>
+                    <button id="ai4paper.gpt.unified.cleanup.button"
+                            label="仅保留当前"
+                            oncommand="Zotero.AI4Paper_Prefs.removeOtherUnifiedGPTAPIs();"></button>
+                </hbox>
+            </hbox>
+
+            <hbox id="ai4paper.gpt.unified.host.row" align="center" class="zoteroone-hbox-medium-gap" hidden="true">
+                <hbox align="center">
+                    <label>Host</label>
+                    <html:input type="text" id="ai4paper.gpt.unified.host" size="32" onchange="Zotero.AI4Paper_Prefs.onChangeValue.updateUnifiedGPTAPIHost();"></html:input>
+                </hbox>
+
+                <hbox align="center">
+                    <label>Model</label>
+                    <html:input type="text" id="ai4paper.gpt.unified.model" size="22" onchange="Zotero.AI4Paper_Prefs.onChangeValue.updateUnifiedGPTAPIModel();"></html:input>
                 </hbox>
             </hbox>
 
@@ -1302,11 +1324,16 @@
                 <html:description id="ai4paper.gpt.unified.status" style="color: gray; font-size: 12px;">当前状态：未验证</html:description>
                 <label id="ai4paper.gpt.unified.getapi" is="zotero-text-link" href="https://www.yuque.com/qnscholar/zotero-one/gd5pfvvrgla9lu0u">获取当前服务 API</label>
             </hbox>
+
+            <hbox align="center" class="zoteroone-hbox-medium-gap">
+                <html:description style="color: gray; font-size: 12px;">旧版分散 API 配置已收口到上面的统一入口。只有在需要调整高级参数时，才建议展开下面的旧区块。</html:description>
+                <checkbox id="ai4paper.gpt.unified.showLegacy" label="显示高级 AI 配置" native="true" oncommand="Zotero.AI4Paper_Prefs.onChangeValue.syncLegacyGPTAPISections();"/>
+            </hbox>
         </groupbox>
 
         <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * OpenAI * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 
-        <groupbox>
+        <groupbox id="ai4paper.gpt.legacy.openai.groupbox">
             <label><html:h2 data-l10n-id='ai4paper-gpt-openai-api-title-label'></html:h2></label>
 
             <hbox align="center">
@@ -1335,7 +1362,7 @@
 
         <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * API2D * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 
-        <groupbox>
+        <groupbox id="ai4paper.gpt.legacy.api2d.groupbox">
             <label><html:h2 data-l10n-id='ai4paper-gpt-api2d-api-title-label'></html:h2></label>
 
             <hbox align="center">
@@ -1369,7 +1396,7 @@
 
         <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * ChatAnywhere * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 
-        <groupbox>
+        <groupbox id="ai4paper.gpt.legacy.chatanywhere.groupbox">
             <label><html:h2 data-l10n-id='ai4paper-gpt-chatanywhere-api-title-label'></html:h2></label>
 
             <hbox align="center">
@@ -1412,7 +1439,7 @@
 
         <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * GPT 自定义 1 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 
-        <groupbox>
+        <groupbox id="ai4paper.gpt.legacy.custom1.groupbox">
             <label><html:h2 data-l10n-id='ai4paper-gpt-custom-title-label'></html:h2></label>
 
             <hbox align="center">
@@ -1479,7 +1506,7 @@
 
         <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * GPT 自定义 2 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 
-        <groupbox>
+        <groupbox id="ai4paper.gpt.legacy.custom2.groupbox">
             <label><html:h2 data-l10n-id='ai4paper-gpt-custom-2nd-title-label'></html:h2></label>
 
             <hbox align="center">
@@ -1546,7 +1573,7 @@
 
         <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * GPT 自定义 3 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 
-        <groupbox>
+        <groupbox id="ai4paper.gpt.legacy.custom3.groupbox">
             <label><html:h2 data-l10n-id='ai4paper-gpt-custom-3rd-title-label'></html:h2></label>
 
             <hbox align="center">
@@ -1613,7 +1640,7 @@
 
         <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * GPT 自定义 4 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 
-        <groupbox>
+        <groupbox id="ai4paper.gpt.legacy.custom4.groupbox">
             <label><html:h2 data-l10n-id='ai4paper-gpt-custom-4th-title-label'></html:h2></label>
 
             <hbox align="center">
@@ -1680,7 +1707,7 @@
 
         <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * GPT 自定义 5 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 
-        <groupbox>
+        <groupbox id="ai4paper.gpt.legacy.custom5.groupbox">
             <label><html:h2 data-l10n-id='ai4paper-gpt-custom-5th-title-label'></html:h2></label>
 
             <hbox align="center">
@@ -1746,7 +1773,7 @@
 
         <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * GPT 自定义 6 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 
-        <groupbox>
+        <groupbox id="ai4paper.gpt.legacy.custom6.groupbox">
             <label><html:h2 data-l10n-id='ai4paper-gpt-custom-6th-title-label'></html:h2></label>
 
             <hbox align="center">
@@ -1813,7 +1840,7 @@
 
         <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 通义千问 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 
-        <groupbox>
+        <groupbox id="ai4paper.gpt.legacy.qwen.groupbox">
             <label><html:h2 data-l10n-id='ai4paper-gpt-qwen-api-title-label'></html:h2></label>
 
             <hbox align="center">
@@ -1846,7 +1873,7 @@
 
         <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 文心一言 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 
-        <groupbox>
+        <groupbox id="ai4paper.gpt.legacy.wenxin.groupbox">
             <label><html:h2 data-l10n-id='ai4paper-gpt-wenxin-api-title-label'></html:h2></label>
 
             <hbox align="center">
@@ -1879,7 +1906,7 @@
 
         <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * GLM * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 
-        <groupbox>
+        <groupbox id="ai4paper.gpt.legacy.glm.groupbox">
             <label><html:h2 data-l10n-id='ai4paper-gpt-glm-api-title-label'></html:h2></label>
 
             <hbox align="center">
@@ -1908,7 +1935,7 @@
 
         <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 零一万物 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 
-        <groupbox>
+        <groupbox id="ai4paper.gpt.legacy.yi.groupbox">
             <label><html:h2 data-l10n-id='ai4paper-gpt-yi-api-title-label'></html:h2></label>
 
             <hbox align="center">
@@ -1937,7 +1964,7 @@
 
         <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 浙大先生 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 
-        <groupbox>
+        <groupbox id="ai4paper.gpt.legacy.zjuchat.groupbox">
             <label><html:h2 data-l10n-id='ai4paper-gpt-zjuchat-api-title-label'></html:h2></label>
 
             <hbox align="center">
@@ -1966,7 +1993,7 @@
 
         <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 火山联网搜索 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 
-        <groupbox>
+        <groupbox id="ai4paper.gpt.legacy.volcanoSearch.groupbox">
             <label><html:h2 data-l10n-id='ai4paper-gpt-volcanoSearch-api-title-label'></html:h2></label>
 
             <hbox align="center">
@@ -2004,7 +2031,7 @@
 
         <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 火山引擎 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 
-        <groupbox>
+        <groupbox id="ai4paper.gpt.legacy.volcanoEngine.groupbox">
             <label><html:h2 data-l10n-id='ai4paper-gpt-volcanoEngine-api-title-label'></html:h2></label>
 
             <hbox align="center">
@@ -2041,7 +2068,7 @@
 
         <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 豆包 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 
-        <groupbox>
+        <groupbox id="ai4paper.gpt.legacy.doubao.groupbox">
             <label><html:h2 data-l10n-id='ai4paper-gpt-doubao-api-title-label'></html:h2></label>
 
             <hbox align="center">
@@ -2078,7 +2105,7 @@
 
         <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * Kimi * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 
-        <groupbox>
+        <groupbox id="ai4paper.gpt.legacy.kimi.groupbox">
             <label><html:h2 data-l10n-id='ai4paper-gpt-kimi-api-title-label'></html:h2></label>
 
             <hbox align="center">
@@ -2107,7 +2134,7 @@
 
         <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * DeepSeek * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 
-        <groupbox>
+        <groupbox id="ai4paper.gpt.legacy.deepSeek.groupbox">
             <label><html:h2 data-l10n-id='ai4paper-gpt-deepSeek-api-title-label'></html:h2></label>
 
             <hbox align="center">
@@ -2141,7 +2168,7 @@
 
         <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * Gemini * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 
-        <groupbox>
+        <groupbox id="ai4paper.gpt.legacy.gemini.groupbox">
             <label><html:h2 data-l10n-id='ai4paper-gpt-gemini-api-title-label'></html:h2></label>
 
             <hbox align="center">
@@ -2200,7 +2227,7 @@
 
         <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * Claude * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 
-        <groupbox>
+        <groupbox id="ai4paper.gpt.legacy.claude.groupbox">
             <label><html:h2 data-l10n-id='ai4paper-gpt-claude-api-title-label'></html:h2></label>
 
             <hbox align="center">
@@ -3688,8 +3715,8 @@
                 </hbox>
 
                 <hbox align="center" class="zoteroone-hbox-tiny-gap">
-                    <div class="svg-container-microsoftedge"></div>
-                    <label data-l10n-id="ai4paper-immersiveTranslate-choose-edge-app-label"></label>
+                    <div class="svg-container-browser"></div>
+                    <label data-l10n-id="ai4paper-immersiveTranslate-choose-browser-app-label"></label>
                     <html:input type="text" id="ai4paper.browserPath4ImmersiveTranslate" preference="extensions.zotero.ai4paper.browserPath4ImmersiveTranslate" size="35" readonly="true"></html:input>
                     <button data-l10n-id="ai4paper-button-elem-choose" oncommand="Zotero.AI4Paper_Prefs.chooseImmersiveTranslateBrowserPath();"></button>
                 </hbox>

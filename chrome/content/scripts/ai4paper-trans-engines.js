@@ -2435,7 +2435,10 @@ Object.assign(Zotero.AI4Paper, {
   },
   'transbyShortCuts_getRaw': function () {
     const selectedText = Zotero.AI4Paper.getSelectedText().trim();
-    if (!selectedText) return;
+    if (!selectedText) {
+      Zotero.AI4Paper.translateReaderSidePane_showErrorMessage("❌ 未检测到选中文本！\n\n请先在 PDF/网页阅读器中选中要翻译的文本。");
+      return;
+    }
     if (Zotero.Prefs.get('ai4paper.translationreadersidepane')) {
       Zotero.AI4Paper.translateSourceText = selectedText;
       Zotero.AI4Paper.translateResponse = '';

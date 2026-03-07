@@ -2021,6 +2021,27 @@ Object.assign(Zotero.AI4Paper, {
       serviceDisplay = "OpenAI / 通义千问";
       bindDisplay = "OpenAI】或【通义千问";
     }
+    if (serviceName === "Ollama") {
+      let ollamaHost = (Zotero.AI4Paper.gptServiceList()[serviceName].base_url || '').trim(),
+        ollamaModel = (Zotero.AI4Paper.gptServiceList()[serviceName].model || '').trim();
+      if (ollamaHost === '' || ollamaModel === '') {
+        errorMsg = "❌ 尚未配置【Ollama】！\n\n请先前往【Zotero 设置 --> AI4paper --> GPT API】填写本地 Ollama 的 Host 和模型名称！";
+        if (mode === 'translation' && showUI) Zotero.AI4Paper.translateReaderSidePane_showErrorMessage(errorMsg);else mode === "chat" && showUI && window.alert(errorMsg);
+        if (throwError) {
+          throw new Error(errorMsg.replace('❌', ''));
+        }
+        return false;
+      }
+      if (Zotero.AI4Paper.gptServiceList()[serviceName].api_verifyResult != "验证成功") {
+        errorMsg = "❌ 尚未验证【Ollama】连接！\n\n请先前往【Zotero 设置 --> AI4paper --> GPT API】验证本地 Ollama 连接。";
+        if (mode === "translation" && showUI) Zotero.AI4Paper.translateReaderSidePane_showErrorMessage(errorMsg);else mode === 'chat' && showUI && window.alert(errorMsg);
+        if (throwError) {
+          throw new Error(errorMsg.replace('❌', ''));
+        }
+        return false;
+      }
+      return true;
+    }
     if (apiKey === '') {
       errorMsg = "❌ 尚未配置【" + serviceDisplay + "】！\n\n请先前往【Zotero 设置 --> AI4paper --> GPT API】绑定【" + bindDisplay + "】API-Key！";
       if (mode === 'translation' && showUI) Zotero.AI4Paper.translateReaderSidePane_showErrorMessage(errorMsg);else mode === "chat" && showUI && window.alert(errorMsg);
@@ -2176,7 +2197,7 @@ Object.assign(Zotero.AI4Paper, {
     if (serviceName === "Claude") {
       headers.append("x-api-key", apiKey);
       headers.append("anthropic-version", "2023-06-01");
-    } else serviceName === "Gemini" ? headers.append('x-goog-api-key', apiKey) : (headers.append("Authorization", "Bearer " + apiKey), serviceName === "API2D" && headers.append('x-api2d-no-cache', 0x1));
+    } else serviceName === "Gemini" ? headers.append('x-goog-api-key', apiKey) : serviceName === "Ollama" ? void 0x0 : (headers.append("Authorization", "Bearer " + apiKey), serviceName === "API2D" && headers.append('x-api2d-no-cache', 0x1));
     let requestOptions = {
       'method': "POST",
       'headers': headers,
@@ -2199,6 +2220,10 @@ Object.assign(Zotero.AI4Paper, {
         return {
           'Content-Type': "application/json",
           'x-goog-api-key': apiKey
+        };
+      } else if (serviceName === "Ollama") {
+        return {
+          'Content-Type': "application/json"
         };
       } else {
         if (serviceName === "API2D") {
@@ -2949,6 +2974,33 @@ Object.assign(Zotero.AI4Paper, {
     var requestBody = {
       'model': model,
       'max_tokens': Zotero.AI4Paper.getClaudeMaxTokens(model),
+      'messages': messagesToSend,
+      'stream': Zotero.Prefs.get("ai4paper.gptStreamResponse")
+    };
+    Zotero.AI4Paper.startFetch_ChatMode(iframeWin, apiUrl, apiKey, requestBody, messagesHistory, questionData, serviceName, errorCodeLink);
+  },
+  'gptReaderSidePane_ChatMode_sendByOllama': async function () {
+    if (!Zotero.AI4Paper.hasPer_mission(true)) return false;
+    let serviceName = "Ollama";
+    var apiKey = Zotero.AI4Paper.gptServiceList()[serviceName].api_key,
+      apiUrl = Zotero.AI4Paper.gptServiceList()[serviceName].base_url.replace(/\/$/, '') + "/v1/chat/completions";
+    let errorCodeLink = Zotero.AI4Paper.gptServiceList()[serviceName].errorCode_link;
+    if (!Zotero.AI4Paper.gptService_isTokenEmpty_APIVerified(apiKey, serviceName, true, "chat")) return false;
+    let iframeWin = Zotero.AI4Paper.getIframeWindowBySidePaneType("chatgpt");
+    if (!iframeWin) return false;
+    if (Zotero.AI4Paper.gptReaderSidePane_ChatMode_isStreamRunning(iframeWin)) return false;
+    let questionData = Zotero.AI4Paper.gptReaderSidePane_ChatMode_getQuestion(iframeWin),
+      questionText = questionData.question;
+    if (!questionText) {
+      return;
+    }
+    var model = Zotero.AI4Paper.gptServiceList()[serviceName].model;
+    let {
+      messagesToSend: messagesToSend,
+      messagesHistory: messagesHistory
+    } = Zotero.AI4Paper.gptReaderSidePane_ChatMode_processMessagesOnRequest(questionData, serviceName, model);
+    var requestBody = {
+      'model': model,
       'messages': messagesToSend,
       'stream': Zotero.Prefs.get("ai4paper.gptStreamResponse")
     };

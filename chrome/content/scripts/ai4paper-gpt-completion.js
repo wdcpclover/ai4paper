@@ -191,7 +191,6 @@ Object.assign(Zotero.AI4Paper, {
             });
             if (!Zotero.AI4Paper.catchStreamError_CompletionMode(serviceName, errorLink, decoded)) return;
             Zotero.AI4Paper.resolveStreamChunk(decoded, streamState, serviceName);
-            Zotero.Prefs.set('ai4paper.chatgptresponse', streamState.target);
             iframeWin.document.getElementById("ai4paper-chatgpt-readerSidePane-chatgpt-response") && (iframeWin.document.getElementById("ai4paper-chatgpt-readerSidePane-chatgpt-response").value = streamState.target);
             readChunk();
           });
@@ -769,6 +768,32 @@ Object.assign(Zotero.AI4Paper, {
           'content': question
         }],
         'stream': Zotero.Prefs.get('ai4paper.gptStreamResponse')
+    };
+    Zotero.AI4Paper.startFetch_CompletionMode(iframeWin, apiUrl, apiKey, requestBody, question, serviceName, errorLink);
+  },
+  'gptReaderSidePane_sendByOllama': async function () {
+    if (!Zotero.AI4Paper.hasPer_mission(true)) return false;
+    let serviceName = "Ollama";
+    var apiKey = Zotero.AI4Paper.gptServiceList()[serviceName].api_key,
+      apiUrl = Zotero.AI4Paper.gptServiceList()[serviceName].base_url.replace(/\/$/, '') + "/v1/chat/completions";
+    let errorLink = Zotero.AI4Paper.gptServiceList()[serviceName].errorCode_link;
+    if (!Zotero.AI4Paper.gptService_isTokenEmpty_APIVerified(apiKey, serviceName, true, "chat")) return false;
+    let iframeWin = Zotero.AI4Paper.getIframeWindowBySidePaneType("chatgpt");
+    if (!iframeWin) return false;
+    if (Zotero.AI4Paper.gptReaderSidePane_isStreamRunning(iframeWin)) return false;
+    let question = '';
+    question = Zotero.AI4Paper.gptReaderSidePane_getQuestion(iframeWin);
+    if (!question) {
+      return;
+    }
+    var model = Zotero.AI4Paper.gptServiceList()[serviceName].model,
+      requestBody = {
+        'model': model,
+        'messages': [{
+          'role': "user",
+          'content': question
+        }],
+        'stream': Zotero.Prefs.get("ai4paper.gptStreamResponse")
       };
     Zotero.AI4Paper.startFetch_CompletionMode(iframeWin, apiUrl, apiKey, requestBody, question, serviceName, errorLink);
   },

@@ -44,6 +44,8 @@ Zotero.AI4Paper = {
     this.registerMenuToReaderMenu();
     this.addEventListener_itemViewPinButton();
     this.customItemTreeColumns();
+    this.initItemTreeBadgeHooks();
+    this.scheduleItemTreeBadgesRender();
     this.addReaderElementsOnStartup();
   },
   'initParam': function () {
@@ -100,6 +102,67 @@ Zotero.AI4Paper = {
     window.document.getElementById("zotero-itemmenu").addEventListener("popupshowing", Zotero.AI4Paper.UI.displayItemMenuitem, false);
     window.document.getElementById("menu_ToolsPopup").addEventListener("popupshowing", Zotero.AI4Paper.UI.displayToolsMenuitem, false);
     window.document.getElementById("zotero-collectionmenu").addEventListener('popupshowing', Zotero.AI4Paper.UI.displayCollectionMenuitem, false);
+    window.document.addEventListener('keyup', Zotero.AI4Paper.scheduleItemTreeBadgesRender, false);
+  },
+  'initItemTreeBadgeHooks': function () {
+    let tree = window.document.querySelector("#item-tree-main-default");
+    if (!tree) return;
+    this.destroyItemTreeBadgeHooks();
+    this._itemTreeBadgeObserver = new MutationObserver(() => {
+      Zotero.AI4Paper.scheduleItemTreeBadgesRender();
+    });
+    this._itemTreeBadgeObserver.observe(tree, {
+      'childList': true,
+      'subtree': true,
+      'attributes': true,
+      'attributeFilter': ['class']
+    });
+    window.document.addEventListener('pointerup', Zotero.AI4Paper.scheduleItemTreeBadgesRender, false);
+  },
+  'destroyItemTreeBadgeHooks': function () {
+    this._itemTreeBadgeObserver && this._itemTreeBadgeObserver.disconnect();
+    this._itemTreeBadgeObserver = null;
+    this._itemTreeBadgesTimer && clearTimeout(this._itemTreeBadgesTimer);
+    window.document.removeEventListener('pointerup', Zotero.AI4Paper.scheduleItemTreeBadgesRender, false);
+    window.document.removeEventListener('keyup', Zotero.AI4Paper.scheduleItemTreeBadgesRender, false);
+    this.clearItemTreeBadges();
+  },
+  'scheduleItemTreeBadgesRender': function () {
+    Zotero.AI4Paper._itemTreeBadgesTimer && clearTimeout(Zotero.AI4Paper._itemTreeBadgesTimer);
+    Zotero.AI4Paper._itemTreeBadgesTimer = setTimeout(() => {
+      Zotero.AI4Paper.renderSelectedItemTreeBadges();
+    }, 80);
+  },
+  'clearItemTreeBadges': function () {
+    window.document.querySelectorAll(".ai4paper-item-tree-badges-row").forEach(el => el.remove());
+  },
+  'renderSelectedItemTreeBadges': function () {
+    try {
+      Zotero.AI4Paper.clearItemTreeBadges();
+      if (Zotero_Tabs._selectedID != 'zotero-pane') return;
+      let item = ZoteroPane.getSelectedItems()?.[0x0];
+      if (!item || !item.isRegularItem || !item.isRegularItem()) return;
+      let row = window.document.querySelector("#item-tree-main-default .row.selected");
+      if (!row || !row.parentNode) return;
+      let badges = Zotero.AI4Paper.getCompactJournalRankingBadgeTexts(item);
+      if (!badges.length) return;
+      let badgeRow = window.document.createElement("div");
+      badgeRow.className = "ai4paper-item-tree-badges-row";
+      badgeRow.style.cssText = "display:flex;flex-wrap:wrap;gap:6px;padding:2px 8px 6px 36px;margin-top:-2px;margin-bottom:2px;";
+      badges.forEach(text => {
+        let chip = window.document.createElement("span");
+        chip.textContent = text;
+        chip.style.cssText = "display:inline-flex;align-items:center;border-radius:999px;padding:1px 8px;font-size:11px;line-height:18px;background:#f2b6b6;color:#4a1f1f;border:1px solid rgba(120,40,40,0.12);white-space:nowrap;";
+        if (text.indexOf("IF ") === 0x0) chip.style.background = "#f3c6c6";
+        if (text.indexOf("JCR ") === 0x0) chip.style.background = "#e7d8f4";
+        if (text.indexOf("中科院") === 0x0) chip.style.background = "#f7d9c4";
+        if (text === "SCIE" || text === "SSCI") chip.style.background = "#f6b3b3";
+        badgeRow.appendChild(chip);
+      });
+      row.parentNode.insertBefore(badgeRow, row.nextSibling);
+    } catch (e) {
+      Zotero.debug(e);
+    }
   },
   'injectScripts': function (shouldInject) {
     try {
@@ -143,6 +206,7 @@ Zotero.AI4Paper = {
       this.unregisterReaderButtons();
       this.unregisterWindowButtons();
       window.removeEventListener('pointerup', Zotero.AI4Paper.handlePointerup);
+      this.destroyItemTreeBadgeHooks();
       this.readerMenuItemClickEvent("remove");
       this.showZoteroNotesSection();
       this.clickEventListner_SideNavNotes("remove");
@@ -163,6 +227,7 @@ Zotero.AI4Paper = {
   'notifyCallback': {
     'notify': async function (event, type, ids, extraData) {
       if (!Zotero.AI4Paper.getFunMetaTitle()) return false;
+      Zotero.AI4Paper.scheduleItemTreeBadgesRender();
       if (event === 'add' && type == 'tab') {
         let newTabReader = Zotero.Reader.getByTabID(ids[0x0]);
         Zotero.AI4Paper.addReaderButtonInit(newTabReader);
@@ -300,16 +365,26 @@ Zotero.AI4Paper = {
     } else reader.spreadMode = 0x0;
   },
   'customItemTreeColumns': async function () {
-    let columnKeys = ['shortTitle', "archive", 'archiveLocation', "libraryCatalog", "callNumber", 'rights'];
+    let columnKeys = ['shortTitle', "archive", 'archiveLocation', "libraryCatalog", "callNumber", "journalRanking", 'rights'];
     for (let columnKey of columnKeys) {
-      Zotero.Prefs.get("ai4paper.enableCustomItemTreeColumns" + columnKey) ? await Zotero.ItemTreeManager.registerColumns({
-        'dataKey': columnKey,
-        'label': Zotero.Prefs.get("ai4paper.renameCustomItemTreeColumns" + columnKey),
-        'pluginID': 'ai4paper@qnscholar',
-        'dataProvider': (item, dataKey) => {
-          return item.getField(columnKey);
-        }
-      }) : await Zotero.ItemTreeManager.unregisterColumns("ai4paper\\@qnscholar-" + columnKey);
+      let columnID = "ai4paper\\@qnscholar-" + columnKey;
+      await Zotero.ItemTreeManager.unregisterColumns(columnID);
+      if (Zotero.Prefs.get("ai4paper.enableCustomItemTreeColumns" + columnKey)) {
+        await Zotero.ItemTreeManager.registerColumns({
+          'dataKey': columnKey,
+          'label': Zotero.Prefs.get("ai4paper.renameCustomItemTreeColumns" + columnKey),
+          'pluginID': 'ai4paper@qnscholar',
+          'dataProvider': (item, dataKey) => {
+            if (columnKey === "libraryCatalog") {
+              return Zotero.AI4Paper.getCompactJournalRankingSummary(item);
+            }
+            if (columnKey === "journalRanking") {
+              return Zotero.AI4Paper.getCompactJournalRankingSummary(item);
+            }
+            return item.getField(columnKey);
+          }
+        });
+      }
     }
   },
   'registerItemsToolBarButtons': function (buttonNames) {

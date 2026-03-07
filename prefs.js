@@ -592,6 +592,8 @@ pref("extensions.zotero.ai4paper.enableCustomItemTreeColumnslibraryCatalog", fal
 pref("extensions.zotero.ai4paper.renameCustomItemTreeColumnslibraryCatalog", "影响因子");
 pref("extensions.zotero.ai4paper.enableCustomItemTreeColumnscallNumber", false);
 pref("extensions.zotero.ai4paper.renameCustomItemTreeColumnscallNumber", "中科院分区");
+pref("extensions.zotero.ai4paper.enableCustomItemTreeColumnsjournalRanking", true);
+pref("extensions.zotero.ai4paper.renameCustomItemTreeColumnsjournalRanking", "分区汇总");
 pref("extensions.zotero.ai4paper.enableCustomItemTreeColumnsrights", false);
 pref("extensions.zotero.ai4paper.renameCustomItemTreeColumnsrights", '星标');
 pref("extensions.zotero.ai4paper.enabelColorLabel", false);
