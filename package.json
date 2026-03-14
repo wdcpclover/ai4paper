@@ -48,6 +48,7 @@
     "package:codex:4.2": "npm run build && zip -qr ai4paper-codex-4.2.xpi manifest.json bootstrap.js prefs.js chrome locale -x '*.DS_Store'",
     "package:codex:4.3": "npm run build && zip -qr ai4paper-codex-4.3.xpi manifest.json bootstrap.js prefs.js chrome locale -x '*.DS_Store'",
     "package:codex:4.4": "npm run build && zip -qr ai4paper-codex-4.4.xpi manifest.json bootstrap.js prefs.js chrome locale -x '*.DS_Store'",
-    "package:codex:4.5": "npm run build && zip -qr ai4paper-codex-4.5.xpi manifest.json bootstrap.js prefs.js chrome locale -x '*.DS_Store'"
+    "package:codex:4.5": "npm run build && zip -qr ai4paper-codex-4.5.xpi manifest.json bootstrap.js prefs.js chrome locale -x '*.DS_Store'",
+    "package:codex:4.6": "npm run build && zip -qr ai4paper-codex-4.6.xpi manifest.json bootstrap.js prefs.js chrome locale -x '*.DS_Store'"
   }
 }

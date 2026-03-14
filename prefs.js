@@ -596,6 +596,11 @@ pref("extensions.zotero.ai4paper.enableCustomItemTreeColumnsjournalRanking", tru
 pref("extensions.zotero.ai4paper.renameCustomItemTreeColumnsjournalRanking", "分区汇总");
 pref("extensions.zotero.ai4paper.enableCustomItemTreeColumnsrights", false);
 pref("extensions.zotero.ai4paper.renameCustomItemTreeColumnsrights", '星标');
+
+// Journal Ranking Badge Column (TS module: ai4paper-journal-ranking)
+pref("extensions.zotero.ai4paper.enableJRColumn_journalRanking", true);
+pref("extensions.zotero.ai4paper.labelJRColumn_journalRanking", "期刊分区");
+
 pref("extensions.zotero.ai4paper.enabelColorLabel", false);
 pref("extensions.zotero.ai4paper.yellowColorLabel", '');
 pref("extensions.zotero.ai4paper.redColorLabel", '');

@@ -1,5 +1,3 @@
-declare const Zotero: any;
-
 type AnnotationLike = {
   annotationColor?: string;
   annotationType?: string;

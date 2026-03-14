@@ -44,8 +44,7 @@ Zotero.AI4Paper = {
     this.registerMenuToReaderMenu();
     this.addEventListener_itemViewPinButton();
     this.customItemTreeColumns();
-    this.initItemTreeBadgeHooks();
-    this.scheduleItemTreeBadgesRender();
+    AI4PaperJournalRanking.registerColumns();
     this.addReaderElementsOnStartup();
   },
   'initParam': function () {
@@ -102,7 +101,6 @@ Zotero.AI4Paper = {
     window.document.getElementById("zotero-itemmenu").addEventListener("popupshowing", Zotero.AI4Paper.UI.displayItemMenuitem, false);
     window.document.getElementById("menu_ToolsPopup").addEventListener("popupshowing", Zotero.AI4Paper.UI.displayToolsMenuitem, false);
     window.document.getElementById("zotero-collectionmenu").addEventListener('popupshowing', Zotero.AI4Paper.UI.displayCollectionMenuitem, false);
-    window.document.addEventListener('keyup', Zotero.AI4Paper.scheduleItemTreeBadgesRender, false);
   },
   'initItemTreeBadgeHooks': function () {
     let tree = window.document.querySelector("#item-tree-main-default");
@@ -206,7 +204,6 @@ Zotero.AI4Paper = {
       this.unregisterReaderButtons();
       this.unregisterWindowButtons();
       window.removeEventListener('pointerup', Zotero.AI4Paper.handlePointerup);
-      this.destroyItemTreeBadgeHooks();
       this.readerMenuItemClickEvent("remove");
       this.showZoteroNotesSection();
       this.clickEventListner_SideNavNotes("remove");
@@ -227,7 +224,6 @@ Zotero.AI4Paper = {
   'notifyCallback': {
     'notify': async function (event, type, ids, extraData) {
       if (!Zotero.AI4Paper.getFunMetaTitle()) return false;
-      Zotero.AI4Paper.scheduleItemTreeBadgesRender();
       if (event === 'add' && type == 'tab') {
         let newTabReader = Zotero.Reader.getByTabID(ids[0x0]);
         Zotero.AI4Paper.addReaderButtonInit(newTabReader);
@@ -366,25 +362,80 @@ Zotero.AI4Paper = {
   },
   'customItemTreeColumns': async function () {
     let columnKeys = ['shortTitle', "archive", 'archiveLocation', "libraryCatalog", "callNumber", "journalRanking", 'rights'];
+    let enabledColumnIDs = [];
     for (let columnKey of columnKeys) {
-      let columnID = "ai4paper\\@qnscholar-" + columnKey;
-      await Zotero.ItemTreeManager.unregisterColumns(columnID);
+      let columnID = CSS.escape(("ai4paper@qnscholar-" + columnKey).replace(/[^a-zA-Z0-9-_]/g, "-"));
+      await Zotero.ItemTreeManager.unregisterColumn(columnID);
       if (Zotero.Prefs.get("ai4paper.enableCustomItemTreeColumns" + columnKey)) {
-        await Zotero.ItemTreeManager.registerColumns({
+        enabledColumnIDs.push(columnID);
+        let isRankingCol = (columnKey === "journalRanking" || columnKey === "libraryCatalog");
+        let colOption = {
           'dataKey': columnKey,
           'label': Zotero.Prefs.get("ai4paper.renameCustomItemTreeColumns" + columnKey),
           'pluginID': 'ai4paper@qnscholar',
+          'enabledTreeIDs': ['main'],
+          'defaultIn': ['default'],
+          'showInColumnPicker': true,
+          'columnPickerSubMenu': true,
+          'flex': columnKey === "journalRanking" ? 3 : 1,
           'dataProvider': (item, dataKey) => {
-            if (columnKey === "libraryCatalog") {
-              return Zotero.AI4Paper.getCompactJournalRankingSummary(item);
-            }
-            if (columnKey === "journalRanking") {
+            if (isRankingCol) {
+              let badges = AI4PaperJournalRanking.buildBadges(item);
+              if (badges.length > 0) return JSON.stringify(badges);
               return Zotero.AI4Paper.getCompactJournalRankingSummary(item);
             }
             return item.getField(columnKey);
           }
-        });
+        };
+        if (isRankingCol) {
+          colOption.renderCell = function (index, data, column, isFirstColumn, doc) {
+            let cell = doc.createElementNS("http://www.w3.org/1999/xhtml", "span");
+            cell.className = "cell " + (column.className || "");
+            cell.style.display = "flex";
+            cell.style.alignItems = "center";
+            cell.style.gap = "2px";
+            cell.style.overflow = "hidden";
+            if (!data) return cell;
+            let badges;
+            try { badges = JSON.parse(data); } catch (e) {
+              cell.textContent = data;
+              return cell;
+            }
+            if (!Array.isArray(badges) || badges.length === 0) {
+              cell.textContent = data;
+              return cell;
+            }
+            for (let badge of badges) {
+              let span = doc.createElementNS("http://www.w3.org/1999/xhtml", "span");
+              span.textContent = badge.text;
+              span.setAttribute("style",
+                "display:inline-block;padding:1px 6px;margin:0 2px;border-radius:3px;" +
+                "font-size:11px;line-height:16px;font-weight:500;white-space:nowrap;" +
+                "background-color:" + badge.bg + ";color:" + badge.fg
+              );
+              cell.appendChild(span);
+            }
+            return cell;
+          };
+        }
+        await Zotero.ItemTreeManager.registerColumn(colOption);
       }
+    }
+    Zotero.ItemTreeManager.refreshColumns();
+    try {
+      let itemsView = Zotero.getMainWindow()?.ZoteroPane?.itemsView;
+      if (itemsView?._getColumnPrefs && itemsView?._storeColumnPrefs) {
+        let columnPrefs = Object.assign({}, itemsView._getColumnPrefs());
+        for (let columnID of enabledColumnIDs) {
+          columnPrefs[columnID] = Object.assign({}, columnPrefs[columnID], {
+            'hidden': false
+          });
+        }
+        itemsView._storeColumnPrefs(columnPrefs);
+        itemsView.tree && itemsView.tree.invalidate();
+      }
+    } catch (e) {
+      Zotero.debug(e);
     }
   },
   'registerItemsToolBarButtons': function (buttonNames) {
