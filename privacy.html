@@ -3,25 +3,97 @@
 <head>
 <meta charset="utf-8">
 <title>AI4Paper Scholar - Privacy Policy</title>
-<style>body{max-width:700px;margin:40px auto;padding:0 20px;font-family:sans-serif;line-height:1.7;color:#333}h1{font-size:24px}h2{font-size:18px;margin-top:28px}</style>
+<style>
+body{max-width:720px;margin:40px auto;padding:0 24px;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.8;color:#333}
+h1{font-size:26px;margin-bottom:4px}
+h2{font-size:18px;margin-top:32px;border-bottom:1px solid #eee;padding-bottom:6px}
+h3{font-size:15px;margin-top:16px}
+ul{padding-left:20px}
+code{background:#f5f5f5;padding:2px 5px;border-radius:3px;font-size:13px}
+.updated{color:#888;font-size:14px}
+a{color:#4f46e5}
+</style>
 </head>
 <body>
-<h1>AI4Paper Scholar Privacy Policy</h1>
-<p>Last updated: March 28, 2026</p>
 
-<h2>Data Collection</h2>
-<p>AI4Paper Scholar does <strong>not</strong> collect, store, or transmit any personal data. The extension operates entirely on the client side for page content analysis.</p>
+<h1>AI4Paper Scholar — Privacy Policy</h1>
+<p class="updated">Last updated: March 30, 2026</p>
 
-<h2>Network Requests</h2>
-<p>The extension sends journal names extracted from academic web pages to the AI4Paper API (ai4paper.pro) to retrieve journal ranking information. Only journal names are transmitted; no user identifiers, browsing history, or personal information is sent.</p>
+<h2>1. Introduction</h2>
+<p>AI4Paper ("we", "us") operates the AI4Paper Scholar browser extension (the "Extension") and the website <a href="https://ai4paper.pro">ai4paper.pro</a> (the "Service"). This Privacy Policy explains how we collect, use, store, and share information when you use our Extension and Service.</p>
 
-<h2>Storage</h2>
-<p>The extension uses Chrome's storage API solely to save user preferences (API base URL). No personal data is stored.</p>
+<h2>2. Information We Collect</h2>
 
-<h2>Third-Party Services</h2>
-<p>The extension communicates only with ai4paper.pro to look up journal rankings. No data is shared with any other third party.</p>
+<h3>2.1 Account Information</h3>
+<p>When you create an account or log in through the Extension, we collect your <strong>email address or phone number</strong> and an <strong>encrypted password</strong>. This is necessary to authenticate you and manage your account.</p>
 
-<h2>Contact</h2>
-<p>For questions about this privacy policy, contact: wdcpclover@qq.com</p>
+<h3>2.2 Journal Query Data</h3>
+<p>When you browse academic websites (such as Google Scholar, CNKI, PubMed, etc.), the Extension extracts <strong>journal names</strong> from the pages you visit and sends them to our server (<code>ai4paper.pro/api/journal/lookup</code>) to retrieve journal ranking information. We do <strong>not</strong> collect the full URLs you visit, your search queries, paper titles, or any other browsing history.</p>
+
+<h3>2.3 Locally Stored Data</h3>
+<p>The Extension stores the following data locally on your device via <code>chrome.storage.sync</code>:</p>
+<ul>
+  <li>Authentication token (for maintaining your login session)</li>
+  <li>API server URL preference</li>
+</ul>
+<p>This data is not transmitted to any third party.</p>
+
+<h2>3. How We Use Your Information</h2>
+<ul>
+  <li><strong>Account authentication:</strong> To verify your identity and provide access to features.</li>
+  <li><strong>Journal ranking lookup:</strong> To match journal names with our ranking database and display results.</li>
+  <li><strong>Usage statistics:</strong> To display your query count (daily and total) in the Extension popup, associated with your account.</li>
+  <li><strong>Service improvement:</strong> Aggregated, anonymized query data may be used to improve journal database coverage.</li>
+</ul>
+
+<h2>4. Data Storage and Security</h2>
+<ul>
+  <li>Account data and query logs are stored on our servers (Alibaba Cloud ECS) with encryption at rest.</li>
+  <li>Passwords are stored using <strong>bcrypt hashing</strong> and are never stored in plain text.</li>
+  <li>All communication between the Extension and our servers is encrypted via <strong>HTTPS/TLS</strong>.</li>
+  <li>Authentication tokens are stored locally on your device and transmitted over encrypted connections only.</li>
+</ul>
+
+<h2>5. Data Sharing</h2>
+<p><strong>We do not sell, rent, or share your personal data with any third parties</strong>, except:</p>
+<ul>
+  <li><strong>Legal requirements:</strong> We may disclose information if required by law or regulation.</li>
+  <li><strong>Service providers:</strong> Our servers are hosted on Alibaba Cloud. The hosting provider does not process your data independently.</li>
+</ul>
+<p>We do not use any third-party analytics, advertising, or tracking services in the Extension.</p>
+
+<h2>6. Data Retention</h2>
+<ul>
+  <li>Account information is retained while your account is active. You may request deletion by contacting us.</li>
+  <li>Query logs are retained for up to 12 months, then automatically purged.</li>
+  <li>Local storage data is removed when you log out or uninstall the Extension.</li>
+</ul>
+
+<h2>7. Your Rights</h2>
+<p>You have the right to:</p>
+<ul>
+  <li>Access the personal data we hold about you</li>
+  <li>Request correction of inaccurate data</li>
+  <li>Request deletion of your account and associated data</li>
+  <li>Withdraw consent by uninstalling the Extension at any time</li>
+</ul>
+
+<h2>8. Permissions Explained</h2>
+<ul>
+  <li><strong>storage:</strong> To save your login token and preferences locally.</li>
+  <li><strong>Host permission (ai4paper.pro):</strong> To communicate with our API for journal ranking lookups and authentication.</li>
+  <li><strong>Content scripts on academic sites:</strong> To read journal names from search result pages and display ranking badges. The Extension only reads journal/publisher metadata visible on the page; it does not access form inputs, cookies, or other sensitive data.</li>
+</ul>
+
+<h2>9. Changes to This Policy</h2>
+<p>We may update this Privacy Policy from time to time. Changes will be posted on this page with an updated date. Continued use of the Extension constitutes acceptance of the updated policy.</p>
+
+<h2>10. Contact</h2>
+<p>If you have questions about this Privacy Policy:</p>
+<ul>
+  <li>Email: <a href="mailto:support@ai4paper.pro">support@ai4paper.pro</a></li>
+  <li>Website: <a href="https://ai4paper.pro">ai4paper.pro</a></li>
+</ul>
+
 </body>
 </html>
