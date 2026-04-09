@@ -4,6 +4,7 @@
 // @namespace    https://ai4paper.pro
 // @version      1.0.1
 // @author       AI4Paper
+// @license      MIT
 // @homepageURL  https://ai4paper.pro
 // @supportURL   https://github.com/wdcpclover/ai4paper/issues
 // @updateURL    https://raw.githubusercontent.com/wdcpclover/ai4paper/main/userscripts/ai4paper-connector.user.js
