@@ -2,7 +2,7 @@
 // @name         AI4Paper Connector
 // @description  AI4Paper 浏览器联动脚本，支持 DeepSeek / 豆包 / ChatGPT / Claude / 通义 / Kimi 等
 // @namespace    https://ai4paper.pro
-// @version      1.2.1
+// @version      1.2.2
 // @author       AI4Paper
 // @license      MIT
 // @homepageURL  https://ai4paper.pro
@@ -38,7 +38,7 @@
 (async function () {
     'use strict';
 
-    const SCRIPT_VERSION = "1.2.1";
+    const SCRIPT_VERSION = "1.2.2";
     const SERVER_BASE = "https://ai4paper.pro/api/browser-task";
     const LOGIN_URL = "https://ai4paper.pro/api/user/login";
     const TOKEN_STORE = "ai4paper.userToken";
@@ -482,6 +482,77 @@
 
     function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
+    // ── DOM 轮询提取（ChatGPT Service Worker 绕过 fetch 拦截时的降级方案）──────
+    const DOM_EXTRACTORS = {
+        ChatGPT() {
+            // 最后一条 assistant 消息的文本
+            const msgs = [...document.querySelectorAll('[data-message-author-role="assistant"]')];
+            const last = msgs[msgs.length - 1];
+            return (last?.innerText || last?.textContent || "").trim();
+        },
+        DeepSeek() {
+            const msgs = [...document.querySelectorAll('.ds-markdown, .markdown-body')];
+            const last = msgs[msgs.length - 1];
+            return (last?.innerText || last?.textContent || "").trim();
+        },
+        Doubao() {
+            const msgs = [...document.querySelectorAll('[class*="chat-doc-content"], [class*="message-content"]')];
+            const last = msgs[msgs.length - 1];
+            return (last?.innerText || last?.textContent || "").trim();
+        },
+    };
+
+    const STREAMING_INDICATORS = {
+        ChatGPT: () => !!document.querySelector('[data-testid="stop-button"], button[aria-label*="Stop"]'),
+        DeepSeek: () => !!document.querySelector('.stop-btn, [class*="stop"]'),
+        Doubao: () => !!document.querySelector('[class*="stop"], [class*="loading"]'),
+    };
+
+    function startDOMExtractor(taskId) {
+        const extract = DOM_EXTRACTORS[AI];
+        if (!extract) return null;
+        const isStreaming = STREAMING_INDICATORS[AI] || (() => false);
+
+        let lastText = "";
+        let stableMs = 0;
+        const STABLE_DONE = 2500; // 文本稳定 2.5s 且无生成指示符 → 认为完成
+        const INTERVAL = 400;
+
+        dbg("DOM extractor started for", AI, taskId);
+
+        const timer = setInterval(async () => {
+            if (!activeTask || activeTask.id !== taskId) {
+                clearInterval(timer);
+                return;
+            }
+            const text = extract();
+            if (!text) return;
+
+            if (text !== lastText) {
+                lastText = text;
+                stableMs = 0;
+                // 增量推送（用全文，服务器端做 diff）
+                if (text !== activeTask.lastText) {
+                    activeTask.lastText = text;
+                    await serverRequest("POST", "/push", { taskId, text, done: false, error: "" });
+                }
+                return;
+            }
+
+            // 文本未变
+            stableMs += INTERVAL;
+            if (stableMs >= STABLE_DONE && !isStreaming()) {
+                clearInterval(timer);
+                dbg("DOM extractor done, text len:", text.length);
+                if (activeTask && activeTask.id === taskId) {
+                    await finishTask(taskId, text, "");
+                }
+            }
+        }, INTERVAL);
+
+        return timer;
+    }
+
     function monitorFetchResponse(response, taskId) {
         const def = getPatchDef(response.url);
         if (!def || !response.body || !activeTask || activeTask.id !== taskId) return;
@@ -686,7 +757,12 @@
             activeTask = newTask;
             dbg("task:", task.id, "platform:", AI, "prompt len:", (task.prompt || "").length);
             const ok = await sendToAI(task.prompt);
-            if (!ok) await finishTask(task.id, "", "发送失败，请检查页面状态");
+            if (!ok) {
+                await finishTask(task.id, "", "发送失败，请检查页面状态");
+            } else {
+                // 启动 DOM 轮询提取器（与 fetch 拦截并行，哪个先完成都可以）
+                startDOMExtractor(task.id);
+            }
         } catch (error) {
             const text = String(error || "");
             if (!text.includes("Network")) console.warn("[AI4Paper] loop error", error);
