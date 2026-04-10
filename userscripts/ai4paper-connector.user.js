@@ -2,7 +2,7 @@
 // @name         AI4Paper Connector
 // @description  AI4Paper 浏览器联动脚本，支持 DeepSeek / 豆包 / ChatGPT / Claude / 通义 / Kimi 等
 // @namespace    https://ai4paper.pro
-// @version      1.2.0
+// @version      1.2.1
 // @author       AI4Paper
 // @license      MIT
 // @homepageURL  https://ai4paper.pro
@@ -38,7 +38,7 @@
 (async function () {
     'use strict';
 
-    const SCRIPT_VERSION = "1.2.0";
+    const SCRIPT_VERSION = "1.2.1";
     const SERVER_BASE = "https://ai4paper.pro/api/browser-task";
     const LOGIN_URL = "https://ai4paper.pro/api/user/login";
     const TOKEN_STORE = "ai4paper.userToken";
@@ -516,6 +516,12 @@
     // SPA 导航检测
     function onNavigate() {
         if (!activeTask) return;
+        const runningMs = Date.now() - activeTask.startedAt;
+        // 任务刚开始且还没收到任何文本时，忽略导航（ChatGPT 发送后会跳到新对话 URL）
+        if (runningMs < 8000 && !activeTask.lastText) {
+            dbg("navigation ignored (task fresh, no text yet):", activeTask.id);
+            return;
+        }
         const savedId = activeTask.id;
         const savedText = activeTask.lastText || "";
         dbg("SPA navigation, finishing task:", savedId);
