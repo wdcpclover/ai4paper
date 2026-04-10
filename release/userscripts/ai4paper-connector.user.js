@@ -2,7 +2,7 @@
 // @name         AI4Paper Connector
 // @description  AI4Paper 浏览器联动脚本，支持 DeepSeek / 豆包 / ChatGPT / Claude / 通义 / Kimi 等
 // @namespace    https://ai4paper.pro
-// @version      1.2.10
+// @version      1.2.11
 // @author       AI4Paper
 // @license      MIT
 // @homepageURL  https://ai4paper.pro
@@ -42,7 +42,7 @@
 (async function () {
     'use strict';
 
-    const SCRIPT_VERSION = "1.2.10";
+    const SCRIPT_VERSION = "1.2.11";
     const SERVER_BASE = "https://ai4paper.pro/api/browser-task";
     const LOGIN_URL = "https://ai4paper.pro/api/user/login";
     const TOKEN_STORE = "ai4paper.userToken";
@@ -681,6 +681,10 @@
         return a + b;
     }
 
+    function hasMeaningfulText(text) {
+        return String(text || "").trim().length > 0;
+    }
+
     function extractChatGPTFromAll(all) {
         let text = "";
         for (const line of String(all || "").split("\n")) {
@@ -748,22 +752,71 @@
         },
     };
 
+    function getChatGPTAssistantElement() {
+        const selectors = [
+            '[data-message-author-role="assistant"] .markdown',
+            '[data-message-author-role="assistant"] .prose',
+            '[data-message-author-role="assistant"]',
+            'article[data-testid^="conversation-turn"] [data-message-author-role="assistant"]',
+        ];
+        for (const sel of selectors) {
+            const msgs = [...document.querySelectorAll(sel)];
+            if (msgs.length) return msgs[msgs.length - 1];
+        }
+        return null;
+    }
+
+    function getDoubaoAssistantElement() {
+        const msgs = [...document.querySelectorAll('[class*="flow-markdown-body"]')];
+        return msgs[msgs.length - 1] || null;
+    }
+
+    function isVisibleElement(el) {
+        if (!el) return false;
+        const style = window.getComputedStyle(el);
+        if (style.display === "none" || style.visibility === "hidden" || style.opacity === "0") return false;
+        const rect = el.getBoundingClientRect();
+        return rect.width > 0 && rect.height > 0;
+    }
+
+    function getActionButtonsNearContent(contentEl, minCount = 1, maxDistance = 120) {
+        if (!contentEl || !isVisibleElement(contentEl)) return [];
+        const contentRect = contentEl.getBoundingClientRect();
+        let scope = contentEl;
+        for (let depth = 0; depth < 6 && scope; depth++, scope = scope.parentElement) {
+            const buttons = [...scope.querySelectorAll("button, [role='button']")].filter(el => {
+                if (!(el instanceof HTMLElement) || !isVisibleElement(el)) return false;
+                if (contentEl.contains(el)) return false;
+                const rect = el.getBoundingClientRect();
+                const isBelowContent = rect.top >= contentRect.bottom - 24 && rect.top <= contentRect.bottom + maxDistance;
+                const overlapsHorizontally = rect.right >= contentRect.left - 32 && rect.left <= contentRect.right + 32;
+                return isBelowContent && overlapsHorizontally;
+            });
+            if (buttons.length >= minCount) return buttons;
+        }
+        return [];
+    }
+
     // 返回 true = 仍在生成中；false = 已完成
     const STREAMING_INDICATORS = {
         // ChatGPT：最后一条 assistant 消息下方出现操作按钮（复制/点赞/…）即为完成
         ChatGPT: () => {
-            const msgs = [...document.querySelectorAll('[data-message-author-role="assistant"]')];
-            const last = msgs[msgs.length - 1];
+            const last = getChatGPTAssistantElement();
             if (!last) return true;
             const article = last.closest('article') || last.parentElement;
             // 操作按钮栏出现 = 完成
             const actionBar = article?.querySelector(
                 'button[data-testid="copy-turn-action-button"], button[aria-label="Copy"], button[aria-label*="thumb"], [class*="action"] button'
             );
-            return !actionBar; // 没有操作按钮 = 还在生成
+            if (actionBar) return false;
+            return getActionButtonsNearContent(last, 2).length === 0; // 没有操作按钮 = 还在生成
         },
         DeepSeek: () => !!document.querySelector('.stop-btn, [class*="stop"]'),
-        Doubao: () => document.querySelector('.send-btn-wrapper button')?.getAttribute('data-disabled') === 'true',
+        Doubao: () => {
+            const last = getDoubaoAssistantElement();
+            if (last && getActionButtonsNearContent(last, 4).length >= 4) return false;
+            return document.querySelector('.send-btn-wrapper button')?.getAttribute('data-disabled') === 'true';
+        },
         Kimi: () => document.querySelector('.send-button-container svg')?.getAttribute('name') === 'Stop',
         Qwen: () => !!document.querySelector('button[aria-label*="停止"]'),
     };
@@ -862,7 +915,15 @@
         if (activeTask && activeTask.id === taskId) activeTask.reader = reader;
         const read = () => reader.read().then(async ({ done, value }) => {
             if (!activeTask || activeTask.id !== taskId) { reader.cancel().catch(() => {}); return; }
-            if (done) { await pushTaskText(taskId, state.text, true); return; }
+            if (done) {
+                const finalText = mergeText(activeTask.lastText || "", state.text || "");
+                if (hasMeaningfulText(finalText)) {
+                    await pushTaskText(taskId, finalText, true);
+                } else {
+                    dbg("fetch stream ended without text, waiting for DOM extractor:", taskId, response.url);
+                }
+                return;
+            }
             const chunk = decoder.decode(value, { stream: true });
             state.allText += chunk;
             try { state.extract.call(state, chunk, state.allText); await pushTaskText(taskId, state.text, false); } catch (_e) { /**/ }
@@ -870,7 +931,14 @@
         }).catch(async (error) => {
             const msg = String(error?.name || error || "");
             if (msg.includes("AbortError") || msg.includes("abort") || msg.includes("cancel")) return;
-            if (activeTask && activeTask.id === taskId) await finishTask(taskId, state.text, "");
+            if (activeTask && activeTask.id === taskId) {
+                const finalText = mergeText(activeTask.lastText || "", state.text || "");
+                if (hasMeaningfulText(finalText)) {
+                    await finishTask(taskId, finalText, "");
+                } else {
+                    dbg("fetch stream error without text, waiting for DOM extractor:", taskId, response.url, msg);
+                }
+            }
         });
         read();
     }
@@ -916,7 +984,16 @@
                 try {
                     state.allText = this.responseText || "";
                     state.extract.call(state, state.allText, state.allText);
-                    await pushTaskText(taskId, state.text, this.readyState === 4);
+                    if (this.readyState === 4) {
+                        const finalText = mergeText(activeTask.lastText || "", state.text || "");
+                        if (hasMeaningfulText(finalText)) {
+                            await pushTaskText(taskId, finalText, true);
+                        } else {
+                            dbg("xhr stream ended without text, waiting for DOM extractor:", taskId, url);
+                        }
+                    } else {
+                        await pushTaskText(taskId, state.text, false);
+                    }
                 } catch (_e) { /**/ }
             });
         }
