@@ -2,7 +2,7 @@
 // @name         AI4Paper Connector
 // @description  AI4Paper 浏览器联动脚本，支持 DeepSeek / 豆包 / ChatGPT / Claude / 通义 / Kimi 等
 // @namespace    https://ai4paper.pro
-// @version      1.2.2
+// @version      1.2.3
 // @author       AI4Paper
 // @license      MIT
 // @homepageURL  https://ai4paper.pro
@@ -38,7 +38,7 @@
 (async function () {
     'use strict';
 
-    const SCRIPT_VERSION = "1.2.2";
+    const SCRIPT_VERSION = "1.2.3";
     const SERVER_BASE = "https://ai4paper.pro/api/browser-task";
     const LOGIN_URL = "https://ai4paper.pro/api/user/login";
     const TOKEN_STORE = "ai4paper.userToken";
@@ -50,6 +50,22 @@
     let isRunning = GM_getValue(RUNNING_KEY, true) !== false;
     let userToken = GM_getValue(TOKEN_STORE, "");
     let activeTask = null;
+
+    // ── 页面状态条 ─────────────────────────────────────────────────────────
+    let _statusEl = null;
+    function showStatus(msg, color) {
+        if (!_statusEl) {
+            _statusEl = document.createElement("div");
+            _statusEl.style.cssText = "position:fixed;bottom:12px;right:12px;z-index:2147483647;padding:6px 12px;border-radius:6px;font-size:12px;font-family:monospace;max-width:320px;word-break:break-all;box-shadow:0 2px 8px rgba(0,0,0,.2);";
+            document.documentElement.appendChild(_statusEl);
+        }
+        _statusEl.style.background = color || "#1e293b";
+        _statusEl.style.color = "#fff";
+        _statusEl.textContent = "🔗 AI4Paper: " + msg;
+        clearTimeout(_statusEl._hide);
+        _statusEl._hide = setTimeout(() => { if (_statusEl) _statusEl.style.opacity = "0.3"; }, 5000);
+        _statusEl.style.opacity = "1";
+    }
 
     // ── 后台保活 ──────────────────────────────────────────────────────────
     function initBackgroundKeepAlive() {
@@ -485,10 +501,21 @@
     // ── DOM 轮询提取（ChatGPT Service Worker 绕过 fetch 拦截时的降级方案）──────
     const DOM_EXTRACTORS = {
         ChatGPT() {
-            // 最后一条 assistant 消息的文本
-            const msgs = [...document.querySelectorAll('[data-message-author-role="assistant"]')];
-            const last = msgs[msgs.length - 1];
-            return (last?.innerText || last?.textContent || "").trim();
+            // 多个选择器兼容不同版本 ChatGPT
+            const selectors = [
+                '[data-message-author-role="assistant"] .markdown',
+                '[data-message-author-role="assistant"] .prose',
+                '[data-message-author-role="assistant"]',
+                'article[data-testid^="conversation-turn"] [data-message-author-role="assistant"]',
+            ];
+            for (const sel of selectors) {
+                const msgs = [...document.querySelectorAll(sel)];
+                if (!msgs.length) continue;
+                const last = msgs[msgs.length - 1];
+                const text = (last?.innerText || last?.textContent || "").trim();
+                if (text) return text;
+            }
+            return "";
         },
         DeepSeek() {
             const msgs = [...document.querySelectorAll('.ds-markdown, .markdown-body')];
@@ -519,6 +546,7 @@
         const INTERVAL = 400;
 
         dbg("DOM extractor started for", AI, taskId);
+        showStatus("等待 AI 回复…", "#0f172a");
 
         const timer = setInterval(async () => {
             if (!activeTask || activeTask.id !== taskId) {
@@ -531,10 +559,12 @@
             if (text !== lastText) {
                 lastText = text;
                 stableMs = 0;
+                showStatus("提取中… " + text.length + " 字", "#0369a1");
                 // 增量推送（用全文，服务器端做 diff）
                 if (text !== activeTask.lastText) {
                     activeTask.lastText = text;
-                    await serverRequest("POST", "/push", { taskId, text, done: false, error: "" });
+                    const r = await serverRequest("POST", "/push", { taskId, text, done: false, error: "" });
+                    if (!r) showStatus("⚠️ 推送失败（网络/认证）", "#dc2626");
                 }
                 return;
             }
@@ -544,6 +574,7 @@
             if (stableMs >= STABLE_DONE && !isStreaming()) {
                 clearInterval(timer);
                 dbg("DOM extractor done, text len:", text.length);
+                showStatus("✅ 完成，推送给 Zotero…", "#16a34a");
                 if (activeTask && activeTask.id === taskId) {
                     await finishTask(taskId, text, "");
                 }
@@ -756,10 +787,13 @@
             }, 5 * 60 * 1000);
             activeTask = newTask;
             dbg("task:", task.id, "platform:", AI, "prompt len:", (task.prompt || "").length);
+            showStatus("收到任务，发送中…", "#7c3aed");
             const ok = await sendToAI(task.prompt);
             if (!ok) {
+                showStatus("❌ 发送失败", "#dc2626");
                 await finishTask(task.id, "", "发送失败，请检查页面状态");
             } else {
+                showStatus("✉️ 已发送，等待回复…", "#0369a1");
                 // 启动 DOM 轮询提取器（与 fetch 拦截并行，哪个先完成都可以）
                 startDOMExtractor(task.id);
             }
