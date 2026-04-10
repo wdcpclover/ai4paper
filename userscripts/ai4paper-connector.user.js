@@ -2,7 +2,7 @@
 // @name         AI4Paper Connector
 // @description  AI4Paper 浏览器联动脚本，支持 DeepSeek / 豆包 / ChatGPT / Claude / 通义 / Kimi 等
 // @namespace    https://ai4paper.pro
-// @version      1.2.3
+// @version      1.2.4
 // @author       AI4Paper
 // @license      MIT
 // @homepageURL  https://ai4paper.pro
@@ -38,7 +38,7 @@
 (async function () {
     'use strict';
 
-    const SCRIPT_VERSION = "1.2.3";
+    const SCRIPT_VERSION = "1.2.4";
     const SERVER_BASE = "https://ai4paper.pro/api/browser-task";
     const LOGIN_URL = "https://ai4paper.pro/api/user/login";
     const TOKEN_STORE = "ai4paper.userToken";
@@ -529,8 +529,20 @@
         },
     };
 
+    // 返回 true = 仍在生成中；false = 已完成
     const STREAMING_INDICATORS = {
-        ChatGPT: () => !!document.querySelector('[data-testid="stop-button"], button[aria-label*="Stop"]'),
+        // ChatGPT：最后一条 assistant 消息下方出现操作按钮（复制/点赞/…）即为完成
+        ChatGPT: () => {
+            const msgs = [...document.querySelectorAll('[data-message-author-role="assistant"]')];
+            const last = msgs[msgs.length - 1];
+            if (!last) return true;
+            const article = last.closest('article') || last.parentElement;
+            // 操作按钮栏出现 = 完成
+            const actionBar = article?.querySelector(
+                'button[data-testid="copy-turn-action-button"], button[aria-label="Copy"], button[aria-label*="thumb"], [class*="action"] button'
+            );
+            return !actionBar; // 没有操作按钮 = 还在生成
+        },
         DeepSeek: () => !!document.querySelector('.stop-btn, [class*="stop"]'),
         Doubao: () => !!document.querySelector('[class*="stop"], [class*="loading"]'),
     };
@@ -569,11 +581,12 @@
                 return;
             }
 
-            // 文本未变
+            // 文本未变：检查是否已完成
             stableMs += INTERVAL;
-            if (stableMs >= STABLE_DONE && !isStreaming()) {
+            const done = !isStreaming(); // 操作按钮出现 = 完成
+            if (done || stableMs >= STABLE_DONE) {
                 clearInterval(timer);
-                dbg("DOM extractor done, text len:", text.length);
+                dbg("DOM extractor done, text len:", text.length, "byActionBar:", done);
                 showStatus("✅ 完成，推送给 Zotero…", "#16a34a");
                 if (activeTask && activeTask.id === taskId) {
                     await finishTask(taskId, text, "");
