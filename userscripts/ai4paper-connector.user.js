@@ -2,7 +2,7 @@
 // @name         AI4Paper Connector
 // @description  AI4Paper 浏览器联动脚本，支持 DeepSeek / 豆包 / ChatGPT / Claude / 通义 / Kimi 等
 // @namespace    https://ai4paper.pro
-// @version      1.0.1
+// @version      1.1.4
 // @author       AI4Paper
 // @license      MIT
 // @homepageURL  https://ai4paper.pro
@@ -25,7 +25,7 @@
 // @include      /.+claude.+/
 // @include      /.+kimi.+/
 // @include      /.+qwen.+/
-// @connect      http://127.0.0.1:23119
+// @connect      *
 // @grant        GM_xmlhttpRequest
 // @grant        GM_registerMenuCommand
 // @grant        GM_setValue
@@ -37,36 +37,75 @@
 (async function () {
     'use strict';
 
-    // ─── 平台识别 ──────────────────────────────────────────────────
-    const host = location.host;
-    let AI = "Unknown";
-    if (host === 'chat.deepseek.com') AI = "DeepSeek";
-    else if (host === 'www.doubao.com') AI = "Doubao";
-    else if (host === 'chatgpt.com') AI = "ChatGPT";
-    else if (host.includes('claude')) AI = "Claude";
-    else if (host === 'kimi.moonshot.cn' || host === 'www.kimi.com') AI = "Kimi";
-    else if (host === 'yuanbao.tencent.com') AI = "Yuanbao";
-    else if (host.includes('qwen') || host === 'qianwen.aliyun.com') AI = "Qwen";
-    else if (host === 'gemini.google.com') AI = "Gemini";
-    else if (host === 'www.perplexity.ai') AI = "Perplexity";
-    else if (host.includes('grok')) AI = "Grok";
+    const SCRIPT_VERSION = "1.1.4";
+    const ENDPOINT = "http://127.0.0.1:23119/ai4paper";
+    const RUNNING_KEY = "ai4paper.connector.running";
+    const POLL_INTERVAL = 800;
+    const DEBUG = true;
 
-    const AI4P_ENDPOINT = "http://127.0.0.1:23119/ai4paper";
-    let isRunning = true;
-    let lastTaskId = null;
+    const AI = detectPlatform();
+    let isRunning = GM_getValue(RUNNING_KEY, true) !== false;
+    let session = null;
+    let activeTask = null;
 
-    // ─── 流式响应拦截 ─────────────────────────────────────────────
-    // 每个平台定义: { regex, extract(text, allText) → string }
-    const PATCHES = [
+    // ── 后台保活：最小化 / 隐藏标签页时保持正常运行 ──────────────────────
+    function initBackgroundKeepAlive() {
+        // 1. Web Worker 心跳：Worker 不受定时器节流限制，可维持主线程活跃
+        try {
+            const blob = new Blob(
+                [`setInterval(()=>postMessage(1),400);`],
+                { type: "text/javascript" }
+            );
+            const w = new Worker(URL.createObjectURL(blob));
+            w.onmessage = () => {}; // 消费消息，防止队列积压
+        } catch (_e) { /**/ }
+
+        // 2. 让站点认为页面始终可见，防止其暂停流式输出
+        try {
+            Object.defineProperty(document, "hidden",
+                { get: () => false, configurable: true });
+            Object.defineProperty(document, "visibilityState",
+                { get: () => "visible", configurable: true });
+            // 拦截站点自己的 visibilitychange 监听
+            document.addEventListener("visibilitychange",
+                e => e.stopImmediatePropagation(), true);
+        } catch (_e) { /**/ }
+
+        dbg("background keep-alive initialized");
+    }
+    initBackgroundKeepAlive();
+    // ─────────────────────────────────────────────────────────────────────
+
+    function dbg() {
+        if (!DEBUG) return;
+        console.log("[AI4Paper]", ...arguments);
+    }
+
+    function detectPlatform() {
+        const host = location.host;
+        if (host === "chat.deepseek.com") return "DeepSeek";
+        if (host === "www.doubao.com") return "Doubao";
+        if (host === "chatgpt.com") return "ChatGPT";
+        if (host.includes("claude")) return "Claude";
+        if (host === "kimi.moonshot.cn" || host === "www.kimi.com") return "Kimi";
+        if (host === "yuanbao.tencent.com") return "Yuanbao";
+        if (host.includes("qwen") || host === "qianwen.aliyun.com") return "Qwen";
+        if (host === "gemini.google.com") return "Gemini";
+        if (host === "www.perplexity.ai") return "Perplexity";
+        if (host.includes("grok")) return "Grok";
+        return "Unknown";
+    }
+
+    const PATCH_DEFS = [
         {
             AI: "DeepSeek",
             regex: /completion$/,
-            text: "", allText: "",
             extract(chunk, all) {
                 let resp = "", think = "";
-                for (let line of all.split("\n")) {
+                for (const line of all.split("\n")) {
                     if (!line.startsWith("data: {")) continue;
-                    let data; try { data = JSON.parse(line.slice(6)) } catch { continue }
+                    let data;
+                    try { data = JSON.parse(line.slice(6)); } catch (_e) { continue; }
                     if (data.choices) {
                         const delta = data.choices[0]?.delta;
                         if (delta?.type === "thinking") think += delta.content || "";
@@ -83,64 +122,99 @@
                     }
                 }
                 this.text = resp || think;
-            },
-            _type: ""
+            }
         },
         {
             AI: "Doubao",
-            regex: /samantha\/chat\/completion/,
-            text: "", allText: "",
+            regex: /samantha\/chat\/(v\d+\/)?completion|chat\/completions|\/api\/chat/,
             extract(chunk, all) {
                 let resp = "", think = "";
-                for (let line of all.split("\n")) {
+                for (const line of all.split("\n")) {
                     if (!line.startsWith("data:")) continue;
-                    try {
-                        const data = JSON.parse(JSON.parse(line.slice(5)).event_data);
-                        const d = JSON.parse(data.message.content);
-                        if (![1, 5, 6].includes(d.type)) {
-                            if (d.text) resp += d.text;
-                            else if (d.think) think += d.think;
-                        }
-                    } catch {}
+                    const raw = line.slice(5).trim();
+                    if (!raw || raw === "[DONE]") continue;
+                    let outer;
+                    try { outer = JSON.parse(raw); } catch (_e) { continue; }
+
+                    // 豆包嵌套格式: event_data -> message.content (JSON string)
+                    if (outer.event_data) {
+                        try {
+                            const inner = typeof outer.event_data === "string"
+                                ? JSON.parse(outer.event_data) : outer.event_data;
+                            const msgContent = inner?.message?.content;
+                            if (msgContent) {
+                                try {
+                                    const content = typeof msgContent === "string"
+                                        ? JSON.parse(msgContent) : msgContent;
+                                    if (![1, 5, 6].includes(content.type)) {
+                                        if (content.text) resp += content.text;
+                                        if (content.think) think += content.think;
+                                    }
+                                } catch (_e) {
+                                    if (typeof msgContent === "string") resp += msgContent;
+                                }
+                            }
+                        } catch (_e) { /**/ }
+                        continue;
+                    }
+
+                    // 标准 OpenAI 格式 fallback
+                    const delta = outer.choices?.[0]?.delta;
+                    if (delta) {
+                        resp += delta.content || delta.text || "";
+                        continue;
+                    }
+                    if (outer.text) resp += outer.text;
+                    if (outer.content) resp += outer.content;
                 }
                 this.text = resp || think;
             }
         },
         {
             AI: "ChatGPT",
-            regex: /conversation$/,
-            text: "", allText: "", _p: "",
+            regex: /(conversation|backend-api\/conversation|backend-anon\/conversation|backend-api\/responses|backend-anon\/responses)/,
             extract(chunk, all) {
-                for (let line of chunk.split("\n")) {
+                for (const line of chunk.split("\n")) {
                     if (line.startsWith('data: {"message')) {
-                        let data; try { data = JSON.parse(line.slice(6)) } catch { continue }
+                        let data;
+                        try { data = JSON.parse(line.slice(6)); } catch (_e) { continue; }
                         if (data.message?.content?.content_type === "text") {
-                            this.text = data.message.content.parts[0];
+                            this.text = data.message.content.parts?.[0] || "";
                         }
-                    } else if (line.startsWith("data: {")) {
-                        let data; try { data = JSON.parse(line.slice(6)) } catch { continue }
-                        const streamPath = "/message/content/parts/0";
-                        if (Object.keys(data).length === 1 && typeof data.v === "string" && this._p === streamPath) {
-                            this.text += data.v;
-                        } else if (this._p === streamPath || data.p === streamPath) {
-                            this._p = streamPath;
-                            if (data.o === "add") this.text = "";
-                            if (typeof data.v === "string") this.text += data.v;
-                        } else {
-                            this._p = "";
-                        }
+                        continue;
                     }
+                    if (!line.startsWith("data: {")) continue;
+                    let data;
+                    try { data = JSON.parse(line.slice(6)); } catch (_e) { continue; }
+                    const direct = extractAnyText(data);
+                    if (direct) {
+                        this.text = mergeText(this.text, direct);
+                    }
+                    const streamPath = "/message/content/parts/0";
+                    if (Object.keys(data).length === 1 && typeof data.v === "string" && this._path === streamPath) {
+                        this.text += data.v;
+                    } else if (this._path === streamPath || data.p === streamPath) {
+                        this._path = streamPath;
+                        if (data.o === "add") this.text = "";
+                        if (typeof data.v === "string") this.text += data.v;
+                    } else {
+                        this._path = "";
+                    }
+                }
+                if (!this.text) {
+                    const fallback = extractChatGPTFromAll(all);
+                    if (fallback) this.text = fallback;
                 }
             }
         },
         {
             AI: "Claude",
             regex: /chat_conversations\/.+\/completion/,
-            text: "", allText: "",
-            extract(chunk, all) {
-                for (let line of chunk.split("\n")) {
+            extract(chunk) {
+                for (const line of chunk.split("\n")) {
                     if (!line.startsWith("data: {")) continue;
-                    let data; try { data = JSON.parse(line.slice(6)) } catch { continue }
+                    let data;
+                    try { data = JSON.parse(line.slice(6)); } catch (_e) { continue; }
                     if (data.type === "completion") this.text += data.completion || "";
                     else if (data.type === "content_block_delta") this.text += data.delta?.text || "";
                 }
@@ -149,11 +223,11 @@
         {
             AI: "Kimi",
             regex: /ChatService\/Chat/,
-            text: "", allText: "",
-            extract(chunk, all) {
+            extract(_chunk, all) {
                 let think = "", resp = "";
-                for (let item of all.split(/\x00\x00\x00\x00[^\{]+/).filter(Boolean)) {
-                    let data; try { data = JSON.parse(item) } catch { continue }
+                for (const item of all.split(/\x00\x00\x00\x00[^\{]+/).filter(Boolean)) {
+                    let data;
+                    try { data = JSON.parse(item); } catch (_e) { continue; }
                     if (data.op !== "append") continue;
                     if (data.mask === "block.think.content") think += data.block?.think?.content || "";
                     else if (data.mask === "block.text.content") resp += data.block?.text?.content || "";
@@ -164,12 +238,12 @@
         {
             AI: "Yuanbao",
             regex: /api\/chat\/.+/,
-            text: "", allText: "",
-            extract(chunk, all) {
+            extract(_chunk, all) {
                 let think = "", resp = "";
-                for (let line of all.split("\n")) {
+                for (const line of all.split("\n")) {
                     if (!line.startsWith("data: {")) continue;
-                    let data; try { data = JSON.parse(line.slice(6)) } catch { continue }
+                    let data;
+                    try { data = JSON.parse(line.slice(6)); } catch (_e) { continue; }
                     if (data.type === "text") resp += data.msg || "";
                     else if (data.type === "think") think += data.content || "";
                 }
@@ -179,12 +253,12 @@
         {
             AI: "Qwen",
             regex: /chat\/completions/,
-            text: "", allText: "",
-            extract(chunk, all) {
+            extract(_chunk, all) {
                 let think = "", resp = "";
-                for (let line of all.split("\n")) {
+                for (const line of all.split("\n")) {
                     if (!line.startsWith("data: {")) continue;
-                    let data; try { data = JSON.parse(line.slice(6)) } catch { continue }
+                    let data;
+                    try { data = JSON.parse(line.slice(6)); } catch (_e) { continue; }
                     const delta = data.choices?.[0]?.delta;
                     if (!delta) continue;
                     if (delta.phase === "think") think += delta.content || "";
@@ -196,11 +270,11 @@
         {
             AI: "Grok",
             regex: /(conversations\/new|responses)$/,
-            text: "", allText: "",
-            extract(chunk, all) {
-                let resp = "", think = "";
-                for (let line of all.split("\n")) {
-                    let data; try { data = JSON.parse(line).result } catch { continue }
+            extract(_chunk, all) {
+                let think = "", resp = "";
+                for (const line of all.split("\n")) {
+                    let data;
+                    try { data = JSON.parse(line).result; } catch (_e) { continue; }
                     if (!data) continue;
                     if (data.response) data = data.response;
                     if (data.isThinking) think += data.token || "";
@@ -211,193 +285,530 @@
         },
     ];
 
-    // ─── fetch 拦截 ───────────────────────────────────────────────
-    const originalFetch = window.fetch;
-    unsafeWindow.fetch = async function (...args) {
-        const response = await originalFetch.apply(this, args);
-        const url = response.url;
-        const patch = PATCHES.find(p => p.AI === AI && p.regex.test(url));
-        if (!patch) return response;
+    function createPatchState(def) {
+        return {
+            AI: def.AI,
+            regex: def.regex,
+            text: "",
+            allText: "",
+            _type: "",
+            _path: "",
+            extract: def.extract,
+        };
+    }
 
-        const clone = response.clone();
-        window.setTimeout(async () => {
-            patch.text = "";
-            patch.allText = "";
-            const reader = clone.body.getReader();
-            const decoder = new TextDecoder();
-            const read = () => reader.read().then(({ done, value }) => {
-                if (done) {
-                    _sendRespond(patch.text, true);
-                    patch.text = "";
-                    return;
-                }
-                const chunk = decoder.decode(value, { stream: true });
-                patch.allText += chunk;
-                try { patch.extract(chunk, patch.allText); } catch (e) { console.log("[AI4P] extract error", e); }
-                _sendRespond(patch.text, false);
-                read();
-            }).catch(() => {
-                _sendRespond(patch.text, true);
-                patch.text = "";
+    function extractAnyText(payload) {
+        if (payload == null) return "";
+        if (typeof payload === "string" || typeof payload === "number" || typeof payload === "boolean") {
+            return String(payload);
+        }
+        if (Array.isArray(payload)) {
+            return payload.map(extractAnyText).filter(Boolean).join("");
+        }
+        if (typeof payload === "object") {
+            const pieces = [];
+            const push = (value) => {
+                if (value == null || value === payload) return;
+                const text = extractAnyText(value);
+                if (text) pieces.push(text);
+            };
+            push(payload.text);
+            push(payload.output_text);
+            push(payload.content);
+            push(payload.parts);
+            push(payload.value);
+            push(payload.delta);
+            push(payload.message);
+            push(payload.response);
+            if (pieces.length) return pieces.join("");
+        }
+        return "";
+    }
+
+    function mergeText(prev, next) {
+        const a = String(prev || "");
+        const b = String(next || "");
+        if (!a) return b;
+        if (!b) return a;
+        if (b.startsWith(a)) return b;
+        if (a.startsWith(b)) return a;
+        if (a.includes(b)) return a;
+        return a + b;
+    }
+
+    function extractChatGPTFromAll(all) {
+        let text = "";
+        for (const line of String(all || "").split("\n")) {
+            if (!line.startsWith("data:")) continue;
+            const raw = line.slice(5).trim();
+            if (!raw || raw === "[DONE]") continue;
+            let data;
+            try { data = JSON.parse(raw); } catch (_e) { continue; }
+            const part = extractAnyText(data);
+            if (part) text = mergeText(text, part);
+        }
+        return text;
+    }
+
+    function getPatchDef(url) {
+        return PATCH_DEFS.find(def => def.AI === AI && def.regex.test(url || ""));
+    }
+
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    function post(data) {
+        return new Promise(resolve => {
+            GM_xmlhttpRequest({
+                method: "POST",
+                url: ENDPOINT,
+                headers: { "Content-Type": "application/json" },
+                data: JSON.stringify(data),
+                onload: (resp) => {
+                    let payload = null;
+                    try {
+                        payload = typeof resp.response === "object" && resp.response
+                            ? resp.response
+                            : JSON.parse(resp.responseText || "null");
+                    } catch (_e) {
+                        payload = null;
+                    }
+                    resolve(payload);
+                },
+                onerror: () => resolve(null),
+                ontimeout: () => resolve(null),
             });
-            read();
         });
+    }
+
+    async function ensureSession(force = false) {
+        if (session && !force) return session;
+        const resp = await post({
+            action: "hello",
+            platform: AI,
+            title: document.title,
+            url: location.href,
+            version: SCRIPT_VERSION,
+        });
+        if (!resp?.session) return null;
+        session = resp.session;
+        return session;
+    }
+
+    async function postAuthed(data, retry = true) {
+        const current = await ensureSession();
+        if (!current) return null;
+        const resp = await post(Object.assign({}, data, {
+            sessionId: current.id,
+            token: current.token,
+            platform: AI,
+            title: document.title,
+            url: location.href,
+            version: SCRIPT_VERSION,
+        }));
+        if (retry && resp?.error === "invalid session") {
+            session = null;
+            return postAuthed(data, false);
+        }
+        return resp;
+    }
+
+    function clearActiveTask() {
+        if (activeTask) {
+            if (activeTask.timeout) clearTimeout(activeTask.timeout);
+            if (activeTask.reader) {
+                try { activeTask.reader.cancel(); } catch (_e) { /**/ }
+            }
+        }
+        activeTask = null;
+    }
+
+    async function finishTask(taskId, text, error) {
+        if (!taskId) return;
+        dbg("finishTask", taskId, "len:", String(text || "").length, error ? "error:" : "", error || "");
+        await postAuthed({
+            action: "finishTask",
+            taskId,
+            text: text || "",
+            mode: "replace",
+            error: error || "",
+        });
+        clearActiveTask();
+    }
+
+    async function pushTaskText(taskId, text, done) {
+        if (!activeTask || activeTask.id !== taskId) return;
+        const nextText = String(text || "");
+        if (!done && nextText === activeTask.lastText) return;
+        activeTask.lastText = nextText;
+        if (AI === "ChatGPT") {
+            dbg(done ? "pushTaskText(done)" : "pushTaskText", taskId, "len:", nextText.length);
+        }
+        if (done) {
+            await finishTask(taskId, nextText, "");
+            return;
+        }
+        await postAuthed({
+            action: "pushDelta",
+            taskId,
+            text: nextText,
+            mode: "replace",
+        });
+    }
+
+    function monitorFetchResponse(response, taskId) {
+        const def = getPatchDef(response.url);
+        if (!def || !response.body || !activeTask || activeTask.id !== taskId) return;
+        if (AI === "ChatGPT") dbg("fetch matched", response.url, "task:", taskId);
+        const state = createPatchState(def);
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder();
+
+        // 存入 activeTask，供导航时取消
+        if (activeTask && activeTask.id === taskId) activeTask.reader = reader;
+
+        const read = () => reader.read().then(async ({ done, value }) => {
+            if (!activeTask || activeTask.id !== taskId) {
+                reader.cancel().catch(() => {});
+                return;
+            }
+            if (done) {
+                await pushTaskText(taskId, state.text, true);
+                return;
+            }
+            const chunk = decoder.decode(value, { stream: true });
+            state.allText += chunk;
+            try {
+                state.extract.call(state, chunk, state.allText);
+                if (AI === "ChatGPT") dbg("extract fetch", taskId, "chunk:", chunk.length, "text:", state.text.length);
+                await pushTaskText(taskId, state.text, false);
+            } catch (error) {
+                console.warn("[AI4Paper] extract error", error);
+            }
+            read();
+        }).catch(async (error) => {
+            const msg = String(error?.name || error || "");
+            // AbortError / cancel 是正常导航中断，不算错误
+            if (msg.includes("AbortError") || msg.includes("abort") || msg.includes("cancel")) {
+                dbg("stream cancelled (navigation?):", taskId);
+                return;
+            }
+            console.warn("[AI4Paper] stream error", error);
+            if (activeTask && activeTask.id === taskId) {
+                await finishTask(taskId, state.text, "");
+            }
+        });
+
+        read();
+    }
+
+    const nativeFetch = (unsafeWindow.fetch || window.fetch).bind(unsafeWindow || window);
+    unsafeWindow.fetch = async function (...args) {
+        const response = await nativeFetch(...args);
+        if (!activeTask) return response;
+        const clone = response.clone();
+        window.setTimeout(() => {
+            if (activeTask) monitorFetchResponse(clone, activeTask.id);
+        }, 0);
         return response;
     };
 
-    // ─── XHR 拦截（补充少数平台）─────────────────────────────────
-    const originalXhrOpen = XMLHttpRequest.prototype.open;
+    // SPA 导航检测：切换页面时优雅结束当前任务
+    function onNavigate() {
+        if (!activeTask) return;
+        const savedId = activeTask.id;
+        const savedText = activeTask.lastText || "";
+        dbg("SPA navigation, finishing task:", savedId);
+        clearActiveTask();
+        finishTask(savedId, savedText, "").catch(() => {});
+    }
+    try {
+        const _pushState = history.pushState.bind(history);
+        history.pushState = function (...args) {
+            _pushState(...args);
+            setTimeout(onNavigate, 50);
+        };
+        const _replaceState = history.replaceState.bind(history);
+        history.replaceState = function (...args) {
+            _replaceState(...args);
+            // replaceState 一般不换对话，不触发
+        };
+        window.addEventListener("popstate", () => setTimeout(onNavigate, 50));
+    } catch (_e) { /**/ }
+
+    const nativeXHROpen = XMLHttpRequest.prototype.open;
     XMLHttpRequest.prototype.open = function (method, url) {
-        const patch = PATCHES.find(p => p.AI === AI && p.regex.test(url));
-        if (patch) {
-            this.addEventListener('readystatechange', function () {
-                if (this.readyState === 3 || this.readyState === 4) {
-                    try { patch.extract(this.responseText || "", this.responseText || ""); } catch {}
-                    _sendRespond(patch.text, this.readyState === 4);
-                    if (this.readyState === 4) patch.text = "";
-                }
+        const def = getPatchDef(url);
+        if (def) {
+            const taskId = activeTask?.id || null;
+            if (AI === "ChatGPT") dbg("xhr matched", method, url, "task:", taskId);
+            const state = createPatchState(def);
+            this.addEventListener("readystatechange", async function () {
+                if (!taskId || !activeTask || activeTask.id !== taskId) return;
+                if (this.readyState !== 3 && this.readyState !== 4) return;
+                try {
+                    state.allText = this.responseText || "";
+                    state.extract.call(state, state.allText, state.allText);
+                    if (AI === "ChatGPT") dbg("extract xhr", taskId, "readyState:", this.readyState, "text:", state.text.length);
+                    await pushTaskText(taskId, state.text, this.readyState === 4);
+                } catch (_e) { /**/ }
             });
         }
-        originalXhrOpen.apply(this, arguments);
+        return nativeXHROpen.apply(this, arguments);
     };
 
-    // ─── 向插件发送回复 ───────────────────────────────────────────
-    function _sendRespond(text, done) {
-        if (!lastTaskId) return;
-        _post({ action: "respond", id: lastTaskId, text, done });
+    function setNativeValue(el, value) {
+        const proto = Object.getPrototypeOf(el);
+        const desc = Object.getOwnPropertyDescriptor(proto, "value")
+            || Object.getOwnPropertyDescriptor(window.HTMLTextAreaElement?.prototype || {}, "value")
+            || Object.getOwnPropertyDescriptor(window.HTMLInputElement?.prototype || {}, "value");
+        if (desc && typeof desc.set === "function") desc.set.call(el, value);
+        else el.value = value;
     }
 
-    // ─── 向 AI 输入框填文字并发送 ─────────────────────────────────
-    async function sendToAI(prompt) {
-        await _sleep(500);
-        const setters = {
-            DeepSeek: async () => {
-                const ta = document.querySelector("textarea");
-                if (!ta) return false;
-                _reactSet(ta, prompt);
-                await _sleep(200);
-                document.querySelector("button[type=submit], ._7436101")?.click();
+    function dispatchInput(el, text) {
+        if (!el) return false;
+        if ("value" in el) {
+            setNativeValue(el, text);
+            el.dispatchEvent(new InputEvent("input", { bubbles: true, cancelable: true, data: text }));
+            el.dispatchEvent(new Event("change", { bubbles: true }));
+            return true;
+        }
+        if (el.isContentEditable) {
+            el.focus();
+            el.textContent = text;
+            try {
+                el.innerHTML = text.split("\n").map(line => `<p>${line}</p>`).join("");
+            } catch (_e) { /**/ }
+            el.dispatchEvent(new InputEvent("input", { bubbles: true, cancelable: true, data: text }));
+            return true;
+        }
+        return false;
+    }
+
+    function reactSet(el, text) {
+        if (!el) return false;
+        setNativeValue(el, text);
+        const keys = Object.keys(el).filter(key => key.startsWith("__reactProps") || key.startsWith("__reactEventHandlers"));
+        for (const key of keys) {
+            const props = el[key];
+            if (props?.onChange) {
+                props.onChange({ target: el, currentTarget: el, type: "change" });
                 return true;
+            }
+            if (props?.onInput) {
+                props.onInput({ target: el, currentTarget: el, type: "input" });
+                return true;
+            }
+        }
+        el.dispatchEvent(new Event("input", { bubbles: true }));
+        return true;
+    }
+
+    async function setLexical(text) {
+        try {
+            const editorEl = document.querySelector('[data-lexical-editor][role="textbox"]');
+            const editor = editorEl && editorEl.__lexicalEditor;
+            if (!editor) return false;
+            editor.setEditorState(editor.parseEditorState({
+                root: {
+                    children: [{
+                        children: [{
+                            detail: 0,
+                            format: 0,
+                            mode: "normal",
+                            style: "",
+                            text,
+                            type: "text",
+                            version: 1
+                        }],
+                        direction: null,
+                        format: "",
+                        indent: 0,
+                        type: "paragraph",
+                        version: 1,
+                        textFormat: 0
+                    }],
+                    direction: null,
+                    format: "",
+                    indent: 0,
+                    type: "root",
+                    version: 1
+                }
+            }));
+            return true;
+        } catch (_e) {
+            return false;
+        }
+    }
+
+    function clickFirst(selectors) {
+        for (const selector of selectors) {
+            const el = document.querySelector(selector);
+            if (!el) continue;
+            el.click();
+            return true;
+        }
+        return false;
+    }
+
+    async function sendToAI(prompt) {
+        // 最小化时尝试让窗口/标签页获得焦点，避免部分站点拒绝无焦点输入
+        try { unsafeWindow.focus(); } catch (_e) { /**/ }
+        await sleep(300);
+        const adapters = {
+            DeepSeek: async () => {
+                const el = document.querySelector("textarea");
+                if (!el) return false;
+                reactSet(el, prompt);
+                await sleep(200);
+                return clickFirst(["button[type=submit]", "button[aria-label*='发送']", "._7436101"]);
             },
             Doubao: async () => {
-                const ta = document.querySelector('[data-testid="chat_input_input"]');
-                if (!ta) return false;
-                _reactSet(ta, prompt);
-                await _sleep(200);
-                document.querySelector("button#flow-end-msg-send")?.click();
-                return true;
+                const el = document.querySelector('[data-testid="chat_input_input"]');
+                if (!el) return false;
+                reactSet(el, prompt);
+                await sleep(200);
+                return clickFirst(["button#flow-end-msg-send", "button[type=submit]"]);
             },
             ChatGPT: async () => {
-                _dispatchInput('#prompt-textarea', prompt);
-                await _sleep(200);
-                document.querySelector('[data-testid="send-button"]')?.click();
-                return true;
+                const el = document.querySelector("#prompt-textarea");
+                if (!el) return false;
+                dispatchInput(el, prompt);
+                await sleep(200);
+                return clickFirst(['[data-testid="send-button"]', 'button[aria-label*="Send"]']);
             },
             Claude: async () => {
-                _dispatchInput('[contenteditable="true"]', prompt);
-                await _sleep(200);
-                document.querySelector("button[aria-label='Send message']")?.click();
-                return true;
+                const el = document.querySelector('[contenteditable="true"][data-testid*="input"]')
+                    || document.querySelector('[contenteditable="true"]');
+                if (!el) return false;
+                dispatchInput(el, prompt);
+                await sleep(200);
+                return clickFirst(["button[aria-label='Send message']", "button[type=submit]"]);
             },
             Kimi: async () => {
-                await _setLexical(prompt);
-                await _sleep(200);
-                document.querySelector('.send-button')?.click();
-                return true;
+                const ok = await setLexical(prompt);
+                if (!ok) {
+                    const el = document.querySelector('[contenteditable="true"]');
+                    if (!el) return false;
+                    dispatchInput(el, prompt);
+                }
+                await sleep(200);
+                return clickFirst([".send-button", "button[type=submit]"]);
             },
             Yuanbao: async () => {
-                _dispatchInput('.chat-input-editor .ql-editor', prompt);
-                await _sleep(200);
-                document.querySelector('.icon-send')?.click();
-                return true;
+                const el = document.querySelector(".chat-input-editor .ql-editor") || document.querySelector('[contenteditable="true"]');
+                if (!el) return false;
+                dispatchInput(el, prompt);
+                await sleep(200);
+                return clickFirst([".icon-send", "button[type=submit]"]);
             },
             Qwen: async () => {
-                _dispatchInput("#chat-input", prompt);
-                await _sleep(200);
-                document.querySelector('#send-message-button')?.click();
-                return true;
+                const el = document.querySelector("#chat-input")
+                    || document.querySelector("textarea")
+                    || document.querySelector('[contenteditable="true"]');
+                if (!el) return false;
+                dispatchInput(el, prompt);
+                await sleep(200);
+                return clickFirst(["#send-message-button", "button[type=submit]"]);
+            },
+            Gemini: async () => {
+                const el = document.querySelector("rich-textarea textarea")
+                    || document.querySelector("textarea")
+                    || document.querySelector('[contenteditable="true"]');
+                if (!el) return false;
+                dispatchInput(el, prompt);
+                await sleep(200);
+                return clickFirst(["button[aria-label*='Send']", "button[type=submit]"]);
+            },
+            Perplexity: async () => {
+                const el = document.querySelector("textarea")
+                    || document.querySelector('[contenteditable="true"]');
+                if (!el) return false;
+                dispatchInput(el, prompt);
+                await sleep(200);
+                return clickFirst(["button[aria-label*='Submit']", "button[aria-label*='Send']", "button[type=submit]"]);
             },
             Grok: async () => {
-                const ta = document.querySelector('textarea');
-                const div = document.querySelector("form [contenteditable]");
-                if (div) div.innerHTML = `<p>${prompt}</p>`;
-                else if (ta) _reactSet(ta, prompt);
-                await _sleep(200);
-                document.querySelector("button[type=submit]")?.click();
-                return true;
+                const el = document.querySelector("form [contenteditable]")
+                    || document.querySelector("textarea");
+                if (!el) return false;
+                dispatchInput(el, prompt);
+                await sleep(200);
+                return clickFirst(["button[type=submit]", "button[aria-label*='Send']"]);
             },
         };
-        const fn = setters[AI];
-        if (!fn) return false;
-        return fn().catch(() => false);
+
+        const adapter = adapters[AI];
+        if (adapter) return !!(await adapter().catch(() => false));
+
+        const genericEditor = document.querySelector("textarea, [contenteditable='true']");
+        if (!genericEditor) return false;
+        dispatchInput(genericEditor, prompt);
+        await sleep(200);
+        return clickFirst(["button[type=submit]", "button[aria-label*='Send']", "button[aria-label*='发送']"]);
     }
 
-    // ─── DOM 辅助 ─────────────────────────────────────────────────
-    function _dispatchInput(selector, text) {
-        const el = document.querySelector(selector);
-        if (!el) return;
-        el.value = text;
-        try { el.innerHTML = text.split("\n").map(l => `<p>${l}</p>`).join(""); } catch {}
-        el.dispatchEvent(new InputEvent('input', { bubbles: true, cancelable: true }));
+    async function pullTask() {
+        return postAuthed({ action: "pullTask" });
     }
 
-    function _reactSet(el, text) {
-        const props = Object.values(el)[1];
-        el.value = text;
-        props?.onChange?.({ target: el, currentTarget: el, type: 'change' });
-    }
+    GM_registerMenuCommand("AI4Paper Connector 状态", async () => {
+        const status = await postAuthed({ action: "ping" });
+        const lines = [
+            "平台: " + AI,
+            "脚本: " + SCRIPT_VERSION,
+            "运行: " + (isRunning ? "是" : "否"),
+            "会话: " + (session?.id || "未连接"),
+            "任务: " + (activeTask?.id || "空闲"),
+            "服务端: " + (status?.version || "未连接"),
+        ];
+        window.alert(lines.join("\n"));
+    });
 
-    async function _setLexical(text) {
-        try {
-            const editor = document.querySelector('[data-lexical-editor][role=textbox]').__lexicalEditor;
-            await editor.setEditorState(editor.parseEditorState({
-                root: { children: [{ children: [{ detail: 0, format: 0, mode: "normal", style: "", text, type: "text", version: 1 }], direction: null, format: "", indent: 0, type: "paragraph", version: 1, textFormat: 0 }], direction: null, format: "", indent: 0, type: "root", version: 1 }
-            }));
-        } catch {}
-    }
-
-    function _sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
-
-    // ─── HTTP 通信 ────────────────────────────────────────────────
-    function _post(data) {
-        return new Promise((resolve) => {
-            GM_xmlhttpRequest({
-                method: "POST",
-                url: AI4P_ENDPOINT,
-                headers: { "Content-Type": "application/json" },
-                responseType: "json",
-                data: JSON.stringify(data),
-                onload: r => resolve(r.response),
-                onerror: () => resolve(null),
-            });
-        });
-    }
-
-    // ─── 主循环 ──────────────────────────────────────────────────
-    GM_registerMenuCommand('🔗 AI4Paper 运行中', () => window.alert("AI4Paper Connector 已连接\n平台: " + AI));
-    GM_registerMenuCommand('⏹ 断开', () => { isRunning = false; window.alert("已断开"); });
+    GM_registerMenuCommand(isRunning ? "暂停 AI4Paper Connector" : "启用 AI4Paper Connector", () => {
+        isRunning = !isRunning;
+        GM_setValue(RUNNING_KEY, isRunning);
+        window.alert(isRunning ? "AI4Paper Connector 已启用" : "AI4Paper Connector 已暂停");
+    });
 
     while (true) {
-        await _sleep(500);
+        await sleep(POLL_INTERVAL);
         if (!isRunning) continue;
-
         try {
-            const res = await _post({ action: "poll" });
-            if (!res?.task) continue;
-            const task = res.task;
-            if (task.id === lastTaskId) continue; // 已处理过
-
-            lastTaskId = task.id;
-            console.log("[AI4Paper] 收到任务:", task.id, "prompt长度:", task.prompt?.length);
-
+            await ensureSession();
+            if (!session || activeTask) continue;
+            const resp = await pullTask();
+            if (!resp?.task) continue;
+            const task = resp.task;
+            const newTask = {
+                id: task.id,
+                prompt: task.prompt,
+                lastText: "",
+                startedAt: Date.now(),
+                reader: null,
+                timeout: null,
+            };
+            // 5 分钟超时保险，防止任务卡死
+            newTask.timeout = setTimeout(() => {
+                if (activeTask && activeTask.id === newTask.id) {
+                    dbg("task timeout:", newTask.id);
+                    const text = activeTask.lastText || "";
+                    clearActiveTask();
+                    finishTask(newTask.id, text, "").catch(() => {});
+                }
+            }, 5 * 60 * 1000);
+            activeTask = newTask;
+            console.log("[AI4Paper] task:", task.id, "platform:", AI, "prompt:", (task.prompt || "").length);
             const ok = await sendToAI(task.prompt);
             if (!ok) {
-                console.warn("[AI4Paper] 发送失败，平台:", AI);
-                await _post({ action: "respond", id: task.id, text: "[发送失败，请检查页面状态]", done: true });
-                lastTaskId = null;
+                await finishTask(task.id, "", "发送失败，请检查页面状态");
             }
-        } catch (e) {
-            if (!String(e).includes("Network")) console.log("[AI4Paper] 轮询错误:", e);
+        } catch (error) {
+            const text = String(error || "");
+            if (!text.includes("Network")) console.warn("[AI4Paper] loop error", error);
+            await sleep(1000);
         }
     }
 })();
