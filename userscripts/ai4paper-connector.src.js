@@ -2,7 +2,7 @@
 // @name         AI4Paper Connector
 // @description  AI4Paper 浏览器联动脚本，支持 DeepSeek / 豆包 / ChatGPT / Claude / 通义 / Kimi 等
 // @namespace    https://ai4paper.pro
-// @version      1.2.11
+// @version      1.2.12
 // @author       AI4Paper
 // @license      MIT
 // @homepageURL  https://ai4paper.pro
@@ -42,7 +42,7 @@
 (async function () {
     'use strict';
 
-    const SCRIPT_VERSION = "1.2.11";
+    const SCRIPT_VERSION = "1.2.12";
     const SERVER_BASE = "https://ai4paper.pro/api/browser-task";
     const LOGIN_URL = "https://ai4paper.pro/api/user/login";
     const TOKEN_STORE = "ai4paper.userToken";
@@ -1066,6 +1066,48 @@
         return false;
     }
 
+    function submitByEnter(el) {
+        if (!el) return false;
+        try { el.focus(); } catch (_e) { /**/ }
+        const eventInit = {
+            key: "Enter",
+            code: "Enter",
+            keyCode: 13,
+            which: 13,
+            bubbles: true,
+            cancelable: true,
+        };
+        try {
+            el.dispatchEvent(new KeyboardEvent("keydown", eventInit));
+            el.dispatchEvent(new KeyboardEvent("keypress", eventInit));
+            el.dispatchEvent(new KeyboardEvent("keyup", eventInit));
+            return true;
+        } catch (_e) {
+            return false;
+        }
+    }
+
+    async function waitForResponseStart(ai, snapshotText, beforeThreadId, timeoutMs = 5000) {
+        const extract = DOM_EXTRACTORS[ai];
+        const deadline = Date.now() + timeoutMs;
+        while (Date.now() < deadline) {
+            await sleep(200);
+            const currentThreadId = getCurrentThreadId();
+            if (beforeThreadId && currentThreadId && currentThreadId !== beforeThreadId) {
+                dbg("response start detected by thread change:", beforeThreadId, "→", currentThreadId);
+                return true;
+            }
+            if (extract) {
+                const text = String(extract() || "");
+                if (text && text !== snapshotText && (Math.abs(text.length - snapshotText.length) > 8 || text.length > snapshotText.length)) {
+                    dbg("response start detected by DOM delta, len:", text.length);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     function buildTaskInput(task) {
         if (!task) return "";
         if ((task.kind || "prompt") !== "chat") {
@@ -1107,10 +1149,19 @@
             ChatGPT: async () => {
                 const el = document.querySelector("#prompt-textarea");
                 if (!el) return false;
+                const beforeThreadId = getCurrentThreadId();
+                const beforeText = (DOM_EXTRACTORS.ChatGPT?.() || "").trim();
                 dispatchInput(el, prompt);
                 // 长提示词（如含全文的 Ask PDF）需要更多时间让 React 更新状态
                 await sleep(prompt.length > 3000 ? 600 : 250);
-                return clickFirst(['[data-testid="send-button"]', 'button[aria-label*="Send"]', 'button[aria-label*="send"]']);
+                const clicked = clickFirst(['[data-testid="send-button"]', 'button[aria-label*="Send"]', 'button[aria-label*="send"]']);
+                if (clicked) return true;
+                const entered = submitByEnter(el);
+                if (entered) {
+                    const started = await waitForResponseStart("ChatGPT", beforeText, beforeThreadId, 5000);
+                    if (started) return true;
+                }
+                return waitForResponseStart("ChatGPT", beforeText, beforeThreadId, 2500);
             },
             Claude: async () => { const el = document.querySelector('[contenteditable="true"][data-testid*="input"]') || document.querySelector('[contenteditable="true"]'); if (!el) return false; dispatchInput(el, prompt); await sleep(200); return clickFirst(["button[aria-label='Send message']", "button[type=submit]"]); },
             Kimi: async () => {
