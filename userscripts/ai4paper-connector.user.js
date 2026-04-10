@@ -2,7 +2,7 @@
 // @name         AI4Paper Connector
 // @description  AI4Paper 浏览器联动脚本，支持 DeepSeek / 豆包 / ChatGPT / Claude / 通义 / Kimi 等
 // @namespace    https://ai4paper.pro
-// @version      1.1.4
+// @version      1.1.5
 // @author       AI4Paper
 // @license      MIT
 // @homepageURL  https://ai4paper.pro
@@ -37,15 +37,16 @@
 (async function () {
     'use strict';
 
-    const SCRIPT_VERSION = "1.1.4";
-    const ENDPOINT = "http://127.0.0.1:23119/ai4paper";
+    const SCRIPT_VERSION = "1.1.5";
+    const SERVER_BASE = "https://ai4paper.pro/api/browser-task";
+    const LICENSE_KEY_STORE = "ai4paper.licenseKey";
     const RUNNING_KEY = "ai4paper.connector.running";
-    const POLL_INTERVAL = 800;
+    const POLL_INTERVAL = 1200;
     const DEBUG = true;
 
     const AI = detectPlatform();
     let isRunning = GM_getValue(RUNNING_KEY, true) !== false;
-    let session = null;
+    let licenseKey = GM_getValue(LICENSE_KEY_STORE, "");
     let activeTask = null;
 
     // ── 后台保活：最小化 / 隐藏标签页时保持正常运行 ──────────────────────
@@ -358,60 +359,34 @@
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
-    function post(data) {
+    // ── 服务器通信（替代本地 23119 端口）────────────────────────────────────
+    function serverRequest(method, path, body) {
         return new Promise(resolve => {
+            if (!licenseKey) { resolve(null); return; }
             GM_xmlhttpRequest({
-                method: "POST",
-                url: ENDPOINT,
-                headers: { "Content-Type": "application/json" },
-                data: JSON.stringify(data),
+                method,
+                url: SERVER_BASE + path,
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-License-Key": licenseKey,
+                },
+                data: body ? JSON.stringify(body) : undefined,
                 onload: (resp) => {
-                    let payload = null;
                     try {
-                        payload = typeof resp.response === "object" && resp.response
+                        resolve(typeof resp.response === "object" && resp.response
                             ? resp.response
-                            : JSON.parse(resp.responseText || "null");
-                    } catch (_e) {
-                        payload = null;
-                    }
-                    resolve(payload);
+                            : JSON.parse(resp.responseText || "null"));
+                    } catch (_e) { resolve(null); }
                 },
                 onerror: () => resolve(null),
                 ontimeout: () => resolve(null),
+                timeout: 15000,
             });
         });
     }
 
-    async function ensureSession(force = false) {
-        if (session && !force) return session;
-        const resp = await post({
-            action: "hello",
-            platform: AI,
-            title: document.title,
-            url: location.href,
-            version: SCRIPT_VERSION,
-        });
-        if (!resp?.session) return null;
-        session = resp.session;
-        return session;
-    }
-
-    async function postAuthed(data, retry = true) {
-        const current = await ensureSession();
-        if (!current) return null;
-        const resp = await post(Object.assign({}, data, {
-            sessionId: current.id,
-            token: current.token,
-            platform: AI,
-            title: document.title,
-            url: location.href,
-            version: SCRIPT_VERSION,
-        }));
-        if (retry && resp?.error === "invalid session") {
-            session = null;
-            return postAuthed(data, false);
-        }
-        return resp;
+    async function pullTask() {
+        return serverRequest("GET", "/poll?platform=" + encodeURIComponent(AI));
     }
 
     function clearActiveTask() {
@@ -426,12 +401,11 @@
 
     async function finishTask(taskId, text, error) {
         if (!taskId) return;
-        dbg("finishTask", taskId, "len:", String(text || "").length, error ? "error:" : "", error || "");
-        await postAuthed({
-            action: "finishTask",
+        dbg("finishTask", taskId, "len:", String(text || "").length, error || "");
+        await serverRequest("POST", "/push", {
             taskId,
             text: text || "",
-            mode: "replace",
+            done: true,
             error: error || "",
         });
         clearActiveTask();
@@ -442,18 +416,15 @@
         const nextText = String(text || "");
         if (!done && nextText === activeTask.lastText) return;
         activeTask.lastText = nextText;
-        if (AI === "ChatGPT") {
-            dbg(done ? "pushTaskText(done)" : "pushTaskText", taskId, "len:", nextText.length);
-        }
         if (done) {
             await finishTask(taskId, nextText, "");
             return;
         }
-        await postAuthed({
-            action: "pushDelta",
+        await serverRequest("POST", "/push", {
             taskId,
             text: nextText,
-            mode: "replace",
+            done: false,
+            error: "",
         });
     }
 
@@ -754,20 +725,26 @@
         return postAuthed({ action: "pullTask" });
     }
 
-    GM_registerMenuCommand("AI4Paper Connector 状态", async () => {
-        const status = await postAuthed({ action: "ping" });
+    GM_registerMenuCommand("⚙️ 设置 License Key", () => {
+        const key = window.prompt("请输入你的 AI4Paper License Key：", licenseKey || "");
+        if (key === null) return;
+        licenseKey = key.trim();
+        GM_setValue(LICENSE_KEY_STORE, licenseKey);
+        window.alert(licenseKey ? "✅ License Key 已保存" : "⚠️ 已清除 License Key");
+    });
+
+    GM_registerMenuCommand("📊 AI4Paper Connector 状态", () => {
         const lines = [
             "平台: " + AI,
             "脚本: " + SCRIPT_VERSION,
+            "License Key: " + (licenseKey ? licenseKey.slice(0, 8) + "****" : "未设置"),
             "运行: " + (isRunning ? "是" : "否"),
-            "会话: " + (session?.id || "未连接"),
             "任务: " + (activeTask?.id || "空闲"),
-            "服务端: " + (status?.version || "未连接"),
         ];
         window.alert(lines.join("\n"));
     });
 
-    GM_registerMenuCommand(isRunning ? "暂停 AI4Paper Connector" : "启用 AI4Paper Connector", () => {
+    GM_registerMenuCommand(isRunning ? "⏸ 暂停 Connector" : "▶️ 启用 Connector", () => {
         isRunning = !isRunning;
         GM_setValue(RUNNING_KEY, isRunning);
         window.alert(isRunning ? "AI4Paper Connector 已启用" : "AI4Paper Connector 已暂停");
@@ -776,9 +753,13 @@
     while (true) {
         await sleep(POLL_INTERVAL);
         if (!isRunning) continue;
+        if (!licenseKey) {
+            dbg("未设置 License Key，跳过轮询（请在菜单中设置）");
+            await sleep(5000);
+            continue;
+        }
         try {
-            await ensureSession();
-            if (!session || activeTask) continue;
+            if (activeTask) continue;
             const resp = await pullTask();
             if (!resp?.task) continue;
             const task = resp.task;
