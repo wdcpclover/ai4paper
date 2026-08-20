@@ -129,7 +129,7 @@
 
 如果 AI4Paper 帮到了你的科研,欢迎点亮一颗 Star ⭐ —— 这是我们持续打磨的最大动力。
 
-[![Star History Chart](https://api.star-history.com/svg?repos=wdcpclover/ai4paper&type=Date)](https://star-history.com/#wdcpclover/ai4paper&Date)
+[![Star History Chart](https://star-history.dera.page/svg?repos=wdcpclover/ai4paper&type=Date)](https://star-history.dera.page/#wdcpclover/ai4paper&Date)
 
 ---
 
