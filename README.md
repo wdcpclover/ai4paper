@@ -140,7 +140,7 @@
 - 🔍 期刊分区查询(免费):[ai4paper.pro/journal](https://ai4paper.pro/journal/)
 - 📖 使用文档:[ai4paper.pro/docs](https://ai4paper.pro/docs/)
 - 🧭 新手教程:[Zotero AI 插件配置](https://ai4paper.pro/guide/zotero-ai/) · [AI 辅助文献综述](https://ai4paper.pro/guide/literature-review/) · [论文写作全流程](https://ai4paper.pro/guide/paper-writing/) · [AI 辅助写作指南](https://ai4paper.pro/guide/ai-writing/)
-- 📚 GitHub 使用文档:[期刊分区与影响因子](docs/zotero-journal-ranking-impact-factor.md) · [上手与安装](docs/getting-started.md) · [按任务选工具](docs/choose-by-task.md)
+- 📚 GitHub 使用文档:[期刊分区与影响因子](docs/zotero-journal-ranking-impact-factor.md) · [上手与安装](docs/getting-started.md) · [按任务选工具](docs/choose-by-task.md) · [桌面版](docs/desktop-app.md) · [网页工作台](docs/web-workbench.md)
 
 ## 许可
 
