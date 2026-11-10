@@ -1,5 +1,15 @@
 <div align="center">
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme-banner-dark.png">
+  <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme-banner-light.png">
+  <img alt="AI4Paper 阅读宇宙" src="docs/assets/readme-banner-light.png" width="100%">
+</picture>
+
+</div>
+
+<div align="center">
+
 # AI4Paper 阅读宇宙
 
 ### 你的 AI 科研工作台 · 从找文献到写综述,一站打通
@@ -125,6 +135,21 @@
 
 ---
 
+## 📚 教程
+
+跟着做就能上手:每篇都按真实界面写,配截图,先讲方法再讲怎么在 AI4Paper 里做。完整目录见 [教程目录](docs/tutorials/README.md)。
+
+| 想做什么 | 从这里开始 |
+|---|---|
+| 第一次使用 | [安装并登录,先跑通一篇文献](docs/tutorials/01-getting-started/install-and-login.md) · [按任务认识界面](docs/tutorials/01-getting-started/ui-tour.md) · [网页版还是 Zotero 插件](docs/tutorials/01-getting-started/web-and-plugin.md) |
+| 找文献 | [用清楚的问题找到第一批文献](docs/tutorials/02-find/ai-quick-search.md) · [按期刊信息缩小范围](docs/tutorials/02-find/filter-by-ranking.md) · [整理已有文献](docs/tutorials/02-find/import-existing.md) |
+| 读文献 | [全文翻译与划词翻译](docs/tutorials/03-read/translate-pdf.md) · [AI 精读](docs/tutorials/03-read/ai-close-reading.md) · [用五个问题读论文并回查](docs/tutorials/03-read/read-and-verify.md) · [围绕一组文献提问](docs/tutorials/03-read/ask-your-library.md) |
+| 写综述与论文 | [怎么找综述](docs/tutorials/04-write/find-reviews.md) · [文献证据表](docs/tutorials/04-write/evidence-table.md) · [一键综述的用法与核对](docs/tutorials/04-write/one-click-review.md) · [在 Word / WPS 里引用](docs/tutorials/04-write/cite-in-word.md) |
+| 选期刊 | [分区与影响因子怎么看](docs/tutorials/05-journals/ranking-and-if.md) · [订阅期刊动态](docs/tutorials/05-journals/journal-alerts.md) |
+| 整理文库 | [分类与标签](docs/tutorials/06-library/categories-tags.md) · [去重](docs/tutorials/06-library/dedup.md) · [笔记管理](docs/tutorials/06-library/note-management.md) |
+
+---
+
 ## ⭐ Star History
 
 如果 AI4Paper 帮到了你的科研,欢迎点亮一颗 Star ⭐ —— 这是我们持续打磨的最大动力。
@@ -140,6 +165,7 @@
 - 🔍 期刊分区查询(免费):[ai4paper.pro/journal](https://ai4paper.pro/journal/)
 - 📖 使用文档:[ai4paper.pro/docs](https://ai4paper.pro/docs/)
 - 🧭 新手教程:[Zotero AI 插件配置](https://ai4paper.pro/guide/zotero-ai/) · [AI 辅助文献综述](https://ai4paper.pro/guide/literature-review/) · [论文写作全流程](https://ai4paper.pro/guide/paper-writing/) · [AI 辅助写作指南](https://ai4paper.pro/guide/ai-writing/)
+- 📚 GitHub 教程:[教程目录](docs/tutorials/README.md)
 - 📚 GitHub 使用文档:[期刊分区与影响因子](docs/zotero-journal-ranking-impact-factor.md) · [上手与安装](docs/getting-started.md) · [按任务选工具](docs/choose-by-task.md) · [桌面版](docs/desktop-app.md) · [网页工作台](docs/web-workbench.md)
 
 ## 许可
