@@ -63,7 +63,9 @@ AI4Paper 于 2026 年 4 月 9 日经 [PR #283](https://github.com/zotero-chinese
 
 l0o0 同时是茉莉花(Jasminum)插件的作者,该插件与 AI4Paper 同样提供中文元数据识别功能。AI4Paper 的中文元数据识别为独立实现和维护。
 
-AI4Paper 同时提供浏览器扩展([Chrome 应用商店](https://chromewebstore.google.com/detail/ai4paper/emggpnhbiiogpfiofpfjdofppifididk) · [Edge 加载项](https://microsoftedge.microsoft.com/addons/detail/ai4paper/poeeobeiibkgaimmlkfmfamohamdiemn)),在 Google Scholar、知网、Web of Science 等页面显示期刊分区,并一键把文献加入文献库。中文元数据识别与浏览器扩展均由我们自主维护。
+AI4Paper 同时提供浏览器扩展([Chrome 应用商店](https://chromewebstore.google.com/detail/ai4paper/emggpnhbiiogpfiofpfjdofppifididk) · [Edge 加载项](https://microsoftedge.microsoft.com/addons/detail/ai4paper/poeeobeiibkgaimmlkfmfamohamdiemn)),在 Google Scholar、知网、Web of Science 等页面显示期刊分区,并一键把文献加入文献库。中文元数据识别与浏览器扩展均由我们自主维护:从网页上识别文献、采集题录,到期刊分区与影响因子查询,都在这一套里完成。下载论文全文不收费,期刊分区查询、BibTeX 导出、PDF 整理等基础功能也免费使用。
+
+如果好用的东西不能被用户自由选择,而是被挡在门外,吃亏的是用户——这就是劣币驱逐良币。
 
 作为以官方名义运营的社区,收录与移除理应公开、公允,依据规则由多位维护者评议,而不应由与被评议对象存在利害关系的个人单方面决定。我们愿意接受任何有具体依据的评议。
 
