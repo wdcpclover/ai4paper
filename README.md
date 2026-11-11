@@ -61,9 +61,9 @@ AI4Paper 于 2026 年 4 月 9 日经 [PR #283](https://github.com/zotero-chinese
 
 我们随后在商店仓库提出了询问([issue #359](https://github.com/zotero-chinese/zotero-plugins/issues/359))和重新收录申请([issue #360](https://github.com/zotero-chinese/zotero-plugins/issues/360))。11 月 10 日,l0o0 回复称商店"避免可能侵害其他插件权益的插件进入商店",未说明具体指哪款插件、侵害了哪一点,也未说明下架请求由谁提出;两个 issue 随即被关闭。
 
-l0o0 同时是茉莉花(Jasminum)插件的作者,该插件与 AI4Paper 同样提供中文元数据识别功能。AI4Paper 的中文元数据识别为独立实现和维护。
+l0o0 同时是茉莉花(Jasminum)插件的作者,该插件与 AI4Paper 同样提供中文元数据识别功能。
 
-AI4Paper 同时提供浏览器扩展([Chrome 应用商店](https://chromewebstore.google.com/detail/ai4paper/emggpnhbiiogpfiofpfjdofppifididk) · [Edge 加载项](https://microsoftedge.microsoft.com/addons/detail/ai4paper/poeeobeiibkgaimmlkfmfamohamdiemn)),在 Google Scholar、知网、Web of Science 等页面显示期刊分区,并一键把文献加入文献库。中文元数据识别与浏览器扩展均由我们自主维护:从网页上识别文献、采集题录,到期刊分区与影响因子查询,都在这一套里完成。下载论文全文不收费,期刊分区查询、BibTeX 导出、PDF 整理等基础功能也免费使用。
+AI4Paper 同时提供浏览器扩展([Chrome 应用商店](https://chromewebstore.google.com/detail/ai4paper/emggpnhbiiogpfiofpfjdofppifididk) · [Edge 加载项](https://microsoftedge.microsoft.com/addons/detail/ai4paper/poeeobeiibkgaimmlkfmfamohamdiemn)),在 Google Scholar、知网、Web of Science 等页面显示期刊分区,并一键把文献加入文献库。从网页上识别文献、采集题录,到期刊分区与影响因子查询,都在这一套里完成。下载论文全文不收费,期刊分区查询、BibTeX 导出、PDF 整理等基础功能也免费使用。
 
 如果好用的东西不能被用户自由选择,而是被挡在门外,吃亏的是用户——这就是劣币驱逐良币。
 
