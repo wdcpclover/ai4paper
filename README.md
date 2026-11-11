@@ -63,6 +63,10 @@ AI4Paper 于 2026 年 4 月 9 日经 [PR #283](https://github.com/zotero-chinese
 
 l0o0 同时是茉莉花(Jasminum)插件的作者,该插件与 AI4Paper 同样提供中文元数据识别功能。AI4Paper 的中文元数据识别为独立实现和维护。
 
+AI4Paper 同时提供浏览器扩展([Chrome 应用商店](https://chromewebstore.google.com/detail/ai4paper/emggpnhbiiogpfiofpfjdofppifididk) · [Edge 加载项](https://microsoftedge.microsoft.com/addons/detail/ai4paper/poeeobeiibkgaimmlkfmfamohamdiemn)),在 Google Scholar、知网、Web of Science 等页面显示期刊分区,并一键把文献加入文献库。中文元数据识别与浏览器扩展均由我们自主维护。
+
+作为以官方名义运营的社区,收录与移除理应公开、公允,依据规则由多位维护者评议,而不应由与被评议对象存在利害关系的个人单方面决定。我们愿意接受任何有具体依据的评议。
+
 我们已就此继续公开提问,并请求由其他维护者依据收录规则评议:[#359](https://github.com/zotero-chinese/zotero-plugins/issues/359#issuecomment-6797237130)。不论商店最终如何处理,AI4Paper 仍将持续更新,可通过本页 [Releases](https://github.com/wdcpclover/ai4paper/releases) 或[官网](https://ai4paper.pro)安装。
 
 ---
