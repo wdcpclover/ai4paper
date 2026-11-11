@@ -55,6 +55,18 @@
 
 ---
 
+### 关于 Zotero 中文社区插件商店
+
+AI4Paper 于 2026 年 4 月 9 日经 [PR #283](https://github.com/zotero-chinese/zotero-plugins/pull/283) 被收录进 Zotero 中文社区插件商店。2026 年 11 月 5 日,商店维护者 l0o0 提交 [a64d7040](https://github.com/zotero-chinese/zotero-plugins/commit/a64d7040)(#318),将 AI4Paper 加入黑名单,理由写作"应维护者请求下架"。该提交标题为"保留中文检索字段并修正插件源数据",未提及下架。我们没有提出过下架请求,此前也没有收到过任何关于侵权的投诉或通知。
+
+我们随后在商店仓库提出了询问([issue #359](https://github.com/zotero-chinese/zotero-plugins/issues/359))和重新收录申请([issue #360](https://github.com/zotero-chinese/zotero-plugins/issues/360))。11 月 10 日,l0o0 回复称商店"避免可能侵害其他插件权益的插件进入商店",未说明具体指哪款插件、侵害了哪一点,也未说明下架请求由谁提出;两个 issue 随即被关闭。
+
+l0o0 同时是茉莉花(Jasminum)插件的作者,该插件与 AI4Paper 同样提供中文元数据识别功能。AI4Paper 的中文元数据识别为独立实现和维护。
+
+我们已就此继续公开提问,并请求由其他维护者依据收录规则评议:[#359](https://github.com/zotero-chinese/zotero-plugins/issues/359#issuecomment-6797237130)。不论商店最终如何处理,AI4Paper 仍将持续更新,可通过本页 [Releases](https://github.com/wdcpclover/ai4paper/releases) 或[官网](https://ai4paper.pro)安装。
+
+---
+
 ## ✨ 核心能力
 
 | | |
