@@ -10,7 +10,7 @@
 
 <div align="center">
 
-# AI4Paper 阅读宇宙
+# AI4Paper 阅读宇宙 · Zotero AI 插件
 
 ### 你的 AI 科研工作台 · 从找文献到写综述,一站打通
 
@@ -35,6 +35,8 @@
 </div>
 
 ---
+
+> **AI4Paper 是一款 Zotero AI 插件(Zotero AI plugin),也有免安装的网页版。** 在 Zotero 里就能做到:**整篇 PDF 全文翻译**(双语对照、尽量保持原版排版)、**划词翻译**、对着文库**提问并溯源**、**AI 精读**论文,并在文献列表里直接看到**期刊分区与影响因子**。适配 Zotero 7–10。
 
 ## 为什么是 AI4Paper
 
@@ -116,6 +118,40 @@
 - **国内**:AI4Paper(推荐)、通义千问、DeepSeek、智谱、Kimi、豆包、零一万物、文心一言、MiniMax、硅基流动
 - **国际**:OpenAI、Claude、Gemini、Mistral、xAI (Grok)、OpenRouter、Groq、Together AI
 - **本地**:Ollama(完全离线)
+
+---
+
+## 常见问题
+
+### Zotero 怎么翻译整篇 PDF(全文翻译)?
+
+在文库里右键这篇文献,选「全文翻译 PDF」,会打开「全文翻译工作台」,所选文献先进入排队,点「开始」才会运行;在「全文翻译设置」里可以选双语对照或仅译文。按官网说明,译文 PDF 会作为新附件存回这条文献。全文翻译需要会员,按实际用量从账号余额扣除。详细步骤见教程:[全文翻译与划词翻译](docs/tutorials/03-read/translate-pdf.md)。
+
+### 只想看懂一句话或一段话,怎么翻译?
+
+在 PDF 里拖选文字,旁边会弹出划词窗口,默认显示译文,还能一键「解读」或「加入笔记」。加入笔记会生成一条带原文、译文、页码和「返回原文」链接的「翻译摘录」。
+
+### Zotero 里有能直接问文库的 AI 插件吗?
+
+有。AI4Paper 的**知识库问答**把你的文库变成可检索的知识库,回答保留来源线索,可以回到原文核对;**AI 精读**则按研究问题、方法、发现和局限帮你系统整理一篇论文。
+
+### 在文献列表里怎么直接看期刊分区和影响因子?
+
+AI4Paper 会在 Zotero 文献列表里增加分区、影响因子和收录情况的列(中科院分区 / JCR / SCIE·SSCI·CSCD·CSSCI)。不装插件也可以在线查:[ai4paper.pro/journal](https://ai4paper.pro/journal/)。
+
+### 支持哪些 Zotero 版本?怎么安装?
+
+支持 Zotero 7–10。到 [Releases](https://github.com/wdcpclover/ai4paper/releases) 下载最新版 XPI,Zotero → 工具 → 插件 → 齿轮图标 → Install Add-on From File → 选择 XPI,重启后注册账号即可,注册即享 7 天全功能试用。
+
+### 一定要装插件吗?
+
+不用。[网页版 app.ai4paper.pro](https://app.ai4paper.pro) 免安装,打开浏览器就能用,与插件共用一个账号。
+
+---
+
+## English
+
+**AI4Paper is a Zotero AI plugin** (Zotero 7–10) with a no-install web version. It adds **full-text PDF translation** (bilingual side-by-side, layout preserved as far as possible), **selection translation**, **Q&A over your own library with traceable sources**, **AI close reading**, and **journal ranking / impact factor columns** right in the item list. Download the latest XPI from [Releases](https://github.com/wdcpclover/ai4paper/releases), or try the web app at [app.ai4paper.pro](https://app.ai4paper.pro). A 7-day full-feature trial is included with every new account.
 
 ---
 
