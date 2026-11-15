@@ -55,24 +55,6 @@
 
 ---
 
-### 关于 Zotero 中文社区插件商店
-
-AI4Paper 于 2026 年 4 月 9 日经 [PR #283](https://github.com/zotero-chinese/zotero-plugins/pull/283) 被收录进 Zotero 中文社区插件商店。2026 年 11 月 5 日,商店维护者 l0o0 提交 [a64d7040](https://github.com/zotero-chinese/zotero-plugins/commit/a64d7040)(#318),将 AI4Paper 加入黑名单,理由写作"应维护者请求下架"。该提交标题为"保留中文检索字段并修正插件源数据",未提及下架。我们没有提出过下架请求,此前也没有收到过任何关于侵权的投诉或通知。
-
-我们随后在商店仓库提出了询问([issue #359](https://github.com/zotero-chinese/zotero-plugins/issues/359))和重新收录申请([issue #360](https://github.com/zotero-chinese/zotero-plugins/issues/360))。11 月 10 日,l0o0 回复称商店"避免可能侵害其他插件权益的插件进入商店",未说明具体指哪款插件、侵害了哪一点,也未说明下架请求由谁提出;两个 issue 随即被关闭。
-
-l0o0 同时是茉莉花(Jasminum)插件的作者,该插件与 AI4Paper 同样提供中文元数据识别功能。
-
-AI4Paper 同时提供浏览器扩展([Chrome 应用商店](https://chromewebstore.google.com/detail/ai4paper/emggpnhbiiogpfiofpfjdofppifididk) · [Edge 加载项](https://microsoftedge.microsoft.com/addons/detail/ai4paper/poeeobeiibkgaimmlkfmfamohamdiemn)),在 Google Scholar、知网、Web of Science 等页面显示期刊分区,并一键把文献加入文献库。从网页上识别文献、采集题录,到期刊分区与影响因子查询,都在这一套里完成。下载论文全文不收费,期刊分区查询、BibTeX 导出、PDF 整理等基础功能也免费使用。
-
-如果好用的东西不能被用户自由选择,而是被挡在门外,吃亏的是用户——这就是劣币驱逐良币。
-
-作为以官方名义运营的社区,收录与移除理应公开、公允,依据规则由多位维护者评议,而不应由与被评议对象存在利害关系的个人单方面决定。我们愿意接受任何有具体依据的评议。
-
-我们已就此继续公开提问,并请求由其他维护者依据收录规则评议:[#359](https://github.com/zotero-chinese/zotero-plugins/issues/359#issuecomment-6797237130)。不论商店最终如何处理,AI4Paper 仍将持续更新,可通过本页 [Releases](https://github.com/wdcpclover/ai4paper/releases) 或[官网](https://ai4paper.pro)安装。
-
----
-
 ## ✨ 核心能力
 
 | | |
