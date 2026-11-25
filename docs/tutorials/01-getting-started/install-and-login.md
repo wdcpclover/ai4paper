@@ -14,7 +14,7 @@
 
 ## 操作步骤
 
-1. 到官方 Zotero 下载页安装正式 Zotero，再从本仓库 Releases 的 Assets 下载 .xpi。
+1. 到 [Zotero 官方下载页](https://www.zotero.org/download/)安装正式 Zotero，再从[插件正式发布页](https://github.com/wdcpclover/ai4paper/releases/latest)的 Assets 下载 `.xpi`。
 2. Zotero→工具→插件→齿轮→Install Plugin From File…，选 XPI；按提示安装/重启。
 3. 再开插件详情，核 Enabled 和精确版本。设置→AI4Paper→账户与新手指引→登录/注册，核账户状态。
 4. 添加公开 PDF，检索/创建上级题录，确认元数据与附件对应并能打开。
@@ -23,7 +23,9 @@
 
 Web 无需 XPI：打开 app.ai4paper.pro，用 AI4Paper 产品账号登录，先核文献保存位置。
 
-![本轮真实界面：安装与登录](../../manual/assets/install-menu.png)
+![Zotero 插件管理器的安装入口](../../manual/assets/install-menu.png)
+
+安装后，可在 Zotero「工具 → 阅读宇宙应用」的左侧打开[插件市场](../../manual/zotero-plugin.md#插件市场)，查看已装插件和社区插件目录。一般 Zotero 插件的来源与兼容检查见[社区安装指南](https://zoterocn.org/guides/install-plugins)。
 
 ## 结果与检查
 
