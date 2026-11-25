@@ -1,33 +1,22 @@
 # 网页工作台:打开浏览器就能用
 
-AI4Paper 网页工作台在浏览器里就能管理文献、读 PDF、做笔记和写稿,不需要安装。和桌面版、Zotero 插件使用**同一个账号**。
-
-入口:[app.ai4paper.pro](https://app.ai4paper.pro)
+入口：[app.ai4paper.pro](https://app.ai4paper.pro/)。当前首次进入研究助理 `/agent`，左侧有我的文献库、找文献、订阅、笔记、写作区、论文项目、研究综述和研究空白；右上角可切经典版。
 
 ## 能做什么
 
-- **文献库与导入**:打开或拖入 PDF,导入 `.bib` / `.ris` / `.nbib` 题录,从剪贴板导入 DOI 列表,也可以从 Zotero 导入。
-- **整理与检索**:文件夹、标签、搜索、排序、筛选、批量操作、回收站。
-- **阅读与 AI 助手**:划词翻译与解读、标注和摘录、框选问 AI、本文对话、AI 划重点。
-- **写作与引用**:素材区找资料和比较,写作区管理稿件、AI 帮写、配引用,单篇可导出 GB/T 7714、APA、MLA、Chicago、BibTeX、RIS、CSV。
-
-部分功能需要会员。
+导入与管理文献、阅读 PDF、翻译/AI 阅读、摘录笔记、组织素材、比较研究、起草和修订稿件、引用导出。账号/权益、资料保存位置和各端同步分别核。
 
 ## 第一次使用
 
-1. 打开网页工作台,登录账号。
-2. 选择文献库的保存位置。
-3. 导入几篇 PDF 或一份题录文件。
-4. 打开一篇,试一次划词翻译和本文对话。
-5. 把读到的要点存进笔记,再带进写作区。
+1. 登录 AI4Paper 产品账号，选文献保存位置：浏览器本机、自己的文件夹或云空间。
+2. 我的文献库→导入文献，先用一篇公开 PDF，核题录与正文。
+3. 打开阅读器，试定位原文和记笔记，再按当前服务使用 AI。
+4. 查回保存状态与输出位置，核原文后进入素材/写作。
+
+![当前正式 Web 界面](manual/assets/web-entry.png)
 
 ## 完整说明
 
-逐页的图文教程在官网文档:
+[新版 Web 完整手册](manual/web-workspace.md)覆盖入口、前提、步骤、结果、限制与排查；[本轮实际核验](manual/verification.md)区分已操作与账号未就绪项目。
 
-- [快速上手](https://ai4paper.pro/docs/guide/web-start)
-- [文献库与导入](https://ai4paper.pro/docs/guide/web-library)
-- [阅读与 AI 助手](https://ai4paper.pro/docs/guide/web-reader-ai)
-- [写作与引用](https://ai4paper.pro/docs/guide/web-write)
-
-想在本机用独立应用?看[桌面版](desktop-app.md)。
+[Zotero 插件手册](manual/zotero-plugin.md) · [中文手册目录](tutorials/README.md) · [桌面版](desktop-app.md)

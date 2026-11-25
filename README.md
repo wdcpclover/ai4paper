@@ -40,7 +40,7 @@
 
 ## 为什么是 AI4Paper
 
-- **🧠 每个观点都可溯源。** 所有 AI 功能跑在真实文献上——自有 **2.4 亿文献源 + 引文网络索引**,综述里每一句话都标注真实文献编号,拒绝 AI 编造。
+- **🧠 生成后回原文核对。** 所有 AI 功能跑在真实文献上——自有 **2.4 亿文献源 + 引文网络索引**,可通过文献编号检查来源；观点、数字和引用仍需逐项核对。
 - **🔁 全流程闭环。** 找文献 → 读文献 → 管文献 → 写综述,一个工作台走完,不用在七八个工具之间来回倒腾。
 - **🌌 多端一个宇宙。** 网页版免安装、Zotero 插件深度集成、微信小程序追刊、浏览器扩展逛学术网站顺手查分区——数据同源,随处接续。
 
@@ -53,7 +53,7 @@
 | 📱 **微信小程序** | 微信搜「AI4Paper」 | 订阅期刊、追新论文、手机上刷文献 |
 | 🌐 **浏览器扩展** | [官网获取](https://ai4paper.pro) | Google Scholar / 知网页面直接显示期刊分区 |
 
-> 🎁 注册即享 **7 天全功能试用**,一个账号全端通用。
+> 🎁 注册/登录后的试用与权益以当前账号页面为准；各端共用产品账号，资料可见性取决于保存位置与同步。
 
 ---
 
@@ -62,7 +62,7 @@
 | | |
 |---|---|
 | 📚 **内置知识库 · 2.4 亿文献源** | 自有 2.4 亿篇文献 + 引文网络索引,整个文献库变成可问答的知识库,观点全程可溯源 |
-| 🌐 **PDF 全文翻译 · 零配置** | 整篇 PDF 一键翻译,保留原版排版与公式,开箱即用、无需任何配置 |
+| 🌐 **PDF 全文翻译** | 整篇 PDF 翻译，尽量保留版式与公式；先核文字层、账号和实时费用 |
 | 🔍 **AI 速搜文献** | 输入中文关键词,AI 自动扩展多组英文检索式,跨多库搜索、按引用排序、一键入库 |
 | ✍️ **AI 一键综述** | 关键词 → 自动搜文献 → 引文网络爬取 → 多轮筛选 → 3000–5000 字专业综述,每个观点标注真实文献 |
 | 🏆 **期刊分区随手查** | 中科院分区 / JCR / 影响因子 / SCIE·SSCI·CSCD·CSSCI 收录,[在线免费查询](https://ai4paper.pro/journal/) |
@@ -81,13 +81,13 @@
 
 ### 📖 读文献
 
-- **PDF 全文翻译(零配置)** — 整篇一键翻译,保留原版排版、图表与公式
+- **PDF 全文翻译** — 整篇一键翻译,保留原版排版、图表与公式
 - **划词翻译** — 12 种翻译引擎内置(火山 / Google / DeepL / 有道 / 百度等),选中即翻译
 - **AI 阅读辅助** — 打开 PDF 问什么答什么:术语解释、公式拆解、方法对比;支持图片 / 截图多模态提问
 - **划词 AI 解释** — 选中文字点击浮窗,流式显示 AI 解读
 - **思维导图** — 一键生成论文结构导图,PNG / OPML 导出,可导入 XMind
 - **AI 笔记** — 深度分析、简记、精读、对话、专业综述等多种笔记自动生成保存
-- **笔记管理 / 同步** — 所有 AI 笔记一个面板管理、批量导出 Markdown;支持云端端到端加密同步
+- **笔记管理 / 同步** — 所有 AI 笔记一个面板管理、批量导出 Markdown;可按当前同步与备份入口配置；先核数据范围和目标
 
 ### 📁 管文献
 
@@ -125,7 +125,7 @@
 
 ### Zotero 怎么翻译整篇 PDF(全文翻译)?
 
-在文库里右键这篇文献,选「全文翻译 PDF」,会打开「全文翻译工作台」,所选文献先进入排队,点「开始」才会运行;在「全文翻译设置」里可以选双语对照或仅译文。按官网说明,译文 PDF 会作为新附件存回这条文献。全文翻译需要会员,按实际用量从账号余额扣除。详细步骤见教程:[全文翻译与划词翻译](docs/tutorials/03-read/translate-pdf.md)。
+在文库里右键这篇文献,选「全文翻译 PDF」,或用「阅→全文翻译」。先确认 PDF 文字层、输出模式和实时费用,在工作台核任务已启动;排队与运行是两种状态。完成后打开原题录下的译文 PDF 核对。当前权益和计费以确认界面为准。详细步骤见教程:[全文翻译与划词翻译](docs/tutorials/03-read/translate-pdf.md)。
 
 ### 只想看懂一句话或一段话,怎么翻译?
 
@@ -141,7 +141,7 @@ AI4Paper 会在 Zotero 文献列表里增加分区、影响因子和收录情况
 
 ### 支持哪些 Zotero 版本?怎么安装?
 
-支持 Zotero 7–10。到 [Releases](https://github.com/wdcpclover/ai4paper/releases) 下载最新版 XPI,Zotero → 工具 → 插件 → 齿轮图标 → Install Add-on From File → 选择 XPI,重启后注册账号即可,注册即享 7 天全功能试用。
+支持 Zotero 7–10。到 [Releases](https://github.com/wdcpclover/ai4paper/releases) 下载最新版 XPI,Zotero → 工具 → 插件 → 齿轮图标 → Install Plugin From File → 选择 XPI,按提示重启后登录产品账号；当前试用、会员及额度以账号页面为准。
 
 ### 一定要装插件吗?
 
@@ -151,7 +151,7 @@ AI4Paper 会在 Zotero 文献列表里增加分区、影响因子和收录情况
 
 ## English
 
-**AI4Paper is a Zotero AI plugin** (Zotero 7–10) with a no-install web version. It adds **full-text PDF translation** (bilingual side-by-side, layout preserved as far as possible), **selection translation**, **Q&A over your own library with traceable sources**, **AI close reading**, and **journal ranking / impact factor columns** right in the item list. Download the latest XPI from [Releases](https://github.com/wdcpclover/ai4paper/releases), or try the web app at [app.ai4paper.pro](https://app.ai4paper.pro). A 7-day full-feature trial is included with every new account.
+**AI4Paper is a Zotero AI plugin** (Zotero 7–10) with a no-install web version. It adds **full-text PDF translation** (bilingual side-by-side, layout preserved as far as possible), **selection translation**, **Q&A over your own library with traceable sources**, **AI close reading**, and **journal ranking / impact factor columns** right in the item list. Download the latest XPI from [Releases](https://github.com/wdcpclover/ai4paper/releases), or try the web app at [app.ai4paper.pro](https://app.ai4paper.pro). Check the current account screen for trial eligibility, limits and pricing.
 
 ---
 
@@ -164,8 +164,8 @@ AI4Paper 会在 Zotero 文献列表里增加分区、影响因子和收录情况
 **方式二:Zotero 插件**
 
 1. 下载最新版 XPI:[Releases](https://github.com/wdcpclover/ai4paper/releases)
-2. Zotero → 工具 → 插件 → 齿轮图标 → Install Add-on From File → 选择 XPI
-3. 重启 Zotero,注册账号获得 **7 天全功能试用**
+2. Zotero → 工具 → 插件 → 齿轮图标 → Install Plugin From File → 选择 XPI
+3. 按提示重启 Zotero，登录产品账号并核当前权益
 
 > 原生支持 Zotero 7–10,一个账号网页版 / 插件 / 小程序通用。
 
@@ -173,7 +173,7 @@ AI4Paper 会在 Zotero 文献列表里增加分区、影响因子和收录情况
 
 ## 📚 教程
 
-跟着做就能上手:每篇都按真实界面写,配截图,先讲方法再讲怎么在 AI4Paper 里做。完整目录见 [教程目录](docs/tutorials/README.md)。
+2026-11-26 重写的中文手册：**[Web 工作台](docs/manual/web-workspace.md) · [Zotero 插件](docs/manual/zotero-plugin.md) · [全部功能与配置](docs/manual/plugin-feature-reference.md)**。保留原专题路径，按正式界面说明入口、前提、步骤、产物与排查；[核验记录](docs/manual/verification.md)区分实测与未执行范围。完整目录见 [教程目录](docs/tutorials/README.md)。
 
 | 想做什么 | 从这里开始 |
 |---|---|
