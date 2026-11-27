@@ -12,6 +12,8 @@
 
 # AI4Paper 阅读宇宙 · Zotero AI 插件
 
+**简体中文** | [English Documentation (README_EN.md)](README_EN.md)
+
 ### 你的 AI 科研工作台 · 从找文献到写综述,一站打通
 
 **让天下没有难读的 Paper,让天下没有难做的科研。**
@@ -37,6 +39,8 @@
 ---
 
 > **AI4Paper 是一款 Zotero AI 插件(Zotero AI plugin),也有免安装的网页版。** 在 Zotero 里就能做到:**整篇 PDF 全文翻译**(双语对照、尽量保持原版排版)、**划词翻译**、对着文库**提问并溯源**、**AI 精读**论文,并在文献列表里直接看到**期刊分区与影响因子**。适配 Zotero 7–10。
+>
+> **English Summary:** AI4Paper is an all-in-one Zotero 7–10 AI plugin and web research workbench ([app.ai4paper.pro/agent](https://app.ai4paper.pro/agent)) featuring layout-preserving full-text PDF bilingual translation, inline translation, JCR/CAS journal ranking columns, personal library Q&A with source citations, multi-paper comparison matrices, and literature review drafting. See [README_EN.md](README_EN.md) for full English documentation and [privacy.html](privacy.html) for privacy details.
 
 ## 为什么是 AI4Paper
 
